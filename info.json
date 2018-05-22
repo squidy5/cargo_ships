@@ -1,0 +1,9 @@
+{
+  "name": "cargo-ships",
+  "version": "0.0.5",
+  "title": "Cargo Ships",
+  "author": "rude_grass",
+  "description": "Adds cargo ships, oil tankers and deep sea oil rigs",
+  "dependencies": ["base >= 0.16"],
+  "factorio_version": "0.16"
+}
