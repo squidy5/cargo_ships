@@ -30,7 +30,7 @@ deep_oil.infinite_depletion_amount = 40
 
 local oil_rig=table.deepcopy(data.raw["mining-drill"]["pumpjack"])
 oil_rig.name = "oil_rig"
-oil_rig.collision_mask = {'ground-tile', 'object-layer', "player-layer"}
+oil_rig.collision_mask = {'ground-tile', 'object-layer'}
 oil_rig.minable = {mining_time = 3, result = "oil_rig"}
 oil_rig.dying_explosion = "big-explosion"
 oil_rig.max_health = 1000
@@ -88,6 +88,25 @@ oil_rig.animations =
         animation_speed = 0.5,
       }
     }
+  }
+}
+oil_rig.smoke =
+{
+  {
+    name = "light-smoke",
+    north_position = {-3.2, -2.5},
+    frequency = 0.5,
+    starting_vertical_speed = 0.08,
+    slow_down_factor = 1,
+    starting_frame_deviation = 60
+  },
+  {
+    name = "smoke",
+    north_position = {1.4, -2.5},
+    frequency = 1,
+    starting_vertical_speed = 0.12,
+    slow_down_factor = 1,
+    starting_frame_deviation = 60
   }
 }
 
@@ -196,3 +215,40 @@ or_lamp.pciture_on = {}
 
 
 data:extend({ship_pump, oil_rig, or_power, or_pole, or_lamp, deep_oil})
+
+-- alternate version of or_power
+--[[
+data:extend({
+{
+  type = "electric-energy-interface",
+  name = "or_power",
+  localised_name = {"entity-name.oil_rig"},
+  icon = "cargo-ships/graphics/icons/oil_rig.png",
+  icon_size = 96,
+  flags = {"placeable-neutral", "player-creation"},
+  minable = {hardness = 0.2, mining_time = 0.5, result = nil, minable = false},
+  max_health = 500,
+  corpse = nil,
+  collision_box = nil,
+  selection_box = nil,
+  collision_mask= {},
+  enable_gui = false,
+  allow_copy_paste = false,
+  energy_source = {
+  type = "electric",
+  buffer_capacity = "10GJ", --attempt to fix no power icon
+  usage_priority = "primary-output",
+  input_flow_limit = "0kW",
+  output_flow_limit = "1000kW",
+  },
+  energy_production = "10GW", --attempt to fix no power icon
+  energy_usage = "0kW",
+  picture = {
+  filename = "cargo-ships/graphics/blank.png",
+  priority = "extra-high",
+  width = 1,
+  height = 1,
+  },
+  working_sound = data.raw["generator"]["steam-engine"].working_sound
+  }
+})]]

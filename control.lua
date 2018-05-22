@@ -119,7 +119,7 @@ function placeDeepOil(e)
 		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_high then
 			freq = 0.12
 		end
-		freq = freq * 0.75
+		freq = freq 	
 		mult = 1
 		if settings.global["oil_richness"].value == choices.oil_rich.v_poor then
 			mult = 0.3
