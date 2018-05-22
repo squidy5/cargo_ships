@@ -3,6 +3,8 @@ return
 	oil_freq = 
 	{
 		none = "None",
+		minimal = "Minimal",
+		v_v_low = "Very very low",
 		v_low = "Very low",
 		low = "Low",
 		normal = "Normal",

@@ -47,7 +47,7 @@ data:extend({
         subgroup = "water_transport",
         order = "a[water-system]-a[water-way]",
         place_result = "straight-water-way",
-        stack_size = 100,
+        stack_size = 500,
         straight_rail = "straight-water-way",
         curved_rail = "curved-water-way"
         },

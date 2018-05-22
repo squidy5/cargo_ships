@@ -7,7 +7,7 @@ function spawnInvisibles(e)
 	if e.created_entity.name == "cargo_ship" or e.created_entity.name == "oil_tanker"  then
 		local ent = e.created_entity
 		local pos, dir = localize_engine(ent)
-		game.players[1].print("position: " .. ent.position.x .. "," ..  ent.position.y)
+		--game.players[1].print("position: " .. ent.position.x .. "," ..  ent.position.y)
 		local new ent.surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = ent.force}
 	end
 
@@ -105,7 +105,11 @@ function placeDeepOil(e)
 
 		freq = 0.03
 		if settings.global["oil_frequency"].value == choices.oil_freq.none then
-			freq = 0
+			freq = 0		
+		elseif settings.global["oil_frequency"].value == choices.oil_freq.minimal then
+			freq = 0.0008
+		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_v_low then
+			freq = 0.0025
 		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_low then
 			freq = 0.0075
 		elseif settings.global["oil_frequency"].value == choices.oil_freq.low then
@@ -115,7 +119,7 @@ function placeDeepOil(e)
 		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_high then
 			freq = 0.12
 		end
-		--freq = freq * 1.25
+		freq = freq * 0.75
 		mult = 1
 		if settings.global["oil_richness"].value == choices.oil_rich.v_poor then
 			mult = 0.3

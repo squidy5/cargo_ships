@@ -13,7 +13,28 @@ non_standard_wheels =
   lines_per_file = 16
 }
 
-
+function ship_light()
+return
+{
+  {
+    type = "oriented",
+    minimum_darkness = 0.3,
+    picture =
+    {
+      filename = "__cargo-ships__/graphics/light-cone.png",
+      priority = "extra-high",
+      flags = { "light" },
+      scale = 2,
+      width = 200,
+      height = 200
+    },
+    shift = {0, -3},
+    size = 2,
+    intensity = 0.8,
+    color = {r = 0.92, g = 0.77, b = 0.3}
+  },
+}
+end
 
 ----------------------------------------------------------------
 ------------------------ CARGO SHIP ----------------------------
@@ -64,8 +85,8 @@ cargo_ship.pictures =
 		}
 	}
 }
-cargo_ship.stand_by_light = nil 
-cargo_ship.back_light = nil
+cargo_ship.stand_by_light = ship_light()
+--cargo_ship.back_light = ship_light()
 
 cargo_ship.horizontal_doors = nil
 cargo_ship.vertical_doors = nil
@@ -124,7 +145,7 @@ oil_tanker.pictures =
     }
   }
 }
-oil_tanker.stand_by_light = nil 
+oil_tanker.stand_by_light = ship_light() 
 oil_tanker.back_light = nil
 
 oil_tanker.wheels = non_standard_wheels

@@ -196,15 +196,3 @@ or_lamp.pciture_on = {}
 
 
 data:extend({ship_pump, oil_rig, or_power, or_pole, or_lamp, deep_oil})
---[[
-data:extend({
-  {
-  type = "autoplace-control",
-  name = "deep_oil",
-  localised_name = {"entity-name.deep_oil"},
-  richness = true,
-  order = "b-e",
-  category = "resource"
-    }
-})
-]]
