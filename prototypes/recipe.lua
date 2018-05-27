@@ -107,7 +107,7 @@ data:extend({
     {
         type = "recipe",
         name = "oil_rig",
-        enabled = false,
+        enabled = true,
         ingredients =
         {
             {"pumpjack", 5},

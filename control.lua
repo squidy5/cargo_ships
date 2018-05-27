@@ -8,17 +8,18 @@ function spawnInvisibles(e)
 		local ent = e.created_entity
 		local pos, dir = localize_engine(ent)
 		--game.players[1].print("position: " .. ent.position.x .. "," ..  ent.position.y)
-		local new ent.surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = ent.force}
+		ent.surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = ent.force}
 	end
 
 	if e.created_entity.name == "oil_rig" then
 		local pos =  e.created_entity.position
-		local new e.created_entity.surface.create_entity{name = "or_power", position = pos, force = e.created_entity.force}
-		local new e.created_entity.surface.create_entity{name = "or_pole", position = pos, force = e.created_entity.force}
-		local new e.created_entity.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = e.created_entity.force}
-		local new e.created_entity.surface.create_entity{name = "or_lamp", position = {pos.x + 3, pos.y -3}, force = e.created_entity.force}
-		local new e.created_entity.surface.create_entity{name = "or_lamp", position = {pos.x + 3, pos.y + 3}, force = e.created_entity.force}
-		local new e.created_entity.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = e.created_entity.force}
+		local or_power = e.created_entity.surface.create_entity{name = "or_power", position = pos, force = e.created_entity.force}
+		table.insert(global.or_generators,or_power)
+		e.created_entity.surface.create_entity{name = "or_pole", position = pos, force = e.created_entity.force}
+		e.created_entity.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = e.created_entity.force}
+		e.created_entity.surface.create_entity{name = "or_lamp", position = {pos.x + 3, pos.y -3}, force = e.created_entity.force}
+		e.created_entity.surface.create_entity{name = "or_lamp", position = {pos.x + 3, pos.y + 3}, force = e.created_entity.force}
+		e.created_entity.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = e.created_entity.force}
 
 	end
 end
@@ -83,6 +84,7 @@ function OnDeleted(e)
 			local pos = ent.position
 			or_inv = game.surfaces[1].find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_power"}
 			for i = 1, #or_inv do
+				deleteGenerator(or_inv[i])
 				or_inv[i].destroy()
 			end
 			or_inv = game.surfaces[1].find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_lamp"}
@@ -143,10 +145,30 @@ function placeDeepOil(e)
 	end
 end
 
+
+function init()
+	global.or_generators = {}
+	for _, generator in pairs(game.surfaces[1].find_entities_filtered{name="or_power"}) do
+		table.insert(global.or_generators, generator)
+	end
+end
+
+function deleteGenerator(ent)
+	for i, generator in pairs(global.or_generators) do
+		if generator == ent then
+			table.remove(global.or_generators,i)
+			break
+		end
+	end
+end
+
 function powerOilRig(e)
-	if e.tick % 60 == 0 then
-		for _, generator in pairs(game.surfaces[1].find_entities_filtered{name="or_power"}) do
-			generator.fluidbox[1] = {name="steam", amount = 100, temperature=165}
+	if e.tick % 120 == 0 then
+		if global.or_generators == nil then
+			init()
+		end
+		for _, generator in pairs(global.or_generators) do
+			generator.fluidbox[1] = {name="steam", amount = 200, temperature=165}
 		end
 	end
 end
@@ -154,15 +176,14 @@ end
 
 
 
-
-
-script.on_event("enter_ship", OnEnterShip)
 script.on_event(defines.events.on_entity_died, OnDeleted)
 script.on_event(defines.events.on_player_mined_entity, OnDeleted)
 script.on_event(defines.events.on_robot_mined_entity, OnDeleted)
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
 script.on_event(defines.events.on_built_entity, spawnInvisibles)
+
 script.on_event(defines.events.on_tick, powerOilRig)
+
 -- long reach
 script.on_event(defines.events.on_runtime_mod_setting_changed, applyChanges)
 script.on_event(defines.events.on_player_cursor_stack_changed, increaseReach)
