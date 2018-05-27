@@ -173,6 +173,11 @@ function powerOilRig(e)
 	end
 end
 
+function make_WW_indestructible(e)
+	if (e.created_entity.name == "straight-water-way" or e.created_entity.name == "curved-water-way") then
+		e.created_entity.destructible = false;
+	end
+end
 
 
 
@@ -181,8 +186,8 @@ script.on_event(defines.events.on_player_mined_entity, OnDeleted)
 script.on_event(defines.events.on_robot_mined_entity, OnDeleted)
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
 script.on_event(defines.events.on_built_entity, spawnInvisibles)
-
 script.on_event(defines.events.on_tick, powerOilRig)
+script.on_event(defines.events.on_built_entity, make_WW_indestructible)
 
 -- long reach
 script.on_event(defines.events.on_runtime_mod_setting_changed, applyChanges)
