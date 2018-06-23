@@ -46,8 +46,8 @@ function increaseReach(e)
 				player.character_reach_distance_bonus = player.character_reach_distance_bonus + settings.global["waterway_reach_increase"].value
 			end
 		elseif is_waterway_str(global.last_cursor_stack_name[e.player_index]) then
-			player.character.character_build_distance_bonus = player.character.character_build_distance_bonus - settings.global["waterway_reach_increase"].value
-			player.character_reach_distance_bonus = player.character_reach_distance_bonus - settings.global["waterway_reach_increase"].value
+			player.character.character_build_distance_bonus = math.max(0, player.character.character_build_distance_bonus - settings.global["waterway_reach_increase"].value)
+			player.character_reach_distance_bonus = math.max(0, player.character_reach_distance_bonus - settings.global["waterway_reach_increase"].value)
 
 		end
 		if cursor_stack and cursor_stack.valid_for_read then
