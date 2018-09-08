@@ -1,9 +1,24 @@
-
-
+local floating_pole=table.deepcopy(data.raw["electric-pole"]["big-electric-pole"])
+floating_pole.name = "floating-electric-pole"
+floating_pole.collision_mask = {'ground-tile', 'object-layer'}
+floating_pole.collision_box = {{-1.2, -1.2}, {1.2, 1.2}}
+floating_pole.selection_box = {{-1.3, -1.3}, {1.3, 1.3}}
+floating_pole.maximum_wire_distance = 45
+floating_pole.supply_area_distance = 0
+floating_pole.pictures =
+    {
+      filename =  "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole.png",
+      priority = "high",
+      width = 168,
+      height = 165,
+      direction_count = 4,
+      shift = {1.6, -1.1}
+    }
 
 local buoy=table.deepcopy(data.raw["rail-signal"]["rail-signal"])
 buoy.name = "buoy"
 buoy.collision_mask = {'ground-tile', 'object-layer'}
+buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
 buoy.fast_replaceable_group = "buoy"
 buoy.minable = {mining_time = 0.5, result = "buoy"}
 buoy.animation =
@@ -22,6 +37,7 @@ buoy.rail_piece = nil
 local chain_buoy=table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 chain_buoy.name = "chain_buoy"
 chain_buoy.collision_mask = {'ground-tile', 'object-layer'}
+chain_buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
 chain_buoy.fast_replaceable_group = "buoy"
 chain_buoy.minable = {mining_time = 0.5, result = "chain_buoy"}
 chain_buoy.animation =
@@ -42,20 +58,18 @@ chain_buoy.rail_piece = nil
 
 
 
-----------------------------------------------------------------
---------------------------- PORT -------------------------------
-----------------------------------------------------------------
-
 local port=table.deepcopy(data.raw["train-stop"]["train-stop"])
 port.name = "port"
 port.icon = "__cargo-ships__/graphics/blank.png"
 port.minable = {mining_time = 1, result = "port"}
 port.rail_overlay_animations = nil
-port.collision_mask = {'ground-tile', 'object-layer'}
+port.collision_mask = {"object-layer"}
+port.collision_box =  {{-0.01, -0.9}, {1.9, 0.9}}
+port.selection_box =  {{-0.01, -0.9}, {1.9, 0.9}}
 port.animations = make_4way_animation_from_spritesheet({ layers =
   {
     {
-      filename = "__cargo-ships__/graphics/entity/port/port.png",
+      filename = "__cargo-ships__/graphics/entity/port/uniport.png",
       line_length = 4,
       width = 140,
       height = 291,
@@ -77,7 +91,7 @@ port.light1 =
       width =14,
       height = 7,
       scale = 0.7,
-      shift = util.by_pixel(19, -67.5),
+      shift = util.by_pixel(36.5, -67.5),
     },
     west =
     {
@@ -85,7 +99,7 @@ port.light1 =
       width =14,
       height = 7,
       scale = 0.7,
-      shift = util.by_pixel(-2, -88.3),
+      shift = util.by_pixel(-2, -104.3),
     },
     south =
     {
@@ -93,7 +107,7 @@ port.light1 =
       width =14,
       height = 7,
       scale = 0.7,
-      shift = util.by_pixel(-22.5, -66),
+      shift = util.by_pixel(-39.5, -66),
     },
     east =
     {
@@ -101,7 +115,7 @@ port.light1 =
       width =14,
       height = 7,
       scale = 0.7,
-      shift = util.by_pixel(-2.7, -43.3),
+      shift = util.by_pixel(-2.7, -26.5),
     },
   },
   red_picture =
@@ -112,7 +126,7 @@ port.light1 =
       width = 17,
       height = 10,
       frame_count = 1,
-      shift = util.by_pixel(21, -69),
+      shift = util.by_pixel(36.5, -67.5),
     },
     west =
     {
@@ -120,7 +134,7 @@ port.light1 =
       width = 17,
       height = 10,
       frame_count = 1,
-      shift = util.by_pixel(-1, -91),
+      shift = util.by_pixel(-2, -104.3),
     },
     south =
     {
@@ -128,7 +142,7 @@ port.light1 =
       width = 17,
       height = 10,
       frame_count = 1,
-      shift = util.by_pixel(-21, -68),
+      shift = util.by_pixel(-39.5, -66),
     },
     east =
     {
@@ -136,109 +150,13 @@ port.light1 =
       width = 17,
       height = 10,
       frame_count = 1,
-      shift = util.by_pixel(-1, -47),
+      shift = util.by_pixel(-2.7, -26.5),
     },
   }
 }
 port.light2 = nil
 port.working_sound = nil
 
-local port_lb=table.deepcopy(data.raw["train-stop"]["train-stop"])
-port_lb.name = "port_lb"
-port_lb.icon = "__cargo-ships__/graphics/blank.png"
-port_lb.minable = {mining_time = 1, result = "port_lb"}
-port_lb.rail_overlay_animations = nil
-port_lb.animations = make_4way_animation_from_spritesheet({ layers =
-  {
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port_lb.png",
-      line_length = 4,
-      width = 140,
-      height = 291,
-      direction_count = 4,
-      shift = util.by_pixel(-0.5, -26.75),
-      scale = 0.8
-    }
-  }
-})
-port_lb.top_animations = nil
-port_lb.light1 =
-{
-  light = {intensity = 0.5, size = 5, color = {r = 1.0, g = 1.0, b = 1.0}},
-  picture =
-  {
-    north =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-light-1.png",
-      width =14,
-      height = 7,
-      scale = 0.7,
-      shift = util.by_pixel(19, -67.5),
-    },
-    west =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-light-1.png",
-      width =14,
-      height = 7,
-      scale = 0.7,
-      shift = util.by_pixel(-2, -88.3),
-    },
-    south =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-light-1.png",
-      width =14,
-      height = 7,
-      scale = 0.7,
-      shift = util.by_pixel(-22.5, -66),
-    },
-    east =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-light-1.png",
-      width =14,
-      height = 7,
-      scale = 0.7,
-      shift = util.by_pixel(-2.7, -43.3),
-    },
-  },
-  red_picture =
-   {
-    north =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 17,
-      height = 10,
-      frame_count = 1,
-      shift = util.by_pixel(21, -69),
-    },
-    west =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 17,
-      height = 10,
-      frame_count = 1,
-      shift = util.by_pixel(-1, -91),
-    },
-    south =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 17,
-      height = 10,
-      frame_count = 1,
-      shift = util.by_pixel(-21, -68),
-    },
-    east =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 17,
-      height = 10,
-      frame_count = 1,
-      shift = util.by_pixel(-1, -47),
-    },
-  }
-}
-port_lb.light2 = nil
-port_lb.working_sound = nil
 
-
-data:extend({buoy, chain_buoy, port,port_lb})
+data:extend({buoy, chain_buoy, port, floating_pole})
 

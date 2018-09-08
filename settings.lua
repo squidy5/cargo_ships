@@ -18,15 +18,6 @@ data:extend({
 		allowed_values = choices.oil_rich,
 		order = "a-a"
 	},
---[[	
-	{
-		type = "bool-setting",
-		name = "waterway_reach_increase",
-		setting_type = "runtime-global",
-		default_value = true,
-		order = "a-b"
-	},
-	]]
 	{
 		type = "int-setting",
 		name = "waterway_reach_increase",

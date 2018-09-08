@@ -64,14 +64,14 @@ data:extend({
         },
         {
         type = "item",
-        name = "port_lb",
-        icon = "__cargo-ships__/graphics/icons/port_lb.png",
+        name = "floating-electric-pole",
+        icon = "__cargo-ships__/graphics/icons/floating_pole.png",
         icon_size = 96,
         flags = {"goes-to-quickbar"},
-        subgroup = "water_transport",
-        order = "a[water-system]-b[train-stop]",
-        place_result = "port_lb",
-        stack_size = 10
+        subgroup = "energy-pipe-distribution",
+        order = "a[energy]-d[floating-electric-pole]",
+        place_result = "floating-electric-pole",
+        stack_size = 50
         },
         {
         type = "item",
@@ -102,7 +102,7 @@ data:extend({
         icon_size = 64,
         flags = {"goes-to-quickbar"},
         subgroup = "water_transport",
-        order = "a[water-system]-h[chain_buoy]",
+        order = "a[water-system]-h[ship_pump]",
         place_result = "ship_pump",
         stack_size = 100
         },
@@ -149,31 +149,18 @@ data:extend({
         order = "b[fluids]-c[oil_rig]",
         place_result = "or_lamp", 
         stack_size = 100, 
-        }
-
---[[
-        {
-        type = "item",
-        name = "straight-water-way",
-        icon = "__cargo-ships__/graphics/blank.png",
-        icon_size = 32,
-        flags = {"goes-to-quickbar"},
-        subgroup = "water_transport",
-        place_result = "straight-water-way",
-        stack_size = 100
         },
-        {
-        type = "item",
-        name = "curved-water-way",
-        icon = "__cargo-ships__/graphics/blank.png",
-        icon_size = 32,
-        flags = {"goes-to-quickbar"},
-        subgroup = "water_transport",
-        place_result = "curved-water-way",
-        stack_size = 100
+        {      
+        type = "item", 
+        name = "or_radar", 
+        icon = "__cargo-ships__/graphics/blank.png", 
+        icon_size = 2,
+        subgroup = "extraction-machine",
+        flags = {},
+        order = "b[fluids]-c[oil_rig]",
+        place_result = "or_radar", 
+        stack_size = 100, 
         },
-
-]]
 })
 
 
