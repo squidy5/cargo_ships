@@ -45,10 +45,10 @@ local cargo_ship=table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 cargo_ship.name = "cargo_ship"
 cargo_ship.icon = "__cargo-ships__/graphics/icons/cargoship_icon.png"
 cargo_ship.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
-cargo_ship.minable = {mining_time = 3, result = "cargo_ship"}
+cargo_ship.minable = {mining_time = 1, result = "cargo_ship"}
 
 cargo_ship.selection_box = {{-1.5, -8.5}, {1.5, 8.5}}
-cargo_ship.collision_box = {{-1.3, -7.5}, {1.3, 7.5}}
+cargo_ship.collision_box = {{-1.5, -7.5}, {1.5, 7.5}}
 cargo_ship.drawing_box = {{-1, -8}, {1, 8}}
 cargo_ship.connection_distance = 3
 cargo_ship.joint_distance = 12
@@ -67,29 +67,72 @@ cargo_ship.pictures =
 		{
 			slice = 4,
 			priority = "low",
-			width = 250,
-			height = 250,
+			width = 500,
+			height = 500,
 			direction_count = 256,
   		allow_low_quality_rotation = true,
 			filenames =
 			{
-				"__cargo-ships__/graphics/entity/cargo_ship/cs_0.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_0.png",
 				"__cargo-ships__/graphics/entity/cargo_ship/cs_1.png",
 				"__cargo-ships__/graphics/entity/cargo_ship/cs_2.png",
 				"__cargo-ships__/graphics/entity/cargo_ship/cs_3.png",
-			},
-			line_length = 8,
-  		lines_per_file = 8,
-  		scale = 3,
-  		shift = {0.0, -0.7}
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_4.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_5.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_6.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_7.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_8.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_9.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_10.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_11.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_12.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_13.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_14.png",
+        "__cargo-ships__/graphics/entity/cargo_ship/cs_15.png",
+      },
+			line_length = 4,
+  		lines_per_file = 4,
+  		scale = 1.7,--3,
+  		shift = {0.0, -1.7}
 		}
 	}
 }
 cargo_ship.stand_by_light = ship_light()
 --cargo_ship.back_light = ship_light()
 
-cargo_ship.horizontal_doors = nil
-cargo_ship.vertical_doors = nil
+cargo_ship.vertical_doors = 
+{
+  layers =
+  {
+
+    {
+      filename = "__cargo-ships__/graphics/entity/cargo_ship/vertical_doors.png",
+      line_length = 12,
+      width = 88,
+      height = 240,
+      frame_count = 12,
+      scale = 1.7,
+      shift = {0.0, -1.01563},
+    }
+  }
+}
+cargo_ship.horizontal_doors = 
+{
+  layers =
+  {
+
+    {
+      filename = "__cargo-ships__/graphics/entity/cargo_ship/horizontal_doors.png",
+      line_length = 1,
+      width = 252,
+      height = 71,
+      frame_count = 12,
+      scale = 1.7,
+      shift = {0.055625, -1.01563},
+    }
+  }
+}
+
 cargo_ship.wheels = non_standard_wheels
 cargo_ship.working_sound = nil
 cargo_ship.drive_over_tie_trigger = nil
@@ -105,7 +148,7 @@ local oil_tanker=table.deepcopy(data.raw["fluid-wagon"]["fluid-wagon"])
 oil_tanker.name = "oil_tanker"
 oil_tanker.icon =  "__cargo-ships__/graphics/icons/cargoship_icon.png"
 oil_tanker.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
-oil_tanker.minable = {mining_time = 3, result = "oil_tanker"}
+oil_tanker.minable = {mining_time = 1, result = "oil_tanker"}
 
 oil_tanker.selection_box = {{-1.5, -8.5}, {1.5, 8.5}}
 oil_tanker.collision_box = {{-1.3, -7.5}, {1.3, 7.5}}
@@ -122,6 +165,7 @@ oil_tanker.air_resistance = 0.40
 
 oil_tanker.pictures =
 {
+
   layers =
   {
     {
@@ -144,7 +188,7 @@ oil_tanker.pictures =
       shift = {0.0, -0.7}
     }
   }
-}
+} 
 oil_tanker.stand_by_light = ship_light() 
 oil_tanker.back_light = nil
 
@@ -166,8 +210,8 @@ cargo_ship_engine.weight = 100000
 cargo_ship_engine.max_speed = 0.15
 cargo_ship_engine.max_power = "2000kW"
 cargo_ship_engine.air_resistance = 0.40
-cargo_ship_engine.collision_box = {{-0.6, -1.2}, {0.6, 1.2}}
-cargo_ship_engine.selection_box = {{-1.0, -1.2}, {1.0, 1.2}}
+cargo_ship_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}
+cargo_ship_engine.selection_box = {{-1.3, -1.2}, {1.3, 1.2}}
 cargo_ship_engine.connection_distance = 3
 cargo_ship_engine.joint_distance = 1.7
 cargo_ship_engine.burner =
@@ -181,7 +225,7 @@ cargo_ship_engine.burner =
       name = "tank-smoke",
       deviation = {0.3, 1.5},
       frequency = 200,
-      position = {0, -0.2},
+      position = {0, 1},
       starting_frame = 0,
       starting_frame_deviation = 60,
       height = 3,

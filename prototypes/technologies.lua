@@ -42,10 +42,12 @@ data:extend ({
     		type = "unlock-recipe",
     		recipe = "port"
     	},
+    --[[
       {
         type = "unlock-recipe",
         recipe = "port_lb"
       },
+      ]]
 	},
 	prerequisites = {"water_transport"},
 	unit =
@@ -59,6 +61,32 @@ data:extend ({
       time = 30
     },
     order = "c-g-b",
+},
+{
+  type = "technology",
+  name = "oversea-energy-distribution",
+  icon = "__cargo-ships__/graphics/icons/floating_pole_research.png", 
+    icon_size = 96,
+
+    effects =
+    {
+      {
+        type = "unlock-recipe",
+        recipe = "floating-electric-pole"
+      },
+  },
+  prerequisites = {"water_transport", "electric-energy-distribution-1"},
+  unit =
+    {
+      count = 120,
+      ingredients =
+      {
+        {"science-pack-1", 1},
+        {"science-pack-2", 1},
+      },
+      time = 30
+    },
+    order = "c-e-b",
 },
 {
 	type = "technology",
