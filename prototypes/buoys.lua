@@ -18,7 +18,7 @@ floating_pole.pictures =
 local buoy=table.deepcopy(data.raw["rail-signal"]["rail-signal"])
 buoy.name = "buoy"
 buoy.collision_mask = {'ground-tile', 'object-layer'}
-buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
+buoy.selection_box =  {{-1.6, -0.8}, {1.6, 0.8}}
 buoy.fast_replaceable_group = "buoy"
 buoy.minable = {mining_time = 0.5, result = "buoy"}
 buoy.animation =
@@ -37,7 +37,7 @@ buoy.rail_piece = nil
 local chain_buoy=table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 chain_buoy.name = "chain_buoy"
 chain_buoy.collision_mask = {'ground-tile', 'object-layer'}
-chain_buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
+chain_buoy.selection_box =  {{-1.6, -0.8}, {1.6, 0.8}}
 chain_buoy.fast_replaceable_group = "buoy"
 chain_buoy.minable = {mining_time = 0.5, result = "chain_buoy"}
 chain_buoy.animation =
