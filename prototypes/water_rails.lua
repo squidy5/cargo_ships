@@ -122,7 +122,7 @@ data:extend({
         percent = 100
       }
     },
-    collision_box = {{-1.25, -0.55}, {1.25, 1.6}},
+    collision_box = {{-0.75, -0.55}, {0.75, 1.6}},
     secondary_collision_box = {{-0.65, -2.43}, {0.65, 2.43}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
     collision_mask = {'ground-tile', 'object-layer'},
