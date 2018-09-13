@@ -99,8 +99,8 @@ data:extend({
         percent = 100
       }
     },
-    collision_box = {{-0.7, -0.8}, {0.7, 0.8}},
-    selection_box = {{-0.7, -0.8}, {0.7, 0.8}},
+    collision_box = {{-1.01, -0.95}, {1.01, 0.95}},
+    selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
     collision_mask = {'ground-tile', 'object-layer'},
     rail_category = "regular",
     pictures = railpictures(),
@@ -122,8 +122,8 @@ data:extend({
         percent = 100
       }
     },
-    collision_box = {{-1.25, -0.55}, {1.25, 1.6}},
-    secondary_collision_box = {{-0.65, -2.43}, {0.65, 2.43}},
+    collision_box = {{-1, -2}, {1, 3.1}},
+    secondary_collision_box = {{-0.65, -2.1}, {0.65, 2.1}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
     collision_mask = {'ground-tile', 'object-layer'},
     rail_category = "regular",

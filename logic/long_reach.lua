@@ -1,5 +1,5 @@
 local function is_waterway_str(str)
-	for _,r in pairs{"water-way", "buoy", "chain_buoy", "port", "port_lb", "ship_pump", "oil_rig"} do
+	for _,r in pairs{"water-way", "buoy", "chain_buoy", "port", "ship_pump", "oil_rig", "floating-electric-pole"} do
 		if str == r then
 			return true
 		end
@@ -46,9 +46,10 @@ function increaseReach(e)
 				player.character_reach_distance_bonus = player.character_reach_distance_bonus + settings.global["waterway_reach_increase"].value
 			end
 		elseif is_waterway_str(global.last_cursor_stack_name[e.player_index]) then
-			player.character.character_build_distance_bonus = player.character.character_build_distance_bonus - settings.global["waterway_reach_increase"].value
-			player.character_reach_distance_bonus = player.character_reach_distance_bonus - settings.global["waterway_reach_increase"].value
-
+			if player.character.character_build_distance_bonus - settings.global["waterway_reach_increase"].value >= 0 then
+				player.character.character_build_distance_bonus = player.character.character_build_distance_bonus - settings.global["waterway_reach_increase"].value
+				player.character.character_reach_distance_bonus = player.character.character_reach_distance_bonus - settings.global["waterway_reach_increase"].value
+			end
 		end
 		if cursor_stack and cursor_stack.valid_for_read then
 			global.last_cursor_stack_name[e.player_index] = cursor_stack.name
@@ -63,7 +64,10 @@ function deadReach(e)
 		validate_global()
 		local player = game.players[e.player_index]
 		if is_waterway_str(global.last_cursor_stack_name[e.player_index]) then
-			player.character.character_build_distance_bonus = player.character.character_build_distance_bonus - settings.global["waterway_reach_increase"].value
+			if player.character.character_build_distance_bonus - settings.global["waterway_reach_increase"].value >= 0 then
+				player.character.character_build_distance_bonus = player.character.character_build_distance_bonus - settings.global["waterway_reach_increase"].value
+				player.character.character_reach_distance_bonus = player.character.character_reach_distance_bonus - settings.global["waterway_reach_increase"].value
+			end
 		end
 		global.last_cursor_stack_name[e.player_index] = nil
 	end
@@ -76,8 +80,12 @@ function applyChanges(e)
 			if is_waterway(player.cursor_stack) then
 				if player.character.character_build_distance_bonus + (settings.global["waterway_reach_increase"].value - global.last_distance_bonus) >= 0 then
 					player.character.character_build_distance_bonus = player.character.character_build_distance_bonus + (settings.global["waterway_reach_increase"].value - global.last_distance_bonus)
+					player.character.character_reach_distance_bonus = player.character.character_reach_distance_bonus + (settings.global["waterway_reach_increase"].value - global.last_distance_bonus)
+
 				else
 					player.character.character_build_distance_bonus = player.character.character_build_distance_bonus + settings.global["waterway_reach_increase"].value
+					player.character.character_reach_distance_bonus = player.character.character_reach_distance_bonus + settings.global["waterway_reach_increase"].value
+
 				end
 			end
 		end

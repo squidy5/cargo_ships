@@ -204,6 +204,8 @@ or_pole.supply_area_distance = 4.5
 
 local or_lamp=table.deepcopy(data.raw["lamp"]["small-lamp"])
 or_lamp.name = "or_lamp"
+or_lamp.collision_box= nil
+or_lamp.selection_box= nil
 or_lamp.collision_mask= {}
 or_lamp.picture_off = 
 {  
@@ -213,8 +215,24 @@ or_lamp.picture_off =
 }
 or_lamp.pciture_on = {}
 
+local or_radar=table.deepcopy(data.raw["radar"]["radar"])
+or_radar.name= "or_radar"
+or_radar.collision_mask={}
+or_radar.collision_box= nil
+or_radar.selection_box= nil
+or_radar.pictures=
+{
+  filename = "__cargo-ships__/graphics/blank.png",
+  width = 1,
+  height = 1,
+  direction_count = 4,
+  line_length = 4,
+}
+or_radar.max_distance_of_sector_revealed = 0
+or_radar.energy_usage = "50kW",
 
-data:extend({ship_pump, oil_rig, or_power, or_pole, or_lamp, deep_oil})
+
+data:extend({ship_pump, oil_rig, or_power, or_pole, or_radar, or_lamp, deep_oil})
 
 -- alternate version of or_power
 --[[

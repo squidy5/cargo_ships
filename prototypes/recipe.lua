@@ -67,15 +67,15 @@ data:extend({
     },
     {
         type = "recipe",
-        name = "port_lb",
+        name = "floating-electric-pole",
         enabled = false,
         ingredients =
         {
-            {"electronic-circuit", 5},
-            {"iron-plate", 5},
+            {"empty-barrel", 4},
+            {"big-electric-pole", 5},
             {"steel-plate", 3}
         },
-        result = "port_lb",
+        result = "floating-electric-pole",
         result_count = 1
     },
     {
@@ -107,7 +107,7 @@ data:extend({
     {
         type = "recipe",
         name = "oil_rig",
-        enabled = true,
+        enabled = false,
         ingredients =
         {
             {"pumpjack", 5},
