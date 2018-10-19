@@ -151,7 +151,7 @@ oil_tanker.flags = {"placeable-neutral", "player-creation", "placeable-off-grid"
 oil_tanker.minable = {mining_time = 1, result = "oil_tanker"}
 
 oil_tanker.selection_box = {{-1.5, -8.5}, {1.5, 8.5}}
-oil_tanker.collision_box = {{-1.3, -7.5}, {1.3, 7.5}}
+oil_tanker.collision_box = {{-1.5, -7.5}, {1.5, 7.5}}
 oil_tanker.drawing_box = {{-1, -8}, {1, 8}}
 oil_tanker.connection_distance = 3
 oil_tanker.joint_distance = 12
