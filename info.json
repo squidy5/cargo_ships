@@ -4,6 +4,6 @@
   "title": "Cargo Ships",
   "author": "rude_grass",
   "description": "Adds cargo ships, oil tankers and deep sea oil rigs",
-  "dependencies": ["base >= 0.16", "factorio-world >= 0.16.1"],
+  "dependencies": ["base >= 0.16", "? factorio-world >= 0.16.1", "? NewIslands >= 0.1.0"],
   "factorio_version": "0.16"
 }
