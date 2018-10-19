@@ -307,6 +307,7 @@ script.on_event(defines.events.on_robot_mined_entity, OnDeleted)
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
 -- create invisibles
 script.on_event(defines.events.on_built_entity, onEntityBuild)
+script.on_event(defines.events.on_robot_built_entity, onEntityBuild)
 --power oil rig
 script.on_event(defines.events.on_tick, onTick)
 
