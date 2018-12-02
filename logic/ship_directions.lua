@@ -10,9 +10,10 @@ offset[7] = {x = 7, y = 7}
 
 function localize_engine(ent)
 	local i = (math.floor((ent.orientation*8)+0.5))%8
-	--game.players[1].print("NUMBER " .. i)
 
-	local pos = {x = ent.position.x + offset[i].x, y = ent.position.y + offset[i].y}
+	local mult =(ent.name == "boat") and -0.3 or 1
+	local pos = {x = ent.position.x + offset[i].x*mult, y = ent.position.y + offset[i].y*mult}
+	game.players[1].print("x_off: " .. offset[i].x*mult .. " y_off: " .. offset[i].y*mult)
 	
 	-- switch ne and sw (messed up factorio directions)
 	if i == 1 then 
@@ -22,3 +23,4 @@ function localize_engine(ent)
 	end
 	return pos, i
 end
+

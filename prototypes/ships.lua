@@ -12,7 +12,6 @@ non_standard_wheels =
   line_length = 8,
   lines_per_file = 16
 }
-
 function ship_light()
 return
 {
@@ -35,6 +34,174 @@ return
   },
 }
 end
+
+local wave = table.deepcopy(data.raw["trivial-smoke"]["light-smoke"])
+wave.name = "wave"
+wave.cyclic = false
+wave.affected_by_wind = false
+wave.animation =
+    {
+      filename = "__base__/graphics/entity/water-splash/water-splash.png",
+      priority = "extra-high",
+      width = 92,
+      height = 66,
+      frame_count = 15,
+      line_length = 5,
+      shift = {-0.437, -0.5},
+      animation_speed = 0.2,
+    }
+wave.start_scale = 1.2
+wave.color = { r = 0.9, g = 0.9, b = 0.9 }
+
+data:extend({wave})
+----------------------------------------------------------------
+------------------------ BOAT  ----------------------------
+----------------------------------------------------------------
+
+
+local boat=table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
+boat.name = "boat"
+boat.icon = "__cargo-ships__/graphics/icons/boat.png"
+boat.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
+boat.minable = {mining_time = 1, result = "boat"}
+
+boat.selection_box = {{-1.2, -1.5}, {1.2, 1.5}}
+boat.collision_box = {{-1.3, -1.5}, {1.3, 1.5}}
+boat.connection_distance = 1
+boat.joint_distance = 2.5
+
+boat.weight = 5000
+boat.inventory_size = 60
+boat.max_speed = 0.3
+
+boat.pictures =
+{
+  layers =
+  {
+    {
+      slice = 4,
+      priority = "low",
+      width = 250,
+      height = 250,
+      direction_count = 256,
+      allow_low_quality_rotation = true,
+      filenames =
+      {
+        "__cargo-ships__/graphics/entity/boat/boat-0.png",
+        "__cargo-ships__/graphics/entity/boat/boat-1.png",
+        "__cargo-ships__/graphics/entity/boat/boat-2.png",
+        "__cargo-ships__/graphics/entity/boat/boat-3.png",
+      },
+      line_length = 8,
+      lines_per_file = 8,
+      scale = 1.5,--3,
+      shift = {0.0, -0.5}
+    }
+  }
+}
+boat.stand_by_light = ship_light()
+boat.horizontal_doors = nil
+boat.vertical_doors = nil
+boat.wheels = non_standard_wheels
+boat.working_sound = nil
+boat.drive_over_tie_trigger = nil
+
+----------------------------------------------------------------
+------------------------ BOAT ENGINE ---------------------------
+----------------------------------------------------------------
+
+local boat_engine = table.deepcopy(data.raw["locomotive"]["locomotive"])
+boat_engine.name = "boat_engine"
+boat_engine.minable = nil
+boat_engine.weigt = 5000
+boat_engine.max_speed = 0.27
+boat_engine.max_power = "300kW"
+boat_engine.air_resistance = 0.02
+boat_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}
+boat_engine.selection_box = {{-1.3, -1.2}, {1.3, 1.2}}
+boat_engine.connection_distance = 1
+boat_engine.joint_distance = 1.7
+boat_engine.burner =
+{
+  fuel_category = "chemical",
+  effectivity = 1,
+  fuel_inventory_size = 4,
+  smoke =
+  {
+    {
+      name = "light-smoke",
+      deviation = {0.3, 0.3},
+      frequency = 50,
+      position = {0.5, 2.5},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 2.5,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0.02,
+    },
+    {
+      name = "wave",
+      deviation = {0.3, 0.3},
+      frequency = 20,
+      position = {0, 5.5},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
+    }
+  }
+}
+boat_engine.pictures =
+{
+  layers =
+  {
+    {
+      slice = 4,
+      priority = "very-low",
+      width = 1,
+      height = 1,
+      direction_count = 256,
+      allow_low_quality_rotation = true,
+      filenames =
+      {
+        "__cargo-ships__/graphics/blank.png",
+      },
+      line_length = 16,
+      lines_per_file = 16,
+      scale = 3,
+      shift = {0.0, -0.7}
+    }
+  }
+}
+boat_engine.wheels = non_standard_wheels
+boat_engine.working_sound =
+    {
+      sound =
+      {
+        filename = "__base__/sound/car-engine.ogg",
+        volume = 0.7
+      },
+      activate_sound =
+      {
+        filename = "__base__/sound/car-engine-start.ogg",
+        volume = 0.7
+      },
+      deactivate_sound =
+      {
+        filename = "__base__/sound/car-engine-stop.ogg",
+        volume = 0.7
+      },
+      match_speed_to_activity = true
+    }
+boat_engine.front_light = nil
+boat_engine.back_light = nil
+boat_engine.stand_by_light = nil
+boat_engine.stop_trigger = nil
+boat_engine.drive_over_tie_trigger = nil
+
 
 ----------------------------------------------------------------
 ------------------------ CARGO SHIP ----------------------------
@@ -271,7 +438,24 @@ cargo_ship_engine.pictures =
 }
 
 cargo_ship_engine.wheels = non_standard_wheels
-cargo_ship_engine.working_sound = nil
+cargo_ship_engine.working_sound =
+  {
+    sound =
+    {
+      filename = "__base__/sound/fight/tank-engine.ogg",
+      volume = 0.7
+    },
+    activate_sound =
+    {
+      filename = "__base__/sound/fight/tank-engine-start.ogg",
+      volume = 0.7
+    },
+    deactivate_sound =
+    {
+      filename = "__base__/sound/fight/tank-engine-stop.ogg",
+      volume = 0.7
+    }
+  }
 cargo_ship_engine.front_light = nil
 cargo_ship_engine.back_light = nil
 cargo_ship_engine.stand_by_light = nil
@@ -281,4 +465,4 @@ cargo_ship_engine.drive_over_tie_trigger = nil
 
 
 
-data:extend({cargo_ship_engine,cargo_ship, oil_tanker})
+data:extend({cargo_ship_engine,cargo_ship, oil_tanker, boat, boat_engine})

@@ -1,6 +1,20 @@
 data:extend({
     {
         type = "recipe", 
+        name = "boat",
+        enabled = false, 
+        energy_required = 3,
+        ingredients =
+        {
+            {"steel-plate", 40},
+            {"engine-unit", 15},
+            {"iron-gear-wheel", 15},
+            {"electronic-circuit", 6}
+        },
+        result = "boat"
+    }, 
+    {
+        type = "recipe", 
         name = "cargo_ship",
         enabled = false, 
         energy_required = 10,
@@ -119,5 +133,28 @@ data:extend({
         },
         result = "oil_rig",
         result_count = 1
-    }
+    },
+    --[[
+    {
+        type = "recipe",
+        name = "bridge_base",
+        enabled = true,
+        ingredients =
+        {
+            {"iron-plate", 1},
+        },
+        result = "bridge_base",
+        result_count = 1
+    },
+    {
+        type = "recipe",
+        name = "bridge_east",
+        enabled = false,
+        ingredients =
+        {
+            {"iron-plate", 1},
+        },
+        result = "bridge_east",
+        result_count = 1
+    }]]
 })

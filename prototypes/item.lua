@@ -1,3 +1,5 @@
+--require("bridge_items")
+
 data:extend({
         {
         type = "item-subgroup",
@@ -7,8 +9,30 @@ data:extend({
         },
         {
         type = "item-with-entity-data", 
+        name = "boat", 
+        icon = "__cargo-ships__/graphics/icons/boat.png", 
+        icon_size = 64,
+        flags = {"goes-to-quickbar"}, 
+        subgroup = "water_transport", 
+        order = "a[water-system]-f[boat]",
+        place_result = "boat", 
+        stack_size = 5, 
+        },
+        {
+        type = "item-with-entity-data", 
+        name = "boat_engine", 
+        icon = "__cargo-ships__/graphics/blank.png", 
+        icon_size = 32,
+        flags = {"goes-to-quickbar"}, 
+        subgroup = "water_transport", 
+        order = "a[water-system]-z[boat_engine]",
+        place_result = "boat_engine", 
+        stack_size = 5, 
+        },
+        {
+        type = "item-with-entity-data", 
         name = "cargo_ship_engine", 
-        icon = "__cargo-ships__/graphics/icons/cargoship_icon.png", 
+        icon = "__cargo-ships__/graphics/blank.png", 
         icon_size = 32,
         flags = {"goes-to-quickbar"}, 
         subgroup = "water_transport", 
@@ -20,7 +44,7 @@ data:extend({
         type = "item-with-entity-data", 
         name = "cargo_ship", 
         icon = "__cargo-ships__/graphics/icons/cargoship_icon.png", 
-        icon_size = 64,
+        icon_size = 128,
         flags = {"goes-to-quickbar"}, 
         subgroup = "water_transport", 
         order = "a[water-system]-f[cargo_ship]",
@@ -31,7 +55,7 @@ data:extend({
         type = "item-with-entity-data", 
         name = "oil_tanker", 
         icon = "__cargo-ships__/graphics/icons/tanker.png", 
-        icon_size = 64,
+        icon_size = 128,
         flags = {"goes-to-quickbar"}, 
         subgroup = "water_transport", 
         order = "a[water-system]-g[oil_tanker]",
@@ -162,6 +186,7 @@ data:extend({
         stack_size = 100, 
         },
 })
+
 
 
 

@@ -1,18 +1,25 @@
 require("logic.ship_directions")
 require("logic.long_reach")
+--require("logic.bridge_logic")
 local choices = require("choices")
 
 -- spawn additioanl invisible enties
 function onEntityBuild(e)
+	-- 
 	local ent = e.created_entity
 	if ent.type == "cargo-wagon" or ent.type == "fluid-wagon" or ent.type == "locomotive" or ent.type == "artillery-wagon" then
 		local engine = nil
-		if ent.name == "cargo_ship" or ent.name == "oil_tanker"  then
+		if ent.name == "cargo_ship" or ent.name == "oil_tanker" then
 			local pos, dir = localize_engine(ent)
 			engine = ent.surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = ent.force}
+		elseif ent.name == "boat"  then
+			local pos, dir = localize_engine(ent)
+			engine = ent.surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = ent.force}
 		end
+		-- check placement in next tick 
 		table.insert(global.check_entity_placement, {ent, engine, e.player_index})
 
+	-- add oilrig slave entity
 	elseif ent.name == "oil_rig" then
 		local pos =  ent.position
 		local or_power = ent.surface.create_entity{name = "or_power", position = pos, force = ent.force}
@@ -23,13 +30,18 @@ function onEntityBuild(e)
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 3, pos.y -3}, force = ent.force}
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 3, pos.y + 3}, force = ent.force}
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
-	
-
+	-- create bridge
+--[[	
+	elseif ent.name == "bridge_base" then
+		CreateBridge(ent)	
+]]
+	-- make waterway indistructable
 	elseif ent.name == "straight-water-way" or ent.name == "curved-water-way" then
 		ent.destructible = false;
 	end
 end
 
+-- checks placement of rollingstock, and returns the placed entites to the player if neccesary
 function checkPlacement()
 	for _, entry in pairs(global.check_entity_placement) do
 
@@ -37,7 +49,7 @@ function checkPlacement()
 		local engine = entry[2]
 		local player_index = entry[3]
 
-		if entity.name == "cargo_ship" or entity.name == "oil_tanker" then
+		if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
 			-- check for correct engine placement
 			if engine == nil then
 				cancelPlacement(entity, player_index)
@@ -84,9 +96,9 @@ function checkPlacement()
 end
 
 function cancelPlacement(entity, player_index)
-	if entity.name ~= "cargo_ship_engine" then
+	if entity.name ~= "cargo_ship_engine" and entity.name ~= "boat_engine" then
 		game.players[player_index].insert{name=entity.name, count=1}
-		if entity.name == "cargo_ship" or entity.name == "oil_tanker" then
+		if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name =="boat" then
 			game.players[player_index].print("Ships need to be placed on straight water ways and with sufficient space to both sides!")
 		else
 			game.players[player_index].print("Trains can not be placed on water ways!")
@@ -103,6 +115,11 @@ function OnEnterShip(e)
 
 	if game.players[player_index].vehicle == nil then
 		for dis = 1,10 do
+			local boat = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="boat_engine", limit=1}
+			if boat[1] ~= nil then	
+				boat[1].set_driver(game.players[player_index])
+				break
+			end
 			local ship = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="cargo_ship", limit=1}
 			if ship[1] ~= nil then	
 				ship[1].set_driver(game.players[player_index])
@@ -131,29 +148,30 @@ end
 function OnDeleted(e)
 	if(e.entity) then
 		local ent = e.entity
-		if ent.name == "cargo_ship" or ent.name == "oil_tanker" then
+		if ent.name == "cargo_ship" or ent.name == "oil_tanker" or ent.name == "boat" then
 			if ent.train ~= nil then
 
 				if ent.train.back_stock ~= nil then
-					if ent.train.back_stock.name == "cargo_ship_engine" then
+					if ent.train.back_stock.name == "cargo_ship_engine" or ent.train.back_stock.name == "boat_engine" then
 						ent.train.back_stock.destroy()
 					end
 				end
 				if ent.train.front_stock ~= nil then
-					if ent.train.front_stock.name == "cargo_ship_engine" then
+					if ent.train.front_stock.name == "cargo_ship_engine" or ent.train.front_stock.name == "boat_engine" then
 						ent.train.front_stock.destroy()
 					end
 				end
 			end
 
-		elseif ent.name == "cargo_ship_engine" then
+		elseif ent.name == "cargo_ship_engine" or ent.name == "boat_engine" then
 			if ent.train ~= nil then
 				if ent.train.front_stock ~= nil then
-					if ent.train.front_stock.name == "cargo_ship" or ent.train.front_stock.name == "oil_tanker" then
+					if ent.train.front_stock.name == "cargo_ship" or ent.train.front_stock.name == "oil_tanker" or ent.train.front_stock.name == "boat" then
 						ent.train.front_stock.destroy()
 					end
 				end
 			end
+
 
 		elseif ent.name == "oil_rig" then
 			local pos = ent.position
@@ -180,13 +198,13 @@ end
 -- recover fuel of cargo ship engine
 function OnMined(e)
 	if(e.entity) then
-		if e.entity.name == "cargo_ship" or e.entity.name == "oil_tanker" then
+		if e.entity.name == "cargo_ship" or e.entity.name == "oil_tanker" or e.entity.name == "boat" then
 			local ent = e.entity
 			local player_index = e.player_index
 			local engine
 			if ent.train ~= nil then
 				if ent.train.back_stock ~= nil then
-					if ent.train.back_stock.name == "cargo_ship_engine" then
+					if ent.train.back_stock.name == "cargo_ship_engine" or ent.train.back_stock.name == "boat_engine"  then
 						local fuel = ent.train.back_stock.get_fuel_inventory().get_contents()
 						for f_type,f_amount in pairs(fuel) do
 							game.players[player_index].insert{name=f_type, count=f_amount}
@@ -194,7 +212,7 @@ function OnMined(e)
 					end
 				end
 				if ent.train.front_stock ~= nil then
-					if ent.train.front_stock.name == "cargo_ship_engine" then
+					if ent.train.front_stock.name == "cargo_ship_engine" or ent.train.front_stock.name == "boat_engine"  then
 						local fuel = ent.train.front_stock.get_fuel_inventory().get_contents()
 						for f_type,f_amount in pairs(fuel) do
 							game.players[player_index].insert{name=f_type, count=f_amount}
@@ -284,11 +302,18 @@ function init()
 		global.check_entity_placement = {}
 		global.csp = false
 	end
+	--[[if global.bridges == nil then
+		global.bridges = {}
+		for _, bridge in pairs(game.surfaces[1].find_entities_filtered{name="bridge_east"}) do
+			table.insert(global.bridges, {bridge, bridge.power_switch_state})
+		end
+	end]]
 end
 
 function onTick(e)
 	powerOilRig(e)
 	checkPlacement()
+	--ManageBridges(e)
 end
 
 -- init

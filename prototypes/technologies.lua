@@ -3,14 +3,14 @@ data:extend ({
 {
 	type = "technology",
 	name = "water_transport",
-	icon = "__cargo-ships__/graphics/icons/cargoship_icon.png", 
+	icon = "__cargo-ships__/graphics/icons/boat.png", 
     icon_size = 64,
 
     effects =
     {
     	{
     		type = "unlock-recipe",
-    		recipe = "cargo_ship"
+    		recipe = "boat"
     	},
     	{
     		type = "unlock-recipe",
@@ -19,6 +19,32 @@ data:extend ({
 	},
 	prerequisites = {"logistics-2", "engine"},
 	unit =
+    {
+      count = 100,
+      ingredients =
+      {
+        {"science-pack-1", 1},
+        {"science-pack-2", 1},
+      },
+      time = 30
+    },
+    order = "c-g-a",
+},
+{
+  type = "technology",
+  name = "cargo_ships",
+  icon = "__cargo-ships__/graphics/icons/cargoship_icon.png", 
+    icon_size = 64,
+
+    effects =
+    {
+      {
+        type = "unlock-recipe",
+        recipe = "cargo_ship"
+      },
+  },
+  prerequisites = {"water_transport"},
+  unit =
     {
       count = 150,
       ingredients =
@@ -42,12 +68,6 @@ data:extend ({
     		type = "unlock-recipe",
     		recipe = "port"
     	},
-    --[[
-      {
-        type = "unlock-recipe",
-        recipe = "port_lb"
-      },
-      ]]
 	},
 	prerequisites = {"water_transport"},
 	unit =
