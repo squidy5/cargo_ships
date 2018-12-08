@@ -48,11 +48,10 @@ wave.animation =
       frame_count = 15,
       line_length = 5,
       shift = {-0.437, -0.5},
-      animation_speed = 0.15,
+      animation_speed = 0.2,
     }
-wave.start_scale = 1.3
+wave.start_scale = 1.2
 wave.color = { r = 0.9, g = 0.9, b = 0.9 }
-wave.render_layer = "lower-object"
 
 data:extend({wave})
 ----------------------------------------------------------------
@@ -145,8 +144,8 @@ boat_engine.burner =
     {
       name = "wave",
       deviation = {0.3, 0.3},
-      frequency = 30,
-      position = {0, 5},
+      frequency = 20,
+      position = {0, 5.5},
       starting_frame = 0,
       starting_frame_deviation = 60,
       height = 0,
@@ -184,17 +183,17 @@ boat_engine.working_sound =
       sound =
       {
         filename = "__base__/sound/car-engine.ogg",
-        volume = 1.3
+        volume = 0.7
       },
       activate_sound =
       {
         filename = "__base__/sound/car-engine-start.ogg",
-        volume = 1.3
+        volume = 0.7
       },
       deactivate_sound =
       {
         filename = "__base__/sound/car-engine-stop.ogg",
-        volume = 1.3
+        volume = 0.7
       },
       match_speed_to_activity = true
     }
@@ -415,32 +414,7 @@ cargo_ship_engine.burner =
       height_deviation = 0.5,
       starting_vertical_speed = 0.0,
       starting_vertical_speed_deviation = 0.1,
-    },
-    {
-      name = "wave",
-      deviation = {0.3, 0.3},
-      frequency = 30,
-      position = {-0.8, 1},
-      starting_frame = 0,
-      starting_frame_deviation = 60,
-      height = 0,
-      height_deviation = 0.2,
-      starting_vertical_speed = 0.0,
-      starting_vertical_speed_deviation = 0,
-    },
-    {
-      name = "wave",
-      deviation = {0.3, 0.3},
-      frequency = 30,
-      position = {0.8, 1},
-      starting_frame = 0,
-      starting_frame_deviation = 60,
-      height = 0,
-      height_deviation = 0.2,
-      starting_vertical_speed = 0.0,
-      starting_vertical_speed_deviation = 0,
     }
-
   }
 }
 cargo_ship_engine.pictures =
@@ -472,19 +446,18 @@ cargo_ship_engine.working_sound =
     sound =
     {
       filename = "__base__/sound/fight/tank-engine.ogg",
-      volume = 1.1
+      volume = 0.7
     },
     activate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-start.ogg",
-      volume = 1.1
+      volume = 0.7
     },
     deactivate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-stop.ogg",
-      volume = 1.1  
-    },
-    match_speed_to_activity=true
+      volume = 0.7
+    }
   }
 cargo_ship_engine.front_light = nil
 cargo_ship_engine.back_light = nil
