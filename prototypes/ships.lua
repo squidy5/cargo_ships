@@ -48,10 +48,11 @@ wave.animation =
       frame_count = 15,
       line_length = 5,
       shift = {-0.437, -0.5},
-      animation_speed = 0.2,
+      animation_speed = 0.15,
     }
-wave.start_scale = 1.2
+wave.start_scale = 1.3
 wave.color = { r = 0.9, g = 0.9, b = 0.9 }
+wave.render_layer = "lower-object"
 
 data:extend({wave})
 ----------------------------------------------------------------
@@ -62,6 +63,7 @@ data:extend({wave})
 local boat=table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 boat.name = "boat"
 boat.icon = "__cargo-ships__/graphics/icons/boat.png"
+boat.icon_size = 64
 boat.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 boat.minable = {mining_time = 1, result = "boat"}
 
@@ -143,8 +145,8 @@ boat_engine.burner =
     {
       name = "wave",
       deviation = {0.3, 0.3},
-      frequency = 20,
-      position = {0, 5.5},
+      frequency = 30,
+      position = {0, 5},
       starting_frame = 0,
       starting_frame_deviation = 60,
       height = 0,
@@ -182,17 +184,17 @@ boat_engine.working_sound =
       sound =
       {
         filename = "__base__/sound/car-engine.ogg",
-        volume = 0.7
+        volume = 1.3
       },
       activate_sound =
       {
         filename = "__base__/sound/car-engine-start.ogg",
-        volume = 0.7
+        volume = 1.3
       },
       deactivate_sound =
       {
         filename = "__base__/sound/car-engine-stop.ogg",
-        volume = 0.7
+        volume = 1.3
       },
       match_speed_to_activity = true
     }
@@ -211,6 +213,7 @@ boat_engine.drive_over_tie_trigger = nil
 local cargo_ship=table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 cargo_ship.name = "cargo_ship"
 cargo_ship.icon = "__cargo-ships__/graphics/icons/cargoship_icon.png"
+cargo_ship.icon_size = 128
 cargo_ship.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 cargo_ship.minable = {mining_time = 1, result = "cargo_ship"}
 
@@ -313,7 +316,8 @@ cargo_ship.drive_over_tie_trigger = nil
 
 local oil_tanker=table.deepcopy(data.raw["fluid-wagon"]["fluid-wagon"])
 oil_tanker.name = "oil_tanker"
-oil_tanker.icon =  "__cargo-ships__/graphics/icons/cargoship_icon.png"
+oil_tanker.icon =  "__cargo-ships__/graphics/icons/tanker.png"
+oil_tanker.icon_size = 128
 oil_tanker.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 oil_tanker.minable = {mining_time = 1, result = "oil_tanker"}
 
@@ -411,7 +415,32 @@ cargo_ship_engine.burner =
       height_deviation = 0.5,
       starting_vertical_speed = 0.0,
       starting_vertical_speed_deviation = 0.1,
+    },
+    {
+      name = "wave",
+      deviation = {0.3, 0.3},
+      frequency = 30,
+      position = {-0.8, 1},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
+    },
+    {
+      name = "wave",
+      deviation = {0.3, 0.3},
+      frequency = 30,
+      position = {0.8, 1},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
     }
+
   }
 }
 cargo_ship_engine.pictures =
@@ -443,18 +472,19 @@ cargo_ship_engine.working_sound =
     sound =
     {
       filename = "__base__/sound/fight/tank-engine.ogg",
-      volume = 0.7
+      volume = 1.1
     },
     activate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-start.ogg",
-      volume = 0.7
+      volume = 1.1
     },
     deactivate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-stop.ogg",
-      volume = 0.7
-    }
+      volume = 1.1  
+    },
+    match_speed_to_activity=true
   }
 cargo_ship_engine.front_light = nil
 cargo_ship_engine.back_light = nil
