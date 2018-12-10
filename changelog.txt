@@ -1,4 +1,32 @@
----------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------
+Version: 0.0.21
+Date:
+Bugfixes: 
+	- fixed waterways being placable ontop of each other resulting in corrupted save files
+	- fixed typo in dependencies
+	- fixed mining floating pole resulting in normal power pole   
+
+--------------------------------------------------------------------------------------------
+Version: 0.0.20
+Date:
+Changes: 
+	- made boat be placaeble as an independt vehicle next to being placable on waterways as well
+	- added Seablock compatabilty
+	- fixed research icons 
+	- fixed boat light
+	- fixed boat sprite shift
+	- increased amount of boat splash animations
+
+--------------------------------------------------------------------------------------------
+Version: 0.0.19
+Date:
+Changes: 
+	- fixed debug message being shown
+	- added sound to ship and boat engines
+	- added water splash animations to ship and boat engines
+	- made ship engines instead of cargo area target of SHIFT+Enter
+--------------------------------------------------------------------------------------------
 Version: 0.0.18
 Date:
 Changes: 

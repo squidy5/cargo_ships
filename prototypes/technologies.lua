@@ -12,10 +12,7 @@ data:extend ({
     		type = "unlock-recipe",
     		recipe = "boat"
     	},
-    	{
-    		type = "unlock-recipe",
-    		recipe = "water-way"
-    	},
+
 	},
 	prerequisites = {"logistics-2", "engine"},
 	unit =
@@ -34,7 +31,7 @@ data:extend ({
   type = "technology",
   name = "cargo_ships",
   icon = "__cargo-ships__/graphics/icons/cargoship_icon.png", 
-    icon_size = 64,
+    icon_size = 128,
 
     effects =
     {
@@ -43,7 +40,7 @@ data:extend ({
         recipe = "cargo_ship"
       },
   },
-  prerequisites = {"water_transport"},
+  prerequisites = {"automated_water_transport"},
   unit =
     {
       count = 150,
@@ -68,6 +65,10 @@ data:extend ({
     		type = "unlock-recipe",
     		recipe = "port"
     	},
+      {
+        type = "unlock-recipe",
+        recipe = "water-way"
+      },
 	},
 	prerequisites = {"water_transport"},
 	unit =
@@ -142,7 +143,7 @@ data:extend ({
 	type = "technology",
 	name = "tank_ship",
 	icon = "__cargo-ships__/graphics/icons/tanker.png", 
-  icon_size = 64,
+  icon_size = 128,
 
   effects =
   {
@@ -155,7 +156,7 @@ data:extend ({
   		recipe = "ship_pump"
   	}
 	},
-	prerequisites = {"water_transport", "fluid-handling" },
+	prerequisites = {"automated_water_transport", "fluid-handling" },
 	unit =
   {
     count = 150,

@@ -79,8 +79,6 @@ railpicturesinternal = function(elems)
 end
 
 
-
-
 data:extend({
   {
     type = "straight-rail",
@@ -101,7 +99,7 @@ data:extend({
     },
     collision_box = {{-1.01, -0.95}, {1.01, 0.95}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
-    collision_mask = {'ground-tile', 'object-layer'},
+    collision_mask = {'ground-tile', "colliding-with-tiles-only"},
     rail_category = "regular",
     pictures = railpictures(),
   },
@@ -125,7 +123,7 @@ data:extend({
     collision_box = {{-1, -2}, {1, 3.1}},
     secondary_collision_box = {{-0.65, -2.1}, {0.65, 2.1}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
-    collision_mask = {'ground-tile', 'object-layer'},
+    collision_mask = {'ground-tile', "colliding-with-tiles-only"},
     rail_category = "regular",
     pictures = railpictures(),
     placeable_by = { item="water-way", count = 4}

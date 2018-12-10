@@ -1,9 +1,9 @@
 {
   "name": "cargo-ships",
-  "version": "0.0.19",
+  "version": "0.0.21",
   "title": "Cargo Ships",
   "author": "rude_grass",
-  "description": "Adds cargo ships, oil tankers and deep sea oil rigs",
-  "dependencies": ["base >= 0.16", "? factorio-world >= 0.16.1", "? NewIslands >= 0.1.0", "?islands_world >= 0.16.3"],
+  "description": "Adds cargo ships, oil tankers, deep sea oil rigs and other ocean based content",
+  "dependencies": ["base >= 0.16", "? factorio-world >= 0.16.1", "? NewIslands >= 0.1.0", "?islands_world >= 0.16.3", "?SeaBlock >= 0.2.0"],
   "factorio_version": "0.16"
 }

@@ -48,12 +48,157 @@ wave.animation =
       frame_count = 15,
       line_length = 5,
       shift = {-0.437, -0.5},
-      animation_speed = 0.2,
+      animation_speed = 0.15,
     }
-wave.start_scale = 1.2
+wave.start_scale = 1.3
 wave.color = { r = 0.9, g = 0.9, b = 0.9 }
+wave.render_layer = "lower-object"
 
 data:extend({wave})
+
+
+
+
+
+
+----------------------------------------------------------------
+------------------------ BOAT indep ---------------------------
+----------------------------------------------------------------
+
+local indep_boat=table.deepcopy(data.raw["car"]["car"])
+indep_boat.name = "indep-boat"
+indep_boat.collision_mask = {"ground-tile", "train-layer"}
+indep_boat.collision_box = {{-1.2, -3}, {1.2, 3}}
+indep_boat.selection_box = {{-1.2, -3}, {1.2, 3}}
+indep_boat.max_health = 600
+indep_boat.icon = "__cargo-ships__/graphics/icons/boat.png"
+indep_boat.icon_size = 64
+indep_boat.guns= nil
+indep_boat.braking_power = "150kW"
+indep_boat.weight = 10000
+indep_boat.consumption = "300kW"
+indep_boat.minable = {mining_time = 1,result = "boat"}
+indep_boat.rotation_speed = 0.008
+indep_boat.inventory_size = 80
+
+indep_boat.burner =
+{
+  fuel_category = "chemical",
+  effectivity = 1,
+  fuel_inventory_size = 3,
+  smoke =
+    {
+      {
+        name = "light-smoke",
+        deviation = {0.3, 0.3},
+        frequency = 60,
+        position = {0.5, 1},
+        starting_frame = 0,
+        starting_frame_deviation = 60,
+        height = 2.5,
+        height_deviation = 0.2,
+        starting_vertical_speed = 0.0,
+        starting_vertical_speed_deviation = 0.02,
+      },
+      {
+        name = "wave",
+        deviation = {0.3, 0.3},
+        frequency = 45,
+        position = {0, 3},
+        starting_frame = 0,
+        starting_frame_deviation = 60,
+        height = 0,
+        height_deviation = 0.2,
+        starting_vertical_speed = 0.0,
+        starting_vertical_speed_deviation = 0,
+      }
+    } 
+  }
+indep_boat.working_sound =
+{
+  sound =
+  {
+    filename = "__base__/sound/car-engine.ogg",
+    volume = 1.3
+  },
+  activate_sound =
+  {
+    filename = "__base__/sound/car-engine-start.ogg",
+    volume = 1.3
+  },
+  deactivate_sound =
+  {
+    filename = "__base__/sound/car-engine-stop.ogg",
+    volume = 1.3
+  },
+  match_speed =true
+}
+indep_boat.animation =
+    {
+      layers =
+      {
+        {
+          priority = "low",
+          width = 250,
+          height = 250,
+          frame_count = 1,
+          direction_count = 64,
+          shift = {0, 0.15},
+          scale = 1.19,
+          animation_speed = 8,
+          max_advance = 0.2,
+          stripes =
+          {
+            {
+             filename = "__cargo-ships__/graphics/entity/boat/indep/boat.png",
+             width_in_frames = 8,
+             height_in_frames = 8,            
+            }
+          }          
+      }
+    }
+  }
+
+indep_boat.turret_animation = {
+    layers = {
+          {
+            animation_speed = 8,
+            direction_count = 1,
+            frame_count = 1,
+            height = 1,
+      width = 1,
+            max_advance = 0.2,
+            priority = "low",
+            shift = {0,0},
+            stripes = {
+        {
+          filename = "__core__/graphics/empty.png",
+          height_in_frames = 1,
+          width_in_frames = 1
+        }
+      }
+      }
+    }
+  }
+
+indep_boat.light =  {
+    type = "oriented",
+    minimum_darkness = 0.3,
+    picture =
+    {
+      filename = "__cargo-ships__/graphics/light-cone-boat.png",
+      priority = "extra-high",
+      flags = { "light" },
+      scale = 2,
+      width = 200,
+      height = 200
+    },
+    shift = {0, -13},
+    size = 2,
+    intensity = 0.8,
+    color = {r = 0.92, g = 0.77, b = 0.3}
+  }
+
 ----------------------------------------------------------------
 ------------------------ BOAT  ----------------------------
 ----------------------------------------------------------------
@@ -95,16 +240,34 @@ boat.pictures =
       line_length = 8,
       lines_per_file = 8,
       scale = 1.5,--3,
-      shift = {0.0, -0.5}
+      shift = {0.0, -0.7}
     }
   }
 }
-boat.stand_by_light = ship_light()
+boat.back_light =  {
+    type = "oriented",
+    minimum_darkness = 0.3,
+    picture =
+    {
+      filename = "__cargo-ships__/graphics/light-cone-boat.png",
+      priority = "extra-high",
+      flags = { "light" },
+      scale = 2,
+      width = 200,
+      height = 200
+    },
+    shift = {0, -15},
+    size = 2,
+    intensity = 0.8,
+    color = {r = 0.92, g = 0.77, b = 0.3}
+  }
+boat.stand_by_light = nil
 boat.horizontal_doors = nil
 boat.vertical_doors = nil
 boat.wheels = non_standard_wheels
 boat.working_sound = nil
 boat.drive_over_tie_trigger = nil
+
 
 ----------------------------------------------------------------
 ------------------------ BOAT ENGINE ---------------------------
@@ -131,7 +294,7 @@ boat_engine.burner =
     {
       name = "light-smoke",
       deviation = {0.3, 0.3},
-      frequency = 50,
+      frequency = 60,
       position = {0.5, 2.5},
       starting_frame = 0,
       starting_frame_deviation = 60,
@@ -143,8 +306,8 @@ boat_engine.burner =
     {
       name = "wave",
       deviation = {0.3, 0.3},
-      frequency = 20,
-      position = {0, 5.5},
+      frequency = 45,
+      position = {0, 5},
       starting_frame = 0,
       starting_frame_deviation = 60,
       height = 0,
@@ -182,17 +345,17 @@ boat_engine.working_sound =
       sound =
       {
         filename = "__base__/sound/car-engine.ogg",
-        volume = 0.7
+        volume = 1.3
       },
       activate_sound =
       {
         filename = "__base__/sound/car-engine-start.ogg",
-        volume = 0.7
+        volume = 1.3
       },
       deactivate_sound =
       {
         filename = "__base__/sound/car-engine-stop.ogg",
-        volume = 0.7
+        volume = 1.3
       },
       match_speed_to_activity = true
     }
@@ -411,7 +574,32 @@ cargo_ship_engine.burner =
       height_deviation = 0.5,
       starting_vertical_speed = 0.0,
       starting_vertical_speed_deviation = 0.1,
+    },
+    {
+      name = "wave",
+      deviation = {0.3, 0.3},
+      frequency = 30,
+      position = {-0.8, 1},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
+    },
+    {
+      name = "wave",
+      deviation = {0.3, 0.3},
+      frequency = 30,
+      position = {0.8, 1},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
     }
+
   }
 }
 cargo_ship_engine.pictures =
@@ -443,18 +631,19 @@ cargo_ship_engine.working_sound =
     sound =
     {
       filename = "__base__/sound/fight/tank-engine.ogg",
-      volume = 0.7
+      volume = 1.1
     },
     activate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-start.ogg",
-      volume = 0.7
+      volume = 1.1
     },
     deactivate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-stop.ogg",
-      volume = 0.7
-    }
+      volume = 1.1  
+    },
+    match_speed_to_activity=true
   }
 cargo_ship_engine.front_light = nil
 cargo_ship_engine.back_light = nil
@@ -465,4 +654,4 @@ cargo_ship_engine.drive_over_tie_trigger = nil
 
 
 
-data:extend({cargo_ship_engine,cargo_ship, oil_tanker, boat, boat_engine})
+data:extend({cargo_ship_engine,cargo_ship, oil_tanker, indep_boat, boat, boat_engine})
