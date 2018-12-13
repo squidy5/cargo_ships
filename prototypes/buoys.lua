@@ -1,5 +1,6 @@
 local floating_pole=table.deepcopy(data.raw["electric-pole"]["big-electric-pole"])
 floating_pole.name = "floating-electric-pole"
+floating_pole.minable ={mining_time = 0.5, result = "floating-electric-pole"}
 floating_pole.collision_mask = {'ground-tile', 'object-layer'}
 floating_pole.collision_box = {{-1.2, -1.2}, {1.2, 1.2}}
 floating_pole.selection_box = {{-1.3, -1.3}, {1.3, 1.3}}

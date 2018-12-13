@@ -3,22 +3,45 @@ data:extend ({
 {
 	type = "technology",
 	name = "water_transport",
-	icon = "__cargo-ships__/graphics/icons/cargoship_icon.png", 
+	icon = "__cargo-ships__/graphics/icons/boat.png", 
     icon_size = 64,
 
     effects =
     {
     	{
     		type = "unlock-recipe",
-    		recipe = "cargo_ship"
+    		recipe = "boat"
     	},
-    	{
-    		type = "unlock-recipe",
-    		recipe = "water-way"
-    	},
+
 	},
 	prerequisites = {"logistics-2", "engine"},
 	unit =
+    {
+      count = 100,
+      ingredients =
+      {
+        {"science-pack-1", 1},
+        {"science-pack-2", 1},
+      },
+      time = 30
+    },
+    order = "c-g-a",
+},
+{
+  type = "technology",
+  name = "cargo_ships",
+  icon = "__cargo-ships__/graphics/icons/cargoship_icon.png", 
+    icon_size = 128,
+
+    effects =
+    {
+      {
+        type = "unlock-recipe",
+        recipe = "cargo_ship"
+      },
+  },
+  prerequisites = {"automated_water_transport"},
+  unit =
     {
       count = 150,
       ingredients =
@@ -42,12 +65,10 @@ data:extend ({
     		type = "unlock-recipe",
     		recipe = "port"
     	},
-    --[[
       {
         type = "unlock-recipe",
-        recipe = "port_lb"
+        recipe = "water-way"
       },
-      ]]
 	},
 	prerequisites = {"water_transport"},
 	unit =
@@ -122,7 +143,7 @@ data:extend ({
 	type = "technology",
 	name = "tank_ship",
 	icon = "__cargo-ships__/graphics/icons/tanker.png", 
-  icon_size = 64,
+  icon_size = 128,
 
   effects =
   {
@@ -135,7 +156,7 @@ data:extend ({
   		recipe = "ship_pump"
   	}
 	},
-	prerequisites = {"water_transport", "fluid-handling" },
+	prerequisites = {"automated_water_transport", "fluid-handling" },
 	unit =
   {
     count = 150,
