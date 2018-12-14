@@ -158,6 +158,23 @@ port.light1 =
 port.light2 = nil
 port.working_sound = nil
 
+-- build a new 4 way definition for port
+-- show_shadow=false prevents floating circuit box shadows, but wire shadows end nowhere
+-- once port shadows are done set show_shadow=true and tweak shadow_offset, should be around (-30, 10) from  main_offset
+circuit_connector_definitions["cargo-ships-port"] = circuit_connector_definitions.create
+(
+  universal_connector_template,
+  {
+    { variation = 18, main_offset = util.by_pixel(37, -61), shadow_offset = util.by_pixel(37, -61), show_shadow = false },
+    { variation = 18, main_offset = util.by_pixel(-1.5, -20), shadow_offset = util.by_pixel(-1.5, -20), show_shadow = false },
+    { variation = 18, main_offset = util.by_pixel(-39, -59), shadow_offset = util.by_pixel(-39, -59), show_shadow = false },
+    { variation = 18, main_offset = util.by_pixel(-1.5, -98), shadow_offset = util.by_pixel(-1.5, -98), show_shadow = false }
+  }
+)
+-- let factorio generate sprite connector offset per wire from definition
+port.circuit_wire_connection_points = circuit_connector_definitions["cargo-ships-port"].points
+port.circuit_connector_sprites = circuit_connector_definitions["cargo-ships-port"].sprites
+
 
 data:extend({buoy, chain_buoy, port, floating_pole})
 

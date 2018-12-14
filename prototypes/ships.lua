@@ -207,6 +207,7 @@ indep_boat.light =  {
 local boat=table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 boat.name = "boat"
 boat.icon = "__cargo-ships__/graphics/icons/boat.png"
+boat.icon_size = 64
 boat.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 boat.minable = {mining_time = 1, result = "boat"}
 
@@ -276,6 +277,8 @@ boat.drive_over_tie_trigger = nil
 local boat_engine = table.deepcopy(data.raw["locomotive"]["locomotive"])
 boat_engine.name = "boat_engine"
 boat_engine.minable = nil
+boat_engine.icon = "__cargo-ships__/graphics/icons/ship-engine.png"
+boat_engine.icon_size = 64
 boat_engine.weigt = 5000
 boat_engine.max_speed = 0.27
 boat_engine.max_power = "300kW"
@@ -374,6 +377,7 @@ boat_engine.drive_over_tie_trigger = nil
 local cargo_ship=table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 cargo_ship.name = "cargo_ship"
 cargo_ship.icon = "__cargo-ships__/graphics/icons/cargoship_icon.png"
+cargo_ship.icon_size = 128
 cargo_ship.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 cargo_ship.minable = {mining_time = 1, result = "cargo_ship"}
 
@@ -476,7 +480,8 @@ cargo_ship.drive_over_tie_trigger = nil
 
 local oil_tanker=table.deepcopy(data.raw["fluid-wagon"]["fluid-wagon"])
 oil_tanker.name = "oil_tanker"
-oil_tanker.icon =  "__cargo-ships__/graphics/icons/cargoship_icon.png"
+oil_tanker.icon =  "__cargo-ships__/graphics/icons/tanker.png"
+oil_tanker.icon_size = 128
 oil_tanker.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 oil_tanker.minable = {mining_time = 1, result = "oil_tanker"}
 
@@ -548,6 +553,8 @@ oil_tanker.drive_over_tie_trigger = nil
 local cargo_ship_engine=table.deepcopy(data.raw["locomotive"]["locomotive"])
 cargo_ship_engine.name = "cargo_ship_engine"
 cargo_ship_engine.minable = nil
+cargo_ship_engine.icon = "__cargo-ships__/graphics/icons/ship-engine.png"
+cargo_ship_engine.icon_size = 64
 cargo_ship_engine.weight = 100000
 cargo_ship_engine.max_speed = 0.15
 cargo_ship_engine.max_power = "2000kW"
