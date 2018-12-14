@@ -19,6 +19,7 @@ ship_pump.energy_usage = "50kW"
 local deep_oil=table.deepcopy(data.raw["resource"]["crude-oil"])
 deep_oil.name = "deep_oil"
 deep_oil.infinite_depletion_amount = 40
+deep_oil.autoplace = nil
 --  deep_oil.collision_mask = {'ground-tile'}
 
 

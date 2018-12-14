@@ -1,3 +1,12 @@
+--------------------------------------------------------------------------------------------
+Version: 0.0.22
+Date:
+Changes:
+	- added italian translation
+Bugfixes:
+	- fixed deep sea oil spawning on land
+	- fixed boat being not placable when hovercraft mod is enabled
+	- fixed crash when placing waterways ontop of each other by bots
 
 --------------------------------------------------------------------------------------------
 Version: 0.0.21

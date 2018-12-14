@@ -46,7 +46,9 @@ function onEntityBuild(e)
 			for _,o in pairs(other) do
 				if (o ~= ent and o.name == ent.name and ent.direction==o.direction) then
 					local n = (ent.name == "straight-water-way") and 1 or 4
-					game.players[e.player_index].insert{name = "water-way", count = n}
+					if(e.player_index ~= nil) then
+						game.players[e.player_index].insert{name = "water-way", count = n}
+					end
 					ent.destroy()
 					break
 				end
@@ -191,10 +193,11 @@ end
 
 -- creat deep sea oil
 function placeDeepOil(e)
+	local deep_tiles = 0
 	if game.active_mods["SeaBlock"] then
-		deep_tiles = game.surfaces[1].count_tiles_filtered{area=e.area,collision_mask="water-tile"}
+		deep_tiles = game.surfaces[1].count_tiles_filtered{area=e.area,name={"water","water-green","deepwater","deepwater-green"}}
 	else
-		deep_tiles  = game.surfaces[1].count_tiles_filtered{area=e.area, name = "deepwater"}
+		deep_tiles = game.surfaces[1].count_tiles_filtered{area=e.area, name = "deepwater"}
 	end
 	math.randomseed(e.tick)
 	if deep_tiles == 1024 then
