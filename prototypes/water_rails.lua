@@ -96,7 +96,6 @@ railpicturesinternal = function(elems)
    }   
 
  }
-  log( serpent.block( res, {comment = false, numformat = '%1.8g' } ) )
   return res
 end
 
