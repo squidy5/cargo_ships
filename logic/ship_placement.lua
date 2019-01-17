@@ -27,7 +27,7 @@ end
 function CheckBoatPlacement(ent, p_i)
 	-- check if waterways present
 	local pos = ent.position
-	local ww = ent.surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way"}
+	local ww = ent.surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way-placed"}
 	-- if so place waterway bound version of boat
 	if #ww >= 1 then
 		game.players[p_i].print("Placing boat on water-ways")
@@ -40,7 +40,10 @@ function CheckBoatPlacement(ent, p_i)
 		if(boat ~= nil) then
 			table.insert(global.check_entity_placement, {boat, engine, p_i})
 		else
-			game.player[p_i].insert{name="boat", count=1}
+			game.players[p_i].insert{name="boat", count=1}
+			if(engine) then
+				engine.destroy()
+			end
 		end
 	else
 		game.players[p_i].print("Placing boat independently from water-ways")
@@ -58,6 +61,8 @@ function checkPlacement()
 		if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
 			-- check for correct engine placement
 			if engine == nil then
+							game.players[player_index].print("engine nill")
+
 				cancelPlacement(entity, player_index)
 			elseif entity.orientation ~= engine.orientation then
 					cancelPlacement(entity, player_index)
@@ -88,11 +93,11 @@ function checkPlacement()
 		elseif entity.train ~= nil then
 			-- check if on waterways	
 			if entity.train.front_rail ~=nil then
-				if entity.train.front_rail.name == "straight-water-way" or entity.train.front_rail.name == "curved-water-way" then
+				if entity.train.front_rail.name == "straight-water-way-placed" or entity.train.front_rail.name == "curved-water-way-placed" then
 					cancelPlacement(entity, player_index)
 				end
 			elseif entity.train.back_rail ~=nil then
-				if entity.train.back_rail.name == "straight-water-way" or entity.train.back_rail.name == "curved-water-way" then
+				if entity.train.back_rail.name == "straight-water-way-placed" or entity.train.back_rail.name == "curved-water-way-placed" then
 					cancelPlacement(entity, player_index)
 				end
 			end

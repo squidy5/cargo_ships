@@ -1,8 +1,19 @@
+
+--------------------------------------------------------------------------------------------
+Version: 0.0.23
+Date:
+Changes:
+	- completly reworked waterway placement system too fix issues introduced with release 0.0.20 and 0.0.21, like buoys being placeable at wrong positions
+	(as a result blueprints now only work to a limited extend with waterways) 
+	- changed deep sea oil to produce multi phase oil when angles petrochem is enabled
+	
 --------------------------------------------------------------------------------------------
 Version: 0.0.22
 Date:
 Changes:
 	- added italian translation
+	- updated japanese translation
+	- changed port wire connections to fit the sprites
 Bugfixes:
 	- fixed deep sea oil spawning on land
 	- fixed boat being not placable when hovercraft mod is enabled

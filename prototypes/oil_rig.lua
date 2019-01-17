@@ -15,8 +15,25 @@ ship_pump.energy_usage = "50kW"
 -------------------------DEEP SEA OIL --------------------------
 ----------------------------------------------------------------
 
-
 local deep_oil=table.deepcopy(data.raw["resource"]["crude-oil"])
+if mods["angelspetrochem"] then
+  deep_oil.minable = 
+  {
+    hardness = 1,
+    mining_time = 1, 
+    results = 
+    {
+      {
+        type = "fluid", 
+        name = "liquid-multi-phase-oil", 
+        amount_min = 10, 
+        amount_max = 10, 
+        probability = 1
+      }
+    }
+  }
+
+end
 deep_oil.name = "deep_oil"
 deep_oil.infinite_depletion_amount = 40
 deep_oil.autoplace = nil
@@ -119,6 +136,7 @@ oil_rig.smoke =
 ----------------------------------------------------------------
 
 local or_power=table.deepcopy(data.raw["generator"]["steam-engine"])
+or_power.flags = {"not-blueprintable"}
 or_power.name = "or_power"
 or_power.collision_box= nil
 or_power.selection_box= nil
@@ -186,6 +204,7 @@ or_power.smoke =
 
 local or_pole=table.deepcopy(data.raw["electric-pole"]["medium-electric-pole"])
 or_pole.name = "or_pole"
+or_pole.flags = {"not-blueprintable"}
 or_pole.collision_box= nil
 or_pole.selection_box= nil
 or_pole.collision_mask= {}
@@ -205,6 +224,7 @@ or_pole.supply_area_distance = 4.5
 
 local or_lamp=table.deepcopy(data.raw["lamp"]["small-lamp"])
 or_lamp.name = "or_lamp"
+or_lamp.flags = {"not-blueprintable"}
 or_lamp.collision_box= nil
 or_lamp.selection_box= nil
 or_lamp.collision_mask= {}
@@ -218,6 +238,7 @@ or_lamp.pciture_on = {}
 
 local or_radar=table.deepcopy(data.raw["radar"]["radar"])
 or_radar.name= "or_radar"
+or_radar.flags = {"not-blueprintable"}
 or_radar.collision_mask={}
 or_radar.collision_box= nil
 or_radar.selection_box= nil
@@ -234,6 +255,7 @@ or_radar.energy_usage = "50kW",
 
 
 data:extend({ship_pump, oil_rig, or_power, or_pole, or_radar, or_lamp, deep_oil})
+
 
 -- alternate version of or_power
 --[[

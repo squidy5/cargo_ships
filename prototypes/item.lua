@@ -1,4 +1,4 @@
---require("bridge_items")
+require("bridge_items")
 
 data:extend({
         {
@@ -87,6 +87,32 @@ data:extend({
         curved_rail = "curved-water-way"
         },
         {
+        type = "rail-planner",
+        name = "water-way-placed",
+        icon = "__cargo-ships__/graphics/icons/water_rail.png",
+        icon_size = 64,
+        flags = {"hidden"}, 
+        subgroup = "water_transport",
+        order = "a[water-system]-a[water-way-placed]",
+        place_result = "straight-water-way-placed",
+        stack_size = 1,
+        straight_rail = "straight-water-way-placed",
+        curved_rail = "curved-water-way-placed"
+        },
+                {
+        type = "rail-planner",
+        name = "straight-rail_test",
+        icon = "__cargo-ships__/graphics/icons/water_rail.png",
+        icon_size = 64,
+        flags = {"hidden"}, 
+        subgroup = "water_transport",
+        order = "a[water-system]-a[water-way-placed]",
+        place_result = "straight-rail_test",
+        stack_size = 1,
+        straight_rail = "straight-rail_test",
+        curved_rail = "curved-rail_test"
+        },
+        {
         type = "item",
         name = "port",
         icon = "__cargo-ships__/graphics/icons/port.png",
@@ -158,7 +184,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/blank.png", 
         icon_size = 2,
         subgroup = "extraction-machine",
-        flags = {}, 
+        flags = {"hidden"}, 
         order = "b[fluids]-c[oil_rig]",
         place_result = "or_power", 
         stack_size = 100, 
@@ -169,7 +195,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/blank.png", 
         icon_size = 2,
         subgroup = "extraction-machine",
-        flags = {},
+        flags = {"hidden"},
         order = "b[fluids]-c[oil_rig]",
         place_result = "or_pole", 
         stack_size = 100, 
@@ -180,7 +206,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/blank.png", 
         icon_size = 2,
         subgroup = "extraction-machine",
-        flags = {},
+        flags = {"hidden"},
         order = "b[fluids]-c[oil_rig]",
         place_result = "or_lamp", 
         stack_size = 100, 
@@ -191,7 +217,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/blank.png", 
         icon_size = 2,
         subgroup = "extraction-machine",
-        flags = {},
+        flags = {"hidden"},
         order = "b[fluids]-c[oil_rig]",
         place_result = "or_radar", 
         stack_size = 100, 

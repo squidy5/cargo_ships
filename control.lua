@@ -1,6 +1,6 @@
 require("logic.ship_placement")
 require("logic.long_reach")
---require("logic.bridge_logic")
+require("logic.bridge_logic")
 local choices = require("choices")
 
 -- spawn additioanl invisible enties
@@ -33,31 +33,45 @@ function onEntityBuild(e)
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 3, pos.y + 3}, force = ent.force}
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
 	-- create bridge
---[[	
+
 	elseif ent.name == "bridge_base" then
 		CreateBridge(ent)	
-]]
-	-- make waterway indistructable
+
+	-- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collison mask
 	elseif ent.name == "straight-water-way" or ent.name == "curved-water-way" then
-		ent.destructible = false
 		local p = ent.position
-		local other = ent.surface.find_entities_filtered{area={{p.x-0.5, p.y -0.5},{p.x+0.5,p.y+0.5}}}
-		if other then
-			for _,o in pairs(other) do
-				if (o ~= ent and o.name == ent.name and ent.direction==o.direction) then
-					local n = (ent.name == "straight-water-way") and 1 or 4
-					if(e.player_index ~= nil) then
-						game.players[e.player_index].insert{name = "water-way", count = n}
-					end
-					ent.destroy()
-					break
-				end
-			end
+		local n = ent.name .. "-placed"
+		local f = ent.force
+		local s = ent.surface
+		local d = ent.direction
+		ent.destroy() --destroy old
+		WW = s.create_entity{name= n, position = p, direction = d, force = f} -- create new
+		-- make waterway indistructable 
+ 		if(WW) then
+			WW.destructible = false
 		end
 	end
 end
 
-
+-- destroy waterways when landfill is build ontop 
+function onTileBuild(e)
+	if e.item.name == "landfill" then
+		--game.players[1].print("build landfill")
+		for _, tile in pairs(e.tiles) do
+			local x = tile.position.x
+			local y = tile.position.y
+			local sww = game.surfaces[e.surface_index].find_entities_filtered{area={{x-0.5, y-0.5},{x+1,y+1}}, name="straight-water-way-placed"}
+			local cww = game.surfaces[e.surface_index].find_entities_filtered{area={{x-1.5, y-1.5},{x+1.5,y+1.5}}, name="curved-water-way-placed"}
+	
+			for _, ww in pairs(sww) do
+				ww.destroy()
+			end
+			for _, ww in pairs(cww) do
+				ww.destroy()
+			end
+		end		
+	end
+end
 --
 
 -- enter or leave ship
@@ -272,18 +286,15 @@ function init()
 		global.check_entity_placement = {}
 		global.csp = false
 	end
-	--[[if global.bridges == nil then
+	if global.bridges == nil then
 		global.bridges = {}
-		for _, bridge in pairs(game.surfaces[1].find_entities_filtered{name="bridge_east"}) do
-			table.insert(global.bridges, {bridge, bridge.power_switch_state})
-		end
-	end]]
+	end
 end
 
 function onTick(e)
 	powerOilRig(e)
 	checkPlacement()
-	--ManageBridges(e)
+	ManageBridges(e)
 end
 
 -- init
@@ -300,7 +311,8 @@ script.on_event(defines.events.on_robot_mined_entity, OnDeleted)
 
 --place deep oil
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
--- create invisibles
+-- entity created
+script.on_event(defines.events.on_player_built_tile, onTileBuild)
 script.on_event(defines.events.on_built_entity, onEntityBuild)
 script.on_event(defines.events.on_robot_built_entity, onEntityBuild)
 --power oil rig

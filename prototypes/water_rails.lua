@@ -120,7 +120,7 @@ data:extend({
     },
     collision_box = {{-1.01, -0.95}, {1.01, 0.95}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
-    collision_mask = {'ground-tile', "colliding-with-tiles-only"},
+    collision_mask = {'ground-tile'},
     rail_category = "regular",
     pictures = railpictures(),
   },
@@ -144,11 +144,30 @@ data:extend({
     collision_box = {{-1, -2}, {1, 3.1}},
     secondary_collision_box = {{-0.65, -2.1}, {0.65, 2.1}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
-    collision_mask = {'ground-tile', "colliding-with-tiles-only"},
+    collision_mask = {'ground-tile'},
     rail_category = "regular",
     pictures = railpictures(),
     placeable_by = { item="water-way", count = 4}
   },
 })
 
+local swwp = table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
+swwp.name = "straight-water-way-placed"
+swwp.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
+swwp.collision_mask = {"object-layer"}
+swwp. minable = {mining_time = 0.2, result = "water-way", count = 1}
 
+local cwwp = table.deepcopy(data.raw["curved-rail"]["curved-water-way"])
+cwwp.name = "curved-water-way-placed"
+cwwp.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
+cwwp.collision_mask = {"object-layer"}
+swwp.minable = {mining_time = 0.2, result = "water-way", count = 4}
+
+local straight_rail_test = table.deepcopy(data.raw["straight-rail"]["straight-rail"])
+straight_rail_test.name = "straight-rail_test"
+
+
+local curved_rail_test = table.deepcopy(data.raw["curved-rail"]["curved-rail"])
+curved_rail_test.name = "curved-rail_test"
+
+data:extend({swwp, cwwp, straight_rail_test, curved_rail_test})

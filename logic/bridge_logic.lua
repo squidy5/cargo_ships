@@ -1,44 +1,24 @@
 
 function CreateBridge(ent)
-	pos = ent.position
-	dir = ent.direction
-	if (dir==defines.direction.east) then
-		bridge = ent.surface.create_entity {name="bridge_east", position =  pos,  force = ent.force} 
-		for x=-6,6,2 do
+	game.players[1].print(ent.direction)
+
+	local pos = ent.position
+	local dir = ent.direction
+	local bridge
+	local closed_bridge
+
+	if (dir==defines.direction.south) then
+--		game.players[1].print("blubb")
+		bridge = ent.surface.create_entity {name="bridge_south", position =  pos,  force = ent.force} 
+		closed_bridge = ent.surface.create_entity {name="bridge_south_closed", position =  pos,  force = ent.force} 
+		for x=-6,4,2 do
 			ent.surface.create_entity{name="invisible_rail" , position = {pos.x+x, pos.y}, 
-				direction = dir, force = ent.force}
-		end
-		for y = -4,4,2 do
-			ent.surface.create_entity{name="invisible_rail" , position = {pos.x+2, pos.y + y}, 
-				direction = defines.direction.north, force = ent.force}
-		end
-		local sig1, sig2, sig3, sig4
---[[
-		-- create waterway ship signals
-		sig1 = ent.surface.create_entity{name="invisible_signal" , position = {pos.x+3.5, pos.y - 1.5},
-				direction = defines.direction.south, force = ent.force} 
-		sig2 = ent.surface.create_entity{name="invisible_signal" , position = {pos.x+0.5, pos.y + 2.5},
-				direction = defines.direction.north, force = ent.force}
-		ent.surface.create_entity{name="invisible_chain_signal" , position = {pos.x+0.5, pos.y - 1.5},
-				direction = defines.direction.north, force = ent.force} 
-		ent.surface.create_entity{name="invisible_chain_signal" , position = {pos.x+3.5, pos.y + 2.5},
-				direction = defines.direction.south, force = ent.force}
-
-		-- create bridge train signals
-		sig3 = ent.surface.create_entity{name="invisible_signal" , position = {pos.x-5, pos.y - 2},
-				direction = defines.direction.east, force = ent.force} 
-		sig4 = ent.surface.create_entity{name="invisible_signal" , position = {pos.x+5, pos.y + 1},
-				direction = defines.direction.west, force = ent.force}
-		ent.surface.create_entity{name="invisible_chain_signal" , position = {pos.x-5, pos.y +1},
-				direction = defines.direction.west, force = ent.force} 
-		ent.surface.create_entity{name="invisible_chain_signal" , position = {pos.x+5, pos.y -2},
 				direction = defines.direction.east, force = ent.force}
+		end
 
-		table.insert(global.bridges, {bridge, sig1, sig2, sig3, sig4})
-]]
 	end
 	--[[
-	if (dir==defines.direction.north or dir==defines.direction.south) then
+	if (dir==defines.direction.south or dir==defines.direction.south) then
 		for y=-2,2,1 do
 			ent.surface.create_entity{name="straight-water-way", position =  {pos.x,pos.y + y}, direction = dir, force = ent.force} 
 		end
@@ -49,29 +29,36 @@ function CreateBridge(ent)
 		end 
 	end
 	]]
+	table.insert(global.bridges, {bridge, bridge.power_switch_state,0,closed_bridge})
+
+	ent.destroy()
 end
 
 
+animation_time = 8
+
 function ManageBridges(e)
---[[	if e.tick % 10 == 0 then
+	if e.tick % 8 == 0 then
 		for i, entry in pairs(global.bridges) do
 			if entry ~= nil then
-				local bridge = entry[1]
-				local sig1 = entry[2]
-				local sig2 = entry[3]
-				local sig3 = entry[4]
-				local sig4 = entry[5]
-				if bridge == nil then table.remove(global.bridges, i)break end
-
-				if sig1.signal_state == defines.signal_state.reserved or sig2.signal_state == defines.signal_state.reserved then
-					bridge.power_switch_state=true
-
-				elseif sig3.signal_state == defines.signal_state.reserved or sig3.signal_state == defines.signal_state.open 
-					or sig4.signal_state == defines.signal_state.reserved or sig4.signal_state == defines.signal_state.open then
-					bridge.power_switch_state=false
+				if(entry[1].power_switch_state ~= entry[2]) then --  state has switched
+					entry[2] = not entry[2] -- save new state
+					entry[3] = animation_time - entry[3] -- start countdown
+					game.players[1].print(entry[2])
+				end
+				if entry[3]>0 then  -- active countdown
+					entry[3] = entry[3]-1 -- count down coundown
+					if entry[2] and entry[3]<animation_time-1 and entry[4] then -- opening...
+						entry[4].destroy()
+						entry[4] = nil
+					elseif not entry[2] and entry[3]<=0 and not entry[4] then -- closing
+						-- create closed version of bridge
+						entry[4] =  entry[1].surface.create_entity{name=entry[1].name .. "_closed",
+						 							position =  entry[1].position,  force = entry[1].force} 
+					end
+					
 				end
 			end
 		end
 	end
-]]
 end
