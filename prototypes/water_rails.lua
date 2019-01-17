@@ -3,10 +3,21 @@ railpictures = function()
   return railpicturesinternal({{"metals", "metals", mipmap = true},
                                {"backplates", "backplates", mipmap = true},
                                {"ties", "ties"},
-                               {"stone_path", "stone-path"}})
+                               {"stone_path", "stone-path"},
+                               {"segment_visualisation_middle", "segment-visualisation-middle"},
+                               {"segment_visualisation_ending_front", "segment-visualisation-ending-1"},
+                               {"segment_visualisation_ending_back", "segment-visualisation-ending-2"},
+                               {"segment_visualisation_continuing_front", "segment-visualisation-continuing-1"},
+                               {"segment_visualisation_continuing_back", "segment-visualisation-continuing-2"}})
 end    
 
 railpicturesinternal = function(elems)
+  local railBlockKeys = {segment_visualisation_middle = true, 
+                      segment_visualisation_ending_front = true,
+                      segment_visualisation_ending_back = true, 
+                      segment_visualisation_continuing_front = true, 
+                      segment_visualisation_continuing_back = true}
+
   local keys = {{"straight_rail", "horizontal", 64, 64, 0, 0},
                 {"straight_rail", "vertical", 64, 64, 0, 0},
                 {"straight_rail", "diagonal-left-top", 64, 64, 0, 0},
@@ -27,32 +38,42 @@ railpicturesinternal = function(elems)
     dashkey = key[1]:gsub("_", "-")
     for _ , elem in ipairs(elems) do
       if(elem[1] == "metals") then
-        part[elem[1]] = { sheet = {
-    
-            filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
+        part[elem[1]] = { 
+          sheet = {
+              filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
+              priority = "extra-high", 
+              flags = elem.mipmap and { "icon" },
+              width = key[3],
+              height = key[4],
+              shift = {key[5], key[6]},
+              variation_count = 1,
+          }
+        }
+      elseif(railBlockKeys[elem[1]] ~= nil) then
+        part[elem[1]] = {
+          filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
+          priority = "extra-high", 
+          flags = elem.mipmap and { "icon" },
+          width = key[3],
+          height = key[4],
+          shift = {key[5], key[6]},
+          variation_count = 1,
+        }
+      else
+        part[elem[1]] = { 
+          sheet = {
+            filename = string.format("__cargo-ships__/graphics/blank.png", dashkey, dashkey, key[2], elem[2]),
             priority = "extra-high", 
             flags = elem.mipmap and { "icon" },
-            width = key[3],
-            height = key[4],
-            shift = {key[5], key[6]},
+            width = 32,
+            height = 32,
+            shift = {0,0},
             variation_count = 1,
           }
         }
-        else
-          part[elem[1]] = { sheet = {
-    
-        filename = string.format("__cargo-ships__/graphics/blank.png", dashkey, dashkey, key[2], elem[2]),
-        priority = "extra-high", 
-          flags = elem.mipmap and { "icon" },
-          width = 32,
-          height = 32,
-          shift = {0,0},
-          variation_count = 1,
-          }
-        }
-        end
-
+      end
     end
+
     dashkey2 = key[2]:gsub("-", "_")
     res[key[1] .. "_" .. dashkey2] = part
   end
@@ -75,6 +96,7 @@ railpicturesinternal = function(elems)
    }   
 
  }
+  log( serpent.block( res, {comment = false, numformat = '%1.8g' } ) )
   return res
 end
 
