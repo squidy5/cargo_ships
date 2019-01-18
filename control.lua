@@ -33,7 +33,6 @@ function onEntityBuild(e)
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 3, pos.y + 3}, force = ent.force}
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
 	-- create bridge
-
 	elseif ent.name == "bridge_base" then
 		CreateBridge(ent)	
 

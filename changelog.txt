@@ -1,4 +1,11 @@
-
+--------------------------------------------------------------------------------------------
+Version: 0.0.24
+Date:
+Changes:
+	- make waterways more transparent/less standing out
+	- added rail-sgement-visualization for placing buoys
+	- added hungarian translation
+	- increased oild rigs module slots to 3 and slightly decreased power demand	
 --------------------------------------------------------------------------------------------
 Version: 0.0.23
 Date:

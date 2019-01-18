@@ -52,12 +52,13 @@ oil_rig.collision_mask = {'ground-tile', 'object-layer'}
 oil_rig.minable = {mining_time = 3, result = "oil_rig"}
 oil_rig.dying_explosion = "big-explosion"
 oil_rig.max_health = 1000
-oil_rig.energy_usage = "850kW"
+oil_rig.energy_usage = "750kW"
 oil_rig.mining_speed = 2
 oil_rig.resource_searching_radius = 1.49
 oil_rig.collision_box = {{ -3.2, -3.2}, {3.2, 3.2}}
 oil_rig.selection_box = {{ -3.3, -3.3}, {3.3, 3.3}}
 oil_rig.drawing_box = {{-3.3, -3.3}, {3.3, 8}}
+oil_rig.module_specification.module_slots = 3;
 oil_rig.energy_source = 
 {
   type = "electric",
