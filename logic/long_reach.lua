@@ -1,5 +1,5 @@
 local function is_waterway_str(str)
-	for _,r in pairs{"water-way", "buoy", "chain_buoy", "port", "ship_pump", "oil_rig", "floating-electric-pole"} do
+	for _,r in pairs{"water-way", "buoy", "chain_buoy", "port", "ship_pump", "oil_rig", "floating-electric-pole", "bridge_base"} do
 		if str == r then
 			return true
 		end

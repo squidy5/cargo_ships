@@ -128,25 +128,25 @@ bridge_east.power_on_animation =
           animation_speed = 0.3,
           line_length = 8,
           width = 256,
-          height = 512,
+          height = 546,
           frame_count = 23,
           axially_symmetrical = false,
           direction_count = 1,
           shift = {1.66, -0.55},
-          scale = 0.852,
+          scale = 0.84,
         },
         {
           filename = "__cargo-ships__/graphics/entity/bridge/east/shadows.png",
           animation_speed = 0.3,
           line_length = 8,
           width = 256,
-          height = 512,
+          height = 546,
           frame_count = 23,
           axially_symmetrical = false,
           direction_count = 1,
           draw_as_shadow=true,
           shift = {1.66, -0.55},
-          scale = 0.852,
+          scale = 0.84,
         },
     }
 }
@@ -162,9 +162,9 @@ bridge_east_closed.picture = {
       filename = "__cargo-ships__/graphics/entity/bridge/east/closed.png",
       priority = "extra-high",
       width = 256,
-      height = 512,
+      height = 546,
       shift = {1.16, -1.05},
-      scale = 0.852
+      scale = 0.84
 }
 
 ----------------------------------------------------------------------------------
@@ -182,25 +182,25 @@ bridge_west.power_on_animation =
           animation_speed = 0.3,
           line_length = 8,
           width = 256,
-          height = 512,
+          height = 546,
           frame_count = 23,
           axially_symmetrical = false,
           direction_count = 1,
-          shift = {1.66, -0.55},
-          scale = 0.852,
+          shift = {0.75, -1.65},
+          scale = 0.84,
         },
         {
           filename = "__cargo-ships__/graphics/entity/bridge/west/shadows.png",
           animation_speed = 0.3,
           line_length = 8,
           width = 256,
-          height = 512,
+          height = 546,
           frame_count = 23,
           axially_symmetrical = false,
           direction_count = 1,
           draw_as_shadow=true,
-          shift = {1.66, -0.55},
-          scale = 0.852,
+          shift = {0.75, -1.65},
+          scale = 0.84,
         },
     }
 }
@@ -216,21 +216,18 @@ bridge_west_closed.picture = {
       filename = "__cargo-ships__/graphics/entity/bridge/west/closed.png",
       priority = "extra-high",
       width = 256,
-      height = 512,
-      shift = {1.16, -1.05},
-      scale = 0.852
+      height = 546,
+      shift = {0.25, -2.15},
+      scale = 0.84
 }
 
 
 
 
-
-data:extend({bridge, bridge_north, bridge_north_closed, bridge_south, bridge_south_closed, bridge_east, bridge_east_closed, bridge_west, bridge_west_closed})
-
-
-local invisible_signal=table.deepcopy(data.raw["rail-signal"]["rail-signal"])
-invisible_signal.name = "invisible_signal"
-
 local invisible_chain_signal=table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 invisible_chain_signal.name = "invisible_chain_signal"
+
+data:extend({bridge, bridge_north, bridge_north_closed, bridge_south, bridge_south_closed, bridge_east, bridge_east_closed, bridge_west, bridge_west_closed, invisible_chain_signal})
+
+
 

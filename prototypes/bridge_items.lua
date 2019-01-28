@@ -120,19 +120,6 @@
         place_result = "bridge_crossing", 
         stack_size = 5, 
         },
-
-        --[[
-        {
-        type = "item", 
-        name = "invisible_signal", 
-        icon = "__cargo-ships__/graphics/blank.png", 
-        icon_size = 2,
-        subgroup = "water_transport",
-        flags = {"hidden"},
-        order = "b[fluids]-c[oil_rig]",
-        place_result = "invisible_signal", 
-        stack_size = 5, 
-        },
         { 
         type = "item", 
         name = "invisible_cahin_signal", 
@@ -144,7 +131,7 @@
         place_result = "invisible_chain_signal", 
         stack_size = 5, 
         },
-        ]]
+        
 })
 
 
