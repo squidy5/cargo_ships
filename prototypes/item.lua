@@ -1,4 +1,4 @@
---require("bridge_items")
+require("bridge_items")
 
 data:extend({
         {
@@ -99,19 +99,7 @@ data:extend({
         straight_rail = "straight-water-way-placed",
         curved_rail = "curved-water-way-placed"
         },
-                {
-        type = "rail-planner",
-        name = "straight-rail_test",
-        icon = "__cargo-ships__/graphics/icons/water_rail.png",
-        icon_size = 64,
-        flags = {"hidden"}, 
-        subgroup = "water_transport",
-        order = "a[water-system]-a[water-way-placed]",
-        place_result = "straight-rail_test",
-        stack_size = 1,
-        straight_rail = "straight-rail_test",
-        curved_rail = "curved-rail_test"
-        },
+
         {
         type = "item",
         name = "port",

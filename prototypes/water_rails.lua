@@ -1,5 +1,5 @@
 
-railpictures = function()
+railpictures = function(invisible)
   return railpicturesinternal({{"metals", "metals", mipmap = true},
                                {"backplates", "backplates", mipmap = true},
                                {"ties", "ties"},
@@ -8,10 +8,11 @@ railpictures = function()
                                {"segment_visualisation_ending_front", "segment-visualisation-ending-1"},
                                {"segment_visualisation_ending_back", "segment-visualisation-ending-2"},
                                {"segment_visualisation_continuing_front", "segment-visualisation-continuing-1"},
-                               {"segment_visualisation_continuing_back", "segment-visualisation-continuing-2"}})
+                               {"segment_visualisation_continuing_back", "segment-visualisation-continuing-2"}},
+                               invisible)
 end    
 
-railpicturesinternal = function(elems)
+railpicturesinternal = function(elems, invisible)
   local railBlockKeys = {segment_visualisation_middle = true, 
                       segment_visualisation_ending_front = true,
                       segment_visualisation_ending_back = true, 
@@ -37,7 +38,7 @@ railpicturesinternal = function(elems)
     part = {}
     dashkey = key[1]:gsub("_", "-")
     for _ , elem in ipairs(elems) do
-      if(elem[1] == "metals") then
+      if(elem[1] == "metals" and not invisible) then
         part[elem[1]] = { 
           sheet = {
               filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
@@ -65,8 +66,8 @@ railpicturesinternal = function(elems)
             filename = string.format("__cargo-ships__/graphics/blank.png", dashkey, dashkey, key[2], elem[2]),
             priority = "extra-high", 
             flags = elem.mipmap and { "icon" },
-            width = 32,
-            height = 32,
+            width = 2,
+            height = 2,
             shift = {0,0},
             variation_count = 1,
           }
@@ -93,10 +94,10 @@ railpicturesinternal = function(elems)
        width = 4,
        height = 4,
      }
-   }   
 
- }
-  return res
+    }
+  }
+  return res 
 end
 
 
@@ -161,13 +162,17 @@ local cwwp = table.deepcopy(data.raw["curved-rail"]["curved-water-way"])
 cwwp.name = "curved-water-way-placed"
 cwwp.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 cwwp.collision_mask = {"object-layer"}
-swwp.minable = {mining_time = 0.2, result = "water-way", count = 4}
-
-local straight_rail_test = table.deepcopy(data.raw["straight-rail"]["straight-rail"])
-straight_rail_test.name = "straight-rail_test"
+cwwp.minable = {mining_time = 0.2, result = "water-way", count = 4}
 
 
-local curved_rail_test = table.deepcopy(data.raw["curved-rail"]["curved-rail"])
-curved_rail_test.name = "curved-rail_test"
 
-data:extend({swwp, cwwp, straight_rail_test, curved_rail_test})
+
+local invisible_rail=table.deepcopy(data.raw["straight-rail"]["straight-rail"])
+invisible_rail.name = "invisible_rail"
+invisible_rail.pictures = railpictures(true)
+invisible_rail.minable = nil
+
+local bridge_crossing=table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
+bridge_crossing.name = "bridge_crossing"
+bridge_crossing.minable = nil
+data:extend({swwp, cwwp, invisible_rail, bridge_crossing})

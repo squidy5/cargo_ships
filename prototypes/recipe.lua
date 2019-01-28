@@ -134,7 +134,6 @@ data:extend({
         result = "oil_rig",
         result_count = 1
     },
-    --[[
     {
         type = "recipe",
         name = "bridge_base",
@@ -146,7 +145,6 @@ data:extend({
         result = "bridge_base",
         result_count = 1
     },
-    ]]
 
     --[[
     {
