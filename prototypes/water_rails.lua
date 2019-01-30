@@ -177,10 +177,12 @@ invisible_rail.name = "invisible_rail"
 invisible_rail.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way", "not-blueprintable"}
 invisible_rail.pictures = railpictures(true)
 invisible_rail.minable = nil
+invisible_rail.collision_mask = nil
 
 local bridge_crossing=table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
 bridge_crossing.name = "bridge_crossing"
 bridge_crossing.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way", "not-blueprintable"}
 bridge_crossing.minable = nil
+bridge_crossing.collision_mask = nil
 
 data:extend({invisible_rail, bridge_crossing})

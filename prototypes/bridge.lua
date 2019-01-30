@@ -1,5 +1,18 @@
 local bridge=table.deepcopy(data.raw["train-stop"]["port"])
 bridge.name = "bridge_base"
+bridge.animations = make_4way_animation_from_spritesheet({layers = {
+{
+    filename = "__cargo-ships__/graphics/entity/bridge/base.png",
+    line_length = 4,
+    width = 275,
+    height = 275,
+    direction_count = 4,
+    scale = 1.7,
+    shift = util.by_pixel(-0.5, 0),
+  }
+  }
+})
+
 --bridge.collision_box = {{-6,-3},{6,3}}
 
 
@@ -132,7 +145,7 @@ bridge_east.power_on_animation =
           frame_count = 23,
           axially_symmetrical = false,
           direction_count = 1,
-          shift = {1.66, -0.55},
+          shift = {0.75, 0.7},
           scale = 0.84,
         },
         {
@@ -145,7 +158,7 @@ bridge_east.power_on_animation =
           axially_symmetrical = false,
           direction_count = 1,
           draw_as_shadow=true,
-          shift = {1.66, -0.55},
+          shift = {0.75, 0.7},
           scale = 0.84,
         },
     }
@@ -163,7 +176,7 @@ bridge_east_closed.picture = {
       priority = "extra-high",
       width = 256,
       height = 546,
-      shift = {1.16, -1.05},
+      shift = {0.25, 0.2},
       scale = 0.84
 }
 

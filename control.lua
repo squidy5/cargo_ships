@@ -34,7 +34,7 @@ function onEntityBuild(e)
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
 	-- create bridge
 	elseif ent.name == "bridge_base" then
-		CreateBridge(ent)	
+		CreateBridge(ent, e.player_index)	
 
 	-- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collison mask
 	elseif ent.name == "straight-water-way" or ent.name == "curved-water-way" then

@@ -1,45 +1,86 @@
 
-function CreateBridge(ent)
+function CreateBridge(ent, player_index)
 	--game.players[1].print(ent.direction)
-
 
 	local pos = ent.position
 	local dir = ent.direction
-	local bridge
-	local closed_bridge
+	local f = ent.force
+	local bridge 
+	local closed_bridge 
 	local ver, hor, x, y
+	ent.destroy()
+
 	if dir == defines.direction.north then
-		bridge = ent.surface.create_entity {name="bridge_north", position =  pos,  force = ent.force} 
-		closed_bridge = ent.surface.create_entity {name="bridge_north_closed", position =  pos,  force = ent.force} 
-		ver = 1
-		hor = 0
+		if checkBridgePlacement(pos, -5,-3,7,3, player_index) then
+			bridge = game.surfaces[1].create_entity {name="bridge_north", position =  pos,  force = f} 
+			closed_bridge = game.surfaces[1].create_entity {name="bridge_north_closed", position =  pos,  force = f} 
+			ver = 1
+			hor = 0
+		end
 	end
 	if dir == defines.direction.east then
-		bridge = ent.surface.create_entity {name="bridge_east", position =  pos,  force = ent.force} 
-		closed_bridge = ent.surface.create_entity {name="bridge_east_closed", position =  pos,  force = ent.force}
-		ver = 0
-		hor = 1
+		if checkBridgePlacement(pos, -3,-5,3,7, player_index) then
+			bridge = game.surfaces[1].create_entity {name="bridge_east", position =  pos,  force = f} 
+			closed_bridge = game.surfaces[1].create_entity {name="bridge_east_closed", position =  pos,  force = f}
+			ver = 0
+			hor = 1
+		end
 	end
 	if dir == defines.direction.south then
-		bridge = ent.surface.create_entity {name="bridge_south", position =  pos,  force = ent.force} 
-		closed_bridge = ent.surface.create_entity {name="bridge_south_closed", position =  pos,  force = ent.force} 
-		ver = -1
-		hor = 0
+		if checkBridgePlacement(pos, -7,-3,5,3, player_index) then
+			bridge = game.surfaces[1].create_entity {name="bridge_south", position =  pos,  force = f} 
+			closed_bridge = game.surfaces[1].create_entity {name="bridge_south_closed", position =  pos,  force = f} 
+			ver = -1
+			hor = 0
+		end
 	end
 	if dir == defines.direction.west then
-		bridge = ent.surface.create_entity {name="bridge_west", position =  pos,  force = ent.force} 
-		closed_bridge = ent.surface.create_entity {name="bridge_west_closed", position =  pos,  force = ent.force} 
-		ver = 0
-		hor = -1
+		if checkBridgePlacement(pos, -3,-7,3,5, player_index) then
+			bridge = game.surfaces[1].create_entity {name="bridge_west", position =  pos,  force = f} 
+			closed_bridge = game.surfaces[1].create_entity {name="bridge_west_closed", position =  pos,  force = f} 
+			ver = 0
+			hor = -1
+		end
 	end
-	createSlaves(pos, dir, hor, ver, ent.force)
 
 	if(bridge and closed_bridge) then
+		createSlaves(pos, dir, hor, ver, f)
 		table.insert(global.bridges, {bridge, bridge.power_switch_state,0,closed_bridge})
 	end
 
+
+
 	-- destroy bridge dummy
-	ent.destroy()
+	
+end
+
+function checkBridgePlacement(pos,x1,y1,x2,y2, player_index)
+	local valid = true
+	local entities = game.surfaces[1].find_entities({{pos.x+x1, pos.y+y1},{pos.x+x2, pos.y+y2}})--{{pos.x-5, pos.y-3},{pos.x+7, pos.y+3}})--
+
+	local counter = 0
+	for _,ent in pairs(entities) do
+		if (not (ent.name == "fish" or ent.name == "bridge_base")) then
+			counter = counter+1
+			if (ent.name ~= "straight-water-way-placed" or counter > 3) then
+				valid = false
+				break
+			end
+		end
+	end
+	--game.players[1].print(counter)
+	if not valid then
+		game.players[player_index].print("Bridges must be placed along straight stretches of waterways with sufficient space to all sides!")
+		game.players[player_index].insert{name="bridge_base", count=1}
+	else
+		for _,ent in pairs(entities) do
+			if (not (ent.name == "fish" or ent.name == "bridge_base")) then
+				game.players[player_index].insert{name="water-way", count=1}
+				ent.destroy()
+			end
+		end	
+	end
+	return valid
 end
 
 function createSlaves(pos, dir, hor, ver, f)
@@ -56,11 +97,14 @@ function createSlaves(pos, dir, hor, ver, f)
 		if(s == -2) then
 			p = {pos.x+x+ver, pos.y+y+hor}
 			addEntity(p,(dir+4)%8, "invisible_chain_signal", f)
-		end
-		if(s == 2) then
 			p = {pos.x+x-ver, pos.y+y-hor}
 			addEntity(p, dir, "invisible_chain_signal", f)
 		end
+		--[[
+		if(s == 2) then
+
+		end
+		]]
 	end
 
 	-- spawn rail part of bridge, including signals
@@ -68,18 +112,13 @@ function createSlaves(pos, dir, hor, ver, f)
 		x = l*ver
 		y = l*hor
 		p = {pos.x+x, pos.y+y}
-		addEntity(p, (dir+2)%4, "invisible_rail", f)
-	
-		if(l == -4) then
+		addEntity(p, (dir+2)%4, "invisible_rail", f)	
+		if(l == -2) then
 			p = {pos.x+x+1.5*hor, pos.y+y-1.5*ver}
 			addEntity(p,(dir+2)%8, "invisible_chain_signal", f)
-		end
-		if(l == 4) then
 			p = {pos.x+x-1.5*hor, pos.y+y+1.5*ver}
 			addEntity(p, (dir-2)%8, "invisible_chain_signal", f)
 		end
-
-
 	end
 
 end
