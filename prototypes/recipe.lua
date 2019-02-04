@@ -137,25 +137,16 @@ data:extend({
     {
         type = "recipe",
         name = "bridge_base",
-        enabled = true,
+        enabled = false,
         ingredients =
         {
-            {"iron-plate", 1},
+            {"advanced-circuit", 15},
+            {"steel-plate", 60},
+            {"iron-gear-wheel", 30},
+            {"rail", 10},
         },
         result = "bridge_base",
         result_count = 1
     },
 
-    --[[
-    {
-        type = "recipe",
-        name = "bridge_east",
-        enabled = false,
-        ingredients =
-        {
-            {"iron-plate", 1},
-        },
-        result = "bridge_east",
-        result_count = 1
-    }]]
 })

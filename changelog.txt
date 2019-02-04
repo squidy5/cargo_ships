@@ -1,31 +1,30 @@
 
---------------------------------------------------------------------------------------------
-Version: 0.0.24
-Date:
+_____________________________________________________________________________________
+Version: 0.0.25
 Changes:
+	- added fully automatic lifting train-bridges
+	- decreased sound volume of ship engines
+	- change some items position in build menu
 Bugfixes:
 	- fixed water ways giving the wrong amount of rails when mined
+	- fixed water ways being placaeble ontop of each other
 
-
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version: 0.0.24
-Date:
 Changes:
 	- make waterways more transparent/less standing out
 	- added rail-sgement-visualization for placing buoys
 	- added hungarian translation
 	- increased oild rigs module slots to 3 and slightly decreased power demand	
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version: 0.0.23
-Date:
 Changes:
 	- completly reworked waterway placement system too fix issues introduced with release 0.0.20 and 0.0.21, like buoys being placeable at wrong positions
 	(as a result blueprints now only work to a limited extend with waterways) 
 	- changed deep sea oil to produce multi phase oil when angles petrochem is enabled
 	
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version: 0.0.22
-Date:
 Changes:
 	- added italian translation
 	- updated japanese translation
@@ -35,17 +34,15 @@ Bugfixes:
 	- fixed boat being not placable when hovercraft mod is enabled
 	- fixed crash when placing waterways ontop of each other by bots
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version: 0.0.21
-Date:
 Bugfixes: 
 	- fixed waterways being placable ontop of each other resulting in corrupted save files
 	- fixed typo in dependencies
 	- fixed mining floating pole resulting in normal power pole   
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version: 0.0.20
-Date:
 Changes: 
 	- made boat be placaeble as an independt vehicle next to being placable on waterways as well
 	- added Seablock compatabilty
@@ -54,47 +51,45 @@ Changes:
 	- fixed boat sprite shift
 	- increased amount of boat splash animations
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version: 0.0.19
-Date:
 Changes: 
 	- fixed debug message being shown
 	- added sound to ship and boat engines
 	- added water splash animations to ship and boat engines
 	- made ship engines instead of cargo area target of SHIFT+Enter
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version: 0.0.18
-Date:
 Changes: 
 	- added new small and fast boat
 	- made compatible wiht islands world mod
 	- changed some icons
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.17
 Changes:
 	- added compatibility to factorio world and newIslands
 	- fixed oil rigs not working after being placed by bots
 	- added japanese locales
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.16
 Changes:
 	- added new tank-ship sprites
 	- added russian and german translations
 	- fixed loading pumps collision mask (it now has one :P)
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.15
 Changes:
 	- fixed bug in the long reach mechanics 
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.14
 Changes:
 	- fixed bug that caused buoys not being placeable on straight water ways (as a result water ways and normal rails can be joined again)
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.13
 Changes:
 	- added enforcement of correct engine spawning. All placed ships are guaranteed to spawn with a correctly oriented engine unit and if spawning the engine is not possible, ships can not be placed.
@@ -102,12 +97,12 @@ Changes:
 	- fixed two crashes related to the reach increase and ship placement.
 	- added floating electric poles, making it easier to supply island-outpost with electricity.
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.12
 Changes:
 	- fix migration crash introduced in last update
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.11
 Changes:
 	- increased width of waterways. can't be placed right next to land anymore (one tile minimum distance). already placed entities are not affected. This change should fix people getting stuck when leaving the ship.
@@ -116,54 +111,54 @@ Changes:
 	- increased distance for entering and leaving ships
 	- ship engines now get placed correctly when building ships on diagonal waterways (not curves)
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.10
 Changes:
 	- new model for the cargo-ship with animated doors. Thanks to PeteTheLich for his help with the 3D-model
 	- fixed a (rare??) bug where destroying or mining the oil-rig lead to crashes
 	- increased the ships engine size in order to be better reachable by inserters
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.9
 Changes:
 	-fixed fuel inventory of cargo ships being lost when ship is mined
 	- added radars sight (not exploration) to oil rigs
 	- fixed oil_rigs being enabled without research
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.8
 Changes:
 	-added multiplayer compability for entering and leaving ships
 	- deep sea oil richness now increases with distance from startpoint
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.7
 Changes:
 	-fixed a performance issue. thanks to  jessefjxm for their input!
 	- made newly placed waterways indestructible. already placed waterways are not effected.
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.6
 Changes:
 	-(for now) removed player-level from oil_rigs collision mask. this resolves a issue, where for some player the oil_rig was not placeable
 	-increased water way stack size
 	-added lower options for oil frequency spawning
 	-added light to the tanker and cargo ship
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.5
 Changes:
 	-again fixed a bug when mining an oil platform on factorio version < 16.40, this time really
 	-corrected collision masks of oil platform
 	-added missing locale entry
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.4
 Changes:
 	-added the possibility to disable deep sea oil (select 'none' for frequency)
 	-fixed a bug when mining an oil platform on factorio version < 16.40
 
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.3
 Changes:
 	-added configurable deep sea oil
@@ -171,12 +166,12 @@ Changes:
 	-added a land based version of the  port
 	-added dynamic reach increase while holding waterways, buoys etc.
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.2
  Changes:
  	-added oil tankers and ship loading pumps
 
---------------------------------------------------------------------------------------------
+_____________________________________________________________________________________
 Version:0.0.1
 Changes:
 	-added infrastructure for ships (waterways, buoys, ports)

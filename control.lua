@@ -8,8 +8,10 @@ function onEntityBuild(e)
 	-- 
 	local ent = e.created_entity
 	if ent.name == "indep-boat" then
+
 		CheckBoatPlacement(ent, e.player_index)
 	elseif ent.type == "cargo-wagon" or ent.type == "fluid-wagon" or ent.type == "locomotive" or ent.type == "artillery-wagon" then
+		--game.players[1].print(ent.collision_mask)
 		local engine = nil
 		if ent.name == "cargo_ship" or ent.name == "oil_tanker" then
 			local pos, dir = localize_engine(ent)
@@ -44,10 +46,25 @@ function onEntityBuild(e)
 		local s = ent.surface
 		local d = ent.direction
 		ent.destroy() --destroy old
-		WW = s.create_entity{name= n, position = p, direction = d, force = f} -- create new
-		-- make waterway indistructable 
- 		if(WW) then
-			WW.destructible = false
+		--check for allready placed entites
+		local c = 0
+		local prev = game.surfaces[1].find_entities_filtered{position = p, name = n}
+		for _,pr in pairs(prev) do
+			if pr.direction == d then
+				c = pr.name == "straight-water-way-placed" and 1 or 4 
+				break
+			end
+		end
+		if c>0 then
+			if e.player_index then
+				game.players[e.player_index].insert{name="water-way", count=c}
+			end
+		else
+			WW = s.create_entity{name= n, position = p, direction = d, force = f} -- create new
+			-- make waterway indistructable 
+	 		if(WW) then
+				WW.destructible = false
+			end
 		end
 	end
 end
@@ -169,7 +186,11 @@ function OnDeleted(e)
 			for i = 1, #or_inv do
 				or_inv[i].destroy()
 			end
-		end
+		
+
+		elseif string.match(ent.name, "bridge_") then
+			DeleteBridge(ent)
+		end 
 	end
 end
 

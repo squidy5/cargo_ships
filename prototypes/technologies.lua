@@ -193,6 +193,32 @@ data:extend ({
     time = 30
   },
   order = "c-g-b",
+},
+{
+  type = "technology",
+  name = "automated_bridges",
+  icon = "__cargo-ships__/graphics/icons/bridge.png", 
+  icon_size = 128,
+  effects =
+  {
+    {
+      type = "unlock-recipe",
+      recipe = "bridge_base"
+    },
+  },
+  prerequisites = {"water_transport_signals", "rail-signals", "advanced-electronics"},
+  unit =
+  {
+    count = 200,
+    ingredients =
+    {
+      {"science-pack-1", 1},
+      {"science-pack-2", 1},
+      {"science-pack-3", 1}
+    },
+    time = 30
+  },
+  order = "c-g-b",
 }
 
 

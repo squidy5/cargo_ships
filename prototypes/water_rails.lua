@@ -174,15 +174,15 @@ data:extend({swwp, cwwp})
 
 local invisible_rail=table.deepcopy(data.raw["straight-rail"]["straight-rail"])
 invisible_rail.name = "invisible_rail"
-invisible_rail.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way", "not-blueprintable"}
+invisible_rail.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 invisible_rail.pictures = railpictures(true)
 invisible_rail.minable = nil
-invisible_rail.collision_mask = nil
+invisible_rail.selection_box = nil
 
-local bridge_crossing=table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
+local bridge_crossing=table.deepcopy(data.raw["straight-rail"]["straight-water-way-placed"])
 bridge_crossing.name = "bridge_crossing"
-bridge_crossing.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way", "not-blueprintable"}
+bridge_crossing.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 bridge_crossing.minable = nil
-bridge_crossing.collision_mask = nil
+bridge_crossing.selection_box = nil
 
 data:extend({invisible_rail, bridge_crossing})

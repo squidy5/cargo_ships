@@ -348,17 +348,17 @@ boat_engine.working_sound =
       sound =
       {
         filename = "__base__/sound/car-engine.ogg",
-        volume = 1.3
+        volume = 0.9
       },
       activate_sound =
       {
         filename = "__base__/sound/car-engine-start.ogg",
-        volume = 1.3
+        volume = 0.9
       },
       deactivate_sound =
       {
         filename = "__base__/sound/car-engine-stop.ogg",
-        volume = 1.3
+        volume = 0.9
       },
       match_speed_to_activity = true
     }
@@ -638,17 +638,17 @@ cargo_ship_engine.working_sound =
     sound =
     {
       filename = "__base__/sound/fight/tank-engine.ogg",
-      volume = 1.1
+      volume = 0.9
     },
     activate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-start.ogg",
-      volume = 1.1
+      volume = 0.9
     },
     deactivate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-stop.ogg",
-      volume = 1.1  
+      volume = 0.9  
     },
     match_speed_to_activity=true
   }

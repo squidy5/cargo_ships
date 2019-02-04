@@ -150,8 +150,8 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/ship_pump.png",
         icon_size = 64,
         flags = {"goes-to-quickbar"},
-        subgroup = "water_transport",
-        order = "a[water-system]-h[ship_pump]",
+        subgroup = "energy-pipe-distribution",
+        order = "c[pump]-e[ship_pump]",
         place_result = "ship_pump",
         stack_size = 100
         },

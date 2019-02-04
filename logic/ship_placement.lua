@@ -61,8 +61,6 @@ function checkPlacement()
 		if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
 			-- check for correct engine placement
 			if engine == nil then
-							game.players[player_index].print("engine nill")
-
 				cancelPlacement(entity, player_index)
 			elseif entity.orientation ~= engine.orientation then
 					cancelPlacement(entity, player_index)
