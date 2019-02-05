@@ -71,7 +71,7 @@ end
 
 -- destroy waterways when landfill is build ontop 
 function onTileBuild(e)
-	if e.item.name == "landfill" then
+	if e.item and e.item.name == "landfill" then
 		--game.players[1].print("build landfill")
 		for _, tile in pairs(e.tiles) do
 			local x = tile.position.x
