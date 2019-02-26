@@ -313,6 +313,10 @@ function onStackChanged(e)
 	--PumpVisualisation(e)
 end
 
+function onModSettingschanged(e)
+	applyChanges(e)
+end
+
 -- init
 script.on_init(init)
 script.on_configuration_changed(init)

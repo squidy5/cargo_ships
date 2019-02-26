@@ -3,6 +3,18 @@
 
 data.raw["car"]["indep-boat"].collision_mask = {"ground-tile", "train-layer"}
 
+if settings.startup["no_oil_for_oil_rig"].value then
+	data.raw.technology["deep_sea_oil_extraction"].unit =
+	{
+	    count = 300,
+	    ingredients =
+	    {
+	      {"automation-science-pack", 1},
+	      {"logistic-science-pack", 1},
+	    },
+	    time = 30
+	 }
+end
 --[[
 -- adjust layers of all train entites to either collide with closed or open bridge
 for i,loco in pairs(data.raw["locomotive"]) do

@@ -124,32 +124,32 @@ port.light1 =
     north =
     {
       filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 17,
-      height = 10,
+      width = 14,
+      height = 7,
       frame_count = 1,
       shift = util.by_pixel(36.5, -67.5),
     },
     west =
     {
       filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 17,
-      height = 10,
+      width = 14,
+      height = 7,
       frame_count = 1,
       shift = util.by_pixel(-2, -104.3),
     },
     south =
     {
       filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 17,
-      height = 10,
+      width = 14,
+      height = 7,
       frame_count = 1,
       shift = util.by_pixel(-39.5, -66),
     },
     east =
     {
       filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 17,
-      height = 10,
+      width = 14,
+      height = 7,
       frame_count = 1,
       shift = util.by_pixel(-2.7, -26.5),
     },

@@ -316,6 +316,7 @@ invisible_chain_signal.name = "invisible_chain_signal"
 invisible_chain_signal.selection_box = nil
 invisible_chain_signal.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 invisible_chain_signal.minable = nil
+--[[
 invisible_chain_signal.animation =
 {
   filename = "__cargo-ships__/graphics/blank.png",
@@ -325,6 +326,7 @@ invisible_chain_signal.animation =
   frame_count = 3,
   direction_count = 8,
 }
+]]
 invisible_chain_signal.rail_piece = nil
 
 data:extend({invisible_chain_signal})

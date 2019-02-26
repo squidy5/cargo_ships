@@ -27,5 +27,12 @@ data:extend({
 		maximum_value = 1000,
 		order = "a-b"
 	},
+	{
+		type = "bool-setting",
+		name = "no_oil_for_oil_rig",
+		setting_type = "startup",
+		default_value = false,
+		order = "a-c"
+	},
 
 })
