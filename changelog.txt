@@ -4,7 +4,8 @@ Version: 0.0.27
 Changes:
 	- updated to factorio 0.17
 	- added korean translation
-
+	- made deep sea oil extraction need blue science to research 
+		(this can be disabled in the mods startup setings)
 _____________________________________________________________________________________
 Version: 0.0.26
 Changes:
