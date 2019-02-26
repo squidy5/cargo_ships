@@ -1,3 +1,11 @@
+_____________________________________________________________________________________
+Version: 0.0.26
+Changes:
+	- changed bridge icon to be more recognisable
+	- updated hungarian translation
+Bugfixes:
+	- fixed crash when placing terrain in creative mode
+	- fixed crash when mining bridge entity with bots
 
 _____________________________________________________________________________________
 Version: 0.0.25

@@ -197,7 +197,7 @@ data:extend ({
 {
   type = "technology",
   name = "automated_bridges",
-  icon = "__cargo-ships__/graphics/icons/bridge.png", 
+  icon = "__cargo-ships__/graphics/icons/bridge_research.png", 
   icon_size = 128,
   effects =
   {

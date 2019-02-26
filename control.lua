@@ -1,6 +1,7 @@
 require("logic.ship_placement")
 require("logic.long_reach")
 require("logic.bridge_logic")
+--require("logic.pump_placement")
 local choices = require("choices")
 
 -- spawn additioanl invisible enties
@@ -8,7 +9,6 @@ function onEntityBuild(e)
 	-- 
 	local ent = e.created_entity
 	if ent.name == "indep-boat" then
-
 		CheckBoatPlacement(ent, e.player_index)
 	elseif ent.type == "cargo-wagon" or ent.type == "fluid-wagon" or ent.type == "locomotive" or ent.type == "artillery-wagon" then
 		--game.players[1].print(ent.collision_mask)
@@ -36,7 +36,7 @@ function onEntityBuild(e)
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
 	-- create bridge
 	elseif ent.name == "bridge_base" then
-		CreateBridge(ent, e.player_index)	
+		CreateBridge(ent, e.player_index)
 
 	-- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collison mask
 	elseif ent.name == "straight-water-way" or ent.name == "curved-water-way" then
@@ -113,18 +113,6 @@ function OnEnterShip(e)
 				ship_engine[1].set_driver(game.players[player_index])
 				break
 			end
-			--[[
-			local ship = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="cargo_ship", limit=1}
-			if ship[1] ~= nil then	
-				ship[1].set_driver(game.players[player_index])
-				break
-			end
-			local tanker = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="oil_tanker", limit=1}
-			if tanker[1] ~= nil then	
-				tanker[1].set_driver(game.players[player_index])
-				break
-			end
-			]]
 		end
 	else
 		for dis = 1,10 do
@@ -309,12 +297,20 @@ function init()
 	if global.bridges == nil then
 		global.bridges = {}
 	end
+	if global.ship_pump_selected == nil then
+		global.ship_pump_selected = {}
+	end
 end
 
 function onTick(e)
 	powerOilRig(e)
 	checkPlacement()
 	ManageBridges(e)
+end
+
+function onStackChanged(e)
+	increaseReach(e)
+	--PumpVisualisation(e)
 end
 
 -- init
@@ -340,5 +336,5 @@ script.on_event(defines.events.on_tick, onTick)
 
 -- long reach
 script.on_event(defines.events.on_runtime_mod_setting_changed, applyChanges)
-script.on_event(defines.events.on_player_cursor_stack_changed, increaseReach)
+script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
 script.on_event(defines.events.on_player_died, deadReach)

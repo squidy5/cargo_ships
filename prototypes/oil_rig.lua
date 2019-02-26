@@ -11,6 +11,32 @@ ship_pump.pumping_speed = 400
 ship_pump.energy_usage = "50kW"
 
 
+
+local pump_marker=table.deepcopy(data.raw["trivial-smoke"]["light-smoke"])
+
+pump_marker.name = "pump_marker"
+pump_marker.flags = {"not-repairable", "not-blueprintable", "not-deconstructable", "placeable-off-grid", "not-on-map"}
+pump_marker.duration = 3000
+pump_marker.spread_duration = 1
+pump_marker.fade_away_duration = 1
+pump_marker.start_scale = 1
+pump_marker.end_scale = 1
+pump_marker.color = { r = 1, g = 1, b = 1, a = 1 }
+pump_marker.cyclic = true
+pump_marker.affected_by_wind = false
+pump_marker.show_when_smoke_off = true
+pump_marker.movement_slow_down_factor = 0
+pump_marker.vertical_speed_slowdown = 0
+pump_marker.render_layer = "selection-box"
+pump_marker.animation =
+{
+  filename = "__even-distribution__/graphics/distribution-marker.png",
+  width = 128,
+  height = 128,
+  scale = 0.5,
+  frame_count = 1
+}
+
 ----------------------------------------------------------------
 -------------------------DEEP SEA OIL --------------------------
 ----------------------------------------------------------------
@@ -255,42 +281,5 @@ or_radar.max_distance_of_sector_revealed = 0
 or_radar.energy_usage = "50kW",
 
 
-data:extend({ship_pump, oil_rig, or_power, or_pole, or_radar, or_lamp, deep_oil})
+data:extend({ship_pump, --[[pump_marker,]] oil_rig, or_power, or_pole, or_radar, or_lamp, deep_oil})
 
-
--- alternate version of or_power
---[[
-data:extend({
-{
-  type = "electric-energy-interface",
-  name = "or_power",
-  localised_name = {"entity-name.oil_rig"},
-  icon = "cargo-ships/graphics/icons/oil_rig.png",
-  icon_size = 96,
-  flags = {"placeable-neutral", "player-creation"},
-  minable = {hardness = 0.2, mining_time = 0.5, result = nil, minable = false},
-  max_health = 500,
-  corpse = nil,
-  collision_box = nil,
-  selection_box = nil,
-  collision_mask= {},
-  enable_gui = false,
-  allow_copy_paste = false,
-  energy_source = {
-  type = "electric",
-  buffer_capacity = "10GJ", --attempt to fix no power icon
-  usage_priority = "primary-output",
-  input_flow_limit = "0kW",
-  output_flow_limit = "1000kW",
-  },
-  energy_production = "10GW", --attempt to fix no power icon
-  energy_usage = "0kW",
-  picture = {
-  filename = "cargo-ships/graphics/blank.png",
-  priority = "extra-high",
-  width = 1,
-  height = 1,
-  },
-  working_sound = data.raw["generator"]["steam-engine"].working_sound
-  }
-})]]

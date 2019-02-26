@@ -210,6 +210,19 @@ data:extend({
         place_result = "or_radar", 
         stack_size = 100, 
         },
+        --[[
+        {      
+        type = "item", 
+        name = "pump_marker", 
+        icon = "__cargo-ships__/graphics/blank.png", 
+        icon_size = 2,
+        subgroup = "extraction-machine",
+        flags = {"hidden"},
+        order = "b[fluids]-c[oil_rig]",
+        place_result = "pump_marker", 
+        stack_size = 5, 
+        },
+        ]]
 })
 
 

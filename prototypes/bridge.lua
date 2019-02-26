@@ -66,6 +66,7 @@ bridge_north.power_on_animation =
         },
     }
 }
+bridge_north.minable = nil
 bridge_north.collision_box = {{-1, -1}, {1, 1}}
 bridge_north.selection_box = nil
 bridge_north.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
@@ -137,6 +138,7 @@ bridge_east.power_on_animation =
         },
     }
 }
+bridge_east.minable = nil
 bridge_east.collision_box = {{-1, -1}, {1, 1}}
 bridge_east.selection_box = nil
 bridge_east.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
@@ -209,6 +211,7 @@ bridge_south.power_on_animation =
         },
     }
 }
+bridge_south.minable = nil
 bridge_south.collision_box = {{-1, -1}, {1, 1}}
 bridge_south.selection_box = nil
 bridge_south.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
@@ -281,6 +284,7 @@ bridge_west.power_on_animation =
         },
     }
 }
+bridge_west.minable = nil
 bridge_west.collision_box = {{-1, -1}, {1, 1}}
 bridge_west.selection_box = nil
 bridge_west.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
@@ -311,7 +315,7 @@ local invisible_chain_signal=table.deepcopy(data.raw["rail-chain-signal"]["rail-
 invisible_chain_signal.name = "invisible_chain_signal"
 invisible_chain_signal.selection_box = nil
 invisible_chain_signal.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-
+invisible_chain_signal.minable = nil
 invisible_chain_signal.animation =
 {
   filename = "__cargo-ships__/graphics/blank.png",
@@ -376,6 +380,16 @@ bridge_north_open.name = "bridge_north_open"
 bridge_east_open.name = "bridge_east_open"
 bridge_south_open.name = "bridge_south_open"
 bridge_west_open.name = "bridge_west_open"
+
+bridge_north_open.minable = nil
+bridge_east_open.minable = nil
+bridge_south_open.minable = nil
+bridge_west_open.minable = nil
+
+bridge_north_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_east_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_south_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_west_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 
 bridge_north_open.collision_mask = {"layer-13"} --collision with trains
 bridge_east_open.collision_mask = {"layer-13"} --collision with trains

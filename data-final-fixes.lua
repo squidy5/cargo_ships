@@ -1,9 +1,9 @@
 
 -- change collision mask of boat if it was changed by hovercraft mod:
 
-data.raw["car"]["indep-boat"].collision_mask = {"ground-tile", "train-layer", "layer-13"}
+data.raw["car"]["indep-boat"].collision_mask = {"ground-tile", "train-layer"}
 
-
+--[[
 -- adjust layers of all train entites to either collide with closed or open bridge
 for i,loco in pairs(data.raw["locomotive"]) do
 	if loco.name == "boat_engine" or loco.name == "cargo_ship_engine" then
@@ -52,5 +52,7 @@ for i,tanker in pairs(data.raw["fluid-wagon"]) do
 		end
 	end
 end
+
+]]
 
 
