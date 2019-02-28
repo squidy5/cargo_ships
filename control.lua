@@ -1,7 +1,7 @@
 require("logic.ship_placement")
 require("logic.long_reach")
 require("logic.bridge_logic")
---require("logic.pump_placement")
+require("logic.pump_placement")
 local choices = require("choices")
 
 -- spawn additioanl invisible enties
@@ -310,7 +310,7 @@ end
 
 function onStackChanged(e)
 	increaseReach(e)
-	--PumpVisualisation(e)
+	PumpVisualisation(e)
 end
 
 function onModSettingschanged(e)

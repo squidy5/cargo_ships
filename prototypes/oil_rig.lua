@@ -3,7 +3,6 @@
 ----------------------------------------------------------------
 
 local ship_pump=table.deepcopy(data.raw["pump"]["pump"])
-
 ship_pump.name = "ship_pump"
 ship_pump.minable = {mining_time = 1, result = "ship_pump"}
 ship_pump.collision_mask = {"object-layer"}
@@ -12,30 +11,20 @@ ship_pump.energy_usage = "50kW"
 
 
 
-local pump_marker=table.deepcopy(data.raw["trivial-smoke"]["light-smoke"])
-
+local pump_marker=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
 pump_marker.name = "pump_marker"
 pump_marker.flags = {"not-repairable", "not-blueprintable", "not-deconstructable", "placeable-off-grid", "not-on-map"}
-pump_marker.duration = 3000
-pump_marker.spread_duration = 1
-pump_marker.fade_away_duration = 1
-pump_marker.start_scale = 1
-pump_marker.end_scale = 1
-pump_marker.color = { r = 1, g = 1, b = 1, a = 1 }
-pump_marker.cyclic = true
-pump_marker.affected_by_wind = false
-pump_marker.show_when_smoke_off = true
-pump_marker.movement_slow_down_factor = 0
-pump_marker.vertical_speed_slowdown = 0
 pump_marker.render_layer = "selection-box"
-pump_marker.animation =
+pump_marker.minable = nil
+pump_marker.picture =
 {
-  filename = "__even-distribution__/graphics/distribution-marker.png",
+  filename = "__cargo-ships__/graphics/green_selection_box.png",
   width = 128,
   height = 128,
   scale = 0.5,
   frame_count = 1
 }
+
 
 ----------------------------------------------------------------
 -------------------------DEEP SEA OIL --------------------------
@@ -280,6 +269,5 @@ or_radar.pictures=
 or_radar.max_distance_of_sector_revealed = 0
 or_radar.energy_usage = "50kW",
 
-
-data:extend({ship_pump, --[[pump_marker,]] oil_rig, or_power, or_pole, or_radar, or_lamp, deep_oil})
+data:extend({ship_pump, pump_marker, oil_rig, or_power, or_pole, or_radar, or_lamp, deep_oil})
 
