@@ -2,7 +2,12 @@
 _____________________________________________________________________________________
 Version: 0.0.28
 Changes:
-
+	- added visualisation of possible ship-pump placement position at nearby ports when the former is selected by a player
+	- deep oil disapears now when landfilling over it
+	- made all invisible helper entites unselectable/uncopiable 
+	- made all ships unblueprintable/uncopiable
+Bugfixes:
+	-fixed oil rig being partly deleted, with invisible entites remaining, when placing landfill underneath oil rig 
 _____________________________________________________________________________________
 Version: 0.0.27
 Changes:

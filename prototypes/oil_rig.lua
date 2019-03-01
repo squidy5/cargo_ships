@@ -5,17 +5,21 @@
 local ship_pump=table.deepcopy(data.raw["pump"]["pump"])
 ship_pump.name = "ship_pump"
 ship_pump.minable = {mining_time = 1, result = "ship_pump"}
-ship_pump.collision_mask = {"object-layer"}
+ship_pump.collision_mask = {"object-layer", "train-layer"}
 ship_pump.pumping_speed = 400
 ship_pump.energy_usage = "50kW"
 
 
 
-local pump_marker=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
+
+local pump_marker=table.deepcopy(data.raw["simple-entity-with-owner"]["simple-entity-with-owner"])
 pump_marker.name = "pump_marker"
 pump_marker.flags = {"not-repairable", "not-blueprintable", "not-deconstructable", "placeable-off-grid", "not-on-map"}
+pump_marker.selectable_in_game = false
+pump_marker.allow_copy_paste = false
 pump_marker.render_layer = "selection-box"
 pump_marker.minable = nil
+pump_marker.collision_mask = {}
 pump_marker.picture =
 {
   filename = "__cargo-ships__/graphics/green_selection_box.png",
@@ -52,7 +56,7 @@ end
 deep_oil.name = "deep_oil"
 deep_oil.infinite_depletion_amount = 40
 deep_oil.autoplace = nil
---  deep_oil.collision_mask = {'ground-tile'}
+deep_oil.collision_mask = {'resource-layer','ground-tile'}
 
 
 
@@ -63,7 +67,7 @@ deep_oil.autoplace = nil
 
 local oil_rig=table.deepcopy(data.raw["mining-drill"]["pumpjack"])
 oil_rig.name = "oil_rig"
-oil_rig.collision_mask = {'ground-tile', 'object-layer'}
+oil_rig.collision_mask = {'object-layer'}
 oil_rig.minable = {mining_time = 3, result = "oil_rig"}
 oil_rig.dying_explosion = "big-explosion"
 oil_rig.max_health = 1000
@@ -152,7 +156,9 @@ oil_rig.smoke =
 ----------------------------------------------------------------
 
 local or_power=table.deepcopy(data.raw["generator"]["steam-engine"])
-or_power.flags = {"not-blueprintable"}
+or_power.flags = {"not-blueprintable", "not-deconstructable"}
+or_power.selectable_in_game = false
+or_power.allow_copy_paste = false
 or_power.name = "or_power"
 or_power.collision_box= nil
 or_power.selection_box= nil
@@ -220,7 +226,9 @@ or_power.smoke =
 
 local or_pole=table.deepcopy(data.raw["electric-pole"]["medium-electric-pole"])
 or_pole.name = "or_pole"
-or_pole.flags = {"not-blueprintable"}
+or_pole.flags = {"not-blueprintable", "not-deconstructable"}
+or_pole.selectable_in_game = false
+or_pole.allow_copy_paste = false
 or_pole.collision_box= nil
 or_pole.selection_box= nil
 or_pole.collision_mask= {}
@@ -240,7 +248,9 @@ or_pole.supply_area_distance = 4.5
 
 local or_lamp=table.deepcopy(data.raw["lamp"]["small-lamp"])
 or_lamp.name = "or_lamp"
-or_lamp.flags = {"not-blueprintable"}
+or_lamp.flags = {"not-blueprintable", "not-deconstructable"}
+or_lamp.selectable_in_game = false
+or_lamp.allow_copy_paste = false
 or_lamp.collision_box= nil
 or_lamp.selection_box= nil
 or_lamp.collision_mask= {}
@@ -254,7 +264,9 @@ or_lamp.pciture_on = {}
 
 local or_radar=table.deepcopy(data.raw["radar"]["radar"])
 or_radar.name= "or_radar"
-or_radar.flags = {"not-blueprintable"}
+or_radar.flags = {"not-blueprintable", "not-deconstructable"}
+or_radar.selectable_in_game = false
+or_radar.allow_copy_paste = false
 or_radar.collision_mask={}
 or_radar.collision_box= nil
 or_radar.selection_box= nil

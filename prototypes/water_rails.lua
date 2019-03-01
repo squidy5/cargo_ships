@@ -178,11 +178,15 @@ invisible_rail.flags =  {"not-blueprintable", "placeable-neutral", "player-creat
 invisible_rail.pictures = railpictures(true)
 invisible_rail.minable = nil
 invisible_rail.selection_box = nil
+invisible_rail.selectable_in_game = false
+invisible_rail.allow_copy_paste = false
 
 local bridge_crossing=table.deepcopy(data.raw["straight-rail"]["straight-water-way-placed"])
 bridge_crossing.name = "bridge_crossing"
 bridge_crossing.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 bridge_crossing.minable = nil
 bridge_crossing.selection_box = nil
+bridge_crossing.selectable_in_game = false
+bridge_crossing.allow_copy_paste = false
 
 data:extend({invisible_rail, bridge_crossing})

@@ -70,6 +70,8 @@ bridge_north.minable = nil
 bridge_north.collision_box = {{-1, -1}, {1, 1}}
 bridge_north.selection_box = nil
 bridge_north.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_north.selectable_in_game = false
+bridge_north.allow_copy_paste = false
 bridge_north.collision_mask = nil
 
 local bridge_north_closed=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
@@ -80,6 +82,8 @@ bridge_north_closed.selection_box = nil
 bridge_north_closed.collision_box = {{-4,-2},{6,2}}
 bridge_north_closed.collision_mask = {"layer-14"} --collision with boats
 bridge_north_closed.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_north_closed.selectable_in_game = false
+bridge_north_closed.allow_copy_paste = false
 bridge_north_closed.render_layer = "floor-mechanics"
 bridge_north_closed.picture = {
       filename = "__cargo-ships__/graphics/entity/bridge/north/closed.png",
@@ -142,6 +146,8 @@ bridge_east.minable = nil
 bridge_east.collision_box = {{-1, -1}, {1, 1}}
 bridge_east.selection_box = nil
 bridge_east.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_east.selectable_in_game = false
+bridge_east.allow_copy_paste = false
 bridge_east.collision_mask = nil
 
 local bridge_east_closed=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
@@ -152,6 +158,8 @@ bridge_east_closed.selection_box = nil
 bridge_east_closed.collision_box = {{-2,-4},{2,6}}
 bridge_east_closed.collision_mask = {"layer-14"} --collision with boats
 bridge_east_closed.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_east_closed.selectable_in_game = false
+bridge_east_closed.allow_copy_paste = false
 bridge_east_closed.render_layer = "floor-mechanics"
 bridge_east_closed.picture = {
       filename = "__cargo-ships__/graphics/entity/bridge/east/closed.png",
@@ -215,6 +223,8 @@ bridge_south.minable = nil
 bridge_south.collision_box = {{-1, -1}, {1, 1}}
 bridge_south.selection_box = nil
 bridge_south.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_south.selectable_in_game = false
+bridge_south.allow_copy_paste = false
 bridge_south.collision_mask = nil
 
 local bridge_south_closed=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
@@ -225,6 +235,8 @@ bridge_south_closed.selection_box = nil
 bridge_south_closed.collision_box = {{-6,-2},{4,2}}
 bridge_south_closed.collision_mask = {"layer-14"} --collision with boats
 bridge_south_closed.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_south_closed.selectable_in_game = false
+bridge_south_closed.allow_copy_paste = false
 bridge_south_closed.render_layer = "floor-mechanics"
 bridge_south_closed.picture = {
       filename = "__cargo-ships__/graphics/entity/bridge/south/closed.png",
@@ -288,6 +300,8 @@ bridge_west.minable = nil
 bridge_west.collision_box = {{-1, -1}, {1, 1}}
 bridge_west.selection_box = nil
 bridge_west.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_west.selectable_in_game = false
+bridge_west.allow_copy_paste = false
 bridge_west.collision_mask = nil
 
 local bridge_west_closed=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
@@ -298,6 +312,8 @@ bridge_west_closed.selection_box = nil
 bridge_west_closed.collision_box = {{-2,-6},{2,4}}
 bridge_west_closed.collision_mask = {"layer-14"} --collision with boats
 bridge_west_closed.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_west_closed.selectable_in_game = false
+bridge_west_closed.allow_copy_paste = false
 bridge_west_closed.render_layer = "floor-mechanics"
 bridge_west_closed.picture = {
     filename = "__cargo-ships__/graphics/entity/bridge/west/closed.png",
@@ -315,8 +331,9 @@ local invisible_chain_signal=table.deepcopy(data.raw["rail-chain-signal"]["rail-
 invisible_chain_signal.name = "invisible_chain_signal"
 invisible_chain_signal.selection_box = nil
 invisible_chain_signal.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+invisible_chain_signal.selectable_in_game = false
+invisible_chain_signal.allow_copy_paste = false
 invisible_chain_signal.minable = nil
---[[
 invisible_chain_signal.animation =
 {
   filename = "__cargo-ships__/graphics/blank.png",
@@ -326,7 +343,7 @@ invisible_chain_signal.animation =
   frame_count = 3,
   direction_count = 8,
 }
-]]
+
 invisible_chain_signal.rail_piece = nil
 
 data:extend({invisible_chain_signal})
@@ -389,9 +406,17 @@ bridge_south_open.minable = nil
 bridge_west_open.minable = nil
 
 bridge_north_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_north_open.selectable_in_game = false
+bridge_north_open.allow_copy_paste = false
 bridge_east_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_east_open.selectable_in_game = false
+bridge_east_open.allow_copy_paste = false
 bridge_south_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_south_open.selectable_in_game = false
+bridge_south_open.allow_copy_paste = false
 bridge_west_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_west_open.selectable_in_game = false
+bridge_west_open.allow_copy_paste = false
 
 bridge_north_open.collision_mask = {"layer-13"} --collision with trains
 bridge_east_open.collision_mask = {"layer-13"} --collision with trains

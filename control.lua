@@ -25,6 +25,17 @@ function onEntityBuild(e)
 
 	-- add oilrig slave entity
 	elseif ent.name == "oil_rig" then
+		local p = ent.position
+		local a = {{p.x-2, p.y-2},{p.x+2,p.y+2}}
+		local deep_oil = game.surfaces[1].find_entities_filtered{area=a, name="deep_oil"}
+		if #deep_oil == 0 then
+			ent.destroy()
+			if e.player_index ~= nil then
+				game.players[e.player_index].insert{name="oil_rig",count= 1}
+				game.players[e.player_index].print("Oil rigs can only placed on water")
+			end
+			return
+		end
 		local pos =  ent.position
 		local or_power = ent.surface.create_entity{name = "or_power", position = pos, force = ent.force}
 		table.insert(global.or_generators,or_power)
@@ -85,7 +96,8 @@ function onTileBuild(e)
 			for _, ww in pairs(cww) do
 				ww.destroy()
 			end
-		end		
+		end
+
 	end
 end
 --
@@ -300,12 +312,16 @@ function init()
 	if global.ship_pump_selected == nil then
 		global.ship_pump_selected = {}
 	end
+	if global.pump_markers == nil then
+		global.pump_markers = {}
+	end
 end
 
 function onTick(e)
 	powerOilRig(e)
 	checkPlacement()
 	ManageBridges(e)
+	UpdateVisuals(e)
 end
 
 function onStackChanged(e)
