@@ -15,6 +15,65 @@ floating_pole.pictures =
       direction_count = 4,
       shift = {1.6, -1.1}
     }
+floating_pole.connection_points =
+  {
+    {
+      shadow =
+      {
+        copper = {2.7, 0},
+        green = {1.8, 0},
+        red = {3.6, 0}
+      },
+      wire =
+      {
+        copper = {0, -3.125},
+        green = {-0.59375, -3.125},
+        red = {0.625, -3.125}
+      }
+    },
+    {
+      shadow =
+      {
+        copper = {3.1, 0.2},
+        green = {2.3, -0.3},
+        red = {3.8, 0.6}
+      },
+      wire =
+      {
+        copper = {-0.0625, -3.125},
+        green = {-0.5, -3.4375},
+        red = {0.34375, -2.8125}
+      }
+    },
+    {
+      shadow =
+      {
+        copper = {2.9, 0.06},
+        green = {3.0, -0.6},
+        red = {3.0, 0.8}
+      },
+      wire =
+      {
+        copper = {-0.09375, -3.09375},
+        green = {-0.09375, -3.53125},
+        red = {-0.09375, -2.65625}
+      }
+    },
+    {
+      shadow =
+      {
+        copper = {3.1, 0.2},
+        green = {3.8, -0.3},
+        red = {2.35, 0.6}
+      },
+      wire =
+      {
+        copper = {-0.0625, -3.1875},
+        green = {0.375, -3.5},
+        red = {-0.46875, -2.90625}
+      }
+    }
+  }
 
 local buoy=table.deepcopy(data.raw["rail-signal"]["rail-signal"])
 buoy.name = "buoy"

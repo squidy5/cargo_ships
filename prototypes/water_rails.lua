@@ -179,6 +179,7 @@ invisible_rail.pictures = railpictures(true)
 invisible_rail.minable = nil
 invisible_rail.selection_box = nil
 invisible_rail.selectable_in_game = false
+invisible_rail.collision_mask ={}
 invisible_rail.allow_copy_paste = false
 
 local bridge_crossing=table.deepcopy(data.raw["straight-rail"]["straight-water-way-placed"])

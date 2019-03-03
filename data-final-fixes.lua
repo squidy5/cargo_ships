@@ -15,6 +15,7 @@ if settings.startup["no_oil_for_oil_rig"].value then
 	    time = 30
 	 }
 end
+
 --[[
 -- adjust layers of all train entites to either collide with closed or open bridge
 for i,loco in pairs(data.raw["locomotive"]) do

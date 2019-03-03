@@ -1,4 +1,12 @@
+_____________________________________________________________________________________
+Version: 0.0.29
+Changes:
+- changed Floating Power pole recipe to be less expensive
+- updated wire connection points of floating power pole to match graphics
 
+Bufixes:
+- fixed unsymetrical lights on oil rig (needs to be placed again to take effect)
+- fixed incompatability issue with bobs power
 _____________________________________________________________________________________
 Version: 0.0.28
 Changes:

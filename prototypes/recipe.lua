@@ -86,8 +86,8 @@ data:extend({
         ingredients =
         {
             {"empty-barrel", 4},
-            {"big-electric-pole", 5},
-            {"steel-plate", 3}
+            {"big-electric-pole", 1},
+            {"iron-plate", 5}
         },
         result = "floating-electric-pole",
         result_count = 1

@@ -164,6 +164,7 @@ or_power.collision_box= nil
 or_power.selection_box= nil
 or_power.collision_mask= {}
 or_power.fast_replaceable_group = nil
+or_power.next_upgrade = nil
 or_power.fluid_usage_per_tick = 1
 or_power.fluid_box =
     {

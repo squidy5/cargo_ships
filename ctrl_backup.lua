@@ -80,27 +80,35 @@ function onEntityBuild(e)
 	end
 end
 
--- destroy waterways when landfill is build ontop 
 function onTileBuild(e)
 	if e.item and e.item.name == "landfill" then
-		--game.players[1].print("build landfill")
+		local tile_array = {}
+		local surface = game.surfaces[e.surface_index]
 		for _, tile in pairs(e.tiles) do
-			local x = tile.position.x
-			local y = tile.position.y
-			local sww = game.surfaces[e.surface_index].find_entities_filtered{area={{x-0.5, y-0.5},{x+1,y+1}}, name="straight-water-way-placed"}
-			local cww = game.surfaces[e.surface_index].find_entities_filtered{area={{x-1.5, y-1.5},{x+1.5,y+1.5}}, name="curved-water-way-placed"}
-	
-			for _, ww in pairs(sww) do
-				ww.destroy()
-			end
-			for _, ww in pairs(cww) do
-				ww.destroy()
+			local p = tile.position
+			table.insert(tile_array, {name = "grass-1", position = p})
+				-- search for multi-level entites that need to be removed by mod
+			local a = {{p.x-0.5, p.y-0.5}, {p.x+0.5, p.y+0.5}}
+			local ents = surface.find_entities(a)
+			for _, ent in pairs(ents) do
+				if string.match(ent.name, "_clickable") then
+					if(e.player_index ~= nil) then
+						game.players[e.player_index].insert{name="bridge_base", count=1}
+					end
+					ent.die()
+					ent.destroy()
+				elseif ent.name == "oil_rig" then 
+					if(e.player_index ~= nil) then
+						game.players[e.player_index].insert{name="oil_rig", count=1}
+					end
+					ent.die()
+				end
 			end
 		end
-
+		surface.set_tiles(tile_array)
 	end
 end
---
+
 
 -- enter or leave ship
 function OnEnterShip(e)
@@ -349,7 +357,8 @@ script.on_event(defines.events.on_robot_mined_entity, OnDeleted)
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
 -- entity created
 script.on_event(defines.events.on_player_built_tile, onTileBuild)
-script.on_event(defines.events.on_player_robot_tile, onTileBuild)
+script.on_event(defines.events.on_robot_built_tile, onTileBuild)
+
 script.on_event(defines.events.on_built_entity, onEntityBuild)
 script.on_event(defines.events.on_robot_built_entity, onEntityBuild)
 --power oil rig
