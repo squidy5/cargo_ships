@@ -77,7 +77,7 @@ floating_pole.connection_points =
 
 local buoy=table.deepcopy(data.raw["rail-signal"]["rail-signal"])
 buoy.name = "buoy"
-buoy.collision_mask = {'ground-tile', 'object-layer'}
+buoy.collision_mask = {'ground-tile', 'object-layer', "train-layer"}
 buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
 buoy.fast_replaceable_group = "buoy"
 buoy.minable = {mining_time = 0.5, result = "buoy"}
@@ -96,7 +96,7 @@ buoy.rail_piece = nil
 
 local chain_buoy=table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 chain_buoy.name = "chain_buoy"
-chain_buoy.collision_mask = {'ground-tile', 'object-layer'}
+chain_buoy.collision_mask = {'ground-tile', 'object-layer', "train-layer"}
 chain_buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
 chain_buoy.fast_replaceable_group = "buoy"
 chain_buoy.minable = {mining_time = 0.5, result = "chain_buoy"}
@@ -123,7 +123,7 @@ port.name = "port"
 port.icon = "__cargo-ships__/graphics/blank.png"
 port.minable = {mining_time = 1, result = "port"}
 port.rail_overlay_animations = nil
-port.collision_mask = {"object-layer"}
+port.collision_mask = {"object-layer","train-layer"}
 port.collision_box =  {{-0.01, -0.9}, {1.9, 0.9}}
 port.selection_box =  {{-0.01, -0.9}, {1.9, 0.9}}
 port.animations = make_4way_animation_from_spritesheet({ layers =

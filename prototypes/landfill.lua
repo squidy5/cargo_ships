@@ -1,27 +1,42 @@
 
 
 
-local dummy_tile = table.deepcopy(data.raw["tile"]["grass-1"])
-dummy_tile.collision_mask = {"ground-tile", "object-layer"}
-dummy_tile.name = "dummy_tile"
+local tile_test_item = table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
+tile_test_item.name = "tile_test_item"
+tile_test_item.collision_mask = {"object-layer", "train-layer", "player-layer"}
+tile_test_item.collsion_box = {{-4,-4.2},{4,4.2}}
+tile_test_item.selection_box = {{-4,-4.2},{4,4.2}}
 
-data:extend{dummy_tile}
+
+local tile_player_test_item = table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
+tile_player_test_item.name = "tile_player_test_item"
+tile_player_test_item.collision_mask = {"player-layer"}
+tile_player_test_item.collsion_box = {{-1,-1.2},{1,1.2}}
 
 
-data.raw["item"]["landfill"] =
-{
+data:extend({
+        {
+        type = "item", 
+        name = "tile_test_item", 
+        icon = "__cargo-ships__/graphics/blank.png", 
+        icon_size = 1,
+        flags = {}, 
+        place_result = "tile_test_item", 
+        stack_size = 1, 
+        },
+        {
+        type = "item", 
+        name = "tile_player_test_item", 
+        icon = "__cargo-ships__/graphics/blank.png", 
+        icon_size = 1,
+        flags = {}, 
+        place_result = "tile_player_test_item", 
+        stack_size = 1, 
+        }  
+})
 
-    type = "item",
-    name = "landfill",
-    icon = "__base__/graphics/icons/landfill.png",
-    icon_size = 32,
-    subgroup = "terrain",
-    order = "c[landfill]-a[dirt]",
-    stack_size = 100,
-    place_as_tile =
-    {
-      result = "dummy_tile",
-      condition_size = 1,
-      condition = {"ground-tile"}
-    }
-}
+data:extend({tile_test_item, tile_player_test_item})
+
+
+
+

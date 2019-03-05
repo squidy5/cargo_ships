@@ -56,7 +56,7 @@ end
 deep_oil.name = "deep_oil"
 deep_oil.infinite_depletion_amount = 40
 deep_oil.autoplace = nil
-deep_oil.collision_mask = {'resource-layer','ground-tile'}
+deep_oil.collision_mask = {'resource-layer'}
 
 
 
@@ -67,7 +67,7 @@ deep_oil.collision_mask = {'resource-layer','ground-tile'}
 
 local oil_rig=table.deepcopy(data.raw["mining-drill"]["pumpjack"])
 oil_rig.name = "oil_rig"
-oil_rig.collision_mask = {'object-layer'}
+oil_rig.collision_mask = {'object-layer', "train-layer"}
 oil_rig.minable = {mining_time = 3, result = "oil_rig"}
 oil_rig.dying_explosion = "big-explosion"
 oil_rig.max_health = 1000

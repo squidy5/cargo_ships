@@ -83,8 +83,26 @@ end
 -- destroy waterways when landfill is build ontop 
 function onTileBuild(e)
 	if e.item and e.item.name == "landfill" then
-		--game.players[1].print("build landfill")
+		local surface 
+		if e.surface_index then
+			surface = game.surfaces[e.surface_index]
+		else
+			surface =  e.robot.surface
+		end 
+		local old_tiles = {}
 		for _, tile in pairs(e.tiles) do
+			if not surface.can_place_entity{name = "tile_test_item", position = tile.position} 
+				and surface.can_place_entity{name = "tile_player_test_item", position = tile.position} then
+				-- refund
+				if e.player_index then
+					game.players[e.player_index].insert{name = "landfill", count = 1}
+				end
+				table.insert(old_tiles, {name = tile.old_tile.name or "deepwater", position = tile.position})
+
+			end
+			
+
+			--[[
 			local x = tile.position.x
 			local y = tile.position.y
 			local sww = game.surfaces[e.surface_index].find_entities_filtered{area={{x-0.5, y-0.5},{x+1,y+1}}, name="straight-water-way-placed"}
@@ -96,8 +114,9 @@ function onTileBuild(e)
 			for _, ww in pairs(cww) do
 				ww.destroy()
 			end
+			]]
 		end
-
+		surface.set_tiles(old_tiles)
 	end
 end
 --
@@ -105,8 +124,9 @@ end
 -- enter or leave ship
 function OnEnterShip(e)
 	local player_index = e.player_index
-	local X = game.players[player_index].position.x
-	local Y = game.players[player_index].position.y
+	local pos = game.players[player_index].position
+ 	local X = pos.x
+	local Y = pos.y
 
 	if game.players[player_index].vehicle == nil then
 		for dis = 1,10 do
@@ -127,15 +147,19 @@ function OnEnterShip(e)
 			end
 		end
 	else
+		local new_pos = game.surfaces[1].find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
+	 	if new_pos ~= nil then
+ 			game.players[player_index].vehicle.set_driver(nil)
+ 			game.players[player_index].driving = false
+ 			game.players[player_index].teleport(new_pos)
+ 		
+		end
+		--[[
 		for dis = 1,10 do
 			local land = game.players[player_index].surface.find_tiles_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, collision_mask ="ground-tile"}
- 			if land[1] ~= nil then
-	 			game.players[player_index].vehicle.set_driver(nil)
-	 			game.players[player_index].driving = false
-	 			game.players[player_index].teleport(land[1].position)
-	 			break
-			end
+
 		end
+		]]
 	end
 end
 
@@ -349,7 +373,7 @@ script.on_event(defines.events.on_robot_mined_entity, OnDeleted)
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
 -- entity created
 script.on_event(defines.events.on_player_built_tile, onTileBuild)
-script.on_event(defines.events.on_player_robot_tile, onTileBuild)
+script.on_event(defines.events.on_robot_built_tile, onTileBuild)
 script.on_event(defines.events.on_built_entity, onEntityBuild)
 script.on_event(defines.events.on_robot_built_entity, onEntityBuild)
 --power oil rig

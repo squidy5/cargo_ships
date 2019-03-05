@@ -1,4 +1,17 @@
 _____________________________________________________________________________________
+Version: 0.0.31
+Changes: 
+- Landfill will not be placed over existing water based entites anymore
+- Added missing technology descriptions
+Bugfixes:
+- fixed crash when building landfill with robots
+- fixed boat colliding with oil wells
+- fixed player sometimes getting stuck when leaving ships
+_____________________________________________________________________________________
+Version: 0.0.30
+Bugfixes:
+-fixed crash on startup introduced in 0.0.29
+_____________________________________________________________________________________
 Version: 0.0.29
 Changes:
 - changed Floating Power pole recipe to be less expensive
