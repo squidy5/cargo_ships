@@ -61,10 +61,9 @@ data:extend({
         enabled = false,
         ingredients =
         {
-          {"iron-stick", 1},
         },
         result = "water-way",
-        result_count = 10
+        result_count = 5
     },
     {
         type = "recipe",

@@ -345,7 +345,10 @@ invisible_chain_signal.animation =
 }
 
 invisible_chain_signal.rail_piece = nil
-
+invisible_chain_signal.green_light = nil
+invisible_chain_signal.orange_light = nil
+invisible_chain_signal.red_light = nil
+invisible_chain_signal.blue_light = nil
 data:extend({invisible_chain_signal})
 
 

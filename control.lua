@@ -2,6 +2,7 @@ require("logic.ship_placement")
 require("logic.long_reach")
 require("logic.bridge_logic")
 require("logic.pump_placement")
+require("logic.blueprint_logic")
 local choices = require("choices")
 
 -- spawn additioanl invisible enties
@@ -147,8 +148,9 @@ function OnEnterShip(e)
 			end
 		end
 	else
-		local new_pos = game.surfaces[1].find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
+		local new_pos = game.players[player_index].surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
 	 	if new_pos ~= nil then
+
  			game.players[player_index].vehicle.set_driver(nil)
  			game.players[player_index].driving = false
  			game.players[player_index].teleport(new_pos)
@@ -383,3 +385,6 @@ script.on_event(defines.events.on_tick, onTick)
 script.on_event(defines.events.on_runtime_mod_setting_changed, applyChanges)
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
 script.on_event(defines.events.on_player_died, deadReach)
+
+--blueprints
+script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)

@@ -154,7 +154,7 @@ data:extend({
 
 local swwp = table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
 swwp.name = "straight-water-way-placed"
-swwp.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
+swwp.flags =  {"placeable-neutral", "player-creation", "building-direction-8-way"}
 swwp.collision_mask = {"object-layer"}
 swwp. minable = {mining_time = 0.2, result = "water-way", count = 1}
 swwp.collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
@@ -162,7 +162,7 @@ swwp.secondary_collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
 
 local cwwp = table.deepcopy(data.raw["curved-rail"]["curved-water-way"])
 cwwp.name = "curved-water-way-placed"
-cwwp.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
+cwwp.flags =  {"placeable-neutral", "player-creation", "building-direction-8-way"}
 cwwp.collision_mask = {"object-layer"}
 cwwp.minable = {mining_time = 0.2, result = "water-way", count = 4}
 cwwp.collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
