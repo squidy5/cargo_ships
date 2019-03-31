@@ -121,7 +121,7 @@ data:extend({
     },
     collision_box = {{-1.01, -0.95}, {1.01, 0.95}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
-    collision_mask = {'ground-tile'},
+    collision_mask = {'ground-tile', "object-layer"},
     rail_category = "regular",
     pictures = railpictures(),
   },
@@ -145,7 +145,7 @@ data:extend({
     collision_box = {{-1, -2}, {1, 3.1}},
     secondary_collision_box = {{-0.65, -2.1}, {0.65, 2.1}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
-    collision_mask = {'ground-tile'},
+    collision_mask = {'ground-tile', "object-layer"},
     rail_category = "regular",
     pictures = railpictures(),
     placeable_by = { item="water-way", count = 4}
@@ -190,6 +190,8 @@ local bridge_crossing=table.deepcopy(data.raw["straight-rail"]["straight-water-w
 bridge_crossing.name = "bridge_crossing"
 bridge_crossing.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 bridge_crossing.minable = nil
+bridge_crossing.collision_mask ={}
+bridge_crossing.collision_box ={{-0.6, -0.95}, {0.6, 0.95}}
 bridge_crossing.selection_box = nil
 bridge_crossing.selectable_in_game = false
 bridge_crossing.allow_copy_paste = false

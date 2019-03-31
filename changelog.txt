@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.36
+  Changes:
+    - updated russian locale
+    - updated hungarian locale
+  Bugfixes:
+    - fixed bridges not working in some cases due to missplaced signals
+    - fixed brides being placeable to close too each other, causing them to not work
+    - fixed water ways not colliding with bridges and other objects
+    - fixed some typos
+    - fixed bridge graphic being offset during placement
+---------------------------------------------------------------------------------------------------
 Version:  0.0.35
   Changes:
     - fixed changelogs not showing ingame (thanks to PI-C for this fix)
