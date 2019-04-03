@@ -1,4 +1,8 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.37
+  Bugfixes:
+    - fixed incompatability with hovercrafts mod, that caused getting stuck when leaving ships
+---------------------------------------------------------------------------------------------------
 Version:  0.0.36
   Changes:
     - updated russian locale
