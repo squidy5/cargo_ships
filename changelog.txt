@@ -7,6 +7,7 @@ Version:  0.0.36
   Changes:
     - updated russian locale
     - updated hungarian locale
+    - added compatability to 0.17-port of the hovercraft mod
   Bugfixes:
     - fixed bridges not working in some cases due to missplaced signals
     - fixed brides being placeable to close too each other, causing them to not work
