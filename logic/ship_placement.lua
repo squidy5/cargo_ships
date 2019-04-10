@@ -57,49 +57,50 @@ function checkPlacement()
 		local entity = entry[1]
 		local engine = entry[2]
 		local player_index = entry[3]
-
-		if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
-			-- check for correct engine placement
-			if engine == nil then
-				cancelPlacement(entity, player_index)
-			elseif entity.orientation ~= engine.orientation then
+		if entity and entity.valid then
+			if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+				-- check for correct engine placement
+				if engine == nil then
 					cancelPlacement(entity, player_index)
-					cancelPlacement(engine, player_index)
-			elseif entity.train ~= nil then
-				-- check if connected to too many carriages
-				local count = 0
-				for _ in pairs(entity.train.carriages) do
-					count= count + 1
-				end
-				if count > 2 then
-					cancelPlacement(entity, player_index)
-					cancelPlacement(engine, player_index)
-				-- check if on rails
-				elseif entity.train.front_rail ~=nil then
-					if entity.train.front_rail.name == "straight-rail" or entity.train.front_rail.name == "curved-rail" then
+				elseif entity.orientation ~= engine.orientation then
 						cancelPlacement(entity, player_index)
 						cancelPlacement(engine, player_index)
+				elseif entity.train ~= nil then
+					-- check if connected to too many carriages
+					local count = 0
+					for _ in pairs(entity.train.carriages) do
+						count= count + 1
+					end
+					if count > 2 then
+						cancelPlacement(entity, player_index)
+						cancelPlacement(engine, player_index)
+					-- check if on rails
+					elseif entity.train.front_rail ~=nil then
+						if entity.train.front_rail.name == "straight-rail" or entity.train.front_rail.name == "curved-rail" then
+							cancelPlacement(entity, player_index)
+							cancelPlacement(engine, player_index)
+						end
+					elseif entity.train.back_rail ~=nil then
+						if entity.train.back_rail.name == "straight-rail" or entity.train.back_rail.name == "curved-rail" then
+							cancelPlacement(entity, player_index)
+							cancelPlacement(engine, player_index)
+						end
+					end
+				end
+			-- else: trains
+			elseif entity.train ~= nil then
+				-- check if on waterways	
+				if entity.train.front_rail ~=nil then
+					if entity.train.front_rail.name == "straight-water-way-placed" or entity.train.front_rail.name == "curved-water-way-placed" then
+						cancelPlacement(entity, player_index)
 					end
 				elseif entity.train.back_rail ~=nil then
-					if entity.train.back_rail.name == "straight-rail" or entity.train.back_rail.name == "curved-rail" then
+					if entity.train.back_rail.name == "straight-water-way-placed" or entity.train.back_rail.name == "curved-water-way-placed" then
 						cancelPlacement(entity, player_index)
-						cancelPlacement(engine, player_index)
 					end
 				end
-			end
-		-- else: trains
-		elseif entity.train ~= nil then
-			-- check if on waterways	
-			if entity.train.front_rail ~=nil then
-				if entity.train.front_rail.name == "straight-water-way-placed" or entity.train.front_rail.name == "curved-water-way-placed" then
-					cancelPlacement(entity, player_index)
-				end
-			elseif entity.train.back_rail ~=nil then
-				if entity.train.back_rail.name == "straight-water-way-placed" or entity.train.back_rail.name == "curved-water-way-placed" then
-					cancelPlacement(entity, player_index)
-				end
-			end
-		end 
+			end 
+		end
 	end
 	global.check_entity_placement = {}
 end
