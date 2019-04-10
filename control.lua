@@ -8,7 +8,7 @@ local choices = require("choices")
 -- spawn additioanl invisible enties
 function onEntityBuild(e)
 	-- 
-	local ent = e.created_entity
+	local ent = e.created_entity or e.entity
 	if ent.name == "indep-boat" then
 		CheckBoatPlacement(ent, e.player_index)
 	elseif ent.type == "cargo-wagon" or ent.type == "fluid-wagon" or ent.type == "locomotive" or ent.type == "artillery-wagon" then
@@ -370,6 +370,7 @@ script.on_event("enter_ship", OnEnterShip)
 script.on_event(defines.events.on_entity_died, OnDeleted)
 script.on_event(defines.events.on_player_mined_entity, OnMined)
 script.on_event(defines.events.on_robot_mined_entity, OnDeleted)
+script.on_event(defines.events.script_raised_destroy, OnDeleted)
 
 --place deep oil
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
@@ -378,6 +379,7 @@ script.on_event(defines.events.on_player_built_tile, onTileBuild)
 script.on_event(defines.events.on_robot_built_tile, onTileBuild)
 script.on_event(defines.events.on_built_entity, onEntityBuild)
 script.on_event(defines.events.on_robot_built_entity, onEntityBuild)
+script.on_event(defines.events.script_raise_built, onEntityBuild)
 --power oil rig
 script.on_event(defines.events.on_tick, onTick)
 
