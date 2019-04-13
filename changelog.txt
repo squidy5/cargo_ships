@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.39
+    Changes:
+    - merged compatability update for Multiple Unit Train Control
+---------------------------------------------------------------------------------------------------
+Version:  0.0.38
+    Changes:
+    - added compatability to Aix-Matter
+---------------------------------------------------------------------------------------------------
 Version:  0.0.37
   Bugfixes:
     - fixed incompatability with hovercrafts mod, that caused getting stuck when leaving ships

@@ -6,6 +6,8 @@ floating_pole.collision_box = {{-1.2, -1.2}, {1.2, 1.2}}
 floating_pole.selection_box = {{-1.3, -1.3}, {1.3, 1.3}}
 floating_pole.maximum_wire_distance = 45
 floating_pole.supply_area_distance = 0
+floating_pole.fast_replaceable_group = nil
+floating_pole.next_upgrade = nil
 floating_pole.pictures =
     {
       filename =  "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole.png",

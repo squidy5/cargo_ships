@@ -234,6 +234,7 @@ or_pole.collision_box= nil
 or_pole.selection_box= nil
 or_pole.collision_mask= {}
 or_pole.fast_replaceable_group = nil
+or_pole.next_upgrade=nil
 or_pole.maximum_wire_distance = 0
 or_pole.pictures =
 {
