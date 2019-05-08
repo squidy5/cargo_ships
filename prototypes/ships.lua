@@ -498,7 +498,7 @@ oil_tanker.joint_distance = 12
 
 
 oil_tanker.weight = 120000
-oil_tanker.capacity = 150000
+oil_tanker.capacity = 625000
 oil_tanker.max_speed = 0.12
 oil_tanker.air_resistance = 0.40
 
