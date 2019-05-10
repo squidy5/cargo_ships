@@ -90,6 +90,12 @@ function onTileBuild(e)
 		else
 			surface =  e.robot.surface
 		end 
+
+		-- Fallback, just in case
+		if surface == nil then
+			surface = game.surfaces.nauvis
+		end
+
 		local old_tiles = {}
 		for _, tile in pairs(e.tiles) do
 			if not surface.can_place_entity{name = "tile_test_item", position = tile.position} 
