@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.40
+  Changes:
+    - changes floating power pole collison box size to make them chunk aligned
+    - increase oil tanker capacity too match cargo ships
+    - adjusted oilrig pollution after 0.17.12 pollution change
+  Bugfixes:
+    - fixed surface bug in creativemode
+---------------------------------------------------------------------------------------------------
 Version:  0.0.39
   Changes:
     - merged compatability update for Multiple Unit Train Control

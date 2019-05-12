@@ -82,7 +82,7 @@ oil_rig.energy_source =
 {
   type = "electric",
   -- will produce this much * energy pollution units per tick
-  emissions = 0.2,
+  emissions = 0.2/60,
   usage_priority = "secondary-input"
 }
 oil_rig.output_fluid_box =
