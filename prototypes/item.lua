@@ -1,3 +1,13 @@
+-- Support for  Schallfalke's Schall Transport Group mod
+local subgroup_ship = "water_transport"
+local subgroup_shipequip = "water_transport"
+
+
+if mods["SchallTransportGroup"] then
+	subgroup_ship = "water_transport"
+	subgroup_shipequip = "water_equipment"
+end
+
 require("bridge_items")
 
 data:extend({
@@ -7,13 +17,25 @@ data:extend({
         group ="logistics",
         order = "e",
         },
+		{
+        type = "item-subgroup",
+        name = "water_transport",
+        group ="transport",
+        order = "b-2",
+        },
+		{
+        type = "item-subgroup",
+        name = "water_equipment",
+        group ="transport",
+        order = "q-2",
+        },
         {
         type = "item-with-entity-data", 
         name = "indep-boat", 
         icon = "__cargo-ships__/graphics/icons/boat.png", 
         icon_size = 64,
         flags = {}, 
-        subgroup = "water_transport", 
+        subgroup = subgroup_ship, 
         order = "a[water-system]-f[boat]",
         place_result = "boat", 
         stack_size = 5, 
@@ -24,7 +46,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/boat.png", 
         icon_size = 64,
         flags = {}, 
-        subgroup = "water_transport", 
+        subgroup = subgroup_ship, 
         order = "a[water-system]-f[boat]",
         place_result = "indep-boat", 
         stack_size = 5, 
@@ -35,7 +57,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/blank.png", 
         icon_size = 32,
         flags = {"hidden"}, 
-        subgroup = "water_transport", 
+        subgroup = subgroup_ship, 
         order = "a[water-system]-z[boat_engine]",
         place_result = "boat_engine", 
         stack_size = 5, 
@@ -46,7 +68,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/blank.png", 
         icon_size = 32,
         flags = {"hidden"}, 
-        subgroup = "water_transport", 
+        subgroup = subgroup_ship, 
         order = "a[water-system]-z[cargo_ship_engine]",
         place_result = "cargo_ship_engine", 
         stack_size = 5, 
@@ -57,7 +79,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/cargoship_icon.png", 
         icon_size = 128,
         flags = {}, 
-        subgroup = "water_transport", 
+        subgroup = subgroup_ship, 
         order = "a[water-system]-f[cargo_ship]",
         place_result = "cargo_ship", 
         stack_size = 5, 
@@ -68,7 +90,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/tanker.png", 
         icon_size = 128,
         flags = {}, 
-        subgroup = "water_transport", 
+        subgroup = subgroup_ship, 
         order = "a[water-system]-g[oil_tanker]",
         place_result = "oil_tanker", 
         stack_size = 5, 
@@ -79,7 +101,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/water_rail.png",
         icon_size = 64,
         flags = {}, 
-        subgroup = "water_transport",
+        subgroup = subgroup_shipequip,
         order = "a[water-system]-a[water-way]",
         place_result = "straight-water-way",
         stack_size = 1000,
@@ -92,7 +114,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/water_rail.png",
         icon_size = 64,
         flags = {"hidden"}, 
-        subgroup = "water_transport",
+        subgroup = subgroup_shipequip,
         order = "a[water-system]-a[water-way-placed]",
         place_result = "straight-water-way-placed",
         stack_size = 1,
@@ -106,7 +128,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/port.png",
         icon_size = 114,
         flags = {},
-        subgroup = "water_transport",
+        subgroup = subgroup_shipequip,
         order = "a[water-system]-b[train-stop]",
         place_result = "port",
         stack_size = 10
@@ -117,7 +139,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/floating_pole.png",
         icon_size = 96,
         flags = {},
-        subgroup = "energy-pipe-distribution",
+        subgroup = subgroup_shipequip, --"energy-pipe-distribution",
         order = "a[energy]-d[floating-electric-pole]",
         place_result = "floating-electric-pole",
         stack_size = 50
@@ -128,7 +150,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/buoy.png",
         icon_size = 64,
         flags = {},
-        subgroup = "water_transport",
+        subgroup = subgroup_shipequip,
         order = "a[water-system]-c[buoy]",
         place_result = "buoy",
         stack_size = 100
@@ -139,7 +161,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/chain_buoy.png",
         icon_size = 64,
         flags = {},
-        subgroup = "water_transport",
+        subgroup = subgroup_shipequip,
         order = "a[water-system]-d[chain_buoy]",
         place_result = "chain_buoy",
         stack_size = 100
@@ -150,7 +172,7 @@ data:extend({
         icon = "__cargo-ships__/graphics/icons/ship_pump.png",
         icon_size = 64,
         flags = {},
-        subgroup = "energy-pipe-distribution",
+        subgroup = subgroup_shipequip, --"energy-pipe-distribution",
         order = "c[pump]-e[ship_pump]",
         place_result = "ship_pump",
         stack_size = 100
