@@ -1,25 +1,15 @@
+require("bridge_items")
+
 -- Support for  Schallfalke's Schall Transport Group mod
 local subgroup_ship = "water_transport"
 local subgroup_shipequip = "water_transport"
 
 
 if mods["SchallTransportGroup"] then
-	subgroup_ship = "water_transport"
-	subgroup_shipequip = "water_equipment"
-end
-
-require("bridge_items")
-
 data:extend({
-        {
-        type = "item-subgroup",
-        name = "water_transport",
-        group ="logistics",
-        order = "e",
-        },
 		{
         type = "item-subgroup",
-        name = "water_transport",
+        name = "water_transport2",
         group ="transport",
         order = "b-2",
         },
@@ -28,6 +18,19 @@ data:extend({
         name = "water_equipment",
         group ="transport",
         order = "q-2",
+        },
+})
+	subgroup_ship = "water_transport2"
+	subgroup_shipequip = "water_equipment"
+end
+
+
+data:extend({
+        {
+        type = "item-subgroup",
+        name = "water_transport",
+        group ="logistics",
+        order = "e",
         },
         {
         type = "item-with-entity-data", 
