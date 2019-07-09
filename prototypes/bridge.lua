@@ -27,13 +27,13 @@ local bridge_north=table.deepcopy(data.raw["power-switch"]["power-switch"])
 bridge_north.name = "bridge_north"
 bridge_north.led_on={
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_north.led_off={
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_north.power_on_animation =
  {
@@ -103,13 +103,13 @@ local bridge_east=table.deepcopy(data.raw["power-switch"]["power-switch"])
 bridge_east.name = "bridge_east"
 bridge_east.led_on={
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_east.led_off={
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_east.power_on_animation =
  {
@@ -180,13 +180,13 @@ local bridge_south=table.deepcopy(data.raw["power-switch"]["power-switch"])
 bridge_south.name = "bridge_south"
 bridge_south.led_on={
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_south.led_off={
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_south.power_on_animation =
  {
@@ -257,13 +257,13 @@ local bridge_west=table.deepcopy(data.raw["power-switch"]["power-switch"])
 bridge_west.name = "bridge_west"
 bridge_west.led_on={
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_west.led_off={
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_west.power_on_animation =
  {
@@ -338,8 +338,8 @@ invisible_chain_signal.animation =
 {
   filename = "__cargo-ships__/graphics/blank.png",
   priority = "high",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
   frame_count = 3,
   direction_count = 8,
 }
@@ -366,8 +366,8 @@ bridge_north_clickable.max_health = 500
 bridge_north_clickable.picture =
 {
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 
 data:extend({bridge_north_clickable})
@@ -429,25 +429,25 @@ bridge_west_open.collision_mask = {"layer-13"} --collision with trains
 bridge_north_open.picture =
 {
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_east_open.picture =
 {
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_south_open.picture =
 {
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 bridge_west_open.picture =
 {
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 data:extend({bridge_north_open,bridge_south_open, bridge_east_open, bridge_west_open})

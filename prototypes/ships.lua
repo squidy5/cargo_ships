@@ -7,10 +7,11 @@ non_standard_wheels =
   filenames =
   {
       "__cargo-ships__/graphics/blank.png",
-      "__cargo-ships__/graphics/blank.png"
+      "__cargo-ships__/graphics/blank.png",
+
   },
-  line_length = 8,
-  lines_per_file = 16
+  line_length =  32,
+  lines_per_file = 32
 }
 function ship_light()
 return
@@ -330,8 +331,8 @@ boat_engine.pictures =
     {
       slice = 4,
       priority = "very-low",
-      width = 1,
-      height = 1,
+      width = 3,
+      height = 3,
       direction_count = 256,
       allow_low_quality_rotation = true,
       filenames =
@@ -623,8 +624,8 @@ cargo_ship_engine.pictures =
     {
       slice = 4,
       priority = "very-low",
-      width = 1,
-      height = 1,
+      width = 3,
+      height = 3,
       direction_count = 256,
       allow_low_quality_rotation = true,
       filenames =

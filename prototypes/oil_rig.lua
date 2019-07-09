@@ -8,6 +8,7 @@ ship_pump.minable = {mining_time = 1, result = "ship_pump"}
 ship_pump.collision_mask = {"object-layer", "train-layer"}
 ship_pump.pumping_speed = 400
 ship_pump.energy_usage = "50kW"
+ship_pump.next_upgrade = nil
 
 
 
@@ -119,8 +120,8 @@ oil_rig.animations =
         priority = "high",
         filename = "__cargo-ships__/graphics/blank.png",
         line_length = 8,
-        width = 1,
-        height = 1,
+        width = 2,
+        height = 2,
         frame_count = 40,
         shift = util.by_pixel(-4, -24),
         animation_speed = 0.5,
@@ -183,8 +184,8 @@ or_power.horizontal_animation =
         {
           {
             filename = "__cargo-ships__/graphics/blank.png",
-            width = 1,
-            height = 1,
+            width = 2,
+            height = 2,
             frame_count = 32,
             line_length = 8,
           }
@@ -196,8 +197,8 @@ or_power.vertical_animation =
   {
     {
       filename = "__cargo-ships__/graphics/blank.png",
-      width = 1,
-      height = 1,
+      width = 2,
+      height = 2,
       frame_count = 32,
       line_length = 8,
     }
@@ -239,8 +240,8 @@ or_pole.maximum_wire_distance = 0
 or_pole.pictures =
 {
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
   direction_count = 4,
   line_length = 4,
 }
@@ -259,8 +260,8 @@ or_lamp.collision_mask= {}
 or_lamp.picture_off = 
 {  
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 or_lamp.pciture_on = {}
 
@@ -275,8 +276,8 @@ or_radar.selection_box= nil
 or_radar.pictures=
 {
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
   direction_count = 4,
   line_length = 4,
 }

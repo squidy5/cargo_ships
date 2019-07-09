@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.42
+  Bugfixes:
+    - fixed crash on startup when playing with bobs
+---------------------------------------------------------------------------------------------------
+Version:  0.0.41
+  Changes:
+    - fixed boat collidong with fish
+    - added support for transport group mod
+---------------------------------------------------------------------------------------------------
 Version:  0.0.40
   Changes:
     - changes floating power pole collison box size to make them chunk aligned
