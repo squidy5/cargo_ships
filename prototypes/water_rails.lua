@@ -34,6 +34,12 @@ railpicturesinternal = function(elems, invisible)
                 {"curved_rail" ,"horizontal-right-bottom", 256, 128, 0, 0},
                 {"curved_rail" ,"horizontal-left-bottom", 256, 128, 0, 0}}
   local res = {}
+
+  postfix = ""
+  if settings.startup["use_dark_blue_waterways"].value then
+    postfix = "-dark"
+  end
+
   for _ , key in ipairs(keys) do
     part = {}
     dashkey = key[1]:gsub("_", "-")
@@ -41,7 +47,7 @@ railpicturesinternal = function(elems, invisible)
       if(elem[1] == "metals" and not invisible) then
         part[elem[1]] = { 
           sheet = {
-              filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
+              filename = string.format("__cargo-ships__/graphics/entity/%s%s/%s-%s-%s.png", dashkey, postfix, dashkey, key[2], elem[2]),
               priority = "extra-high", 
               flags = elem.mipmap and { "icon" },
               width = key[3],

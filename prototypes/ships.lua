@@ -61,6 +61,8 @@ data:extend({wave})
 
 
 
+speed_modifier = settings.startup["speed_modifier"].value;
+
 
 ----------------------------------------------------------------
 ------------------------ BOAT indep ---------------------------
@@ -77,7 +79,9 @@ indep_boat.icon_size = 64
 indep_boat.guns= nil
 indep_boat.braking_power = "150kW"
 indep_boat.weight = 10000
-indep_boat.consumption = "300kW"
+boat_power = 300 + (speed_modifier -1) * 150
+indep_boat.consumption = boat_power.."kW"
+indep_boat.friction = 0.002/speed_modifier
 indep_boat.minable = {mining_time = 1,result = "boat"}
 indep_boat.rotation_speed = 0.008
 indep_boat.inventory_size = 80
@@ -220,7 +224,7 @@ boat.joint_distance = 2.5
 
 boat.weight = 5000
 boat.inventory_size = 60
-boat.max_speed = 0.3
+boat.max_speed = 1
 
 boat.pictures =
 {
@@ -284,8 +288,9 @@ boat_engine.minable = nil
 boat_engine.icon = "__cargo-ships__/graphics/icons/ship-engine.png"
 boat_engine.icon_size = 64
 boat_engine.weigt = 5000
-boat_engine.max_speed = 0.27
-boat_engine.max_power = "300kW"
+boat_engine.max_speed = 0.27*speed_modifier
+boat_power = 300 + (speed_modifier -1) * 150
+boat_engine.max_power = boat_power.."kW"
 boat_engine.air_resistance = 0.02
 boat_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}
 boat_engine.selection_box = {{-1.3, -1.2}, {1.3, 1.2}}
@@ -395,7 +400,7 @@ cargo_ship.joint_distance = 12
 
 cargo_ship.weight = 100000
 cargo_ship.inventory_size = 1000
-cargo_ship.max_speed = 0.15
+cargo_ship.max_speed = 0.5
 cargo_ship.air_resistance = 0.40
 
 
@@ -500,7 +505,7 @@ oil_tanker.joint_distance = 12
 
 oil_tanker.weight = 120000
 oil_tanker.capacity = 625000
-oil_tanker.max_speed = 0.12
+oil_tanker.max_speed = 0.5
 oil_tanker.air_resistance = 0.40
 
 
@@ -564,8 +569,9 @@ cargo_ship_engine.allow_copy_paste = false
 cargo_ship_engine.icon = "__cargo-ships__/graphics/icons/ship-engine.png"
 cargo_ship_engine.icon_size = 64
 cargo_ship_engine.weight = 100000
-cargo_ship_engine.max_speed = 0.15
-cargo_ship_engine.max_power = "2000kW"
+cargo_ship_engine.max_speed = 0.15 * speed_modifier
+ship_power = 2000 + (speed_modifier-1)*1200
+cargo_ship_engine.max_power = ship_power.."kW"
 cargo_ship_engine.air_resistance = 0.40
 cargo_ship_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}
 cargo_ship_engine.selection_box = {{-1.3, -1.2}, {1.3, 1.2}}

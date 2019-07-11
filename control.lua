@@ -1,9 +1,12 @@
- require("logic.ship_placement")
+require("logic.ship_placement")
 require("logic.long_reach")
 require("logic.bridge_logic")
 require("logic.pump_placement")
 require("logic.blueprint_logic")
+require("logic.crane-logic")
 local choices = require("choices")
+
+
 
 -- spawn additioanl invisible enties
 function onEntityBuild(e)
@@ -78,6 +81,9 @@ function onEntityBuild(e)
 				WW.destructible = false
 			end
 		end
+
+	elseif ent.name == "crane" then
+		OnCraneCreated(ent)
 	end
 end
 
@@ -347,6 +353,9 @@ function init()
 	if global.pump_markers == nil then
 		global.pump_markers = {}
 	end
+	if global.cranes == nil then
+		global.cranes = {}
+	end
 end
 
 function onTick(e)
@@ -354,6 +363,7 @@ function onTick(e)
 	checkPlacement()
 	ManageBridges(e)
 	UpdateVisuals(e)
+	ManageCranes(e)
 end
 
 function onStackChanged(e)
@@ -396,3 +406,12 @@ script.on_event(defines.events.on_player_died, deadReach)
 
 --blueprints
 script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
+
+
+remote.add_interface("aai-sci-burner", {
+    hauler_types = function(data)
+        return {
+            'indep-boat',
+        }
+    end,
+})

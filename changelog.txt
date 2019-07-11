@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.44
+  Changes:
+    - Added mod option to change waterway visibility (requires restart)
+    - Added mod option to adjust boats/ships movementspeed (requires restart)
+---------------------------------------------------------------------------------------------------
+Version:  0.0.43
+  Bugfixes:
+    - fixed crash on startup intrduced by factorio 0.17.55
+---------------------------------------------------------------------------------------------------
 Version:  0.0.42
   Bugfixes:
     - fixed crash on startup when playing with bobs
