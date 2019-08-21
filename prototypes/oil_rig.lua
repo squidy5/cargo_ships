@@ -5,7 +5,7 @@
 local ship_pump=table.deepcopy(data.raw["pump"]["pump"])
 ship_pump.name = "ship_pump"
 ship_pump.minable = {mining_time = 1, result = "ship_pump"}
-ship_pump.collision_mask = {"object-layer", "train-layer"}
+ship_pump.collision_mask = {"object-layer"}
 ship_pump.pumping_speed = 400
 ship_pump.energy_usage = "50kW"
 ship_pump.next_upgrade = nil

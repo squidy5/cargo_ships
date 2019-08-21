@@ -168,12 +168,6 @@ function OnEnterShip(e)
  			game.players[player_index].teleport(new_pos)
  		
 		end
-		--[[
-		for dis = 1,10 do
-			local land = game.players[player_index].surface.find_tiles_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, collision_mask ="ground-tile"}
-
-		end
-		]]
 	end
 end
 
@@ -266,7 +260,7 @@ end
 -- creat deep sea oil
 function placeDeepOil(e)
 	local deep_tiles = 0
-	if game.active_mods["SeaBlock"] then
+	if game.active_mods["SeaBlock"] or game.active_mods["ctg"] then
 		deep_tiles = game.surfaces[1].count_tiles_filtered{area=e.area,name={"water","water-green","deepwater","deepwater-green"}}
 	else
 		deep_tiles = game.surfaces[1].count_tiles_filtered{area=e.area, name = "deepwater"}
@@ -363,7 +357,7 @@ function onTick(e)
 	checkPlacement()
 	ManageBridges(e)
 	UpdateVisuals(e)
-	ManageCranes(e)
+	--ManageCranes(e)
 end
 
 function onStackChanged(e)

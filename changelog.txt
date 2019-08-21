@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.46
+  Changes:
+    - Added compatability to ctp mod
+---------------------------------------------------------------------------------------------------
+Version:  0.0.45
+  Bugfixes:
+    - Removed ship pump <-> train collision as a hotfix to the broken pumps from the 0.17.56 update (pumps need to placed closer to the waterways now than before)
+    - Updated pump placement markers to the updated positions
+---------------------------------------------------------------------------------------------------
 Version:  0.0.44
   Changes:
     - Added mod option to change waterway visibility (requires restart)

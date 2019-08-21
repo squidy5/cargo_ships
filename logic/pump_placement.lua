@@ -54,7 +54,7 @@ function PlaceVisuals(position, horizontal, mult, player_index)
 	local markers={}
 	if horizontal ~= 0 then
 		for x = 5, 9, 2 do
-			for y = -5, 1, 6 do 
+			for y = -4, 0, 4 do 
 				local pos = {position.x+x*mult, position.y-y*mult}
 				local m = game.surfaces[1].create_entity {name="pump_marker", position =  pos} 
 				m.render_player = game.players[player_index]
@@ -63,7 +63,7 @@ function PlaceVisuals(position, horizontal, mult, player_index)
 		end
 	else
 		for y = 5, 9, 2 do
-			for x = -5, 1, 6 do 
+			for x = -4, 0, 4 do 
 				local pos = {position.x+x*mult, position.y+y*mult}
 				local m = game.surfaces[1].create_entity {name="pump_marker", position =  pos}
 				m.render_player = game.players[player_index]

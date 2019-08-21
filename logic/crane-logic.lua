@@ -24,6 +24,14 @@ function ManageCranes(e)
 					if CheckReached(ent.held_stack_position, ent.drop_position, 0.5) then
 						--game.players[1].print("passed drop off")
 						dropping_off = false
+
+						rendering.draw_animation{
+							animation = "crane_animation_1",
+							target = ent,
+							surface = ent.surface.index,
+							line_length = 4,
+							animation_speed = 0.5,
+						}
 					end
 				else -- moving towards pickup 
 					if CheckReached(ent.held_stack_position, ent.pickup_position, 0.5) then

@@ -17,11 +17,22 @@ crane.animation =
 
 
 
+
+
  
 data:extend({      
 		crane,
+    {
+        type = "animation",
+        name = "crane_animation_1",
+        frame_count = 16,
+        filename = "__cargo-ships__/graphics/entity/crane/dummy_1.png",
+        size = {53,56},
+        line_length = 4,
+        animation_speed = 0.5,         
+    },
 
-		{type = "item-with-entity-data", 
+		{   type = "item-with-entity-data", 
         name = "crane", 
         icon = "__cargo-ships__/graphics/blank.png", 
         icon_size = 64,
