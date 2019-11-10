@@ -1,4 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.48
+  Bugfixes:
+    - fixed crashed on startup introduced in factorio 0.17.75
+    - fixed messed up port graphics
+    - fixed messed up bridge graphics during placement
+    - fixde typo and increased ships health
+---------------------------------------------------------------------------------------------------
+Version:  0.0.47
+  Changes:
+    - added suport for multiple surfaces
+    - bridges can only be mined now, when no trains or ships are curretnly crossing, fixing a bug with unminable rails/waterways
+---------------------------------------------------------------------------------------------------
 Version:  0.0.46
   Changes:
     - Added compatability to ctp mod

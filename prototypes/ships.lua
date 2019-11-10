@@ -79,6 +79,7 @@ indep_boat.icon_size = 64
 indep_boat.guns= nil
 indep_boat.braking_power = "150kW"
 indep_boat.weight = 10000
+indep_boat.max_health = 1500
 boat_power = 300 + (speed_modifier -1) * 150
 indep_boat.consumption = boat_power.."kW"
 indep_boat.friction = 0.002/speed_modifier
@@ -216,7 +217,7 @@ boat.icon_size = 64
 boat.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 boat.allow_copy_paste = false
 boat.minable = {mining_time = 1, result = "boat"}
-
+boat.max_health = 1500
 boat.selection_box = {{-1.2, -1.5}, {1.2, 1.5}}
 boat.collision_box = {{-1.3, -1.5}, {1.3, 1.5}}
 boat.connection_distance = 1
@@ -287,7 +288,7 @@ boat_engine.allow_copy_paste = false
 boat_engine.minable = nil
 boat_engine.icon = "__cargo-ships__/graphics/icons/ship-engine.png"
 boat_engine.icon_size = 64
-boat_engine.weigt = 5000
+boat_engine.weight = 5000
 boat_engine.max_speed = 0.27*speed_modifier
 boat_power = 300 + (speed_modifier -1) * 150
 boat_engine.max_power = boat_power.."kW"
@@ -390,7 +391,7 @@ cargo_ship.icon_size = 128
 cargo_ship.flags = {"not-blueprintable","placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 cargo_ship.allow_copy_paste = false
 cargo_ship.minable = {mining_time = 1, result = "cargo_ship"}
-
+cargo_ship.max_health = 5000
 cargo_ship.selection_box = {{-1.5, -8.5}, {1.5, 8.5}}
 cargo_ship.collision_box = {{-1.5, -7.5}, {1.5, 7.5}}
 cargo_ship.drawing_box = {{-1, -8}, {1, 8}}
@@ -495,7 +496,7 @@ oil_tanker.icon_size = 128
 oil_tanker.flags = {"not-blueprintable","placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 oil_tanker.allow_copy_paste = false
 oil_tanker.minable = {mining_time = 1, result = "oil_tanker"}
-
+oil_tanker.max_health = 5000
 oil_tanker.selection_box = {{-1.5, -8.5}, {1.5, 8.5}}
 oil_tanker.collision_box = {{-1.5, -7.5}, {1.5, 7.5}}
 oil_tanker.drawing_box = {{-1, -8}, {1, 8}}

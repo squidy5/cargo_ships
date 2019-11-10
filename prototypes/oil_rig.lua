@@ -90,6 +90,7 @@ oil_rig.output_fluid_box =
 {
   base_area = 10,
   base_level = 10,
+  --height = 100,
   pipe_covers = pipecoverspictures(),
   pipe_connections =
   {

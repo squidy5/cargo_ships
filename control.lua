@@ -3,7 +3,7 @@ require("logic.long_reach")
 require("logic.bridge_logic")
 require("logic.pump_placement")
 require("logic.blueprint_logic")
-require("logic.crane-logic")
+--require("logic.crane-logic")
 local choices = require("choices")
 
 
@@ -221,7 +221,7 @@ function OnDeleted(e)
 		
 
 		elseif string.match(ent.name, "bridge_") then
-			DeleteBridge(ent)
+			DeleteBridge(ent, e.player_index)
 		end 
 	end
 end
@@ -349,6 +349,9 @@ function init()
 	end
 	if global.cranes == nil then
 		global.cranes = {}
+	end
+	if global.new_cranes == nil then
+		global.new_cranes = {}
 	end
 end
 

@@ -114,7 +114,6 @@ port.animations = make_4way_animation_from_spritesheet({ layers =
   {
     {
       filename = "__cargo-ships__/graphics/entity/port/uniport.png",
-      line_length = 4,
       width = 140,
       height = 291,
       direction_count = 4,

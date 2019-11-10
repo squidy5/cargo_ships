@@ -1,54 +1,70 @@
 
 
 function OnCraneCreated(entity)
+	local sur = entity.surface
+	local dir = entity.direction
+	local pos = entity.position
+	local f = entity.force
+	local inserter
+	local switch
+	local reverse = false
 
-	game.players[1].print("plpacing crane in direction: " .. entity.direction)
-
-	table.insert(global.cranes, {entity, true})   --(crane, hand-position, at_pickup = true)
+	game.players[1].print("placing crane in direction: " .. entity.direction)
+	if(dir == defines.direction.west) then
+		switch = entity.surface.create_entity{name="crane_hor", position=pos,force=f}
+	end
+--[[
+	local startSprite
+	if(entity.direction == defines.direction.west) then
+		startSprite = rendering.draw_sprite{
+								sprite="crane_west", 
+								target=entity, 
+								surface=entity.surface}
+	elseif(entity.direction == defines.direction.east) then
+		startSprite = rendering.draw_sprite{
+								sprite="crane_east", 
+								target=entity, 
+								surface=entity.surface}
+	end
+]]
+	inserter = entity
+	table.insert(global.cranes, {inserter, switch, reverse})	
 end
 
 function ManageCranes(e)
-	if e.tick % 20 == 0 then
-		--game.players[1].print("managing " .. #global.cranes .. "cranes")
+
+	if e.tick % 10 == 0 then
+	game.players[1].print("we manage: " .. #global.cranes .. " cranes")
+
 
 		for i=#global.cranes, 1, -1 do
-			crane = global.cranes[i]
-
+			local crane = global.cranes[i]
+						-- remove unvalid
 			if not crane[1].valid then
 				table.remove(global.cranes, i)
 			else
-				ent = crane[1]
-				dropping_off = crane[2]
 
-				if dropping_off then -- moving towards drop
-					if CheckReached(ent.held_stack_position, ent.drop_position, 0.5) then
-						--game.players[1].print("passed drop off")
-						dropping_off = false
+				local inserter = crane[1]
+				local switch = crane[2]
+				local reversed = crane[3]
+				--local state = crane[4]
 
-						rendering.draw_animation{
-							animation = "crane_animation_1",
-							target = ent,
-							surface = ent.surface.index,
-							line_length = 4,
-							animation_speed = 0.5,
-						}
-					end
-				else -- moving towards pickup 
-					if CheckReached(ent.held_stack_position, ent.pickup_position, 0.5) then
-						--game.players[1].print("passed pick up")
-						dropping_off =true
-					end
-				end
+				if (not inserter.held_stack == nil) and 
+					not AtPosition(ent.held_stack_position, ent.pickup_position, 0.4) then
+					--moving towards drop off
 					
-				-- writing stuff back
-				crane[2] = dropping_off
-				global.cranes[i] = crane
+					switch.power_switch_state = reversed and true or false
+				elseif (inserter.held_stack == nil) then
+					
+					-- moving towards pickup
+					switch.power_switch_state = reversed and false or true
+				end
 			end
 		end
 	end
 end
 
-function CheckReached(pos1, pos2, thresh)
+function AtPosition(pos1, pos2, thresh)
 	--d = math.abs(pos1.x-pos2.x) + math.abs(pos1.y-pos2.y)
 	--game.players[1].print("cheging: " .. d)
 
@@ -58,3 +74,5 @@ function CheckReached(pos1, pos2, thresh)
 		return false
 	end
 end
+
+

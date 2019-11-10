@@ -1,19 +1,27 @@
 
-
 local crane = table.deepcopy(data.raw["inserter"]["inserter"])
 crane.name = "crane"
-crane.extension_speed = 0.005
+crane.extension_speed = 0.02
 crane.rotation_speed = 0.002
-crane.animation = 
+crane.drawing_box = {{-5, -4}, {4, 1}}
+
+
+local visual_hor = table.deepcopy(data.raw["power-switch"]["power-switch"])
+visual_hor.name = "crane_hor"
+visual_hor.power_on_animation =       
     {
-      filename = "__base__/graphics/entity/power-switch/power-switch.png",
-      animation_speed = 0.2,
-      line_length = 2,
-      width = 117,
-      height = 74,
-      frame_count = 6,
-      shift = {0.453125, 0.1875}
+      filename = "__cargo-ships__/graphics/entity/crane/crane_hor.png",
+      animation_speed = 0.4,
+      line_length = 6,
+      width = 300,
+      height = 225,
+      frame_count = 40,
+      --axially_symmetrical = false,
+      --direction_count = 1,
+      --shift = {1.66, -0.55},
+      scale = 0.852,
     }
+visual_hor.collision_mask = {}
 
 
 
@@ -21,24 +29,28 @@ crane.animation =
 
  
 data:extend({      
-		crane,
-    {
-        type = "animation",
-        name = "crane_animation_1",
-        frame_count = 16,
-        filename = "__cargo-ships__/graphics/entity/crane/dummy_1.png",
-        size = {53,56},
-        line_length = 4,
-        animation_speed = 0.5,         
-    },
+        crane,
+        visual_hor,
 
-		{   type = "item-with-entity-data", 
+		{
+        type = "item-with-entity-data", 
         name = "crane", 
         icon = "__cargo-ships__/graphics/blank.png", 
         icon_size = 64,
         flags = {}, 
         order = "a[water-system]-f[boat]",
         place_result = "crane", 
+        stack_size = 5, 
+        },
+
+        {
+        type = "item-with-entity-data", 
+        name = "crane_hor", 
+        icon = "__cargo-ships__/graphics/blank.png", 
+        icon_size = 64,
+        flags = {}, 
+        order = "a[water-system]-f[boat]",
+        place_result = "crane_hor", 
         stack_size = 5, 
         },
 
@@ -53,4 +65,49 @@ data:extend({
         },
         result = "crane"
     },
+})
+
+
+
+
+
+
+data:extend({      
+
+        {
+            type = "animation",
+            name = "crane_animation_west",
+            frame_count = 40,
+            filename = "__cargo-ships__/graphics/entity/crane/crane_hor.png",
+            size = {300,225},
+            line_length = 6,
+            animation_speed = 0.2,
+            render_layer="higher-object-above",
+        },
+        {
+            type = "animation",
+            name = "crane_animation_east",
+            frame_count = 40,
+            filename = "__cargo-ships__/graphics/entity/crane/crane_hor.png",
+            size = {300,225},
+            line_length = 6,
+            run_mode="backward",
+            animation_speed = 0.2,         
+            render_layer="higher-object-above",
+
+        },
+        {
+            type = "sprite",
+            name = "crane_west",
+            filename = "__cargo-ships__/graphics/entity/crane/west.png",
+            size = {300,225},
+            render_layer="higher-object-above",
+        },
+        {
+            type = "sprite",
+            name = "crane_east",
+            filename = "__cargo-ships__/graphics/entity/crane/east.png",
+            size = {300,225},
+            render_layer="higher-object-above",
+        },         
 })
