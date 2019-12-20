@@ -1,13 +1,25 @@
 
-local crane = table.deepcopy(data.raw["inserter"]["inserter"])
+local crane = table.deepcopy(data.raw["inserter"]["long-handed-inserter"])
 crane.name = "crane"
-crane.extension_speed = 0.02
-crane.rotation_speed = 0.002
-crane.drawing_box = {{-5, -4}, {4, 1}}
+crane.extension_speed = 0.5
+crane.rotation_speed = 0.02
+crane.drawing_box = {{-100, -100}, {-99, 99}}
+crane.hand_base_picture.scale = 2
+crane.hand_base_picture.hr_version.scale = 0.5
+crane.hand_closed_picture.scale = 2
+crane.hand_closed_picture.hr_version.scale = 0.5
+crane.hand_open_picture.scale = 2
+crane.hand_open_picture.hr_version.scale = 0.5
+crane.platform_picture.sheet.scale = 4
+crane.platform_picture.sheet.hr_version.scale = 1
+crane.pickup_position = {0, -4}
+crane.insert_position = {0,4}
+
 
 
 local visual_hor = table.deepcopy(data.raw["power-switch"]["power-switch"])
 visual_hor.name = "crane_hor"
+visual_hor.drawing_box = {{-100, -100}, {-99, 99}}
 visual_hor.power_on_animation =       
     {
       filename = "__cargo-ships__/graphics/entity/crane/crane_hor.png",

@@ -484,6 +484,8 @@ cargo_ship.drive_over_tie_trigger = nil
 
 
 
+local tanker_capacity = settings.startup["tanker_capacity"].value;
+
 
 ----------------------------------------------------------------
 ------------------------ OIL TANKER ----------------------------
@@ -505,7 +507,7 @@ oil_tanker.joint_distance = 12
 
 
 oil_tanker.weight = 120000
-oil_tanker.capacity = 625000
+oil_tanker.capacity = tanker_capacity * 1000
 oil_tanker.max_speed = 0.5
 oil_tanker.air_resistance = 0.40
 

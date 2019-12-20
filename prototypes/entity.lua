@@ -4,7 +4,7 @@ require("ships")
 require("oil_rig")
 require("bridge")
 require("landfill")
---require("crane")
+require("crane")
 
 
 

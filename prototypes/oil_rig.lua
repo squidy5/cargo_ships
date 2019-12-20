@@ -65,6 +65,8 @@ deep_oil.collision_mask = {'resource-layer'}
 ----------------------------------------------------------------
 ------------------------ OIL PLATFORM --------------------------
 ----------------------------------------------------------------
+local oil_rig_capacity = settings.startup["oil_rig_capacity"].value;
+
 
 local oil_rig=table.deepcopy(data.raw["mining-drill"]["pumpjack"])
 oil_rig.name = "oil_rig"
@@ -90,7 +92,7 @@ oil_rig.output_fluid_box =
 {
   base_area = 10,
   base_level = 10,
-  --height = 100,
+  height = 2*oil_rig_capacity,
   pipe_covers = pipecoverspictures(),
   pipe_connections =
   {
@@ -149,7 +151,6 @@ oil_rig.smoke =
     starting_frame_deviation = 60
   }
 }
-
 
 
 

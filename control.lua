@@ -3,6 +3,7 @@ require("logic.long_reach")
 require("logic.bridge_logic")
 require("logic.pump_placement")
 require("logic.blueprint_logic")
+require("gui.oil_rig_gui")
 --require("logic.crane-logic")
 local choices = require("choices")
 
@@ -83,7 +84,7 @@ function onEntityBuild(e)
 		end
 
 	elseif ent.name == "crane" then
-		OnCraneCreated(ent)
+		--OnCraneCreated(ent)
 	end
 end
 
@@ -143,26 +144,21 @@ function OnEnterShip(e)
 
 	if game.players[player_index].vehicle == nil then
 		for dis = 1,10 do
-			local indep_boat = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="indep-boat", limit=1}
-			if indep_boat[1] ~= nil then	
-				indep_boat[1].set_driver(game.players[player_index])
-				break
+			local targets = game.players[player_index].surface.find_entities_filtered{
+				area={{X-dis, Y-dis}, {X+dis, Y+dis}},name={"indep-boat","boat_engine","cargo_ship_engine"}}
+			local done = false
+			for _, target in ipairs(targets) do
+				if target and target.get_driver() == nil then
+					target.set_driver(game.players[player_index])
+					done = true
+					break
+				end
 			end
-			local boat = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="boat_engine", limit=1}
-			if boat[1] ~= nil then	
-				boat[1].set_driver(game.players[player_index])
-				break
-			end
-			local ship_engine = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="cargo_ship_engine", limit=1}
-			if ship_engine[1] ~= nil then	
-				ship_engine[1].set_driver(game.players[player_index])
-				break
-			end
+			if done then break end
 		end
 	else
 		local new_pos = game.players[player_index].surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
 	 	if new_pos ~= nil then
-
  			game.players[player_index].vehicle.set_driver(nil)
  			game.players[player_index].driving = false
  			game.players[player_index].teleport(new_pos)
@@ -353,6 +349,9 @@ function init()
 	if global.new_cranes == nil then
 		global.new_cranes = {}
 	end
+	if global.gui_oilrigs == nil then
+		global.gui_oilrigs = {}
+	end
 end
 
 function onTick(e)
@@ -360,8 +359,10 @@ function onTick(e)
 	checkPlacement()
 	ManageBridges(e)
 	UpdateVisuals(e)
+	UpdateOilRigGui(e)
 	--ManageCranes(e)
 end
+
 
 function onStackChanged(e)
 	increaseReach(e)
@@ -395,7 +396,8 @@ script.on_event(defines.events.on_robot_built_entity, onEntityBuild)
 script.on_event(defines.events.script_raised_built, onEntityBuild)
 --power oil rig
 script.on_event(defines.events.on_tick, onTick)
-
+script.on_event(defines.events.on_gui_opened, onOilrickGuiOpened)
+script.on_event(defines.events.on_gui_closed, onOilrickGuiClosed)
 -- long reach
 script.on_event(defines.events.on_runtime_mod_setting_changed, applyChanges)
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)

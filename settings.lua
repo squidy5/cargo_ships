@@ -48,7 +48,24 @@ data:extend({
 		setting_type = "startup",
 		default_value = false,
 		order = "a-d"
-	}
-	,
+	},
+	{
+		type = "int-setting",
+		name = "oil_rig_capacity",
+		setting_type = "startup",
+		minimum_value = 1,
+		default_value = 100,
+		maximum_value = 500,
+		order = "a-b"
+	},
+	{
+		type = "int-setting",
+		name = "tanker_capacity",
+		setting_type = "startup",
+		minimum_value = 100,
+		default_value = 250,
+		maximum_value = 500,
+		order = "a-b"
+	},
 
 })

@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.49
+  Changes:
+    - added storage to oil rig. Adjustbale via mod setting, default is 100k.
+    - added gui to show current storage volume when clicking on oil rig.
+    - made oil tanker capacity adjustable in mod settings. Default is 250k.
+  Bugfixes:
+    - fixed placing landfill could delete part of bridges
+    - fixed not checking for previous driver when assiging player to ship
+---------------------------------------------------------------------------------------------------
 Version:  0.0.48
   Bugfixes:
     - fixed crashed on startup introduced in factorio 0.17.75
