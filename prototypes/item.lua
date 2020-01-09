@@ -112,20 +112,6 @@ data:extend({
         curved_rail = "curved-water-way"
         },
         {
-        type = "rail-planner",
-        name = "water-way-placed",
-        icon = "__cargo-ships__/graphics/icons/water_rail.png",
-        icon_size = 64,
-        flags = {"hidden"}, 
-        subgroup = subgroup_shipequip,
-        order = "a[water-system]-a[water-way-placed]",
-        place_result = "straight-water-way-placed",
-        stack_size = 1,
-        straight_rail = "straight-water-way-placed",
-        curved_rail = "curved-water-way-placed"
-        },
-
-        {
         type = "item",
         name = "port",
         icon = "__cargo-ships__/graphics/icons/port.png",
