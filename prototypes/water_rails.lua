@@ -130,6 +130,7 @@ data:extend({
     collision_mask = {'ground-tile', "object-layer"},
     rail_category = "regular",
     pictures = railpictures(),
+    placeable_by = { item="water-way", count = 1}
   },
   {
     type = "curved-rail",
@@ -162,7 +163,7 @@ local swwp = table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
 swwp.name = "straight-water-way-placed"
 swwp.flags =  {"placeable-neutral", "player-creation", "building-direction-8-way"}
 swwp.collision_mask = {"object-layer"}
-swwp. minable = {mining_time = 0.2, result = "water-way", count = 1}
+swwp.minable = {mining_time = 0.2, result = "water-way", count = 1}
 swwp.collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
 swwp.secondary_collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
 
