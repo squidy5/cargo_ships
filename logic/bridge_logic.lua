@@ -192,8 +192,11 @@ function DeleteBridge(ent, player_index)
 
 
 	if not empty then
-		game.players[player_index].print("Make sure no trains and ships are currently crossing before deleting the bridge")
+		if player_index~= nil then
+			game.players[player_index].print("Make sure no trains and ships are currently crossing before deleting the bridge")
+		end
 		ent.surface.create_entity{name=name , position=pos, direction = ent.direction, force = ent.force}
+		return false
 	else
 		if name == "bridge_north_clickable" then
 			deleteSlaves(surface, pos, -5,-3,7,3, "north")
@@ -207,6 +210,7 @@ function DeleteBridge(ent, player_index)
 		if name == "bridge_west_clickable" then
 			deleteSlaves(surface, pos, -3,-7,3,5, "west")
 		end	
+		return true
 	end
 end
 

@@ -7,6 +7,7 @@ Version:  0.0.49
   Bugfixes:
     - fixed placing landfill could delete part of bridges
     - fixed not checking for previous driver when assiging player to ship
+    - fixed crash when deleting bridge by robot when bridge was opened
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.48
   Bugfixes:

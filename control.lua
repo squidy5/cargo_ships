@@ -217,7 +217,8 @@ function OnDeleted(e)
 		
 
 		elseif string.match(ent.name, "bridge_") then
-			DeleteBridge(ent, e.player_index)
+			worked = DeleteBridge(ent, e.player_index)
+			if not worked then e.buffer.clear() end
 		end 
 	end
 end
