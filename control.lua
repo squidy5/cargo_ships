@@ -4,18 +4,34 @@ require("logic.bridge_logic")
 require("logic.pump_placement")
 require("logic.blueprint_logic")
 require("gui.oil_rig_gui")
---require("logic.crane-logic")
+--require("logic.crane_logic")
+require("logic.rolling_stock_logic")
 local choices = require("choices")
 
 
 
 -- spawn additioanl invisible enties
 function onEntityBuild(e)
-	-- 
+	--disable rolling stock logic for 1 tick
+	--global.rolling_stock_timeout = 1
+
+
 	local ent = e.created_entity or e.entity
-	if ent.name == "indep-boat" then
+
+	-- check ghost entities first
+	if ent.name == "entity-ghost" then
+		if ent.ghost_name == "bridge_base" then
+			ent.destroy()
+			return
+		end
+	
+
+	elseif ent.name == "indep-boat" then
 		CheckBoatPlacement(ent, e.player_index)
+		return
+
 	elseif ent.type == "cargo-wagon" or ent.type == "fluid-wagon" or ent.type == "locomotive" or ent.type == "artillery-wagon" then
+
 		--game.players[1].print(ent.collision_mask)
 		local engine = nil
 		if ent.name == "cargo_ship" or ent.name == "oil_tanker" then
@@ -27,6 +43,7 @@ function onEntityBuild(e)
 		end
 		-- check placement in next tick 
 		table.insert(global.check_entity_placement, {ent, engine, e.player_index})
+		return
 
 	-- add oilrig slave entity
 	elseif ent.name == "oil_rig" then
@@ -50,9 +67,12 @@ function onEntityBuild(e)
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = ent.force}
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = ent.force}
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
+		return
+
 	-- create bridge
 	elseif ent.name == "bridge_base" then
 		CreateBridge(ent, e.player_index)
+		return
 
 	-- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collison mask
 	elseif ent.name == "straight-water-way" or ent.name == "curved-water-way" then
@@ -114,21 +134,6 @@ function onTileBuild(e)
 				table.insert(old_tiles, {name = tile.old_tile.name or "deepwater", position = tile.position})
 
 			end
-			
-
-			--[[
-			local x = tile.position.x
-			local y = tile.position.y
-			local sww = game.surfaces[e.surface_index].find_entities_filtered{area={{x-0.5, y-0.5},{x+1,y+1}}, name="straight-water-way-placed"}
-			local cww = game.surfaces[e.surface_index].find_entities_filtered{area={{x-1.5, y-1.5},{x+1.5,y+1.5}}, name="curved-water-way-placed"}
-	
-			for _, ww in pairs(sww) do
-				ww.destroy()
-			end
-			for _, ww in pairs(cww) do
-				ww.destroy()
-			end
-			]]
 		end
 		surface.set_tiles(old_tiles)
 	end
@@ -338,6 +343,9 @@ function init()
 	if global.bridges == nil then
 		global.bridges = {}
 	end
+	if global.bridgesToRplace == nil then
+		global.bridgesToReplace = {}
+	end
 	if global.ship_pump_selected == nil then
 		global.ship_pump_selected = {}
 	end
@@ -406,6 +414,10 @@ script.on_event(defines.events.on_player_died, deadReach)
 
 --blueprints
 script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
+
+-- rolling stock connect
+script.on_event(defines.events.on_train_created, On_Train_Created)
+
 
 
 remote.add_interface("aai-sci-burner", {

@@ -1,4 +1,34 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.54
+  Bugfixes:
+    - made it impossible to create ghost from bridges which led to crashes
+    - made it impossible to landfill over waterways when used curently by ship
+    - fixed crash when trying to place landfill under bridge and made bridges a lot more resilient to crashes in general
+    - invalid bridge entities are now deleted on detectiton
+---------------------------------------------------------------------------------------------------
+Version:  0.0.53
+  Bugfixes:
+    - fixed crash on building roling stock introduced in last upadte
+---------------------------------------------------------------------------------------------------
+Version:  0.0.52
+  Bugfixes:
+    - ships can not be split into seperate rollings stocks anymore
+    - ships can not be connected to other rolling stops (including other ships) anymore
+  Changes:
+    - added krasstorio support
+---------------------------------------------------------------------------------------------------
+Version:  0.0.51
+  Changes:
+    - updated to factorio version 18
+    - removed all vanilla water rflections from ships
+  Bugfixes:
+    - fixed a crash due to invalid bridge entity. this still breaks the bridge, just no more crashes
+---------------------------------------------------------------------------------------------------
+Version:  0.0.50
+  Bugfixes:
+    - fixed waterways not being pipettable, bots sometimes not placing straight waterways
+    - fixed unintened addition of unifnished crane entity in last update
+---------------------------------------------------------------------------------------------------
 Version:  0.0.49
   Changes:
     - added storage to oil rig. Adjustbale via mod setting, default is 100k.

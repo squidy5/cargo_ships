@@ -6,7 +6,7 @@ local ship_pump=table.deepcopy(data.raw["pump"]["pump"])
 ship_pump.name = "ship_pump"
 ship_pump.minable = {mining_time = 1, result = "ship_pump"}
 ship_pump.collision_mask = {"object-layer"}
-ship_pump.pumping_speed = 400
+ship_pump.pumping_speed = 1000
 ship_pump.energy_usage = "50kW"
 ship_pump.next_upgrade = nil
 
@@ -58,6 +58,8 @@ deep_oil.name = "deep_oil"
 deep_oil.infinite_depletion_amount = 40
 deep_oil.autoplace = nil
 deep_oil.collision_mask = {'resource-layer'}
+
+
 
 
 

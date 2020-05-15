@@ -13,17 +13,19 @@ spow[6] = {{x=2.5,y=0.5},{x=-2.5,y=3.5},{x=2.5,y=3.5},{x=-2.5,y=0.5}}
 
 function CreateBridge(ent, player_index)
 
+
 	local pos = ent.position
 	local dir = ent.direction
 	local f = ent.force
 	local bridge 
 	local closed_bridge 
 	local ver, hor, x, y
+	local surface = ent.surface;
 	ent.destroy()
-	local surface = game.players[player_index].surface;
+
 
 	if dir == defines.direction.north then
-		if checkBridgePlacement(pos, -4.5,-3,6.5,3, player_index) then
+		if checkBridgePlacement(pos, -4.5,-3,6.5,3, player_index, surface) then
 			bridge =surface.create_entity {name="bridge_north", position =  pos,  force = f} 
 			closed_bridge =surface.create_entity {name="bridge_north_closed", position =  pos,  force = f} 
 			game.surfaces[1].create_entity {name="bridge_north_clickable", position =  pos,  force = f} 
@@ -32,7 +34,7 @@ function CreateBridge(ent, player_index)
 		end
 	end
 	if dir == defines.direction.east then
-		if checkBridgePlacement(pos, -3,-4.5,3,6.5, player_index) then
+		if checkBridgePlacement(pos, -3,-4.5,3,6.5, player_index, surface) then
 			bridge =surface.create_entity {name="bridge_east", position =  pos,  force = f} 
 			closed_bridge =surface.create_entity {name="bridge_east_closed", position =  pos,  force = f}
 			game.surfaces[1].create_entity {name="bridge_east_clickable", position =  pos,  force = f} 
@@ -42,7 +44,7 @@ function CreateBridge(ent, player_index)
 		end
 	end
 	if dir == defines.direction.south then
-		if checkBridgePlacement(pos, -6.5,-3,4.5,3, player_index) then
+		if checkBridgePlacement(pos, -6.5,-3,4.5,3, player_index, surface) then
 			bridge =surface.create_entity {name="bridge_south", position =  pos,  force = f} 
 			closed_bridge =surface.create_entity {name="bridge_south_closed", position =  pos,  force = f} 
 			game.surfaces[1].create_entity {name="bridge_south_clickable", position =  pos,  force = f} 
@@ -52,7 +54,7 @@ function CreateBridge(ent, player_index)
 		end
 	end
 	if dir == defines.direction.west then
-		if checkBridgePlacement(pos, -3,-6.5,3,4.5, player_index) then
+		if checkBridgePlacement(pos, -3,-6.5,3,4.5, player_index, surface) then
 			bridge =surface.create_entity {name="bridge_west", position =  pos,  force = f} 
 			closed_bridge =surface.create_entity {name="bridge_west_closed", position =  pos,  force = f}
 			game.surfaces[1].create_entity {name="bridge_west_clickable", position =  pos,  force = f} 
@@ -73,10 +75,10 @@ function CreateBridge(ent, player_index)
 	end	
 end
 
-function checkBridgePlacement(pos,x1,y1,x2,y2, player_index, delete)
+
+function checkBridgePlacement(pos,x1,y1,x2,y2, player_index, surface)
 	local valid = true
-    local surface = game.players[player_index].surface;
-	local entities =surface.find_entities({{pos.x+x1, pos.y+y1},{pos.x+x2, pos.y+y2}})--{{pos.x-5, pos.y-3},{pos.x+7, pos.y+3}})--
+	local entities = surface.find_entities({{pos.x+x1, pos.y+y1},{pos.x+x2, pos.y+y2}})--{{pos.x-5, pos.y-3},{pos.x+7, pos.y+3}})--
 	local counter = 0
 	for _,ent in pairs(entities) do
 		if (not (ent.name == "fish" or ent.name == "bridge_base")) then
@@ -166,7 +168,7 @@ function addEntity(surface, pos, dir, n, f)
 
 	local slave =surface.create_entity{name=n , position = pos, direction = dir, force = f}
 	if(slave) then
-		slave.destructible = false
+		--slave.destructible = false
 		slave.minable = false
 	end
 	return slave
@@ -198,16 +200,16 @@ function DeleteBridge(ent, player_index)
 		ent.surface.create_entity{name=name , position=pos, direction = ent.direction, force = ent.force}
 		return false
 	else
-		if name == "bridge_north_clickable" then
+		if string.find(name, "bridge_north") then
 			deleteSlaves(surface, pos, -5,-3,7,3, "north")
 		end
-		if name == "bridge_east_clickable"then
+		if string.find(name, "bridge_east") then
 			deleteSlaves(surface, pos, -3,-5,3,7, "east")
 		end
-		if name == "bridge_south_clickable" then
+		if string.find(name, "bridge_south") then
 			deleteSlaves(surface, pos, -7,-3,5,3, "south")
 		end
-		if name == "bridge_west_clickable" then
+		if string.find(name, "bridge_west") then
 			deleteSlaves(surface, pos, -3,-7,3,5, "west")
 		end	
 		return true
@@ -279,12 +281,20 @@ function ManageBridges(e)
 	                        --entry[3].destructible = false
 	                    end
 	                    else  										-- bridge open?
-	                        if	((entry[8].signal_state == defines.signal_state.open or entry[9].signal_state == defines.signal_state.open) and
+	                    	local valid = true 
+	                    	for i = 4,9 do 
+	                    		valid = valid and entry[i].valid 
+	                    	end
+	                    	-- delete broken bridge...	                    	
+	                    	if not valid then
+	                    		DeleteBridge(entry[1]) 
+	                    	end
+	                        if	 valid and (((entry[8].signal_state == defines.signal_state.open or entry[9].signal_state == defines.signal_state.open) and
 	                            entry[4].signal_state ~= defines.signal_state.reserved and entry[5].signal_state ~= defines.signal_state.reserved) 
 	                            or 
 	                            entry[6].signal_state == defines.signal_state.reserved 
 	                            or
-	                            entry[7].signal_state == defines.signal_state.reserved then -- no ships or reserved by train?
+	                            entry[7].signal_state == defines.signal_state.reserved ) then -- no ships or reserved by train?
 	                        -- close bridge --
 	                        entry[1].power_switch_state = false
 	                        entry[10] = animation_time - entry[10]

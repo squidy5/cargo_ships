@@ -36,6 +36,22 @@ return
 }
 end
 
+function empty_reflection()
+  return
+  {
+    pictures =
+    {
+      filename = "__cargo-ships__/graphics/blank.png",
+      width = 2,
+      height = 2,
+      variation_count = 1,
+      scale = 1,
+    },
+    rotate = true,
+    orientation_to_variation = false
+  }
+end
+
 local wave = table.deepcopy(data.raw["trivial-smoke"]["light-smoke"])
 wave.name = "wave"
 wave.cyclic = false
@@ -222,7 +238,7 @@ boat.selection_box = {{-1.2, -1.5}, {1.2, 1.5}}
 boat.collision_box = {{-1.3, -1.5}, {1.3, 1.5}}
 boat.connection_distance = 1
 boat.joint_distance = 2.5
-
+boat.water_reflection = empty_reflection()
 boat.weight = 5000
 boat.inventory_size = 60
 boat.max_speed = 1
@@ -352,6 +368,7 @@ boat_engine.pictures =
     }
   }
 }
+boat_engine.water_reflection = empty_reflection()
 boat_engine.wheels = non_standard_wheels
 boat_engine.working_sound =
     {
@@ -373,6 +390,7 @@ boat_engine.working_sound =
       match_speed_to_activity = true
     }
 boat_engine.front_light = nil
+
 boat_engine.back_light = nil
 boat_engine.stand_by_light = nil
 boat_engine.stop_trigger = nil
@@ -404,7 +422,7 @@ cargo_ship.inventory_size = 1000
 cargo_ship.max_speed = 0.5
 cargo_ship.air_resistance = 0.40
 
-
+cargo_ship.water_reflection = empty_reflection()
 cargo_ship.pictures =
 {
 	layers =
@@ -511,7 +529,7 @@ oil_tanker.capacity = tanker_capacity * 1000
 oil_tanker.max_speed = 0.5
 oil_tanker.air_resistance = 0.40
 
-
+oil_tanker.water_reflection = empty_reflection()
 oil_tanker.pictures =
 {
 
@@ -648,6 +666,7 @@ cargo_ship_engine.pictures =
     }
   }
 }
+cargo_ship_engine.water_reflection = empty_reflection()
 
 cargo_ship_engine.wheels = non_standard_wheels
 cargo_ship_engine.working_sound =
