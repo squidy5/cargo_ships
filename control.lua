@@ -103,8 +103,8 @@ function onEntityBuild(e)
 			end
 		end
 
-	elseif ent.name == "crane" then
-		--OnCraneCreated(ent)
+	--elseif ent.name == "crane" then
+	--	OnCraneCreated(ent)
 	end
 end
 
