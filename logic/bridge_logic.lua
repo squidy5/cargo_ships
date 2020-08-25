@@ -26,9 +26,9 @@ function CreateBridge(ent, player_index)
 
 	if dir == defines.direction.north then
 		if checkBridgePlacement(pos, -4.5,-3,6.5,3, player_index, surface) then
-			bridge =surface.create_entity {name="bridge_north", position =  pos,  force = f} 
+			bridge = surface.create_entity {name="bridge_north", position =  pos,  force = f} 
 			closed_bridge =surface.create_entity {name="bridge_north_closed", position =  pos,  force = f} 
-			game.surfaces[1].create_entity {name="bridge_north_clickable", position =  pos,  force = f} 
+			surface.create_entity {name="bridge_north_clickable", position =  pos,  force = f} 
 			ver = 1
 			hor = 0
 		end
@@ -37,7 +37,7 @@ function CreateBridge(ent, player_index)
 		if checkBridgePlacement(pos, -3,-4.5,3,6.5, player_index, surface) then
 			bridge =surface.create_entity {name="bridge_east", position =  pos,  force = f} 
 			closed_bridge =surface.create_entity {name="bridge_east_closed", position =  pos,  force = f}
-			game.surfaces[1].create_entity {name="bridge_east_clickable", position =  pos,  force = f} 
+			surface.create_entity {name="bridge_east_clickable", position =  pos,  force = f} 
 
 			ver = 0
 			hor = 1
@@ -47,7 +47,7 @@ function CreateBridge(ent, player_index)
 		if checkBridgePlacement(pos, -6.5,-3,4.5,3, player_index, surface) then
 			bridge =surface.create_entity {name="bridge_south", position =  pos,  force = f} 
 			closed_bridge =surface.create_entity {name="bridge_south_closed", position =  pos,  force = f} 
-			game.surfaces[1].create_entity {name="bridge_south_clickable", position =  pos,  force = f} 
+			surface.create_entity {name="bridge_south_clickable", position =  pos,  force = f} 
 
 			ver = -1
 			hor = 0
@@ -57,7 +57,7 @@ function CreateBridge(ent, player_index)
 		if checkBridgePlacement(pos, -3,-6.5,3,4.5, player_index, surface) then
 			bridge =surface.create_entity {name="bridge_west", position =  pos,  force = f} 
 			closed_bridge =surface.create_entity {name="bridge_west_closed", position =  pos,  force = f}
-			game.surfaces[1].create_entity {name="bridge_west_clickable", position =  pos,  force = f} 
+			surface.create_entity {name="bridge_west_clickable", position =  pos,  force = f} 
  
 			ver = 0
 			hor = -1
@@ -256,7 +256,7 @@ function ManageBridges(e)
 	                    entry[10] = entry[10]-1
 
 	                    if entry[1].power_switch_state == false and entry[10]==0 then--closing?
-	                        entry[2] =entry[1].surface.create_entity{name=entry[1].name .. "_closed", position = entry[1].position, force = entry[1].force}
+	                        entry[2] = entry[1].surface.create_entity{name=entry[1].name .. "_closed", position = entry[1].position, force = entry[1].force}
 	                        entry[2].destructible = false
 	                        entry[2].minable = false
 	                    elseif entry[1].power_switch_state == true and entry[10] == animation_time -1 then

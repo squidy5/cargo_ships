@@ -18,5 +18,12 @@ if settings.startup["no_oil_for_oil_rig"].value then
 	 }
 end
 
+if settings.startup["no_catching_fish"].value then
+	for _, inserter in pairs(data.raw.inserter) do
+		inserter.use_easter_egg = false
+	end
+end
+
+
 
 

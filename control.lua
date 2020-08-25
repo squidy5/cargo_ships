@@ -1,4 +1,5 @@
 require("logic.ship_placement")
+require("logic.oil_placement")
 require("logic.long_reach")
 require("logic.bridge_logic")
 require("logic.pump_placement")
@@ -257,63 +258,6 @@ function OnMined(e)
 	end
 	-- destroy
 	OnDeleted(e)
-end
-
--- creat deep sea oil
-function placeDeepOil(e)
-	local deep_tiles = 0
-	if game.active_mods["SeaBlock"] or game.active_mods["ctg"] then
-		deep_tiles = game.surfaces[1].count_tiles_filtered{area=e.area,name={"water","water-green","deepwater","deepwater-green"}}
-	else
-		deep_tiles = game.surfaces[1].count_tiles_filtered{area=e.area, name = "deepwater"}
-	end
-	math.randomseed(e.tick)
-	if deep_tiles == 1024 then
-
-		freq = 0.03
-		if settings.global["oil_frequency"].value == choices.oil_freq.none then
-			freq = 0		
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.minimal then
-			freq = 0.0008
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_v_low then
-			freq = 0.0025
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_low then
-			freq = 0.0075
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.low then
-			freq = 0.015
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.high then
-			freq = 0.06
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_high then
-			freq = 0.12
-		end
-		freq = freq 	
-		mult = 1
-		if settings.global["oil_richness"].value == choices.oil_rich.v_poor then
-			mult = 0.3
-		elseif settings.global["oil_richness"].value == choices.oil_rich.poor then
-			mult = 0.7
-		elseif settings.global["oil_richness"].value == choices.oil_rich.good then
-			mult = 1.8
-		elseif settings.global["oil_richness"].value == choices.oil_rich.v_good then
-			mult = 3
-		end
-
-
-		local m_x = e.area.left_top.x +16
-		local m_y = e.area.left_top.y + 16
-		local distance = math.sqrt(m_x*m_x + m_y*m_y)
-		distance_mult = 0.5 + distance/4000
-
-		r = math.random()
-		if r < freq then
-			-- create oil in inner part of tile to avoid deep oil too close to land
-			local x = math.random(-10,10)
-			local y = math.random(-10,10)
-			local pos = {m_x+x, m_y+y}
-			local a = (1+freq/(r+(freq/50)))*750000*mult*distance_mult
-			game.surfaces[1].create_entity{name="deep_oil", amount=a, position=pos}
-		end
-	end
 end
 
 function powerOilRig(e)

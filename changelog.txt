@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.55
+  Bugfixes:
+    - fixed deep oil spaning on wrong surface when using mods like space exploration
+    - fixed crash occuring when used in combination with omnimatter
+  Changes:
+    - made inserter not catch fish. can be changed in mod settings (startup).
+    - made drop down items in mod settings translatable
+    - adjusted oil spawaning math, with higher increase in oil richness for far away oil patches
+    
+---------------------------------------------------------------------------------------------------
 Version:  0.0.54
   Bugfixes:
     - made it impossible to create ghost from bridges which led to crashes

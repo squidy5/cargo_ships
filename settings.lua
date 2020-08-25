@@ -1,4 +1,4 @@
-local choices = require("choices")
+--local choices = require("choices")
 
 
 data:extend({
@@ -6,16 +6,31 @@ data:extend({
 		type = "string-setting",
 		name = "oil_frequency",
 		setting_type = "runtime-global",
-		default_value = choices.oil_freq.normal,
-		allowed_values = choices.oil_freq,
+		default_value = "normal",
+		allowed_values = {
+			"none",
+			"minimal",
+			"very-very-low",
+			"very-low",
+			"low",
+			"normal",
+			"high",
+			"very-high"
+		},
 		order = "a-a"
 	},
 	{
 		type = "string-setting",
 		name = "oil_richness",
 		setting_type = "runtime-global",
-		default_value = choices.oil_rich.regular,
-		allowed_values = choices.oil_rich,
+		default_value = "regular",
+		allowed_values = {
+		"very-poor",
+		"poor",
+		"regular",
+		"good",
+		"very-good"
+		},
 		order = "a-a"
 	},
 	{
@@ -34,6 +49,14 @@ data:extend({
         default_value = 1,
 		minimum_value = 0.5,
 		maximum_value = 2
+	},
+	{
+        type = "bool-setting",
+        name = "no_catching_fish",
+        setting_type = "startup",
+        default_value = true,
+		minimum_value = 0.5,
+		order = "a-c"
 	},
 	{
 		type = "bool-setting",
