@@ -17,7 +17,7 @@ data:extend({
         type = "item-subgroup",
         name = "water_equipment",
         group ="transport",
-        order = "q-2",
+        order = "j-2",
         },
 })
 	subgroup_ship = "water_transport2"
