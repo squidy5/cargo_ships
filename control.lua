@@ -7,7 +7,6 @@ require("logic.blueprint_logic")
 require("gui.oil_rig_gui")
 --require("logic.crane_logic")
 require("logic.rolling_stock_logic")
-local choices = require("choices")
 
 
 

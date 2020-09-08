@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.55
   Bugfixes:
-    - fixed deep oil spaning on wrong surface when using mods like space exploration
+    - fixed deep oil spawning on wrong surface when using mods like space exploration
     - fixed crash occuring when used in combination with omnimatter
   Changes:
     - made inserter not catch fish. can be changed in mod settings (startup).
     - made drop down items in mod settings translatable
     - adjusted oil spawaning math, with higher increase in oil richness for far away oil patches
-    
+    - updated russian locale
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.54
   Bugfixes:
