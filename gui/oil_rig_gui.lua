@@ -13,13 +13,18 @@ end
 
 function onOilrickGuiClosed(e)
 	if e.entity ~= nil and e.entity.name == "oil_rig" then
-		if not game.players[e.player_index].gui.top.oilStorageFrame then return end
-		game.players[e.player_index].gui.top.oilStorageFrame.destroy()	
-		global.gui_oilrigs[e.player_index] = nil
+		deleteOilGui(e.player_index)
 	end
 end
 
+function deleteOilGui(player_index)
+	if not game.players[player_index].gui.top.oilStorageFrame then return end
+	game.players[player_index].gui.top.oilStorageFrame.destroy()	
+	global.gui_oilrigs[player_index] = nil
+end
+
 function UpdateOilRigGui(e)
+
 	if e.tick%5 ~= 0 then return end
 
 	if global.gui_oilrigs == nil then
@@ -28,6 +33,13 @@ function UpdateOilRigGui(e)
 	local oil_rig_capacity = settings.startup["oil_rig_capacity"].value;
 
 
+
+	for i, oilrig in ipairs(global.gui_oilrigs) do
+		if not oilrig.valid then
+			deleteOilGui(i)
+			break
+		end
+	end
 	for i, oilrig in ipairs(global.gui_oilrigs) do
 		if oilrig ~= nil then
 			local ourframe = game.players[i].gui.top.oilStorageFrame

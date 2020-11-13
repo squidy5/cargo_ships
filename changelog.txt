@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.56
+  Bugfixes:
+    - fixed crash when destroying/deleting oil rig while gui open
+  Changes:
+    - added support for passenger riding in small boat
+    - added startup mod option for changeing fuel capcities for ships
+    - added czech locale
+---------------------------------------------------------------------------------------------------
 Version:  0.0.55
   Bugfixes:
     - fixed deep oil spawning on wrong surface when using mods like space exploration

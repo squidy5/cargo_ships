@@ -156,7 +156,8 @@ function OnEnterShip(e)
 				if target and target.get_driver() == nil then
 					target.set_driver(game.players[player_index])
 					done = true
-					break
+				elseif target and target.name == "indep-boat" and target.get_passenger() == nil then
+					target.set_passenger(game.players[player_index])
 				end
 			end
 			if done then break end
@@ -164,7 +165,25 @@ function OnEnterShip(e)
 	else
 		local new_pos = game.players[player_index].surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
 	 	if new_pos ~= nil then
- 			game.players[player_index].vehicle.set_driver(nil)
+	 		local old_vehicle = game.players[player_index].vehicle
+	 		if old_vehicle.name == "indep-boat" then
+	 			local driver = old_vehicle.get_driver()
+	 			if driver ~= nil and driver.type == "character" then 
+	 				driver = driver.player
+	 				if driver ~= nil and driver == game.players[player_index] then
+	 				 	old_vehicle.set_driver(nil) 
+	 				end
+	 			end
+	 			local passenger = old_vehicle.get_passenger()
+	 			if passenger ~= nil and passenger.type == "character" then 
+	 				passenger = passenger.player
+	 				if passenger ~= nil and passenger == game.players[player_index] then
+	 				 	old_vehicle.set_passenger(nil) 
+	 				end
+	 			end
+	 		else
+	 			old_vehicle.set_driver(nil) 
+	 		end
  			game.players[player_index].driving = false
  			game.players[player_index].teleport(new_pos)
  		

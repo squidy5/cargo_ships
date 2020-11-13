@@ -78,6 +78,7 @@ data:extend({wave})
 
 
 speed_modifier = settings.startup["speed_modifier"].value;
+fuel_modifier = settings.startup["fuel_modifier"].value;
 
 
 ----------------------------------------------------------------
@@ -107,7 +108,7 @@ indep_boat.burner =
 {
   fuel_category = "chemical",
   effectivity = 1,
-  fuel_inventory_size = 3,
+  fuel_inventory_size = 3 * fuel_modifier,
   smoke =
     {
       {
@@ -317,7 +318,7 @@ boat_engine.burner =
 {
   fuel_category = "chemical",
   effectivity = 1,
-  fuel_inventory_size = 4,
+  fuel_inventory_size = 3 * fuel_modifier,
   smoke =
   {
     {
@@ -602,7 +603,7 @@ cargo_ship_engine.burner =
 {
   fuel_category = "chemical",
   effectivity = 1,
-  fuel_inventory_size = 6,
+  fuel_inventory_size = 5 * fuel_modifier,
   smoke =
   {
     {

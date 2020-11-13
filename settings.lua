@@ -51,6 +51,14 @@ data:extend({
 		maximum_value = 2
 	},
 	{
+        type = "double-setting",
+        name = "fuel_modifier",
+        setting_type = "startup",
+        default_value = 2,
+		minimum_value = 1,
+		maximum_value = 10
+	},
+	{
         type = "bool-setting",
         name = "no_catching_fish",
         setting_type = "startup",
