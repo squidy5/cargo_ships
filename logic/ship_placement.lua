@@ -76,12 +76,12 @@ function checkPlacement()
 						cancelPlacement(engine, player_index)
 					-- check if on rails
 					elseif entity.train.front_rail ~=nil then
-						if entity.train.front_rail.name == "straight-rail" or entity.train.front_rail.name == "curved-rail" then
+						if entity.train.front_rail.name ~= "straight-water-way-placed" and entity.train.front_rail.name ~= "curved-water-way-placed" then
 							cancelPlacement(entity, player_index)
 							cancelPlacement(engine, player_index)
 						end
 					elseif entity.train.back_rail ~=nil then
-						if entity.train.back_rail.name == "straight-rail" or entity.train.back_rail.name == "curved-rail" then
+						if entity.train.back_rail.name ~= "straight-water-way-placed" and entity.train.back_rail.name ~= "curved-water-way-placed" then
 							cancelPlacement(entity, player_index)
 							cancelPlacement(engine, player_index)
 						end
