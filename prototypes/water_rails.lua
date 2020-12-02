@@ -34,6 +34,12 @@ railpicturesinternal = function(elems, invisible)
                 {"curved_rail" ,"horizontal-right-bottom", 256, 128, 0, 0},
                 {"curved_rail" ,"horizontal-left-bottom", 256, 128, 0, 0}}
   local res = {}
+
+  postfix = ""
+  if settings.startup["use_dark_blue_waterways"].value then
+    postfix = "-dark"
+  end
+
   for _ , key in ipairs(keys) do
     part = {}
     dashkey = key[1]:gsub("_", "-")
@@ -41,7 +47,7 @@ railpicturesinternal = function(elems, invisible)
       if(elem[1] == "metals" and not invisible) then
         part[elem[1]] = { 
           sheet = {
-              filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
+              filename = string.format("__cargo-ships__/graphics/entity/%s%s/%s-%s-%s.png", dashkey, postfix, dashkey, key[2], elem[2]),
               priority = "extra-high", 
               flags = elem.mipmap and { "icon" },
               width = key[3],
@@ -124,6 +130,7 @@ data:extend({
     collision_mask = {'ground-tile', "object-layer"},
     rail_category = "regular",
     pictures = railpictures(),
+    placeable_by = { item="water-way", count = 1}
   },
   {
     type = "curved-rail",
@@ -156,7 +163,7 @@ local swwp = table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
 swwp.name = "straight-water-way-placed"
 swwp.flags =  {"placeable-neutral", "player-creation", "building-direction-8-way"}
 swwp.collision_mask = {"object-layer"}
-swwp. minable = {mining_time = 0.2, result = "water-way", count = 1}
+swwp.minable = {mining_time = 0.2, result = "water-way", count = 1}
 swwp.collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
 swwp.secondary_collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
 
@@ -183,14 +190,14 @@ invisible_rail.pictures = railpictures(true)
 invisible_rail.minable = nil
 invisible_rail.selection_box = nil
 invisible_rail.selectable_in_game = false
-invisible_rail.collision_mask ={}
+invisible_rail.collision_mask ={"object-layer"}
 invisible_rail.allow_copy_paste = false
 
 local bridge_crossing=table.deepcopy(data.raw["straight-rail"]["straight-water-way-placed"])
 bridge_crossing.name = "bridge_crossing"
 bridge_crossing.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 bridge_crossing.minable = nil
-bridge_crossing.collision_mask ={}
+bridge_crossing.collision_mask ={"object-layer"}
 bridge_crossing.collision_box ={{-0.6, -0.95}, {0.6, 0.95}}
 bridge_crossing.selection_box = nil
 bridge_crossing.selectable_in_game = false

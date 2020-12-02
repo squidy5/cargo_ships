@@ -5,9 +5,10 @@
 local ship_pump=table.deepcopy(data.raw["pump"]["pump"])
 ship_pump.name = "ship_pump"
 ship_pump.minable = {mining_time = 1, result = "ship_pump"}
-ship_pump.collision_mask = {"object-layer", "train-layer"}
-ship_pump.pumping_speed = 400
+ship_pump.collision_mask = {"object-layer"}
+ship_pump.pumping_speed = 1000
 ship_pump.energy_usage = "50kW"
+ship_pump.next_upgrade = nil
 
 
 
@@ -61,9 +62,13 @@ deep_oil.collision_mask = {'resource-layer'}
 
 
 
+
+
 ----------------------------------------------------------------
 ------------------------ OIL PLATFORM --------------------------
 ----------------------------------------------------------------
+local oil_rig_capacity = settings.startup["oil_rig_capacity"].value;
+
 
 local oil_rig=table.deepcopy(data.raw["mining-drill"]["pumpjack"])
 oil_rig.name = "oil_rig"
@@ -82,13 +87,14 @@ oil_rig.energy_source =
 {
   type = "electric",
   -- will produce this much * energy pollution units per tick
-  emissions = 0.2,
+  emissions = 0.2/60,
   usage_priority = "secondary-input"
 }
 oil_rig.output_fluid_box =
 {
   base_area = 10,
   base_level = 10,
+  height = 2*oil_rig_capacity,
   pipe_covers = pipecoverspictures(),
   pipe_connections =
   {
@@ -119,8 +125,8 @@ oil_rig.animations =
         priority = "high",
         filename = "__cargo-ships__/graphics/blank.png",
         line_length = 8,
-        width = 1,
-        height = 1,
+        width = 2,
+        height = 2,
         frame_count = 40,
         shift = util.by_pixel(-4, -24),
         animation_speed = 0.5,
@@ -147,7 +153,6 @@ oil_rig.smoke =
     starting_frame_deviation = 60
   }
 }
-
 
 
 
@@ -183,8 +188,8 @@ or_power.horizontal_animation =
         {
           {
             filename = "__cargo-ships__/graphics/blank.png",
-            width = 1,
-            height = 1,
+            width = 2,
+            height = 2,
             frame_count = 32,
             line_length = 8,
           }
@@ -196,8 +201,8 @@ or_power.vertical_animation =
   {
     {
       filename = "__cargo-ships__/graphics/blank.png",
-      width = 1,
-      height = 1,
+      width = 2,
+      height = 2,
       frame_count = 32,
       line_length = 8,
     }
@@ -234,12 +239,13 @@ or_pole.collision_box= nil
 or_pole.selection_box= nil
 or_pole.collision_mask= {}
 or_pole.fast_replaceable_group = nil
+or_pole.next_upgrade=nil
 or_pole.maximum_wire_distance = 0
 or_pole.pictures =
 {
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
   direction_count = 4,
   line_length = 4,
 }
@@ -258,8 +264,8 @@ or_lamp.collision_mask= {}
 or_lamp.picture_off = 
 {  
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
 }
 or_lamp.pciture_on = {}
 
@@ -274,8 +280,8 @@ or_radar.selection_box= nil
 or_radar.pictures=
 {
   filename = "__cargo-ships__/graphics/blank.png",
-  width = 1,
-  height = 1,
+  width = 2,
+  height = 2,
   direction_count = 4,
   line_length = 4,
 }

@@ -7,10 +7,11 @@ non_standard_wheels =
   filenames =
   {
       "__cargo-ships__/graphics/blank.png",
-      "__cargo-ships__/graphics/blank.png"
+      "__cargo-ships__/graphics/blank.png",
+
   },
-  line_length = 8,
-  lines_per_file = 16
+  line_length =  32,
+  lines_per_file = 32
 }
 function ship_light()
 return
@@ -33,6 +34,22 @@ return
     color = {r = 0.92, g = 0.77, b = 0.3}
   },
 }
+end
+
+function empty_reflection()
+  return
+  {
+    pictures =
+    {
+      filename = "__cargo-ships__/graphics/blank.png",
+      width = 2,
+      height = 2,
+      variation_count = 1,
+      scale = 1,
+    },
+    rotate = true,
+    orientation_to_variation = false
+  }
 end
 
 local wave = table.deepcopy(data.raw["trivial-smoke"]["light-smoke"])
@@ -60,6 +77,8 @@ data:extend({wave})
 
 
 
+speed_modifier = settings.startup["speed_modifier"].value;
+
 
 ----------------------------------------------------------------
 ------------------------ BOAT indep ---------------------------
@@ -76,7 +95,10 @@ indep_boat.icon_size = 64
 indep_boat.guns= nil
 indep_boat.braking_power = "150kW"
 indep_boat.weight = 10000
-indep_boat.consumption = "300kW"
+indep_boat.max_health = 1500
+boat_power = 300 + (speed_modifier -1) * 150
+indep_boat.consumption = boat_power.."kW"
+indep_boat.friction = 0.002/speed_modifier
 indep_boat.minable = {mining_time = 1,result = "boat"}
 indep_boat.rotation_speed = 0.008
 indep_boat.inventory_size = 80
@@ -211,15 +233,15 @@ boat.icon_size = 64
 boat.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 boat.allow_copy_paste = false
 boat.minable = {mining_time = 1, result = "boat"}
-
+boat.max_health = 1500
 boat.selection_box = {{-1.2, -1.5}, {1.2, 1.5}}
 boat.collision_box = {{-1.3, -1.5}, {1.3, 1.5}}
 boat.connection_distance = 1
 boat.joint_distance = 2.5
-
+boat.water_reflection = empty_reflection()
 boat.weight = 5000
 boat.inventory_size = 60
-boat.max_speed = 0.3
+boat.max_speed = 1
 
 boat.pictures =
 {
@@ -282,9 +304,10 @@ boat_engine.allow_copy_paste = false
 boat_engine.minable = nil
 boat_engine.icon = "__cargo-ships__/graphics/icons/ship-engine.png"
 boat_engine.icon_size = 64
-boat_engine.weigt = 5000
-boat_engine.max_speed = 0.27
-boat_engine.max_power = "300kW"
+boat_engine.weight = 5000
+boat_engine.max_speed = 0.27*speed_modifier
+boat_power = 300 + (speed_modifier -1) * 150
+boat_engine.max_power = boat_power.."kW"
 boat_engine.air_resistance = 0.02
 boat_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}
 boat_engine.selection_box = {{-1.3, -1.2}, {1.3, 1.2}}
@@ -330,8 +353,8 @@ boat_engine.pictures =
     {
       slice = 4,
       priority = "very-low",
-      width = 1,
-      height = 1,
+      width = 3,
+      height = 3,
       direction_count = 256,
       allow_low_quality_rotation = true,
       filenames =
@@ -345,6 +368,7 @@ boat_engine.pictures =
     }
   }
 }
+boat_engine.water_reflection = empty_reflection()
 boat_engine.wheels = non_standard_wheels
 boat_engine.working_sound =
     {
@@ -366,6 +390,7 @@ boat_engine.working_sound =
       match_speed_to_activity = true
     }
 boat_engine.front_light = nil
+
 boat_engine.back_light = nil
 boat_engine.stand_by_light = nil
 boat_engine.stop_trigger = nil
@@ -384,7 +409,7 @@ cargo_ship.icon_size = 128
 cargo_ship.flags = {"not-blueprintable","placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 cargo_ship.allow_copy_paste = false
 cargo_ship.minable = {mining_time = 1, result = "cargo_ship"}
-
+cargo_ship.max_health = 5000
 cargo_ship.selection_box = {{-1.5, -8.5}, {1.5, 8.5}}
 cargo_ship.collision_box = {{-1.5, -7.5}, {1.5, 7.5}}
 cargo_ship.drawing_box = {{-1, -8}, {1, 8}}
@@ -394,10 +419,10 @@ cargo_ship.joint_distance = 12
 
 cargo_ship.weight = 100000
 cargo_ship.inventory_size = 1000
-cargo_ship.max_speed = 0.15
+cargo_ship.max_speed = 0.5
 cargo_ship.air_resistance = 0.40
 
-
+cargo_ship.water_reflection = empty_reflection()
 cargo_ship.pictures =
 {
 	layers =
@@ -477,6 +502,8 @@ cargo_ship.drive_over_tie_trigger = nil
 
 
 
+local tanker_capacity = settings.startup["tanker_capacity"].value;
+
 
 ----------------------------------------------------------------
 ------------------------ OIL TANKER ----------------------------
@@ -489,7 +516,7 @@ oil_tanker.icon_size = 128
 oil_tanker.flags = {"not-blueprintable","placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 oil_tanker.allow_copy_paste = false
 oil_tanker.minable = {mining_time = 1, result = "oil_tanker"}
-
+oil_tanker.max_health = 5000
 oil_tanker.selection_box = {{-1.5, -8.5}, {1.5, 8.5}}
 oil_tanker.collision_box = {{-1.5, -7.5}, {1.5, 7.5}}
 oil_tanker.drawing_box = {{-1, -8}, {1, 8}}
@@ -498,11 +525,11 @@ oil_tanker.joint_distance = 12
 
 
 oil_tanker.weight = 120000
-oil_tanker.capacity = 150000
-oil_tanker.max_speed = 0.12
+oil_tanker.capacity = tanker_capacity * 1000
+oil_tanker.max_speed = 0.5
 oil_tanker.air_resistance = 0.40
 
-
+oil_tanker.water_reflection = empty_reflection()
 oil_tanker.pictures =
 {
 
@@ -563,8 +590,9 @@ cargo_ship_engine.allow_copy_paste = false
 cargo_ship_engine.icon = "__cargo-ships__/graphics/icons/ship-engine.png"
 cargo_ship_engine.icon_size = 64
 cargo_ship_engine.weight = 100000
-cargo_ship_engine.max_speed = 0.15
-cargo_ship_engine.max_power = "2000kW"
+cargo_ship_engine.max_speed = 0.15 * speed_modifier
+ship_power = 2000 + (speed_modifier-1)*1200
+cargo_ship_engine.max_power = ship_power.."kW"
 cargo_ship_engine.air_resistance = 0.40
 cargo_ship_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}
 cargo_ship_engine.selection_box = {{-1.3, -1.2}, {1.3, 1.2}}
@@ -623,8 +651,8 @@ cargo_ship_engine.pictures =
     {
       slice = 4,
       priority = "very-low",
-      width = 1,
-      height = 1,
+      width = 3,
+      height = 3,
       direction_count = 256,
       allow_low_quality_rotation = true,
       filenames =
@@ -638,6 +666,7 @@ cargo_ship_engine.pictures =
     }
   }
 }
+cargo_ship_engine.water_reflection = empty_reflection()
 
 cargo_ship_engine.wheels = non_standard_wheels
 cargo_ship_engine.working_sound =

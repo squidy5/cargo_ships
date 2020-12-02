@@ -1,17 +1,37 @@
 require("logic.ship_placement")
+require("logic.oil_placement")
 require("logic.long_reach")
 require("logic.bridge_logic")
 require("logic.pump_placement")
 require("logic.blueprint_logic")
-local choices = require("choices")
+require("gui.oil_rig_gui")
+--require("logic.crane_logic")
+require("logic.rolling_stock_logic")
+
+
 
 -- spawn additioanl invisible enties
 function onEntityBuild(e)
-	-- 
+	--disable rolling stock logic for 1 tick
+	--global.rolling_stock_timeout = 1
+
+
 	local ent = e.created_entity or e.entity
-	if ent.name == "indep-boat" then
+
+	-- check ghost entities first
+	if ent.name == "entity-ghost" then
+		if ent.ghost_name == "bridge_base" then
+			ent.destroy()
+			return
+		end
+	
+
+	elseif ent.name == "indep-boat" then
 		CheckBoatPlacement(ent, e.player_index)
+		return
+
 	elseif ent.type == "cargo-wagon" or ent.type == "fluid-wagon" or ent.type == "locomotive" or ent.type == "artillery-wagon" then
+
 		--game.players[1].print(ent.collision_mask)
 		local engine = nil
 		if ent.name == "cargo_ship" or ent.name == "oil_tanker" then
@@ -23,6 +43,7 @@ function onEntityBuild(e)
 		end
 		-- check placement in next tick 
 		table.insert(global.check_entity_placement, {ent, engine, e.player_index})
+		return
 
 	-- add oilrig slave entity
 	elseif ent.name == "oil_rig" then
@@ -46,9 +67,12 @@ function onEntityBuild(e)
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = ent.force}
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = ent.force}
 		ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
+		return
+
 	-- create bridge
 	elseif ent.name == "bridge_base" then
 		CreateBridge(ent, e.player_index)
+		return
 
 	-- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collison mask
 	elseif ent.name == "straight-water-way" or ent.name == "curved-water-way" then
@@ -78,6 +102,9 @@ function onEntityBuild(e)
 				WW.destructible = false
 			end
 		end
+
+	--elseif ent.name == "crane" then
+	--	OnCraneCreated(ent)
 	end
 end
 
@@ -90,6 +117,12 @@ function onTileBuild(e)
 		else
 			surface =  e.robot.surface
 		end 
+
+		-- Fallback, just in case
+		if surface == nil then
+			surface = game.surfaces.nauvis
+		end
+
 		local old_tiles = {}
 		for _, tile in pairs(e.tiles) do
 			if not surface.can_place_entity{name = "tile_test_item", position = tile.position} 
@@ -101,21 +134,6 @@ function onTileBuild(e)
 				table.insert(old_tiles, {name = tile.old_tile.name or "deepwater", position = tile.position})
 
 			end
-			
-
-			--[[
-			local x = tile.position.x
-			local y = tile.position.y
-			local sww = game.surfaces[e.surface_index].find_entities_filtered{area={{x-0.5, y-0.5},{x+1,y+1}}, name="straight-water-way-placed"}
-			local cww = game.surfaces[e.surface_index].find_entities_filtered{area={{x-1.5, y-1.5},{x+1.5,y+1.5}}, name="curved-water-way-placed"}
-	
-			for _, ww in pairs(sww) do
-				ww.destroy()
-			end
-			for _, ww in pairs(cww) do
-				ww.destroy()
-			end
-			]]
 		end
 		surface.set_tiles(old_tiles)
 	end
@@ -131,37 +149,26 @@ function OnEnterShip(e)
 
 	if game.players[player_index].vehicle == nil then
 		for dis = 1,10 do
-			local indep_boat = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="indep-boat", limit=1}
-			if indep_boat[1] ~= nil then	
-				indep_boat[1].set_driver(game.players[player_index])
-				break
+			local targets = game.players[player_index].surface.find_entities_filtered{
+				area={{X-dis, Y-dis}, {X+dis, Y+dis}},name={"indep-boat","boat_engine","cargo_ship_engine"}}
+			local done = false
+			for _, target in ipairs(targets) do
+				if target and target.get_driver() == nil then
+					target.set_driver(game.players[player_index])
+					done = true
+					break
+				end
 			end
-			local boat = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="boat_engine", limit=1}
-			if boat[1] ~= nil then	
-				boat[1].set_driver(game.players[player_index])
-				break
-			end
-			local ship_engine = game.players[player_index].surface.find_entities_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, name="cargo_ship_engine", limit=1}
-			if ship_engine[1] ~= nil then	
-				ship_engine[1].set_driver(game.players[player_index])
-				break
-			end
+			if done then break end
 		end
 	else
 		local new_pos = game.players[player_index].surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
 	 	if new_pos ~= nil then
-
  			game.players[player_index].vehicle.set_driver(nil)
  			game.players[player_index].driving = false
  			game.players[player_index].teleport(new_pos)
  		
 		end
-		--[[
-		for dis = 1,10 do
-			local land = game.players[player_index].surface.find_tiles_filtered{area={{X-dis, Y-dis}, {X+dis, Y+dis}}, collision_mask ="ground-tile"}
-
-		end
-		]]
 	end
 end
 
@@ -215,7 +222,8 @@ function OnDeleted(e)
 		
 
 		elseif string.match(ent.name, "bridge_") then
-			DeleteBridge(ent)
+			worked = DeleteBridge(ent, e.player_index)
+			if not worked then e.buffer.clear() end
 		end 
 	end
 end
@@ -251,63 +259,6 @@ function OnMined(e)
 	OnDeleted(e)
 end
 
--- creat deep sea oil
-function placeDeepOil(e)
-	local deep_tiles = 0
-	if game.active_mods["SeaBlock"] then
-		deep_tiles = game.surfaces[1].count_tiles_filtered{area=e.area,name={"water","water-green","deepwater","deepwater-green"}}
-	else
-		deep_tiles = game.surfaces[1].count_tiles_filtered{area=e.area, name = "deepwater"}
-	end
-	math.randomseed(e.tick)
-	if deep_tiles == 1024 then
-
-		freq = 0.03
-		if settings.global["oil_frequency"].value == choices.oil_freq.none then
-			freq = 0		
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.minimal then
-			freq = 0.0008
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_v_low then
-			freq = 0.0025
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_low then
-			freq = 0.0075
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.low then
-			freq = 0.015
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.high then
-			freq = 0.06
-		elseif settings.global["oil_frequency"].value == choices.oil_freq.v_high then
-			freq = 0.12
-		end
-		freq = freq 	
-		mult = 1
-		if settings.global["oil_richness"].value == choices.oil_rich.v_poor then
-			mult = 0.3
-		elseif settings.global["oil_richness"].value == choices.oil_rich.poor then
-			mult = 0.7
-		elseif settings.global["oil_richness"].value == choices.oil_rich.good then
-			mult = 1.8
-		elseif settings.global["oil_richness"].value == choices.oil_rich.v_good then
-			mult = 3
-		end
-
-
-		local m_x = e.area.left_top.x +16
-		local m_y = e.area.left_top.y + 16
-		local distance = math.sqrt(m_x*m_x + m_y*m_y)
-		distance_mult = 0.5 + distance/4000
-
-		r = math.random()
-		if r < freq then
-			-- create oil in inner part of tile to avoid deep oil too close to land
-			local x = math.random(-10,10)
-			local y = math.random(-10,10)
-			local pos = {m_x+x, m_y+y}
-			local a = (1+freq/(r+(freq/50)))*750000*mult*distance_mult
-			game.surfaces[1].create_entity{name="deep_oil", amount=a, position=pos}
-		end
-	end
-end
-
 function powerOilRig(e)
 	if e.tick % 120 == 0 then
 		if global.or_generators == nil then
@@ -335,11 +286,23 @@ function init()
 	if global.bridges == nil then
 		global.bridges = {}
 	end
+	if global.bridgesToRplace == nil then
+		global.bridgesToReplace = {}
+	end
 	if global.ship_pump_selected == nil then
 		global.ship_pump_selected = {}
 	end
 	if global.pump_markers == nil then
 		global.pump_markers = {}
+	end
+	if global.cranes == nil then
+		global.cranes = {}
+	end
+	if global.new_cranes == nil then
+		global.new_cranes = {}
+	end
+	if global.gui_oilrigs == nil then
+		global.gui_oilrigs = {}
 	end
 end
 
@@ -348,7 +311,10 @@ function onTick(e)
 	checkPlacement()
 	ManageBridges(e)
 	UpdateVisuals(e)
+	UpdateOilRigGui(e)
+	--ManageCranes(e)
 end
+
 
 function onStackChanged(e)
 	increaseReach(e)
@@ -382,7 +348,8 @@ script.on_event(defines.events.on_robot_built_entity, onEntityBuild)
 script.on_event(defines.events.script_raised_built, onEntityBuild)
 --power oil rig
 script.on_event(defines.events.on_tick, onTick)
-
+script.on_event(defines.events.on_gui_opened, onOilrickGuiOpened)
+script.on_event(defines.events.on_gui_closed, onOilrickGuiClosed)
 -- long reach
 script.on_event(defines.events.on_runtime_mod_setting_changed, applyChanges)
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
@@ -390,3 +357,16 @@ script.on_event(defines.events.on_player_died, deadReach)
 
 --blueprints
 script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
+
+-- rolling stock connect
+script.on_event(defines.events.on_train_created, On_Train_Created)
+
+
+
+remote.add_interface("aai-sci-burner", {
+    hauler_types = function(data)
+        return {
+            'indep-boat',
+        }
+    end,
+})

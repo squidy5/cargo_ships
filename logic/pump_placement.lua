@@ -33,7 +33,7 @@ end
 function AddVisuals(pos, player_index)
 	local new_markers = {}
 	local a = {{pos.x-100, pos.y-100},{pos.x+100, pos.y+100}}
-	local ports = game.surfaces[1].find_entities_filtered{area = a, name="port"}
+	local ports = game.players[player_index].surface.find_entities_filtered{area = a, name="port"}
 
 	for _,port in pairs(ports) do
 		local dir = port.direction
@@ -51,21 +51,22 @@ function AddVisuals(pos, player_index)
 end
 
 function PlaceVisuals(position, horizontal, mult, player_index)
+    local surface = game.players[player_index].surface;
 	local markers={}
 	if horizontal ~= 0 then
 		for x = 5, 9, 2 do
-			for y = -5, 1, 6 do 
+			for y = -4, 0, 4 do 
 				local pos = {position.x+x*mult, position.y-y*mult}
-				local m = game.surfaces[1].create_entity {name="pump_marker", position =  pos} 
+				local m = surface.create_entity {name="pump_marker", position =  pos} 
 				m.render_player = game.players[player_index]
 				table.insert(markers, m)
 			end
 		end
 	else
 		for y = 5, 9, 2 do
-			for x = -5, 1, 6 do 
+			for x = -4, 0, 4 do 
 				local pos = {position.x+x*mult, position.y+y*mult}
-				local m = game.surfaces[1].create_entity {name="pump_marker", position =  pos}
+				local m = surface.create_entity {name="pump_marker", position =  pos}
 				m.render_player = game.players[player_index]
 				table.insert(markers, m)
 			end
