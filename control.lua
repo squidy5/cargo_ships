@@ -49,7 +49,7 @@ function onEntityBuild(e)
 	elseif ent.name == "oil_rig" then
 		local p = ent.position
 		local a = {{p.x-2, p.y-2},{p.x+2,p.y+2}}
-		local deep_oil = game.surfaces[1].find_entities_filtered{area=a, name="deep_oil"}
+		local deep_oil = ent.surface.find_entities_filtered{area=a, name="deep_oil"}
 		if #deep_oil == 0 then
 			ent.destroy()
 			if e.player_index ~= nil then
@@ -84,7 +84,7 @@ function onEntityBuild(e)
 		ent.destroy() --destroy old
 		--check for allready placed entites
 		local c = 0
-		local prev = game.surfaces[1].find_entities_filtered{position = p, name = n}
+		local prev = ent.surface.find_entities_filtered{position = p, name = n}
 		for _,pr in pairs(prev) do
 			if pr.direction == d then
 				c = pr.name == "straight-water-way-placed" and 1 or 4 
@@ -203,19 +203,19 @@ function OnDeleted(e)
 
 		elseif ent.name == "oil_rig" then
 			local pos = ent.position
-			or_inv = game.surfaces[1].find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_power"}
+			or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_power"}
 			for i = 1, #or_inv do
 				or_inv[i].destroy()
 			end
-			or_inv = game.surfaces[1].find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_lamp"}
+			or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_lamp"}
 			for i = 1, #or_inv do
 				or_inv[i].destroy()
 			end
-			or_inv = game.surfaces[1].find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_pole"}
+			or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_pole"}
 			for i = 1, #or_inv do
 				or_inv[i].destroy()
 			end
-			or_inv = game.surfaces[1].find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_radar"}
+			or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_radar"}
 			for i = 1, #or_inv do
 				or_inv[i].destroy()
 			end
@@ -263,8 +263,10 @@ function powerOilRig(e)
 	if e.tick % 120 == 0 then
 		if global.or_generators == nil then
 			global.or_generators = {}
-			for _, generator in pairs(game.surfaces[1].find_entities_filtered{name="or_power"}) do
-				table.insert(global.or_generators, generator)
+			for _, surface in pairs(game.surfaces) do
+				for _, generator in pairs(surface.find_entities_filtered{name="or_power"}) do
+					table.insert(global.or_generators, generator)
+				end
 			end
 		end
 		for i, generator in pairs(global.or_generators) do
