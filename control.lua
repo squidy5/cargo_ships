@@ -6,7 +6,7 @@ require("logic.pump_placement")
 require("logic.blueprint_logic")
 require("gui.oil_rig_gui")
 --require("logic.crane_logic")
-require("logic.rolling_stock_logic")
+--require("logic.rolling_stock_logic")
 
 
 
@@ -300,12 +300,11 @@ end
 function init()
 	if global.check_entity_placement == nil then
 		global.check_entity_placement = {}
-		global.csp = false
 	end
 	if global.bridges == nil then
 		global.bridges = {}
 	end
-	if global.bridgesToRplace == nil then
+	if global.bridgesToReplace == nil then
 		global.bridgesToReplace = {}
 	end
 	if global.ship_pump_selected == nil then
@@ -323,6 +322,7 @@ function init()
 	if global.gui_oilrigs == nil then
 		global.gui_oilrigs = {}
 	end
+	global.connection_counter = 0
 end
 
 function onTick(e)

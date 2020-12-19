@@ -341,7 +341,7 @@ invisible_chain_signal.selection_box = nil
 invisible_chain_signal.destructible = false
 invisible_chain_signal.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 invisible_chain_signal.selectable_in_game = false
-invisible_chain_signal.collision_mask = {}
+invisible_chain_signal.collision_mask = {'rail-layer'}
 invisible_chain_signal.allow_copy_paste = false
 invisible_chain_signal.minable = nil
 
@@ -359,6 +359,7 @@ invisible_chain_signal.green_light = nil
 invisible_chain_signal.orange_light = nil
 invisible_chain_signal.red_light = nil
 invisible_chain_signal.blue_light = nil
+invisible_chain_signal.fast_replaceable_group = nil
 data:extend({invisible_chain_signal})
 
 

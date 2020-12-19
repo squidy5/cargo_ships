@@ -1,12 +1,12 @@
   {
   "name": "cargo-ships",
-  "version": "0.0.55",
+  "version": "0.0.57",
   "title": "Cargo Ships",
   "author": "rude_grass",
   "description": "Adds cargo ships, oil tankers, deep sea oil rigs and other ocean based content",
   "dependencies":
    [
-		"base >= 0.16", 
+		"base >= 1.0", 
 		"? factorio-world >= 0.16.1",
 		"? NewIslands >= 0.1.0", 
 		"? islands_world >= 0.16.3", 
@@ -17,5 +17,5 @@
 		"? ctg >= 0.4.3", 
 		"? Krastorio2 >=0.1.0"
 	],
-  "factorio_version": "0.18"
+  "factorio_version": "1.1" 
 }

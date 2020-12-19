@@ -216,11 +216,14 @@ indep_boat.light =  {
       width = 200,
       height = 200
     },
+    frame_count = 1,
     shift = {0, -13},
     size = 2,
     intensity = 0.8,
     color = {r = 0.92, g = 0.77, b = 0.3}
   }
+
+  indep_boat.light_animation = nil
 
 ----------------------------------------------------------------
 ------------------------ BOAT  ----------------------------

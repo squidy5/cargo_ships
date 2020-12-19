@@ -52,6 +52,7 @@ end
 
 -- checks placement of rollingstock, and returns the placed entites to the player if neccesary
 function checkPlacement()
+	global.connection_counter = 0
 	for _, entry in pairs(global.check_entity_placement) do
 
 		local entity = entry[1]
@@ -59,6 +60,7 @@ function checkPlacement()
 		local player_index = entry[3]
 		if entity and entity.valid then
 			if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+				-- check for too many connections
 				-- check for correct engine placement
 				if engine == nil then
 					cancelPlacement(entity, player_index)
@@ -67,11 +69,7 @@ function checkPlacement()
 						cancelPlacement(engine, player_index)
 				elseif entity.train ~= nil then
 					-- check if connected to too many carriages
-					local count = 0
-					for _ in pairs(entity.train.carriages) do
-						count= count + 1
-					end
-					if count > 2 then
+					if #entity.train.carriages > 2 then
 						cancelPlacement(entity, player_index)
 						cancelPlacement(engine, player_index)
 					-- check if on rails
@@ -115,4 +113,64 @@ function cancelPlacement(entity, player_index)
 		end
 	end
 	entity.destroy()
+end
+
+
+
+
+
+-- disconnects/reconnects rolling stocks if they get wrongly connetcted/disconnected
+function On_Train_Created(e)
+
+	-- hacky guardian to make sure we dont ge caught in endless loop of connecting and disconnectnig
+	global.connection_counter = global.connection_counter + 1
+	if global.connection_counter > 5 then return end
+
+	local contains_ship_engine = false
+	local parts = e.train.carriages
+
+
+	-- check if roling stock contains any ships (engines)
+	for i = 1,  # parts do
+		if parts[i].name == "boat_engine" or parts[i].name == "cargo_ship_engine" then
+			contains_ship_engine = true
+			break
+		end
+	end
+
+
+	--if no ships involved return
+	if not contains_ship_engine then
+		return
+	end
+
+	-- if ship  has been split reconnect
+	if # parts == 1 then 
+		-- reconnect!
+		local engine = parts[1]
+		local dir = engine.direction
+		if engine.name == "boat_engine" then
+			dir = (dir + 1) %2
+		end
+		engine.connect_rolling_stock(dir)
+
+	
+	-- else if ship has been overconnected split again
+	elseif # parts > 2 then  
+		for i = 1, #parts do
+			-- if front of ship-tuple, disconnect towards front (in direction)
+			if parts[i].name == "cargo_ship" or parts[i].name == "oil_tanker" or parts[i].name == "boat_engine" then
+				local check = parts[i].disconnect_rolling_stock(parts[i].direction)
+
+				-- stop when succseful
+				if check then break end
+			-- if back of ship-tuple, disconnect towards back (in reverse direction)
+			elseif parts[i].name == "boat" or parts[i].name == "cargo_ship_engine" then
+				local check = parts[i].disconnect_rolling_stock((parts[i].direction+1)%2)
+
+				-- stop when succseful
+				if check then break end
+			end
+		end
+	end
 end

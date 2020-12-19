@@ -4,6 +4,14 @@ function On_Train_Created(e)
 	local contains_ship_engine = false
 	local parts = e.train.carriages
 
+
+	if 	not next(global.check_entity_placement) == nil then
+		game.players[1].print("full ")
+
+		return
+	end
+			game.players[1].print("empty ")
+
 	-- check if roling stock contains any ships (engines)
 	for i = 1,  # parts do
 		if parts[i].name == "boat_engine" or parts[i].name == "cargo_ship_engine" then

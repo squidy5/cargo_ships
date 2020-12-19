@@ -1,7 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.57
+  Changes:
+    - updated to factorio 1.1
+---------------------------------------------------------------------------------------------------
 Version:  0.0.56
   Bugfixes:
     - fixed crash when destroying/deleting oil rig while gui open
+    - fixed hard crash when placing ship very clos to existing boat
   Changes:
     - added support for passenger riding in small boat
     - added startup mod option for changeing fuel capcities for ships
