@@ -111,17 +111,8 @@ end
 -- destroy waterways when landfill is build ontop 
 function onTileBuild(e)
 	if e.item and e.item.name == "landfill" then
-		local surface 
-		if e.surface_index then
-			surface = game.surfaces[e.surface_index]
-		else
-			surface =  e.robot.surface
-		end 
-
-		-- Fallback, just in case
-		if surface == nil then
-			surface = game.surfaces.nauvis
-		end
+		----- New event code prevents mods from omitting mandatory arguments, so this will always work
+		local surface = game.surfaces[e.surface_index]
 
 		local old_tiles = {}
 		for _, tile in pairs(e.tiles) do
