@@ -84,7 +84,7 @@ function onEntityBuild(e)
 		ent.destroy() --destroy old
 		--check for allready placed entites
 		local c = 0
-		local prev = ent.surface.find_entities_filtered{position = p, name = n}
+		local prev = s.find_entities_filtered{position = p, name = n}
 		for _,pr in pairs(prev) do
 			if pr.direction == d then
 				c = pr.name == "straight-water-way-placed" and 1 or 4 
