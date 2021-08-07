@@ -11,7 +11,6 @@ function placeDeepOil(e)
 	else
 		deep_tiles = surface.count_tiles_filtered{area=e.area, name = "deepwater"}
 	end
-	math.randomseed(e.tick)
 	--game.players[1].print("number of deep tiles: " .. deep_tiles)
 
 	if deep_tiles == 1024 then
