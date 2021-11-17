@@ -1,4 +1,4 @@
-local floating_pole=table.deepcopy(data.raw["electric-pole"]["big-electric-pole"])
+local floating_pole = table.deepcopy(data.raw["electric-pole"]["big-electric-pole"])
 floating_pole.name = "floating-electric-pole"
 floating_pole.minable ={mining_time = 0.5, result = "floating-electric-pole"}
 floating_pole.collision_mask = {'ground-tile', 'object-layer'}
@@ -15,58 +15,64 @@ floating_pole.pictures =
       direction_count = 4,
       shift = {1.61, -1.87}
     }
-floating_pole.connection_points =
-  {
-    { -- Vertical
-      shadow =
-      { copper = {2.78, -0.5},
-        green = {1.875, -0.5},
-        red = {3.69, -0.5} },
-      wire =
-      { copper = {0, -4.05},
-        green = {-0.59375, -4.05},
-        red = {0.625, -4.05} }
+floating_pole.connection_points = {
+  { -- Vertical
+    shadow = {
+      copper = {2.78, -0.5},
+      green = {1.875, -0.5},
+      red = {3.69, -0.5}
     },
-    { -- Turned right
-      shadow =
-      { copper = {3.1, -0.648},
-        green = {2.3, -1.144},
-        red = {3.8, -0.136} },
-      wire =
-      { copper = {-0.0525, -3.906},
-        green = {-0.48, -4.179},
-        red = {0.36375, -3.601} }
+    wire = {
+      copper = {0, -4.05},
+      green = {-0.59375, -4.05},
+      red = {0.625, -4.05}
+    }
+  },
+  { -- Turned right
+    shadow = {
+      copper = {3.1, -0.648},
+      green = {2.3, -1.144},
+      red = {3.8, -0.136}
     },
-    { -- Horizontal
-      shadow =
-      { copper = {2.9, -0.564},
-        green = {3.0, -1.316},
-        red = {3.0, 0.152} },
-      wire =
-      { copper = {-0.09375, -3.901},
-        green = {-0.09375, -4.331},
-        red = {-0.09375, -3.420} }
+    wire = {
+      copper = {-0.0525, -3.906},
+      green = {-0.48, -4.179},
+      red = {0.36375, -3.601}
+    }
+  },
+  { -- Horizontal
+    shadow = {
+      copper = {2.9, -0.564},
+      green = {3.0, -1.316},
+      red = {3.0, 0.152}
     },
-    { -- Turned left
-      shadow =
-      { copper = {3.3, -0.542},
-        green = {3.1, -1.058},
-        red = {2.35, -0.035} },
-      wire =
-      { copper = {-0.0625, -3.980},
-        green = {0.375, -4.273},
-        red = {-0.46875, -3.656} }
+    wire = {
+      copper = {-0.09375, -3.901},
+      green = {-0.09375, -4.331},
+      red = {-0.09375, -3.420}
+    }
+  },
+  { -- Turned left
+    shadow = {
+      copper = {3.3, -0.542},
+      green = {3.1, -1.058},
+      red = {2.35, -0.035}
+    },
+    wire = {
+      copper = {-0.0625, -3.980},
+      green = {0.375, -4.273},
+      red = {-0.46875, -3.656}
     }
   }
+}
 
-local buoy=table.deepcopy(data.raw["rail-signal"]["rail-signal"])
+local buoy = table.deepcopy(data.raw["rail-signal"]["rail-signal"])
 buoy.name = "buoy"
 buoy.collision_mask = {'ground-tile', 'rail-layer'}
-buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
+buoy.selection_box = {{-1.6, -0.8}, {0.01, 0.8}}
 buoy.fast_replaceable_group = "buoy"
 buoy.minable = {mining_time = 0.5, result = "buoy"}
-buoy.animation =
-{
+buoy.animation = {
   filename = "__cargo-ships__/graphics/entity/buoy/buoys.png",
   priority = "high",
   width = 144,
@@ -78,14 +84,13 @@ buoy.animation =
 buoy.rail_piece = nil
 
 
-local chain_buoy=table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
+local chain_buoy = table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 chain_buoy.name = "chain_buoy"
 chain_buoy.collision_mask = {'ground-tile', 'rail-layer'}
 chain_buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
 chain_buoy.fast_replaceable_group = "buoy"
 chain_buoy.minable = {mining_time = 0.5, result = "chain_buoy"}
-chain_buoy.animation =
-{
+chain_buoy.animation = {
   filename = "__cargo-ships__/graphics/entity/chain_buoy/chain_buoys.png",
   priority = "high",
   width = 256,
@@ -94,15 +99,10 @@ chain_buoy.animation =
   direction_count = 8,
   scale = 0.8,
   shift = {0.5,0.3}
-
 }
 chain_buoy.rail_piece = nil
 
-
-
-
-
-local port=table.deepcopy(data.raw["train-stop"]["train-stop"])
+local port = table.deepcopy(data.raw["train-stop"]["train-stop"])
 port.name = "port"
 port.icon = "__cargo-ships__/graphics/blank.png"
 port.minable = {mining_time = 1, result = "port"}
@@ -110,8 +110,8 @@ port.rail_overlay_animations = nil
 port.collision_mask = {"object-layer"}
 port.collision_box =  {{-0.01, -0.9}, {1.9, 0.9}}
 port.selection_box =  {{-0.01, -0.9}, {1.9, 0.9}}
-port.animations = make_4way_animation_from_spritesheet({ layers =
-  {
+port.animations = make_4way_animation_from_spritesheet({
+  layers = {
     {
       filename = "__cargo-ships__/graphics/entity/port/uniport.png",
       width = 140,
@@ -203,8 +203,7 @@ port.working_sound = nil
 -- build a new 4 way definition for port
 -- show_shadow=false prevents floating circuit box shadows, but wire shadows end nowhere
 -- once port shadows are done set show_shadow=true and tweak shadow_offset, should be around (-30, 10) from  main_offset
-circuit_connector_definitions["cargo-ships-port"] = circuit_connector_definitions.create
-(
+circuit_connector_definitions["cargo-ships-port"] = circuit_connector_definitions.create(
   universal_connector_template,
   {
     { variation = 18, main_offset = util.by_pixel(37, -61), shadow_offset = util.by_pixel(37, -61), show_shadow = false },
