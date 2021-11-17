@@ -1,6 +1,7 @@
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.60
   Changes:
+    - New HD technology icons (8).
     - Less pixelated light.
     - ...
   Locale:
@@ -51,14 +52,14 @@ Version:  0.0.54
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.53
   Bugfixes:
-    - fixed crash on building roling stock introduced in last upadte
+    - fixed crash on building rolling stock introduced in last update
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.52
   Bugfixes:
-    - ships can not be split into seperate rollings stocks anymore
+    - ships can not be split into seperate rolling stocks anymore
     - ships can not be connected to other rolling stops (including other ships) anymore
   Changes:
-    - added krasstorio support
+    - added Krastorio support
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.51
   Changes:
