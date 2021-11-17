@@ -2,6 +2,7 @@
 Version:  0.0.60
   Changes:
     - New HD technology icons (8).
+    - New item icons (11)
     - Less pixelated light.
     - ...
   Locale:
