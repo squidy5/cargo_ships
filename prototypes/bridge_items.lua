@@ -12,7 +12,7 @@ data:extend({
     type = "item",
     name = "bridge_base",
     icon = "__cargo-ships__/graphics/icons/bridge.png",
-    icon_size = 128,
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {},
     order = "a[water-system]-e[bridge_base]",
