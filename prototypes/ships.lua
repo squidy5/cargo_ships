@@ -142,17 +142,17 @@ indep_boat.working_sound =
   sound =
   {
     filename = "__base__/sound/car-engine.ogg",
-    volume = 1.3
+    volume = 0.6
   },
   activate_sound =
   {
     filename = "__base__/sound/car-engine-start.ogg",
-    volume = 1.3
+    volume = 0.6
   },
   deactivate_sound =
   {
     filename = "__base__/sound/car-engine-stop.ogg",
-    volume = 1.3
+    volume = 0.6
   },
   match_speed =true
 }
@@ -379,17 +379,20 @@ boat_engine.working_sound =
       sound =
       {
         filename = "__base__/sound/car-engine.ogg",
-        volume = 0.9
+        volume = 0.6
+  
       },
       activate_sound =
       {
         filename = "__base__/sound/car-engine-start.ogg",
-        volume = 0.9
+        volume = 0.6
+  
       },
       deactivate_sound =
       {
         filename = "__base__/sound/car-engine-stop.ogg",
-        volume = 0.9
+        volume = 0.6
+  
       },
       match_speed_to_activity = true
     }
@@ -678,17 +681,20 @@ cargo_ship_engine.working_sound =
     sound =
     {
       filename = "__base__/sound/fight/tank-engine.ogg",
-      volume = 0.9
+      volume = 0.6
+
     },
     activate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-start.ogg",
-      volume = 0.9
+      volume = 0.6
+
     },
     deactivate_sound =
     {
       filename = "__base__/sound/fight/tank-engine-stop.ogg",
-      volume = 0.9  
+      volume = 0.6
+  
     },
     match_speed_to_activity=true
   }

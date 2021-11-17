@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.59
+  Bugfixes:
+    - fixed crash when placing waterways
+  Changes:
+    - made boat engine sounds less loud
+---------------------------------------------------------------------------------------------------
+Version:  0.0.58
+  Bugfixes:
+    - fixed oil rigs not working on non-nauvis-surfaces
+    - fixed ship placement not recognizign modded rails (i.e. space exploration rails)
+---------------------------------------------------------------------------------------------------
 Version:  0.0.57
   Changes:
     - updated to factorio 1.1
