@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version:  0.0.60
+  Changes:
+    - Added Polish locale (thanks to RadianOst)
+    - Updated Russian locale (thanks to IgorLutiy)
+    - Fixed typo
+    - ...
+---------------------------------------------------------------------------------------------------
 Version:  0.0.59
   Bugfixes:
     - fixed crash when placing waterways
@@ -21,7 +28,7 @@ Version:  0.0.56
   Changes:
     - added support for passenger riding in small boat
     - added startup mod option for changeing fuel capcities for ships
-    - added czech locale
+    - added Czech locale
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.55
   Bugfixes:
@@ -149,7 +156,7 @@ Version:  0.0.35
     - fixed changelogs not showing ingame (thanks to PI-C for this fix)
   Bugfixes:
     - fixed crash when blueprinting tiles only
-    - fixed crash when updating blueprint 
+    - fixed crash when updating blueprint
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.34
   Changes:
@@ -200,17 +207,17 @@ Version: 0.0.28
   Changes:
     - added visualisation of possible ship-pump placement position at nearby ports when the former is selected by a player
     - deep oil disapears now when landfilling over it
-    - made all invisible helper entites unselectable/uncopiable 
+    - made all invisible helper entites unselectable/uncopiable
     - made all ships unblueprintable/uncopiable
   Bugfixes:
-    - fixed oil rig being partly deleted, with invisible entites remaining, when placing landfill underneath oil rig 
+    - fixed oil rig being partly deleted, with invisible entites remaining, when placing landfill underneath oil rig
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.27
 
   Changes:
     - updated to factorio 0.17
     - added korean translation
-    - made deep sea oil extraction need chemical science to research 
+    - made deep sea oil extraction need chemical science to research
       (this can be disabled in the mods startup setings)
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.26
@@ -240,13 +247,13 @@ Version: 0.0.24
     - make waterways more transparent/less standing out
     - added rail-sgement-visualization for placing buoys
     - added hungarian translation
-    - increased oild rigs module slots to 3 and slightly decreased power demand	
+    - increased oild rigs module slots to 3 and slightly decreased power demand
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.23
 
   Changes:
     - completly reworked waterway placement system too fix issues introduced with release 0.0.20 and 0.0.21, like buoys being placeable at wrong positions
-      (as a result blueprints now only work to a limited extend with waterways) 
+      (as a result blueprints now only work to a limited extend with waterways)
     - changed deep sea oil to produce multi phase oil when angles petrochem is enabled
 
 ---------------------------------------------------------------------------------------------------
@@ -267,7 +274,7 @@ Version: 0.0.21
   Bugfixes:
     - fixed waterways being placable ontop of each other resulting in corrupted save files
     - fixed typo in dependencies
-    - fixed mining floating pole resulting in normal power pole   
+    - fixed mining floating pole resulting in normal power pole
 
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.20
@@ -275,7 +282,7 @@ Version: 0.0.20
   Changes:
     - made boat be placaeble as an independt vehicle next to being placable on waterways as well
     - added Seablock compatabilty
-    - fixed research icons 
+    - fixed research icons
     - fixed boat light
     - fixed boat sprite shift
     - increased amount of boat splash animations
@@ -316,7 +323,7 @@ Version: 0.0.16
 Version: 0.0.15
 
   Changes:
-    - fixed bug in the long reach mechanics 
+    - fixed bug in the long reach mechanics
 
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.14
@@ -423,4 +430,4 @@ Version: 0.0.1
 
   Changes:
     - added infrastructure for ships (waterways, buoys, ports)
-    - added cargo ships 
+    - added cargo ships
