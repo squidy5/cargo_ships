@@ -1,10 +1,12 @@
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.60
   Changes:
-    - Added Polish locale (thanks to RadianOst)
-    - Updated Russian locale (thanks to IgorLutiy)
-    - Fixed typo
+    - Less pixelated light.
     - ...
+  Locale:
+    - Added Polish locale (thanks to RadianOst).
+    - Updated Russian locale (thanks to IgorLutiy).
+    - Fixed typo.
 ---------------------------------------------------------------------------------------------------
 Version:  0.0.59
   Bugfixes:

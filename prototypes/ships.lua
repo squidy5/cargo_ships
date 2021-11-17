@@ -10,25 +10,24 @@
   line_length =  32,
   lines_per_file = 32
 }]]
-function ship_light()
+function ship_light(yshift, cutpicture)
+  local cut = cutpicture and "-cut" or ""
   return {
+    type = "oriented",
+    minimum_darkness = 0.3,
+    picture =
     {
-      type = "oriented",
-      minimum_darkness = 0.3,
-      picture =
-      {
-        filename = "__cargo-ships__/graphics/light-cone.png",
-        priority = "extra-high",
-        flags = { "light" },
-        scale = 2,
-        width = 200,
-        height = 200
-      },
-      shift = {0, -3},
-      size = 2,
-      intensity = 0.8,
-      color = {r = 0.92, g = 0.77, b = 0.3}
+      filename = "__cargo-ships__/graphics/entity/light-cone" .. cut .. ".png",
+      priority = "extra-high",
+      flags = { "light" },
+      scale = 0.5,
+      width = 800,
+      height = 800,
     },
+    shift = {0, yshift},
+    size = 2,
+    intensity = 0.8,
+    color = {0.92, 0.77, 0.3}
   }
 end
 
@@ -180,23 +179,7 @@ indep_boat.turret_animation = {
     }
   }
 }
-indep_boat.light = {
-  type = "oriented",
-  minimum_darkness = 0.3,
-  picture = {
-    filename = "__cargo-ships__/graphics/light-cone-boat.png",
-    priority = "extra-high",
-    flags = { "light" },
-    scale = 2,
-    width = 200,
-    height = 200
-  },
-  frame_count = 1,
-  shift = {0, -13},
-  size = 2,
-  intensity = 0.8,
-  color = {r = 0.92, g = 0.77, b = 0.3}
-}
+indep_boat.light = ship_light(-13)
 indep_boat.light_animation = nil
 
 ----------------------------------------------------------------
@@ -241,22 +224,7 @@ boat.pictures = {
     }
   }
 }
-boat.back_light = {
-  type = "oriented",
-  minimum_darkness = 0.3,
-  picture = {
-    filename = "__cargo-ships__/graphics/light-cone-boat.png",
-    priority = "extra-high",
-    flags = { "light" },
-    scale = 2,
-    width = 200,
-    height = 200
-  },
-  shift = {0, -15},
-  size = 2,
-  intensity = 0.8,
-  color = {r = 0.92, g = 0.77, b = 0.3}
-}
+boat.back_light = ship_light(-15)
 boat.stand_by_light = nil
 boat.horizontal_doors = nil
 boat.vertical_doors = nil
@@ -418,8 +386,8 @@ cargo_ship.pictures = {
 		}
 	}
 }
-cargo_ship.stand_by_light = ship_light()
---cargo_ship.back_light = ship_light()
+cargo_ship.stand_by_light = {ship_light(-3, true)}
+--cargo_ship.back_light = {ship_light(-3, true)}
 cargo_ship.vertical_doors = {
   layers = {
     {
@@ -508,7 +476,7 @@ oil_tanker.pictures = {
     }
   }
 }
-oil_tanker.stand_by_light = ship_light()
+oil_tanker.stand_by_light = {ship_light(-3, true)}
 oil_tanker.back_light = nil
 oil_tanker.wheels = nil
 oil_tanker.working_sound = nil
