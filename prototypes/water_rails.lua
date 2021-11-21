@@ -80,7 +80,6 @@ railpicturesinternal = function(elems, invisible)
             flags = elem.mipmap and { "icon" },
             width = 2,
             height = 2,
-            shift = {0,0},
             variation_count = 1,
           }
         }
@@ -132,7 +131,7 @@ data:extend({
     collision_mask = {'ground-tile', "object-layer"},
     rail_category = "regular",
     pictures = railpictures(),
-    placeable_by = { item="water-way", count = 1}
+    placeable_by = { item = "water-way", count = 1}
   },
   {
     type = "curved-rail",
@@ -153,7 +152,7 @@ data:extend({
     collision_mask = {'ground-tile', "object-layer"},
     rail_category = "regular",
     pictures = railpictures(),
-    placeable_by = { item="water-way", count = 4}
+    placeable_by = { item = "water-way", count = 4}
   },
 })
 

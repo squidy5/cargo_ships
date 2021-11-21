@@ -6,15 +6,14 @@ floating_pole.maximum_wire_distance = 48
 floating_pole.supply_area_distance = 0
 floating_pole.fast_replaceable_group = nil
 floating_pole.next_upgrade = nil
-floating_pole.pictures =
-    {
-      filename =  "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole.png",
-      priority = "high",
-      width = 168,
-      height = 165,
-      direction_count = 4,
-      shift = {1.61, -1.87}
-    }
+floating_pole.pictures = {
+  filename =  "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole.png",
+  priority = "high",
+  width = 168,
+  height = 165,
+  direction_count = 4,
+  shift = util.by_pixel(51.5, -60),
+}
 floating_pole.connection_points = {
   { -- Vertical
     shadow = {
@@ -98,7 +97,7 @@ chain_buoy.animation = {
   frame_count = 5,
   direction_count = 8,
   scale = 0.8,
-  shift = {0.5,0.3}
+  shift = util.by_pixel(16, 9.5), {0.5,0.3}
 }
 chain_buoy.rail_piece = nil
 

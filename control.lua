@@ -96,7 +96,7 @@ function onEntityBuild(e)
         game.players[e.player_index].insert{name="water-way", count=c}
       end
     else
-      WW = s.create_entity{name= n, position = p, direction = d, force = f} -- create new
+      WW = s.create_entity{name = n, position = p, direction = d, force = f} -- create new
       -- make waterway indistructable
       if(WW) then
         WW.destructible = false
@@ -141,7 +141,7 @@ function OnEnterShip(e)
   if game.players[player_index].vehicle == nil then
     for dis = 1,10 do
       local targets = game.players[player_index].surface.find_entities_filtered{
-        area={{X-dis, Y-dis}, {X+dis, Y+dis}},name={"indep-boat","boat_engine","cargo_ship_engine"}}
+        area = { {X-dis, Y-dis}, {X+dis, Y+dis} }, name = {"indep-boat", "boat_engine", "cargo_ship_engine"} }
       local done = false
       for _, target in ipairs(targets) do
         if target and target.get_driver() == nil then
