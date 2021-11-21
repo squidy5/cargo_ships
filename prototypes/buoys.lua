@@ -109,90 +109,156 @@ port.rail_overlay_animations = nil
 port.collision_mask = {"object-layer"}
 port.collision_box =  {{-0.01, -0.9}, {1.9, 0.9}}
 port.selection_box =  {{-0.01, -0.9}, {1.9, 0.9}}
-port.animations = make_4way_animation_from_spritesheet({
-  layers = {
-    {
-      filename = "__cargo-ships__/graphics/entity/port/uniport.png",
-      width = 140,
-      height = 291,
-      direction_count = 4,
-      shift = util.by_pixel(-0.5, -26.75),
-      scale = 0.8
+
+local function maker_layer_port(xshift, yshift)
+  return {
+    layers = {
+      {
+        filename = "__cargo-ships__/graphics/entity/port/port.png",
+        width = 150,
+        height = 150,
+        shift = util.by_pixel(xshift, yshift),
+        scale = 1,
+        hr_version = {
+          filename = "__cargo-ships__/graphics/entity/port/hr-port.png",
+          width = 300,
+          height = 300,
+          shift = util.by_pixel(xshift, yshift),
+          scale = 0.5,
+        }
+      },
+      {
+        filename = "__cargo-ships__/graphics/entity/port/port-shadow.png",
+        width = 150,
+        height = 150,
+        shift = util.by_pixel(xshift, yshift),
+        scale = 1,
+        draw_as_shadow = true,
+        hr_version = {
+          filename = "__cargo-ships__/graphics/entity/port/hr-port-shadow.png",
+          width = 300,
+          height = 300,
+          shift = util.by_pixel(xshift, yshift),
+          scale = 0.5,
+          draw_as_shadow = true,
+        }
+      },
     }
   }
-})
+end
+
+port.animations = {
+  north = maker_layer_port(30,0),
+  east = maker_layer_port(0,30),
+  south = maker_layer_port(-30,0),
+  west = maker_layer_port(0,-30),
+}
+
+port.water_reflection = {
+  pictures = {
+    {
+      filename = "__cargo-ships__/graphics/entity/port/port_water_reflection.png",
+      width = 30,
+      height = 30,
+      shift = util.by_pixel(30, 0),
+      scale = 5
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/port/port_water_reflection.png",
+      width = 30,
+      height = 30,
+      shift = util.by_pixel(0, 30),
+      scale = 5
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/port/port_water_reflection.png",
+      width = 30,
+      height = 30,
+      shift = util.by_pixel(-30, 0),
+      scale = 5
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/port/port_water_reflection.png",
+      width = 30,
+      height = 30,
+      shift = util.by_pixel(0, -30),
+      scale = 5
+    },
+  },
+  rotate = false,
+  orientation_to_variation = true
+}
 port.top_animations = nil
 port.light1 =
 {
-  light = {intensity = 0.5, size = 5, color = {r = 1.0, g = 1.0, b = 1.0}},
+  light = {intensity = 0.4, size = 4, color = {r = 1.0, g = 1.0, b = 1.0}},
   picture =
   {
-    north =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-light-1.png",
-      width =14,
-      height = 7,
-      scale = 0.7,
-      shift = util.by_pixel(36.5, -67.5),
+    north = {
+      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      width = 44,
+      height = 24,
+      scale = 0.5,
+      tint = {1, 0.95, 0},
+      shift = util.by_pixel(30, -69),
     },
-    west =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-light-1.png",
-      width =14,
-      height = 7,
-      scale = 0.7,
-      shift = util.by_pixel(-2, -104.3),
+    east = {
+      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      width = 44,
+      height = 24,
+      scale = 0.5,
+      tint = {1, 0.95, 0},
+      shift = util.by_pixel(0, -39),
     },
-    south =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-light-1.png",
-      width =14,
-      height = 7,
-      scale = 0.7,
-      shift = util.by_pixel(-39.5, -66),
+    south = {
+      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      width = 44,
+      height = 24,
+      scale = 0.5,
+      tint = {1, 0.95, 0},
+      shift = util.by_pixel(-30, -69),
     },
-    east =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-light-1.png",
-      width =14,
-      height = 7,
-      scale = 0.7,
-      shift = util.by_pixel(-2.7, -26.5),
+    west = {
+      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      width = 44,
+      height = 24,
+      scale = 0.5,
+      tint = {1, 0.95, 0},
+      shift = util.by_pixel(0, -99),
     },
   },
-  red_picture =
-   {
-    north =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 14,
-      height = 7,
-      frame_count = 1,
-      shift = util.by_pixel(36.5, -67.5),
+  red_picture = {
+    north = {
+      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      width = 44,
+      height = 24,
+      scale = 0.5,
+      tint = {1, 0.2, 0.2},
+      shift = util.by_pixel(30, -69),
     },
-    west =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 14,
-      height = 7,
-      frame_count = 1,
-      shift = util.by_pixel(-2, -104.3),
+    east = {
+      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      width = 44,
+      height = 24,
+      scale = 0.5,
+      tint = {1, 0.2, 0.2},
+      shift = util.by_pixel(0, -39),
     },
-    south =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 14,
-      height = 7,
-      frame_count = 1,
-      shift = util.by_pixel(-39.5, -66),
+    south = {
+      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      width = 44,
+      height = 24,
+      scale = 0.5,
+      tint = {1, 0.2, 0.2},
+      shift = util.by_pixel(-30, -69),
     },
-    east =
-    {
-      filename = "__cargo-ships__/graphics/entity/port/port-red-light-1.png",
-      width = 14,
-      height = 7,
-      frame_count = 1,
-      shift = util.by_pixel(-2.7, -26.5),
+    west = {
+      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      width = 44,
+      height = 24,
+      scale = 0.5,
+      tint = {1, 0.2, 0.2},
+      shift = util.by_pixel(0, -99),
     },
   }
 }
