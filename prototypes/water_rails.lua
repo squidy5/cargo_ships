@@ -139,7 +139,7 @@ data:extend({
     icon = "__cargo-ships__/graphics/blank.png",
     icon_size = 32,
     flags = {"placeable-neutral", "player-creation", "building-direction-8-way"},
-    destructible=false,
+    destructible = false,
     minable = {mining_time = 0.2, result = "water-way", count = 4},
     max_health = 200,
     corpse = nil,

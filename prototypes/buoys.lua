@@ -115,13 +115,13 @@ local function maker_layer_port(xshift, yshift)
     layers = {
       {
         filename = "__cargo-ships__/graphics/entity/port/port.png",
-        width = 150,
+        width = 40,
         height = 150,
         shift = util.by_pixel(xshift, yshift),
         scale = 1,
         hr_version = {
           filename = "__cargo-ships__/graphics/entity/port/hr-port.png",
-          width = 300,
+          width = 80,
           height = 300,
           shift = util.by_pixel(xshift, yshift),
           scale = 0.5,
@@ -130,14 +130,14 @@ local function maker_layer_port(xshift, yshift)
       {
         filename = "__cargo-ships__/graphics/entity/port/port-shadow.png",
         width = 150,
-        height = 150,
+        height = 40,
         shift = util.by_pixel(xshift, yshift),
         scale = 1,
         draw_as_shadow = true,
         hr_version = {
           filename = "__cargo-ships__/graphics/entity/port/hr-port-shadow.png",
           width = 300,
-          height = 300,
+          height = 80,
           shift = util.by_pixel(xshift, yshift),
           scale = 0.5,
           draw_as_shadow = true,
