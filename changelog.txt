@@ -6,11 +6,12 @@ Date: 2021-11-21
   Visuals:
     - New HD technology icons (8).
     - New item icons (11)
-    - Unrailed boat: HR version (original render, .5 scale, from 1.2), 256 directions (from 64), improved with filters, water reflection, separate shadow, softer light.
-    - Railed boat: HR version (using AI upscaling, .5 scale, from 1.5), improved with filters, water reflection, separate shadow, softer light.
+    - Unrailed boat: HD version (original render, .5 scale, from 1.2), 256 directions (from 64), improved with filters, water reflection, separate shadow, softer light.
+    - Railed boat: HD version (using AI upscaling, .5 scale, from 1.5), improved with filters, water reflection, separate shadow, softer light.
     - Oil Tanker: Twice as detailed (original render, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light.
     - Cargo Ship: Twice as detailed (using AI upscaling, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light.
-    - Port: Reworked in HR, water relection, shadow, improved position.
+    - Port: Reworked in HD, water relection, shadow, improved position.
+    - Rails: Redone in HD, aligned, without transparency.
     - Improved splash effect.
   Optimization:
     - Compressed some animations to save space.
