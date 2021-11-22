@@ -7,13 +7,90 @@ floating_pole.supply_area_distance = 0
 floating_pole.fast_replaceable_group = nil
 floating_pole.next_upgrade = nil
 floating_pole.pictures = {
-  filename =  "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole.png",
-  priority = "high",
-  width = 168,
-  height = 165,
-  direction_count = 4,
-  shift = util.by_pixel(51.5, -60),
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole.png",
+      priority = "high",
+      width = 168,
+      height = 165,
+      scale = 1,
+      direction_count = 4,
+      shift = util.by_pixel(51, -58),
+      hr_version = {
+        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/hr-floating-electric-pole.png",
+        priority = "high",
+        width = 336,
+        height = 330,
+        scale = 0.5,
+        direction_count = 4,
+        shift = util.by_pixel(51, -58),
+      }
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole-shadows.png",
+      priority = "high",
+      width = 168,
+      height = 165,
+      scale = 1,
+      direction_count = 4,
+      shift = util.by_pixel(51, -58),
+      draw_as_shadow = true,
+      hr_version = {
+        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/hr-floating-electric-pole-shadows.png",
+        priority = "high",
+        width = 336,
+        height = 330,
+        scale = 0.5,
+        direction_count = 4,
+        shift = util.by_pixel(51, -58),
+        draw_as_shadow = true,
+      }
+    },
+  }
 }
+floating_pole.water_reflection =
+  {
+    pictures = {
+      {
+        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
+        width = 34,
+        height = 33,
+        shift = util.by_pixel(0, 58),
+        variation_count = 1,
+        scale = 5
+      },
+      {
+        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
+        width = 34,
+        height = 33,
+        x = 34,
+        shift = util.by_pixel(0, 58),
+        variation_count = 1,
+        scale = 5
+      },
+      {
+        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
+        width = 34,
+        height = 33,
+        x = 68,
+        shift = util.by_pixel(0, 58),
+        variation_count = 1,
+        scale = 5
+      },
+      {
+        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
+        width = 34,
+        height = 33,
+        x = 102,
+        shift = util.by_pixel(0, 58),
+        variation_count = 1,
+        scale = 5
+      },
+
+    },
+    rotate = false,
+    orientation_to_variation = true,
+  }
 floating_pole.connection_points = {
   { -- Vertical
     shadow = {

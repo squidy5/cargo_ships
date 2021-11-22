@@ -11,7 +11,8 @@ Date: 2021-11-21
     - Oil Tanker: Twice as detailed (original render, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light.
     - Cargo Ship: Twice as detailed (using AI upscaling, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light.
     - Port: Reworked in HD, water relection, shadow, improved position.
-    - Rails: Redone in HD, aligned, without transparency.
+    - Rails: Recreated in HD, aligned, removed transparency (which was messy).
+    - Floating Electric Poles: Reworked in HD, water reflections, new shadows.
     - Improved splash effect.
   Optimization:
     - Compressed some animations to save space.
