@@ -141,6 +141,14 @@ floating_pole.connection_points = {
     }
   }
 }
+for _,v in pairs(floating_pole.connection_points) do
+  v.shadow.copper[1] = v.shadow.copper[1] + 0.74
+  v.shadow.green[1] = v.shadow.green[1] + 0.74
+  v.shadow.red[1] = v.shadow.red[1] + 0.74
+  v.shadow.copper[2] = v.shadow.copper[2] + 0.5
+  v.shadow.green[2] = v.shadow.green[2] + 0.5
+  v.shadow.red[2] = v.shadow.red[2] + 0.5
+end
 
 local buoy = table.deepcopy(data.raw["rail-signal"]["rail-signal"])
 buoy.name = "buoy"
@@ -148,15 +156,94 @@ buoy.collision_mask = {'ground-tile', 'rail-layer'}
 buoy.selection_box = {{-1.6, -0.8}, {0.01, 0.8}}
 buoy.fast_replaceable_group = "buoy"
 buoy.minable = {mining_time = 0.5, result = "buoy"}
+
+--buoy.green_light = {intensity = 0.2, shift = util.by_pixel(0, -22), size = 3, color = {g=1}}
+--buoy.orange_light = {intensity = 0.2, shift = util.by_pixel(0, -22), size = 3, color = {r=1, g=0.5}}
+--buoy.red_light = {intensity = 0.2, shift = util.by_pixel(0, -22), size = 3, color = {r=1}}
+
+buoy.green_light = nil
+buoy.orange_light = nil
+buoy.red_light = nil
+
+
 buoy.animation = {
-  filename = "__cargo-ships__/graphics/entity/buoy/buoys.png",
-  priority = "high",
-  width = 144,
-  height = 144,
-  frame_count = 3,
-  direction_count = 8,
-  scale = 0.8
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/entity/buoy/buoy-base.png",
+      width = 115,
+      height = 115,
+      frame_count = 1,
+      repeat_count = 3,
+      direction_count = 8,
+      hr_version = {
+        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-base.png",
+        width = 230,
+        height = 230,
+        frame_count = 1,
+        repeat_count = 3,
+        direction_count = 8,
+        scale = 0.5
+      }
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/buoy/buoy-shadow.png",
+      draw_as_shadow = true,
+      width = 115,
+      height = 115,
+      frame_count = 1,
+      repeat_count = 3,
+      direction_count = 8,
+      hr_version =
+      {
+        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-shadow.png",
+        draw_as_shadow = true,
+        width = 230,
+        height = 230,
+        frame_count = 1,
+        repeat_count = 3,
+        direction_count = 8,
+        scale = 0.5
+      }
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/buoy/buoy-lights.png",
+      blend_mode = "additive",
+      draw_as_glow = true,
+      width = 115,
+      height = 115,
+      frame_count = 3,
+      direction_count = 8,
+      hr_version =
+      {
+        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-lights.png",
+        blend_mode = "additive",
+        draw_as_glow = true,
+        width = 230,
+        height = 230,
+        frame_count = 3,
+        direction_count = 8,
+        scale = 0.5
+      }
+    },
+  }
 }
+buoy.water_reflection = {
+  pictures =
+  {
+    filename = "__cargo-ships__/graphics/entity/buoy/buoy_water_reflection.png",
+    width = 23,
+    height = 23,
+    --shift = util.by_pixel(0, -25),
+    variation_count = 8,
+    line_length = 1,
+    scale = 5
+  },
+  rotate = false,
+  orientation_to_variation = true
+}
+
+
+
 buoy.rail_piece = nil
 
 
@@ -167,16 +254,92 @@ chain_buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
 chain_buoy.fast_replaceable_group = "buoy"
 chain_buoy.minable = {mining_time = 0.5, result = "chain_buoy"}
 chain_buoy.animation = {
-  filename = "__cargo-ships__/graphics/entity/chain_buoy/chain_buoys.png",
-  priority = "high",
-  width = 256,
-  height = 256,
-  frame_count = 5,
-  direction_count = 8,
-  scale = 0.8,
-  shift = util.by_pixel(16, 9.5), {0.5,0.3}
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/entity/buoy/buoy-chained-base.png",
+      width = 115,
+      height = 115,
+      frame_count = 1,
+      repeat_count = 5,
+      direction_count = 8,
+      hr_version = {
+        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-chained-base.png",
+        width = 230,
+        height = 230,
+        frame_count = 1,
+        repeat_count = 5,
+        direction_count = 8,
+        scale = 0.5
+      }
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/buoy/buoy-shadow.png",
+      draw_as_shadow = true,
+      width = 115,
+      height = 115,
+      frame_count = 1,
+      repeat_count = 5,
+      direction_count = 8,
+      hr_version =
+      {
+        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-shadow.png",
+        draw_as_shadow = true,
+        width = 230,
+        height = 230,
+        frame_count = 1,
+        repeat_count = 5,
+        direction_count = 8,
+        scale = 0.5
+      }
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/buoy/buoy-chained-lights.png",
+      blend_mode = "additive",
+      draw_as_glow = true,
+      width = 115,
+      height = 115,
+      frame_count = 5,
+      direction_count = 8,
+      hr_version =
+      {
+        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-chained-lights.png",
+        blend_mode = "additive",
+        draw_as_glow = true,
+        width = 230,
+        height = 230,
+        frame_count = 5,
+        direction_count = 8,
+        scale = 0.5
+      }
+    },
+  }
+}
+buoy.water_reflection = {
+  pictures =
+  {
+    filename = "__cargo-ships__/graphics/entity/buoy/buoy_water_reflection.png",
+    width = 23,
+    height = 23,
+    variation_count = 8,
+    line_length = 1,
+    scale = 5
+  },
+  rotate = false,
+  orientation_to_variation = true
 }
 chain_buoy.rail_piece = nil
+
+
+
+
+
+
+
+
+
+
+
+
 
 local port = table.deepcopy(data.raw["train-stop"]["train-stop"])
 port.name = "port"
@@ -184,8 +347,8 @@ port.icon = "__cargo-ships__/graphics/blank.png"
 port.minable = {mining_time = 1, result = "port"}
 port.rail_overlay_animations = nil
 port.collision_mask = {"object-layer"}
-port.collision_box =  {{-0.01, -0.9}, {1.9, 0.9}}
-port.selection_box =  {{-0.01, -0.9}, {1.9, 0.9}}
+port.collision_box = {{-0.01, -0.9}, {1.9, 0.9}}
+port.selection_box = {{-0.01, -0.9}, {1.9, 0.9}}
 
 local function maker_layer_port(xshift, yshift)
   return {

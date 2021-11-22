@@ -75,7 +75,7 @@ oil_rig.mining_speed = 2
 oil_rig.resource_searching_radius = 1.49
 oil_rig.collision_box = {{ -3.2, -3.2}, {3.2, 3.2}}
 oil_rig.selection_box = {{ -3.3, -3.3}, {3.3, 3.3}}
-oil_rig.drawing_box = {{-3.3, -3.3}, {3.3, 8}}
+oil_rig.drawing_box =   {{ -3.3, -3.3}, {3.3, 8}}
 oil_rig.module_specification.module_slots = 3
 oil_rig.energy_source =
 {
