@@ -9,7 +9,7 @@ bridge.name = "bridge_base"
 bridge.animations = make_4way_animation_from_spritesheet({
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/base.png",
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-base.png",
       --line_length = 4,
       width = 275,
       height = 275,
