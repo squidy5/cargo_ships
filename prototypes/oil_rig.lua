@@ -52,9 +52,44 @@ deep_oil.name = "deep_oil"
 deep_oil.infinite_depletion_amount = 40
 deep_oil.autoplace = nil
 deep_oil.collision_mask = {'resource-layer'}
+deep_oil.stages = {
+  sheet = {
+    filename = "__cargo-ships__/graphics/entity/crude-oil/water-crude-oil.png",
+    priority = "extra-high",
+    width = 74,
+    height = 60,
+    frame_count = 4,
+    variation_count = 1,
+    shift = util.by_pixel(0, -2),
+    hr_version =
+    {
+      filename = "__cargo-ships__/graphics/entity/crude-oil/hr-water-crude-oil.png",
+      priority = "extra-high",
+      width = 148,
+      height = 120,
+      frame_count = 4,
+      variation_count = 1,
+      shift = util.by_pixel(0, -2),
+      scale = 0.5
+    }
+  }
+}
+deep_oil.water_reflection = { --DOESNT WORK, FACTORIO BUG? / maybe it works when you have the rig over it.
+  pictures = {
+    sheet = {
+      filename = "__cargo-ships__/graphics/entity/crude-oil/hr-water-crude-oil-water-reflection.png",
+      width = 22,
+      height = 24,
+      --shift = util.by_pixel(0, 5),
+      variation_count = 1,
+      repeat_count = 4,
+      scale = 5,
 
-
-
+    }
+  },
+  rotate = false,
+  orientation_to_variation = false
+}
 
 
 
@@ -74,8 +109,8 @@ oil_rig.energy_usage = "750kW"
 oil_rig.mining_speed = 2
 oil_rig.resource_searching_radius = 1.49
 oil_rig.collision_box = {{ -3.2, -3.2}, {3.2, 3.2}}
-oil_rig.selection_box = {{ -3.3, -3.3}, {3.3, 3.3}}
-oil_rig.drawing_box =   {{ -3.3, -3.3}, {3.3, 8}}
+oil_rig.selection_box = {{ -3.5, -3.5}, {3.5, 3.5}}
+oil_rig.drawing_box = {{ -3.3, -3.3}, {3.3, 8}}
 oil_rig.module_specification.module_slots = 3
 oil_rig.energy_source =
 {
@@ -105,7 +140,7 @@ oil_rig.base_picture =
       width = 300,
       height = 471,
       shift = util.by_pixel(-2.5, -29),
-      scale = 0.9,
+      scale = 0.5,
     }
   }
 }
@@ -147,6 +182,7 @@ oil_rig.smoke =
     starting_frame_deviation = 60
   }
 }
+oil_rig.water_reflection = nil
 
 ----------------------------------------------------------------
 ----------- OIL PLATFORM SLAVE ENTITES--------------------------
