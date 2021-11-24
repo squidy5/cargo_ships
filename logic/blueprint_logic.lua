@@ -1,11 +1,16 @@
 function FixBlueprints(e)
-	local stack = game.players[e.player_index].cursor_stack
-	if not(stack and stack.valid_for_read and stack.is_blueprint) then
-		return
+  -- Handle both Copy and Blueprint operations
+  local player = game.get_player(e.player_index)
+  local stack = player.blueprint_to_setup
+  if not (stack and stack.valid_for_read) then
+    stack = player.cursor_stack
+    if not (stack and stack.valid_for_read and stack.is_blueprint) then
+      return
+    end
 	end
 
 	local blues = stack.get_blueprint_entities()
-	if blues ~= nil then
+	if blues and next(blues) then
 		local ww = false
 		for i,blue in pairs(blues) do
 			if blue.name == "straight-water-way-placed" then
