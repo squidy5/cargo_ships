@@ -14,6 +14,7 @@ Date: 2021-11-21
     - Rails: Recreated in HD, aligned, removed transparency (which was messy).
     - Floating Electric Poles: Reworked in HD, water reflections, new shadows.
     - Buoys and Chain Buoys: Reworked in HD, water reflections, new shadows and lights.
+    - Bridges: HD version.
     - Improved splash effect.
   Optimization:
     - Compressed some animations to save space.
