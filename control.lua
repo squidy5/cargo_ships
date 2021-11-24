@@ -16,7 +16,7 @@ function onEntityBuild(e)
 	--global.rolling_stock_timeout = 1
 
 
-	local ent = e.created_entity or e.entity
+	local ent = e.created_entity or e.entity or e.destination
 
 	-- check ghost entities first
 	if ent.name == "entity-ghost" then
@@ -357,6 +357,7 @@ script.on_event(defines.events.on_player_built_tile, onTileBuild)
 script.on_event(defines.events.on_robot_built_tile, onTileBuild)
 script.on_event(defines.events.on_built_entity, onEntityBuild)
 script.on_event(defines.events.on_robot_built_entity, onEntityBuild)
+script.on_event(defines.events.on_entity_cloned, onEntityBuild)
 script.on_event(defines.events.script_raised_built, onEntityBuild)
 --power oil rig
 script.on_event(defines.events.on_tick, onTick)
