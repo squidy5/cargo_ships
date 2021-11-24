@@ -15,7 +15,8 @@
 		"? Hovercrafts >= 0.17.02", 
 		"? angelspetrochem >= 0.7.12", 
 		"? ctg >= 0.4.3", 
-		"? Krastorio2 >=0.1.0"
+		"? Krastorio2 >=0.1.0",
+		"! cargo-ships-seraph"
 	],
   "factorio_version": "1.1" 
 }
