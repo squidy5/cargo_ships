@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.0.60
-Date: 2021-11-21
+Version: 0.1.0
+Date: 2021-11-24
   Updated-by:
     - snouz
   Visuals:
@@ -25,6 +25,19 @@ Date: 2021-11-21
     - Added Polish locale (thanks to RadianOst).
     - Updated Russian locale (thanks to IgorLutiy).
     - Fixed typo.
+
+  TODO:
+    - chain buoys
+    - splash transparency
+    - bridge water reflection
+    - oil rig
+    - deep oil contour
+    - technologies?
+    - icon wave
+    - pump reflection
+    - boat smoke
+    - sound bridge
+    - sound boats
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.59
   Bugfixes:
