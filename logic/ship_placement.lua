@@ -14,9 +14,9 @@ function localize_engine(ent)
 	local mult =(ent.name == "indep-boat" or ent.name == "boat") and -0.3 or 1
 	local pos = {x = ent.position.x + offset[i].x*mult, y = ent.position.y + offset[i].y*mult}
 	--game.players[1].print("x_off: " .. offset[i].x*mult .. " y_off: " .. offset[i].y*mult)
-	
+
 	-- switch ne and sw (messed up factorio directions)
-	if i == 1 then 
+	if i == 1 then
 		i = 5
 	elseif i == 5 then
 		i = 1
@@ -77,8 +77,8 @@ function checkPlacement()
 				if engine == nil then
 					cancelPlacement(entity, player_index)
 				elseif entity.orientation ~= engine.orientation then
-						cancelPlacement(entity, player_index)
-						cancelPlacement(engine, player_index)
+					cancelPlacement(entity, player_index)
+					cancelPlacement(engine, player_index)
 				elseif entity.train ~= nil then
 					-- check if connected to too many carriages
 					if #entity.train.carriages > 2 then
@@ -97,20 +97,20 @@ function checkPlacement()
 						end
 					end
 				end
-			
+
 			-- else: trains
 			elseif entity.train ~= nil then
-				-- check if on waterways	
+				-- check if on waterways
 				if entity.train.front_rail ~=nil then
 					if entity.train.front_rail.name == "straight-water-way-placed" or entity.train.front_rail.name == "curved-water-way-placed" then
-							cancelPlacement(entity, player_index)
+						cancelPlacement(entity, player_index)
 					end
 				elseif entity.train.back_rail ~=nil then
 					if entity.train.back_rail.name == "straight-water-way-placed" or entity.train.back_rail.name == "curved-water-way-placed" then
 						cancelPlacement(entity, player_index)
 					end
 				end
-			end 
+			end
 		end
 	end
 	global.check_entity_placement = {}
@@ -118,22 +118,19 @@ end
 
 function cancelPlacement(entity, player_index)
 	if entity.name ~= "cargo_ship_engine" and entity.name ~= "boat_engine" then
-    if player_index then
-      game.players[player_index].insert{name=entity.name, count=1}
-      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name =="boat" then
-        game.players[player_index].print("Ships need to be placed on straight water ways and with sufficient space to both sides!")
-      else
-        game.players[player_index].print("Trains can not be placed on water ways!")
-      end
-    else
-      game.print("Cannot place "..entity.name.." here, item destroyed.")
-    end
+		if player_index then
+			game.players[player_index].insert{name=entity.name, count=1}
+			if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name =="boat" then
+				game.players[player_index].print("Ships need to be placed on straight water ways and with sufficient space to both sides!")
+			else
+				game.players[player_index].print("Trains can not be placed on water ways!")
+			end
+		else
+			game.print("Cannot place "..entity.name.." here, item destroyed.")
+		end
 	end
 	entity.destroy()
 end
-
-
-
 
 
 -- disconnects/reconnects rolling stocks if they get wrongly connetcted/disconnected
@@ -162,7 +159,7 @@ function On_Train_Created(e)
 	end
 
 	-- if ship  has been split reconnect
-	if # parts == 1 then 
+	if # parts == 1 then
 		-- reconnect!
 		local engine = parts[1]
 		local dir = engine.direction
@@ -171,9 +168,9 @@ function On_Train_Created(e)
 		end
 		engine.connect_rolling_stock(dir)
 
-	
+
 	-- else if ship has been overconnected split again
-	elseif # parts > 2 then  
+	elseif # parts > 2 then
 		for i = 1, #parts do
 			-- if front of ship-tuple, disconnect towards front (in direction)
 			if parts[i].name == "cargo_ship" or parts[i].name == "oil_tanker" or parts[i].name == "boat_engine" then
