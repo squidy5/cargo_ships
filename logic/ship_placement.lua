@@ -27,26 +27,38 @@ end
 function CheckBoatPlacement(ent, p_i)
 	-- check if waterways present
 	local pos = ent.position
-	local ww = ent.surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way-placed"}
+	local surface = ent.surface
+	local ww = surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way-placed"}
 	-- if so place waterway bound version of boat
 	if #ww >= 1 then
-		game.players[p_i].print("Placing boat on water-ways")
+		if p_i then
+			game.players[p_i].print("Placing boat on water-ways")
+		else
+			game.print("Placing boat on water-ways")
+		end
 
 		local eng_pos, dir = localize_engine(ent)
 		local fo = ent.force
 		ent.destroy()
-		local boat = game.players[p_i].surface.create_entity{name = "boat", position=pos, direction=dir, force = fo}
-		local engine = game.players[p_i].surface.create_entity{name = "boat_engine", position = eng_pos, direction = dir, force = fo}
+		local boat = surface.create_entity{name = "boat", position=pos, direction=dir, force = fo}
+		local engine = surface.create_entity{name = "boat_engine", position = eng_pos, direction = dir, force = fo}
 		if(boat ~= nil) then
 			table.insert(global.check_entity_placement, {boat, engine, p_i})
 		else
-			game.players[p_i].insert{name="boat", count=1}
+			game.print("could not make boat on waterway")
+			if p_i then
+				game.players[p_i].insert{name="boat", count=1}
+			end
 			if(engine) then
 				engine.destroy()
 			end
 		end
 	else
-		game.players[p_i].print("Placing boat independently from water-ways")
+		if p_i then
+			game.players[p_i].print("Placing boat independently from water-ways")
+		else
+			game.print("Placing boat independently from water-ways")
+		end
 	end
 end
 
@@ -85,12 +97,13 @@ function checkPlacement()
 						end
 					end
 				end
+			
 			-- else: trains
 			elseif entity.train ~= nil then
 				-- check if on waterways	
 				if entity.train.front_rail ~=nil then
 					if entity.train.front_rail.name == "straight-water-way-placed" or entity.train.front_rail.name == "curved-water-way-placed" then
-						cancelPlacement(entity, player_index)
+							cancelPlacement(entity, player_index)
 					end
 				elseif entity.train.back_rail ~=nil then
 					if entity.train.back_rail.name == "straight-water-way-placed" or entity.train.back_rail.name == "curved-water-way-placed" then

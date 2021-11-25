@@ -17,17 +17,16 @@ function onEntityBuild(e)
 
 
 	local ent = e.created_entity or e.entity or e.destination
+	local surface = ent.surface
 
 	-- check ghost entities first
 	if ent.name == "entity-ghost" then
 		if ent.ghost_name == "bridge_base" then
 			ent.destroy()
-			return
 		end
 
 	elseif ent.name == "indep-boat" then
 		CheckBoatPlacement(ent, e.player_index)
-		return
 
 	elseif ent.type == "cargo-wagon" or ent.type == "fluid-wagon" or ent.type == "locomotive" or ent.type == "artillery-wagon" then
 
@@ -35,43 +34,59 @@ function onEntityBuild(e)
 		local engine = nil
 		if ent.name == "cargo_ship" or ent.name == "oil_tanker" then
 			local pos, dir = localize_engine(ent)
-			engine = ent.surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = ent.force}
+			engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = ent.force}
+			if not engine then
+				-- Couldn't build engine, look for one that already exists
+				engines = surface.find_entities_filtered{name = "cargo_ship_engine", position = pos, force = ent.force}
+				if engines and next(engines) then
+					engine = engines[1]
+				end
+			end
+			
 		elseif ent.name == "boat"  then
 			local pos, dir = localize_engine(ent)
-			engine = ent.surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = ent.force}
+			engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = ent.force}
+			if not engine then
+				-- Couldn't build engine, look for one that already exists
+				engines = surface.find_entities_filtered{name = "boat_engine", position = pos, force = ent.force}
+				if engines and next(engines) then
+					engine = engines[1]
+				end
+			end
+		
 		end
-		-- check placement in next tick
-		table.insert(global.check_entity_placement, {ent, engine, e.player_index})
-		return
+		
+		if not (ent.name == "cargo_ship_engine" or ent.name == "boat_engine") then
+			-- Don't check placement for ship engines, which only fire events when created during cloning with a ship
+			-- check placement in next tick
+			table.insert(global.check_entity_placement, {ent, engine, e.player_index})
+		end
 
 	-- add oilrig slave entity
 	elseif ent.name == "oil_rig" then
 		local p = ent.position
 		local a = {{p.x-2, p.y-2},{p.x+2,p.y+2}}
-		local deep_oil = ent.surface.find_entities_filtered{area=a, name="deep_oil"}
+		local deep_oil = surface.find_entities_filtered{area=a, name="deep_oil"}
 		if #deep_oil == 0 then
 			ent.destroy()
 			if e.player_index ~= nil then
 				game.players[e.player_index].insert{name="oil_rig",count= 1}
 				game.players[e.player_index].print("Oil rigs can only placed on water")
 			end
-			return
+		else
+			local pos =  ent.position
+			local or_power = surface.create_entity{name = "or_power", position = pos, force = ent.force}
+			table.insert(global.or_generators,or_power)
+			surface.create_entity{name = "or_pole", position = pos, force = ent.force}
+			surface.create_entity{name = "or_radar", position = pos, force = ent.force}
+			surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = ent.force}
+			surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = ent.force}
+			surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = ent.force}
+			surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
 		end
-		local pos =  ent.position
-		local or_power = ent.surface.create_entity{name = "or_power", position = pos, force = ent.force}
-		table.insert(global.or_generators,or_power)
-		ent.surface.create_entity{name = "or_pole", position = pos, force = ent.force}
-		ent.surface.create_entity{name = "or_radar", position = pos, force = ent.force}
-		ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = ent.force}
-		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = ent.force}
-		ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = ent.force}
-		ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
-		return
-
 	-- create bridge
 	elseif ent.name == "bridge_base" then
 		CreateBridge(ent, e.player_index)
-		return
 
 	-- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collison mask
 	elseif ent.name == "straight-water-way" or ent.name == "curved-water-way" then
