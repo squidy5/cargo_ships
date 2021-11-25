@@ -352,17 +352,34 @@ script.on_event(defines.events.script_raised_destroy, OnDeleted)
 
 --place deep oil
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
--- entity created
+
+-- tile created
 script.on_event(defines.events.on_player_built_tile, onTileBuild)
 script.on_event(defines.events.on_robot_built_tile, onTileBuild)
-script.on_event(defines.events.on_built_entity, onEntityBuild)
-script.on_event(defines.events.on_robot_built_entity, onEntityBuild)
-script.on_event(defines.events.on_entity_cloned, onEntityBuild)
-script.on_event(defines.events.script_raised_built, onEntityBuild)
+
+-- entity created
+local entity_filters = {
+  {filter="ghost", ghost_name="bridge_base"},
+  {filter="type", type="cargo-wagon"},
+  {filter="type", type="fluid-wagon"},
+  {filter="type", type="locomotive"},
+  {filter="type", type="artillery-wagon"},
+  {filter="name", name="indep-boat"},
+  {filter="name", name="oil_rig"},
+  {filter="name", name="bridge_base"},
+  {filter="name", name="straight-water-way"},
+  {filter="name", name="curved-water-way"}
+}
+script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
+script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
+script.on_event(defines.events.on_entity_cloned, onEntityBuild, entity_filters)
+script.on_event(defines.events.script_raised_built, onEntityBuild, entity_filters)
+
 --power oil rig
 script.on_event(defines.events.on_tick, onTick)
 script.on_event(defines.events.on_gui_opened, onOilrickGuiOpened)
 script.on_event(defines.events.on_gui_closed, onOilrickGuiClosed)
+
 -- long reach
 script.on_event(defines.events.on_runtime_mod_setting_changed, applyChanges)
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
