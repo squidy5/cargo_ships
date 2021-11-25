@@ -17,70 +17,68 @@ function onEntityBuild(e)
 	--global.rolling_stock_timeout = 1
 
 
-	local ent = e.created_entity or e.entity or e.destination
-	local surface = ent.surface
+	local entity = e.created_entity or e.entity or e.destination
+	local surface = entity.surface
+	local force = entity.force
 
 	-- check ghost entities first
-	if ent.name == "entity-ghost" then
-		if ent.ghost_name == "bridge_base" then
-			ent.destroy()
+	if entity.name == "entity-ghost" then
+		if entity.ghost_name == "bridge_base" then
+			entity.destroy()
 		end
 
-	elseif ent.name == "indep-boat" then
+	elseif entity.name == "indep-boat" then
 		CheckBoatPlacement(ent, e.player_index)
 
-	elseif ent.type == "cargo-wagon" or ent.type == "fluid-wagon" or ent.type == "locomotive" or ent.type == "artillery-wagon" then
-
-		--game.players[1].print(ent.collision_mask)
+	elseif entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or entity.type == "locomotive" or entity.type == "artillery-wagon" then
+		--game.players[1].print(entity.collision_mask)
 		local engine = nil
-		if ent.name == "cargo_ship" or ent.name == "oil_tanker" then
+		if entity.name == "cargo_ship" or entity.name == "oil_tanker" then
 			local pos, dir = localize_engine(ent)
-			engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = ent.force}
-		elseif ent.name == "boat"  then
+			engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = force}
+		elseif entity.name == "boat"  then
 			local pos, dir = localize_engine(ent)
-			engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = ent.force}
+			engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = force}
 		end
-		
 		-- check placement in next tick
 		table.insert(global.check_entity_placement, {ent, engine, e.player_index})
 		
 	-- add oilrig slave entity
-	elseif ent.name == "oil_rig" then
-		local p = ent.position
+	elseif entity.name == "oil_rig" then
+		local p = entity.position
 		local a = {{p.x-2, p.y-2},{p.x+2,p.y+2}}
 		local deep_oil = surface.find_entities_filtered{area=a, name="deep_oil"}
 		if #deep_oil == 0 then
-			ent.destroy()
+			entity.destroy()
 			if e.player_index ~= nil then
 				game.players[e.player_index].insert{name="oil_rig",count= 1}
 				game.players[e.player_index].print("Oil rigs can only placed on water")
 			end
 		else
-			local pos =  ent.position
-			local or_power = surface.create_entity{name = "or_power", position = pos, force = ent.force}
+			local pos =  entity.position
+			local or_power = surface.create_entity{name = "or_power", position = pos, force = force}
 			table.insert(global.or_generators,or_power)
-			surface.create_entity{name = "or_pole", position = pos, force = ent.force}
-			surface.create_entity{name = "or_radar", position = pos, force = ent.force}
-			surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = ent.force}
-			surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = ent.force}
-			surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = ent.force}
-			surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
+			surface.create_entity{name = "or_pole", position = pos, force = force}
+			surface.create_entity{name = "or_radar", position = pos, force = force}
+			surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = force}
+			surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = force}
+			surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = force}
+			surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = force}
 		end
+		
 	-- create bridge
-	elseif ent.name == "bridge_base" then
+	elseif entity.name == "bridge_base" then
 		CreateBridge(ent, e.player_index)
 
-	-- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collison mask
-	elseif ent.name == "straight-water-way" or ent.name == "curved-water-way" then
-		local p = ent.position
-		local n = ent.name .. "-placed"
-		local f = ent.force
-		local s = ent.surface
-		local d = ent.direction
-		ent.destroy() --destroy old
-		--check for allready placed entites
+	-- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collision mask
+	elseif entity.name == "straight-water-way" or entity.name == "curved-water-way" then
+		local p = entity.position
+		local n = entity.name .. "-placed"
+		local d = entity.direction
+		entity.destroy() --destroy old
+		--check for already placed entities
 		local c = 0
-		local prev = s.find_entities_filtered{position = p, name = n}
+		local prev = surface.find_entities_filtered{position = p, name = n}
 		for _,pr in pairs(prev) do
 			if pr.direction == d then
 				c = pr.name == "straight-water-way-placed" and 1 or 4
@@ -92,14 +90,14 @@ function onEntityBuild(e)
 				game.players[e.player_index].insert{name="water-way", count=c}
 			end
 		else
-			WW = s.create_entity{name= n, position = p, direction = d, force = f} -- create new
+			WW = surface.create_entity{name= n, position = p, direction = d, force = force} -- create new
 			-- make waterway indistructable
 	 		if(WW) then
 				WW.destructible = false
 			end
 		end
 
-	--elseif ent.name == "crane" then
+	--elseif entity.name == "crane" then
 	--	OnCraneCreated(ent)
 	end
 end
@@ -141,7 +139,8 @@ function OnEnterShip(e)
 		if player.character then
 			for dis = 1,10 do
 				local targets = surface.find_entities_filtered{
-					area={{X-dis, Y-dis}, {X+dis, Y+dis}},name={"indep-boat","boat_engine","cargo_ship_engine"}}
+					area={{X-dis, Y-dis}, {X+dis, Y+dis}},
+					name={"indep-boat","boat_engine","cargo_ship_engine"}}
 				local done = false
 				for _, target in ipairs(targets) do
 					if target and target.get_driver() == nil then
@@ -197,53 +196,53 @@ end
 -- delete invisible entities if master entity is destroyed
 function OnDeleted(e)
 	if(e.entity) then
-		local ent = e.entity
-		if ent.name == "cargo_ship" or ent.name == "oil_tanker" or ent.name == "boat" then
-			if ent.train ~= nil then
+		local entity = e.entity
+		if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+			if entity.train ~= nil then
 
-				if ent.train.back_stock ~= nil then
-					if ent.train.back_stock.name == "cargo_ship_engine" or ent.train.back_stock.name == "boat_engine" then
-						ent.train.back_stock.destroy()
+				if entity.train.back_stock ~= nil then
+					if entity.train.back_stock.name == "cargo_ship_engine" or entity.train.back_stock.name == "boat_engine" then
+						entity.train.back_stock.destroy()
 					end
 				end
-				if ent.train.front_stock ~= nil then
-					if ent.train.front_stock.name == "cargo_ship_engine" or ent.train.front_stock.name == "boat_engine" then
-						ent.train.front_stock.destroy()
-					end
-				end
-			end
-
-		elseif ent.name == "cargo_ship_engine" or ent.name == "boat_engine" then
-			if ent.train ~= nil then
-				if ent.train.front_stock ~= nil then
-					if ent.train.front_stock.name == "cargo_ship" or ent.train.front_stock.name == "oil_tanker" or ent.train.front_stock.name == "boat" then
-						ent.train.front_stock.destroy()
+				if entity.train.front_stock ~= nil then
+					if entity.train.front_stock.name == "cargo_ship_engine" or entity.train.front_stock.name == "boat_engine" then
+						entity.train.front_stock.destroy()
 					end
 				end
 			end
 
-
-		elseif ent.name == "oil_rig" then
-			local pos = ent.position
-			or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_power"}
-			for i = 1, #or_inv do
-				or_inv[i].destroy()
-			end
-			or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_lamp"}
-			for i = 1, #or_inv do
-				or_inv[i].destroy()
-			end
-			or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_pole"}
-			for i = 1, #or_inv do
-				or_inv[i].destroy()
-			end
-			or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_radar"}
-			for i = 1, #or_inv do
-				or_inv[i].destroy()
+		elseif entity.name == "cargo_ship_engine" or entity.name == "boat_engine" then
+			if entity.train ~= nil then
+				if entity.train.front_stock ~= nil then
+					if entity.train.front_stock.name == "cargo_ship" or entity.train.front_stock.name == "oil_tanker" or entity.train.front_stock.name == "boat" then
+						entity.train.front_stock.destroy()
+					end
+				end
 			end
 
 
-		elseif string.match(ent.name, "bridge_") then
+		elseif entity.name == "oil_rig" then
+			local pos = entity.position
+			or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_power"}
+			for i = 1, #or_inv do
+				or_inv[i].destroy()
+			end
+			or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_lamp"}
+			for i = 1, #or_inv do
+				or_inv[i].destroy()
+			end
+			or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_pole"}
+			for i = 1, #or_inv do
+				or_inv[i].destroy()
+			end
+			or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_radar"}
+			for i = 1, #or_inv do
+				or_inv[i].destroy()
+			end
+
+
+		elseif string.match(entity.name, "bridge_") then
 			worked = DeleteBridge(ent, e.player_index)
 			if not worked then e.buffer.clear() end
 		end
@@ -254,21 +253,21 @@ end
 function OnMined(e)
 	if(e.entity) then
 		if e.entity.name == "cargo_ship" or e.entity.name == "oil_tanker" or e.entity.name == "boat" then
-			local ent = e.entity
+			local entity = e.entity
 			local player_index = e.player_index
 			local engine
-			if ent.train ~= nil then
-				if ent.train.back_stock ~= nil then
-					if ent.train.back_stock.name == "cargo_ship_engine" or ent.train.back_stock.name == "boat_engine"  then
-						local fuel = ent.train.back_stock.get_fuel_inventory().get_contents()
+			if entity.train ~= nil then
+				if entity.train.back_stock ~= nil then
+					if entity.train.back_stock.name == "cargo_ship_engine" or entity.train.back_stock.name == "boat_engine"  then
+						local fuel = entity.train.back_stock.get_fuel_inventory().get_contents()
 						for f_type,f_amount in pairs(fuel) do
 							game.players[player_index].insert{name=f_type, count=f_amount}
 						end
 					end
 				end
-				if ent.train.front_stock ~= nil then
-					if ent.train.front_stock.name == "cargo_ship_engine" or ent.train.front_stock.name == "boat_engine"  then
-						local fuel = ent.train.front_stock.get_fuel_inventory().get_contents()
+				if entity.train.front_stock ~= nil then
+					if entity.train.front_stock.name == "cargo_ship_engine" or entity.train.front_stock.name == "boat_engine"  then
+						local fuel = entity.train.front_stock.get_fuel_inventory().get_contents()
 						for f_type,f_amount in pairs(fuel) do
 							game.players[player_index].insert{name=f_type, count=f_amount}
 						end
