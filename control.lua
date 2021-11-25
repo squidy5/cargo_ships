@@ -134,50 +134,66 @@ end
 -- enter or leave ship
 function OnEnterShip(e)
 	local player_index = e.player_index
-	local pos = game.players[player_index].position
- 	local X = pos.x
+	local player = game.players[player_index]
+	local surface = player.surface
+	local pos = player.position
+	local X = pos.x
 	local Y = pos.y
 
-	if game.players[player_index].vehicle == nil then
-		for dis = 1,10 do
-			local targets = game.players[player_index].surface.find_entities_filtered{
-				area={{X-dis, Y-dis}, {X+dis, Y+dis}},name={"indep-boat","boat_engine","cargo_ship_engine"}}
-			local done = false
-			for _, target in ipairs(targets) do
-				if target and target.get_driver() == nil then
-					target.set_driver(game.players[player_index])
-					done = true
-				elseif target and target.name == "indep-boat" and target.get_passenger() == nil then
-					target.set_passenger(game.players[player_index])
+	if player.vehicle == nil then
+		-- Only enter vehicle if player has a character
+		if player.character then
+			for dis = 1,10 do
+				local targets = surface.find_entities_filtered{
+					area={{X-dis, Y-dis}, {X+dis, Y+dis}},name={"indep-boat","boat_engine","cargo_ship_engine"}}
+				local done = false
+				for _, target in ipairs(targets) do
+					if target and target.get_driver() == nil then
+						target.set_driver(player)
+						done = true
+					elseif target and target.name == "indep-boat" and target.get_passenger() == nil then
+						target.set_passenger(player)
+					end
 				end
+				if done then break end
 			end
-			if done then break end
 		end
 	else
-		local new_pos = game.players[player_index].surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
-	 	if new_pos ~= nil then
-	 		local old_vehicle = game.players[player_index].vehicle
+		local new_pos = surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
+	 	if new_pos then
+	 		local old_vehicle = player.vehicle
 	 		if old_vehicle.name == "indep-boat" then
-	 			local driver = old_vehicle.get_driver()
-	 			if driver ~= nil and driver.type == "character" then 
-	 				driver = driver.player
-	 				if driver ~= nil and driver == game.players[player_index] then
+	 			local driver = old_vehicle.get_driver()  -- Can return either LuaEntity or LuaPlayer
+	 			if driver then
+					if driver.object_name == "LuaEntity" then
+						if driver.type == "character" then 
+							driver = driver.player  -- Get the player associated with this character, if any
+						else
+							driver = nil
+						end
+					end
+	 				if driver and driver == player then
 	 				 	old_vehicle.set_driver(nil) 
 	 				end
 	 			end
-	 			local passenger = old_vehicle.get_passenger()
-	 			if passenger ~= nil and passenger.type == "character" then 
-	 				passenger = passenger.player
-	 				if passenger ~= nil and passenger == game.players[player_index] then
+	 			local passenger = old_vehicle.get_passenger()  -- Can return either LuaEntity or LuaPlayer
+	 			if passenger then
+					if passenger.object_name == "LuaEntity" then
+						if passenger.type == "character" then 
+							passenger = passenger.player  -- Get the player associated with this character, if any
+						else
+							passenger = nil
+						end
+					end
+	 				if passenger and passenger == player then
 	 				 	old_vehicle.set_passenger(nil) 
 	 				end
 	 			end
 	 		else
 	 			old_vehicle.set_driver(nil) 
 	 		end
- 			game.players[player_index].driving = false
- 			game.players[player_index].teleport(new_pos)
- 		
+			player.driving = false
+			player.teleport(new_pos)
 		end
 	end
 end
@@ -346,26 +362,26 @@ script.on_event("enter_ship", OnEnterShip)
 
 -- delete invisibles
 local deleted_filters = {
-  {filter="name", name="cargo_ship"},
-  {filter="name", name="oil_tanker"},
-  {filter="name", name="boat"},
-  {filter="name", name="cargo_ship_engine"},
-  {filter="name", name="boat_engine"},
-  {filter="name", name="oil_rig"},
-  {filter="name", name="bridge_base"},
-  {filter="name", name="bridge_north"},
-  {filter="name", name="bridge_north_closed"},
-  {filter="name", name="bridge_north_clickable"},
-  {filter="name", name="bridge_east"},
-  {filter="name", name="bridge_east_closed"},
-  {filter="name", name="bridge_east_clickable"},
-  {filter="name", name="bridge_south"},
-  {filter="name", name="bridge_south_closed"},
-  {filter="name", name="bridge_south_clickable"},
-  {filter="name", name="bridge_west"},
-  {filter="name", name="bridge_west_closed"},
-  {filter="name", name="bridge_west_clickable"}
-}
+    {filter="name", name="cargo_ship"},
+    {filter="name", name="oil_tanker"},
+    {filter="name", name="boat"},
+    {filter="name", name="cargo_ship_engine"},
+    {filter="name", name="boat_engine"},
+    {filter="name", name="oil_rig"},
+    {filter="name", name="bridge_base"},
+    {filter="name", name="bridge_north"},
+    {filter="name", name="bridge_north_closed"},
+    {filter="name", name="bridge_north_clickable"},
+    {filter="name", name="bridge_east"},
+    {filter="name", name="bridge_east_closed"},
+    {filter="name", name="bridge_east_clickable"},
+    {filter="name", name="bridge_south"},
+    {filter="name", name="bridge_south_closed"},
+    {filter="name", name="bridge_south_clickable"},
+    {filter="name", name="bridge_west"},
+    {filter="name", name="bridge_west_closed"},
+    {filter="name", name="bridge_west_clickable"}
+  }
 script.on_event(defines.events.on_entity_died, OnDeleted, deleted_filters)
 script.on_event(defines.events.on_robot_mined_entity, OnDeleted, deleted_filters)
 script.on_event(defines.events.script_raised_destroy, OnDeleted, deleted_filters)
@@ -380,17 +396,17 @@ script.on_event(defines.events.on_robot_built_tile, onTileBuild)
 
 -- entity created
 local entity_filters = {
-  {filter="ghost", ghost_name="bridge_base"},
-  {filter="type", type="cargo-wagon"},
-  {filter="type", type="fluid-wagon"},
-  {filter="type", type="locomotive"},
-  {filter="type", type="artillery-wagon"},
-  {filter="name", name="indep-boat"},
-  {filter="name", name="oil_rig"},
-  {filter="name", name="bridge_base"},
-  {filter="name", name="straight-water-way"},
-  {filter="name", name="curved-water-way"}
-}
+    {filter="ghost", ghost_name="bridge_base"},
+    {filter="type", type="cargo-wagon"},
+    {filter="type", type="fluid-wagon"},
+    {filter="type", type="locomotive"},
+    {filter="type", type="artillery-wagon"},
+    {filter="name", name="indep-boat"},
+    {filter="name", name="oil_rig"},
+    {filter="name", name="bridge_base"},
+    {filter="name", name="straight-water-way"},
+    {filter="name", name="curved-water-way"}
+  }
 script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
 script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
 script.on_event(defines.events.on_entity_cloned, onEntityBuild, entity_filters)
@@ -417,9 +433,9 @@ script.on_event(defines.events.on_train_created, On_Train_Created)
 
 
 remote.add_interface("aai-sci-burner", {
-    hauler_types = function(data)
-        return {
-            'indep-boat',
-        }
-    end,
+	hauler_types = function(data)
+		return {
+			'indep-boat',
+		}
+	end,
 })
