@@ -234,7 +234,7 @@ local boat=table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 boat.name = "boat"
 boat.icon = "__cargo-ships__/graphics/icons/boat.png"
 boat.icon_size = 64
-boat.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
+boat.flags = {"not-blueprintable", "placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 boat.allow_copy_paste = false
 boat.minable = {mining_time = 1, result = "boat"}
 boat.max_health = 1500
@@ -410,7 +410,7 @@ local cargo_ship=table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 cargo_ship.name = "cargo_ship"
 cargo_ship.icon = "__cargo-ships__/graphics/icons/cargoship_icon.png"
 cargo_ship.icon_size = 128
-cargo_ship.flags = {"not-blueprintable","placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
+cargo_ship.flags = {"not-blueprintable", "placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 cargo_ship.allow_copy_paste = false
 cargo_ship.minable = {mining_time = 1, result = "cargo_ship"}
 cargo_ship.max_health = 5000
@@ -517,7 +517,7 @@ local oil_tanker=table.deepcopy(data.raw["fluid-wagon"]["fluid-wagon"])
 oil_tanker.name = "oil_tanker"
 oil_tanker.icon =  "__cargo-ships__/graphics/icons/tanker.png"
 oil_tanker.icon_size = 128
-oil_tanker.flags = {"not-blueprintable","placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
+oil_tanker.flags = {"not-blueprintable", "placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 oil_tanker.allow_copy_paste = false
 oil_tanker.minable = {mining_time = 1, result = "oil_tanker"}
 oil_tanker.max_health = 5000
