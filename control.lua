@@ -426,6 +426,9 @@ script.on_event(defines.events.on_player_died, deadReach)
 script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
 script.on_event(defines.events.on_player_setup_blueprint, FixBlueprints)
 
+-- pipette
+script.on_event(defines.events.on_player_pipette, FixPipette)
+
 -- rolling stock connect
 script.on_event(defines.events.on_train_created, On_Train_Created)
 
