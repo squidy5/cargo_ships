@@ -374,6 +374,7 @@ script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
 script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
 script.on_event(defines.events.on_entity_cloned, onEntityBuild, entity_filters)
 script.on_event(defines.events.script_raised_built, onEntityBuild, entity_filters)
+script.on_event(defines.events.script_raised_revive, onEntityBuild, entity_filters)
 
 --power oil rig
 script.on_event(defines.events.on_tick, onTick)
