@@ -24,10 +24,46 @@ function localize_engine(ent)
 	return pos, i
 end
 
-function CheckBoatPlacement(ent, p_i)
+function has_connected_stock(wagon)
+	local train = wagon.train
+	local wagon_pos = 0
+	for i=1,#train.carriages do
+		if train.carriages[i].unit_number == wagon.unit_number then
+			wagon_pos = i
+			break
+		end
+	end
+	if wagon_pos > 0 then
+		if wagon.name == "cargo_ship" or wagon.name == "oil_tanker" then
+			if wagon_pos < #train.carriages and train.carriages[wagon_pos+1].name == "cargo_ship_engine" then
+				--game.print("found "..train.carriages[wagon_pos+1].name.." in back of "..wagon.name)
+				return true
+			end
+		elseif wagon.name == "boat" then
+			if wagon_pos > 1 and train.carriages[wagon_pos-1].name == "boat_engine" then
+				--game.print("found "..train.carriages[wagon_pos-1].name.." in front of "..wagon.name)
+				return true
+			end
+		elseif wagon.name == "cargo_ship_engine" then
+			if wagon_pos > 1 and (train.carriages[wagon_pos-1].name == "cargo_ship" or train.carriages[wagon_pos-1].name == "oil_tanker") then
+				--game.print("found "..train.carriages[wagon_pos-1].name.." in front of "..wagon.name)
+				return true
+			end
+		elseif wagon.name == "boat_engine" then
+			if wagon_pos < #train.carriages and train.carriages[wagon_pos+1].name == "boat" then
+				--game.print("found "..train.carriages[wagon_pos+1].name.." in back of "..wagon.name)
+				return true
+			end
+		end
+	end
+	--game.print("didn't find matching entity for "..wagon.name.." in train of "..#train.carriages.." wagons")
+	return false
+end
+
+function CheckBoatPlacement(entity, p_i)
 	-- check if waterways present
-	local pos = ent.position
-	local surface = ent.surface
+	local pos = entity.position
+	local surface = entity.surface
 	local ww = surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way-placed"}
 	-- if so place waterway bound version of boat
 	if #ww >= 1 then
@@ -36,21 +72,18 @@ function CheckBoatPlacement(ent, p_i)
 		else
 			game.print("Placing boat on water-ways")
 		end
-
-		local eng_pos, dir = localize_engine(ent)
-		local fo = ent.force
-		ent.destroy()
+		
+		local fo = entity.force
+		entity.destroy()
 		local boat = surface.create_entity{name = "boat", position=pos, direction=dir, force = fo}
-		local engine = surface.create_entity{name = "boat_engine", position = eng_pos, direction = dir, force = fo}
 		if(boat ~= nil) then
+			local eng_pos, dir = localize_engine(boat)
+			local engine = surface.create_entity{name = "boat_engine", position = eng_pos, direction = dir, force = fo}
 			table.insert(global.check_entity_placement, {boat, engine, p_i})
 		else
 			game.print("could not make boat on waterway")
 			if p_i then
 				game.players[p_i].insert{name="boat", count=1}
-			end
-			if(engine) then
-				engine.destroy()
 			end
 		end
 	else
@@ -62,7 +95,7 @@ function CheckBoatPlacement(ent, p_i)
 	end
 end
 
--- checks placement of rollingstock, and returns the placed entites to the player if neccesary
+-- checks placement of rolling stock, and returns the placed entities to the player if necessary
 function checkPlacement()
 	global.connection_counter = 0
 	for _, entry in pairs(global.check_entity_placement) do
@@ -75,7 +108,10 @@ function checkPlacement()
 				-- check for too many connections
 				-- check for correct engine placement
 				if engine == nil then
-					cancelPlacement(entity, player_index)
+					-- See if there is already an engine connected to this ship
+					if not has_connected_stock(entity) then
+						cancelPlacement(entity, player_index)
+					end
 				elseif entity.orientation ~= engine.orientation then
 					cancelPlacement(entity, player_index)
 					cancelPlacement(engine, player_index)
@@ -96,6 +132,12 @@ function checkPlacement()
 							cancelPlacement(engine, player_index)
 						end
 					end
+				end
+			
+			elseif entity.name == "cargo_ship_engine" or entity.name == "boat_engine" then
+				if not has_connected_stock(entity) then
+					game.print("canceling engine without matching ship")
+					cancelPlacement(entity, player_index)
 				end
 
 			-- else: trains
@@ -133,10 +175,10 @@ function cancelPlacement(entity, player_index)
 end
 
 
--- disconnects/reconnects rolling stocks if they get wrongly connetcted/disconnected
+-- disconnects/reconnects rolling stocks if they get wrongly connected/disconnected
 function On_Train_Created(e)
 
-	-- hacky guardian to make sure we dont ge caught in endless loop of connecting and disconnectnig
+	-- hacky guardian to make sure we don't ge caught in endless loop of connecting and disconnecting
 	global.connection_counter = global.connection_counter + 1
 	if global.connection_counter > 5 then return end
 
@@ -144,7 +186,7 @@ function On_Train_Created(e)
 	local parts = e.train.carriages
 
 
-	-- check if roling stock contains any ships (engines)
+	-- check if rolling stock contains any ships (engines)
 	for i = 1,  # parts do
 		if parts[i].name == "boat_engine" or parts[i].name == "cargo_ship_engine" then
 			contains_ship_engine = true
@@ -154,35 +196,29 @@ function On_Train_Created(e)
 
 
 	--if no ships involved return
-	if not contains_ship_engine then
-		return
-	end
+	if contains_ship_engine then
+		-- if ship  has been split reconnect
+		if #parts == 1 then
+			-- reconnect!
+			local engine = parts[1]
+			local dir = engine.direction
+			if engine.name == "boat_engine" then
+				dir = (dir + 1) %2
+			end
+			engine.connect_rolling_stock(dir)
 
-	-- if ship  has been split reconnect
-	if # parts == 1 then
-		-- reconnect!
-		local engine = parts[1]
-		local dir = engine.direction
-		if engine.name == "boat_engine" then
-			dir = (dir + 1) %2
-		end
-		engine.connect_rolling_stock(dir)
+		-- else if ship has been overconnected split again
+		elseif #parts > 2 then
+			for i = 1, #parts do
+				-- if front of ship-tuple, disconnect towards front (in direction)
+				if parts[i].name == "cargo_ship" or parts[i].name == "oil_tanker" or parts[i].name == "boat_engine" then
+					local check = parts[i].disconnect_rolling_stock(parts[i].direction)
 
-
-	-- else if ship has been overconnected split again
-	elseif # parts > 2 then
-		for i = 1, #parts do
-			-- if front of ship-tuple, disconnect towards front (in direction)
-			if parts[i].name == "cargo_ship" or parts[i].name == "oil_tanker" or parts[i].name == "boat_engine" then
-				local check = parts[i].disconnect_rolling_stock(parts[i].direction)
-
-				-- stop when succseful
-				if check then break end
-			-- if back of ship-tuple, disconnect towards back (in reverse direction)
-			elseif parts[i].name == "boat" or parts[i].name == "cargo_ship_engine" then
-				local check = parts[i].disconnect_rolling_stock((parts[i].direction+1)%2)
-
-				-- stop when succseful
+				-- if back of ship-tuple, disconnect towards back (in reverse direction)
+				elseif parts[i].name == "boat" or parts[i].name == "cargo_ship_engine" then
+					local check = parts[i].disconnect_rolling_stock((parts[i].direction+1)%2)
+				end
+				-- stop when successful
 				if check then break end
 			end
 		end

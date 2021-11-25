@@ -1,3 +1,4 @@
+require("util")
 require("logic.ship_placement")
 require("logic.oil_placement")
 require("logic.long_reach")
@@ -35,33 +36,14 @@ function onEntityBuild(e)
 		if ent.name == "cargo_ship" or ent.name == "oil_tanker" then
 			local pos, dir = localize_engine(ent)
 			engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = ent.force}
-			if not engine then
-				-- Couldn't build engine, look for one that already exists
-				engines = surface.find_entities_filtered{name = "cargo_ship_engine", position = pos, force = ent.force}
-				if engines and next(engines) then
-					engine = engines[1]
-				end
-			end
-			
 		elseif ent.name == "boat"  then
 			local pos, dir = localize_engine(ent)
 			engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = ent.force}
-			if not engine then
-				-- Couldn't build engine, look for one that already exists
-				engines = surface.find_entities_filtered{name = "boat_engine", position = pos, force = ent.force}
-				if engines and next(engines) then
-					engine = engines[1]
-				end
-			end
-		
 		end
 		
-		if not (ent.name == "cargo_ship_engine" or ent.name == "boat_engine") then
-			-- Don't check placement for ship engines, which only fire events when created during cloning with a ship
-			-- check placement in next tick
-			table.insert(global.check_entity_placement, {ent, engine, e.player_index})
-		end
-
+		-- check placement in next tick
+		table.insert(global.check_entity_placement, {ent, engine, e.player_index})
+		
 	-- add oilrig slave entity
 	elseif ent.name == "oil_rig" then
 		local p = ent.position
