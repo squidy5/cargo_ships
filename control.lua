@@ -345,10 +345,31 @@ script.on_configuration_changed(init)
 script.on_event("enter_ship", OnEnterShip)
 
 -- delete invisibles
-script.on_event(defines.events.on_entity_died, OnDeleted)
-script.on_event(defines.events.on_player_mined_entity, OnMined)
-script.on_event(defines.events.on_robot_mined_entity, OnDeleted)
-script.on_event(defines.events.script_raised_destroy, OnDeleted)
+local deleted_filters = {
+  {filter="name", name="cargo_ship"},
+  {filter="name", name="oil_tanker"},
+  {filter="name", name="boat"},
+  {filter="name", name="cargo_ship_engine"},
+  {filter="name", name="boat_engine"},
+  {filter="name", name="oil_rig"},
+  {filter="name", name="bridge_base"},
+  {filter="name", name="bridge_north"},
+  {filter="name", name="bridge_north_closed"},
+  {filter="name", name="bridge_north_clickable"},
+  {filter="name", name="bridge_east"},
+  {filter="name", name="bridge_east_closed"},
+  {filter="name", name="bridge_east_clickable"},
+  {filter="name", name="bridge_south"},
+  {filter="name", name="bridge_south_closed"},
+  {filter="name", name="bridge_south_clickable"},
+  {filter="name", name="bridge_west"},
+  {filter="name", name="bridge_west_closed"},
+  {filter="name", name="bridge_west_clickable"}
+}
+script.on_event(defines.events.on_entity_died, OnDeleted, deleted_filters)
+script.on_event(defines.events.on_robot_mined_entity, OnDeleted, deleted_filters)
+script.on_event(defines.events.script_raised_destroy, OnDeleted, deleted_filters)
+script.on_event(defines.events.on_player_mined_entity, OnMined, deleted_filters)
 
 --place deep oil
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
