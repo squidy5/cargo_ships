@@ -24,7 +24,6 @@ function onEntityBuild(e)
 			ent.destroy()
 			return
 		end
-	
 
 	elseif ent.name == "indep-boat" then
 		CheckBoatPlacement(ent, e.player_index)
@@ -41,7 +40,7 @@ function onEntityBuild(e)
 			local pos, dir = localize_engine(ent)
 			engine = ent.surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = ent.force}
 		end
-		-- check placement in next tick 
+		-- check placement in next tick
 		table.insert(global.check_entity_placement, {ent, engine, e.player_index})
 		return
 
@@ -87,7 +86,7 @@ function onEntityBuild(e)
 		local prev = s.find_entities_filtered{position = p, name = n}
 		for _,pr in pairs(prev) do
 			if pr.direction == d then
-				c = pr.name == "straight-water-way-placed" and 1 or 4 
+				c = pr.name == "straight-water-way-placed" and 1 or 4
 				break
 			end
 		end
@@ -97,7 +96,7 @@ function onEntityBuild(e)
 			end
 		else
 			WW = s.create_entity{name= n, position = p, direction = d, force = f} -- create new
-			-- make waterway indistructable 
+			-- make waterway indistructable
 	 		if(WW) then
 				WW.destructible = false
 			end
@@ -108,7 +107,7 @@ function onEntityBuild(e)
 	end
 end
 
--- destroy waterways when landfill is build ontop 
+-- destroy waterways when landfill is build ontop
 function onTileBuild(e)
 	if e.item and e.item.name == "landfill" then
 		----- New event code prevents mods from omitting mandatory arguments, so this will always work
@@ -116,7 +115,7 @@ function onTileBuild(e)
 
 		local old_tiles = {}
 		for _, tile in pairs(e.tiles) do
-			if not surface.can_place_entity{name = "tile_test_item", position = tile.position} 
+			if not surface.can_place_entity{name = "tile_test_item", position = tile.position}
 				and surface.can_place_entity{name = "tile_player_test_item", position = tile.position} then
 				-- refund
 				if e.player_index then
@@ -166,31 +165,31 @@ function OnEnterShip(e)
 	 			local driver = old_vehicle.get_driver()  -- Can return either LuaEntity or LuaPlayer
 	 			if driver then
 					if driver.object_name == "LuaEntity" then
-						if driver.type == "character" then 
+						if driver.type == "character" then
 							driver = driver.player  -- Get the player associated with this character, if any
 						else
 							driver = nil
 						end
 					end
 	 				if driver and driver == player then
-	 				 	old_vehicle.set_driver(nil) 
+	 				 	old_vehicle.set_driver(nil)
 	 				end
 	 			end
 	 			local passenger = old_vehicle.get_passenger()  -- Can return either LuaEntity or LuaPlayer
 	 			if passenger then
 					if passenger.object_name == "LuaEntity" then
-						if passenger.type == "character" then 
+						if passenger.type == "character" then
 							passenger = passenger.player  -- Get the player associated with this character, if any
 						else
 							passenger = nil
 						end
 					end
 	 				if passenger and passenger == player then
-	 				 	old_vehicle.set_passenger(nil) 
+	 				 	old_vehicle.set_passenger(nil)
 	 				end
 	 			end
 	 		else
-	 			old_vehicle.set_driver(nil) 
+	 			old_vehicle.set_driver(nil)
 	 		end
 			player.driving = false
 			player.teleport(new_pos)
@@ -245,12 +244,12 @@ function OnDeleted(e)
 			for i = 1, #or_inv do
 				or_inv[i].destroy()
 			end
-		
+
 
 		elseif string.match(ent.name, "bridge_") then
 			worked = DeleteBridge(ent, e.player_index)
 			if not worked then e.buffer.clear() end
-		end 
+		end
 	end
 end
 
@@ -357,37 +356,37 @@ end
 script.on_init(init)
 script.on_configuration_changed(init)
 
--- custom commands 
+-- custom commands
 script.on_event("enter_ship", OnEnterShip)
 
 -- delete invisibles
 local deleted_filters = {
-    {filter="name", name="cargo_ship"},
-    {filter="name", name="oil_tanker"},
-    {filter="name", name="boat"},
-    {filter="name", name="cargo_ship_engine"},
-    {filter="name", name="boat_engine"},
-    {filter="name", name="oil_rig"},
-    {filter="name", name="bridge_base"},
-    {filter="name", name="bridge_north"},
-    {filter="name", name="bridge_north_closed"},
-    {filter="name", name="bridge_north_clickable"},
-    {filter="name", name="bridge_east"},
-    {filter="name", name="bridge_east_closed"},
-    {filter="name", name="bridge_east_clickable"},
-    {filter="name", name="bridge_south"},
-    {filter="name", name="bridge_south_closed"},
-    {filter="name", name="bridge_south_clickable"},
-    {filter="name", name="bridge_west"},
-    {filter="name", name="bridge_west_closed"},
-    {filter="name", name="bridge_west_clickable"}
-  }
+		{filter="name", name="cargo_ship"},
+		{filter="name", name="oil_tanker"},
+		{filter="name", name="boat"},
+		{filter="name", name="cargo_ship_engine"},
+		{filter="name", name="boat_engine"},
+		{filter="name", name="oil_rig"},
+		{filter="name", name="bridge_base"},
+		{filter="name", name="bridge_north"},
+		{filter="name", name="bridge_north_closed"},
+		{filter="name", name="bridge_north_clickable"},
+		{filter="name", name="bridge_east"},
+		{filter="name", name="bridge_east_closed"},
+		{filter="name", name="bridge_east_clickable"},
+		{filter="name", name="bridge_south"},
+		{filter="name", name="bridge_south_closed"},
+		{filter="name", name="bridge_south_clickable"},
+		{filter="name", name="bridge_west"},
+		{filter="name", name="bridge_west_closed"},
+		{filter="name", name="bridge_west_clickable"}
+	}
 script.on_event(defines.events.on_entity_died, OnDeleted, deleted_filters)
 script.on_event(defines.events.on_robot_mined_entity, OnDeleted, deleted_filters)
 script.on_event(defines.events.script_raised_destroy, OnDeleted, deleted_filters)
 script.on_event(defines.events.on_player_mined_entity, OnMined, deleted_filters)
 
---place deep oil
+-- place deep oil
 script.on_event(defines.events.on_chunk_generated, placeDeepOil)
 
 -- tile created
@@ -396,24 +395,24 @@ script.on_event(defines.events.on_robot_built_tile, onTileBuild)
 
 -- entity created
 local entity_filters = {
-    {filter="ghost", ghost_name="bridge_base"},
-    {filter="type", type="cargo-wagon"},
-    {filter="type", type="fluid-wagon"},
-    {filter="type", type="locomotive"},
-    {filter="type", type="artillery-wagon"},
-    {filter="name", name="indep-boat"},
-    {filter="name", name="oil_rig"},
-    {filter="name", name="bridge_base"},
-    {filter="name", name="straight-water-way"},
-    {filter="name", name="curved-water-way"}
-  }
+		{filter="ghost", ghost_name="bridge_base"},
+		{filter="type", type="cargo-wagon"},
+		{filter="type", type="fluid-wagon"},
+		{filter="type", type="locomotive"},
+		{filter="type", type="artillery-wagon"},
+		{filter="name", name="indep-boat"},
+		{filter="name", name="oil_rig"},
+		{filter="name", name="bridge_base"},
+		{filter="name", name="straight-water-way"},
+		{filter="name", name="curved-water-way"}
+	}
 script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
 script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
 script.on_event(defines.events.on_entity_cloned, onEntityBuild, entity_filters)
 script.on_event(defines.events.script_raised_built, onEntityBuild, entity_filters)
 script.on_event(defines.events.script_raised_revive, onEntityBuild, entity_filters)
 
---power oil rig
+-- power oil rig
 script.on_event(defines.events.on_tick, onTick)
 script.on_event(defines.events.on_gui_opened, onOilrickGuiOpened)
 script.on_event(defines.events.on_gui_closed, onOilrickGuiClosed)
@@ -423,7 +422,7 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, applyChanges)
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
 script.on_event(defines.events.on_player_died, deadReach)
 
---blueprints
+-- blueprints
 script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
 script.on_event(defines.events.on_player_setup_blueprint, FixBlueprints)
 
