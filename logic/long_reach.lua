@@ -73,24 +73,22 @@ function deadReach(e)
 	end
 end
 
-function applyChanges(e)
-	if e.setting == "waterway_reach_increase" then
-		validate_global()
-		for _,player in pairs(game.players) do
-			if is_waterway(player.cursor_stack) then
-				if player.character.character_build_distance_bonus + (settings.global["waterway_reach_increase"].value - global.last_distance_bonus) >= 0 then
-					player.character.character_build_distance_bonus = player.character.character_build_distance_bonus + (settings.global["waterway_reach_increase"].value - global.last_distance_bonus)
-					player.character.character_reach_distance_bonus = player.character.character_reach_distance_bonus + (settings.global["waterway_reach_increase"].value - global.last_distance_bonus)
+function applyReachChanges(e)
+	validate_global()
+	for _,player in pairs(game.players) do
+		if is_waterway(player.cursor_stack) then
+			if player.character.character_build_distance_bonus + (settings.global["waterway_reach_increase"].value - global.last_distance_bonus) >= 0 then
+				player.character.character_build_distance_bonus = player.character.character_build_distance_bonus + (settings.global["waterway_reach_increase"].value - global.last_distance_bonus)
+				player.character.character_reach_distance_bonus = player.character.character_reach_distance_bonus + (settings.global["waterway_reach_increase"].value - global.last_distance_bonus)
 
-				else
-					player.character.character_build_distance_bonus = player.character.character_build_distance_bonus + settings.global["waterway_reach_increase"].value
-					player.character.character_reach_distance_bonus = player.character.character_reach_distance_bonus + settings.global["waterway_reach_increase"].value
+			else
+				player.character.character_build_distance_bonus = player.character.character_build_distance_bonus + settings.global["waterway_reach_increase"].value
+				player.character.character_reach_distance_bonus = player.character.character_reach_distance_bonus + settings.global["waterway_reach_increase"].value
 
-				end
 			end
 		end
-		global.last_distance_bonus = settings.global["waterway_reach_increase"].value
 	end
+	global.last_distance_bonus = settings.global["waterway_reach_increase"].value
 --[[
 	if e.setting == "waterway_reach_increase" then 
 		validate_global()

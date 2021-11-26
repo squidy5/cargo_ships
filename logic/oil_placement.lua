@@ -11,35 +11,36 @@ function placeDeepOil(e)
 	else
 		deep_tiles = surface.count_tiles_filtered{area=e.area, name = "deepwater"}
 	end
+	math.randomseed(e.tick)
 	--game.players[1].print("number of deep tiles: " .. deep_tiles)
 
 	if deep_tiles == 1024 then
 
 		freq = 0.03
-		if settings.global["oil_frequency"].value == "none" then
+		if settings.startup["oil_frequency"].value == "none" then
 			freq = 0		
-		elseif settings.global["oil_frequency"].value == "minimal" then
+		elseif settings.startup["oil_frequency"].value == "minimal" then
 			freq = 0.0008
-		elseif settings.global["oil_frequency"].value == "very-very-low" then
+		elseif settings.startup["oil_frequency"].value == "very-very-low" then
 			freq = 0.0025
-		elseif settings.global["oil_frequency"].value == "very-low" then
+		elseif settings.startup["oil_frequency"].value == "very-low" then
 			freq = 0.0075
-		elseif settings.global["oil_frequency"].value == "low" then
+		elseif settings.startup["oil_frequency"].value == "low" then
 			freq = 0.015
-		elseif settings.global["oil_frequency"].value == "high" then
+		elseif settings.startup["oil_frequency"].value == "high" then
 			freq = 0.06
-		elseif settings.global["oil_frequency"].value == "very-high" then
+		elseif settings.startup["oil_frequency"].value == "very-high" then
 			freq = 0.12
 		end
 
 		mult = 1
-		if settings.global["oil_richness"].value == "very-poor" then
+		if settings.startup["oil_richness"].value == "very-poor" then
 			mult = 0.25
-		elseif settings.global["oil_richness"].value == "poor" then
+		elseif settings.startup["oil_richness"].value == "poor" then
 			mult = 0.5
-		elseif settings.global["oil_richness"].value == "good" then
+		elseif settings.startup["oil_richness"].value == "good" then
 			mult = 2
-		elseif settings.global["oil_richness"].value == "very-good" then
+		elseif settings.startup["oil_richness"].value == "very-good" then
 			mult = 4
 		end
 

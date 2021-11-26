@@ -5,7 +5,7 @@ data:extend({
 	{
 		type = "string-setting",
 		name = "oil_frequency",
-		setting_type = "runtime-global",
+		setting_type = "startup",
 		default_value = "normal",
 		allowed_values = {
 			"none",
@@ -22,7 +22,7 @@ data:extend({
 	{
 		type = "string-setting",
 		name = "oil_richness",
-		setting_type = "runtime-global",
+		setting_type = "startup",
 		default_value = "regular",
 		allowed_values = {
 		"very-poor",
@@ -98,5 +98,11 @@ data:extend({
 		maximum_value = 500,
 		order = "a-b"
 	},
-
+	{
+		type = "bool-setting",
+		name = "indestructible_buoys",
+		setting_type = "runtime-global",
+		default_value = false,
+		order = "a-d"
+	}
 })

@@ -153,6 +153,12 @@ function onEntityBuild(e)
 			entity.destroy()
 		end
 	
+	elseif entity.name == "buoy" or entity.name == "chain_buoy" then
+		-- Make buoys indestructible
+		if settings.global["indestructible_buoys"].value then
+			entity.destructible = false
+		end
+		
 	--elseif entity.name == "crane" then
 	--	OnCraneCreated(ent)
 	end
@@ -354,8 +360,32 @@ function powerOilRig(e)
 	end
 end
 
+function updateAllBuoys()
+	-- search for all buoys and make them either destructible or indestructible
+	local destructible = not settings.global["indestructible_buoys"].value
+	local count = 0
+	for _, surface in pairs(game.surfaces) do
+		local buoys = surface.find_entities_filtered{name={"buoy","chain_buoy"}}
+		for _, buoy in pairs(buoys) do
+			buoy.destructible = destructible
+			count = count + 1
+		end
+	end
+	game.print("updated "..tostring(count).." buoys with destructible="..tostring(destructible))
+end
+
+
+function onModSettingsChanged(e)
+	if e.setting == "waterway_reach_increase" then
+		applyReachChanges(e)
+	elseif e.setting == "indestructible_buoys" then
+		updateAllBuoys()
+	end
+end
+
 
 function init()
+	-- init globals
 	global.check_entity_placement = global.check_entity_placement or {}
 	global.bridges = global.bridges or {}
 	global.bridgesToReplace = global.bridgesToReplace or {}
@@ -365,6 +395,8 @@ function init()
 	global.new_cranes = global.new_cranes or {}
 	global.gui_oilrigs = global.gui_oilrigs or {}
 	global.connection_counter = 0
+	-- apply buoy setting when mod is updated
+	updateAllBuoys()
 end
 
 function onTick(e)
@@ -382,13 +414,11 @@ function onStackChanged(e)
 	PumpVisualisation(e)
 end
 
-function onModSettingschanged(e)
-	applyChanges(e)
-end
 
 -- init
 script.on_init(init)
 script.on_configuration_changed(init)
+script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChanged)
 
 -- custom commands
 script.on_event("enter_ship", OnEnterShip)
@@ -438,7 +468,9 @@ local entity_filters = {
 		{filter="name", name="oil_rig"},
 		{filter="name", name="bridge_base"},
 		{filter="type", type="straight-rail"},
-		{filter="type", type="curved-rail"}
+		{filter="type", type="curved-rail"},
+		{filter="name", name="buoy"},
+		{filter="name", name="chain_buoy"}
 	}
 script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
 script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
@@ -452,7 +484,6 @@ script.on_event(defines.events.on_gui_opened, onOilrickGuiOpened)
 script.on_event(defines.events.on_gui_closed, onOilrickGuiClosed)
 
 -- long reach
-script.on_event(defines.events.on_runtime_mod_setting_changed, applyChanges)
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
 script.on_event(defines.events.on_player_died, deadReach)
 
