@@ -1,8 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.0
 Date: 2021-11-24
-  Updated-by:
-    - snouz
+  Info:
+    - New and improved visuals by snouz.
   Visuals:
     - New HD technology icons (8).
     - New item icons (11)
@@ -14,13 +14,13 @@ Date: 2021-11-24
     - Rails: Recreated in HD, aligned, removed transparency (which was messy).
     - Floating Electric Poles: Reworked in HD, water reflections, new shadows.
     - Buoys and Chain Buoys: Reworked in HD, water reflections, new shadows and lights.
-    - Bridges: HD version.
+    - Bridges: HD version, doesn't create smoke on closing, water reflections (open and closed)
     - Improved splash effect.
   Optimization:
     - Compressed some animations to save space.
     - Some file sorting
   Sound:
-    - Small boat as vehicle makes a noise scaled to speed.
+    - Small boat makes a noise scaled to speed.
   Locale:
     - Added Polish locale (thanks to RadianOst).
     - Updated Russian locale (thanks to IgorLutiy).
@@ -28,8 +28,6 @@ Date: 2021-11-24
 
   TODO:
     - chain buoys
-    - splash transparency
-    - bridge water reflection
     - oil rig
     - deep oil contour
     - technologies?
