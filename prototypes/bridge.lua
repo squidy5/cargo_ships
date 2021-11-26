@@ -1,5 +1,6 @@
 local bridge=table.deepcopy(data.raw["train-stop"]["port"])
 bridge.name = "bridge_base"
+bridge.localised_name = {"description-template.bridge_base", {"entity-description.bridge_north_clickable"}}
 bridge.animations = make_4way_animation_from_spritesheet({layers = {
 {
     filename = "__cargo-ships__/graphics/entity/bridge/base.png",
@@ -392,6 +393,10 @@ local bridge_west_clickable = table.deepcopy(data.raw["simple-entity-with-force"
 bridge_east_clickable.name = "bridge_east_clickable"
 bridge_south_clickable.name = "bridge_south_clickable"
 bridge_west_clickable.name = "bridge_west_clickable"
+
+bridge_east_clickable.localised_name = {"entity-description.bridge_north_clickable"}
+bridge_south_clickable.localised_name = {"entity-description.bridge_north_clickable"}
+bridge_west_clickable.localised_name = {"entity-description.bridge_north_clickable"}
 
 bridge_east_clickable.collision_box = {{-3,-5},{3,7}}
 bridge_south_clickable.collision_box = {{-7,-3},{5,3}}

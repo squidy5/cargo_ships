@@ -103,6 +103,7 @@ indep_boat.friction = 0.002/speed_modifier
 indep_boat.minable = {mining_time = 1,result = "boat"}
 indep_boat.rotation_speed = 0.008
 indep_boat.inventory_size = 80
+indep_boat.localised_description = {'entity-description.boat'}
 
 indep_boat.burner =
 {
