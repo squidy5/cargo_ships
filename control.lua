@@ -42,20 +42,20 @@ function onEntityBuild(e)
 		end
 
 	elseif entity.name == "indep-boat" then
-		CheckBoatPlacement(ent, e.player_index)
+		CheckBoatPlacement(entity, e.player_index)
 
 	elseif entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or entity.type == "locomotive" or entity.type == "artillery-wagon" then
 		--game.players[1].print(entity.collision_mask)
 		local engine = nil
 		if entity.name == "cargo_ship" or entity.name == "oil_tanker" then
-			local pos, dir = localize_engine(ent)
+			local pos, dir = localize_engine(entity)
 			engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = force}
 		elseif entity.name == "boat"  then
-			local pos, dir = localize_engine(ent)
+			local pos, dir = localize_engine(entity)
 			engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = force}
 		end
 		-- check placement in next tick
-		table.insert(global.check_entity_placement, {ent, engine, e.player_index})
+		table.insert(global.check_entity_placement, {entity, engine, e.player_index})
 		
 	-- add oilrig slave entity
 	elseif entity.name == "oil_rig" then
@@ -66,7 +66,7 @@ function onEntityBuild(e)
 			entity.destroy()
 			if player then
 				player.insert{name="oil_rig", count= 1}
-				player.print("Oil rigs can only placed on water")
+				player.print{"cargo-ship-message.error-place-on-water", entity.localised_name}
 			end
 		else
 			local or_power = surface.create_entity{name = "or_power", position = pos, force = force}
@@ -81,15 +81,17 @@ function onEntityBuild(e)
 		
 	-- create bridge
 	elseif entity.name == "bridge_base" then
-		CreateBridge(ent, e.player_index)
+		CreateBridge(entity, e.player_index)
 
 	-- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collision mask
 	elseif entity.name == "straight-water-way" or entity.name == "curved-water-way" then
 		-- Check if this waterway is connected to a non-waterway
 		local bad_connection = false
+		local bad_name = ""
 		for _, rail in pairs(get_connected_rails(entity)) do
-			if not string.find(rail.name, "%-water%-way") then
+			if not (string.find(rail.name, "%-water%-way") or rail.name == "bridge_crossing") then
 				bad_connection = true
+				bad_name = rail.name
 				break
 			end
 		end
@@ -107,9 +109,9 @@ function onEntityBuild(e)
 			-- Refund ww if connected to rails
 			give_refund = true
 			if player then
-				player.print("Cannot connect waterways to rails!")
+				player.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..name.."__", "__ENTITY__"..bad_name.."__"}
 			else
-				game.print("Cannot connect waterways to rails!")
+				game.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..name.."__", "__ENTITY__"..bad_name.."__"}
 			end
 		else
 			for _, pr in pairs(prev) do
@@ -137,18 +139,21 @@ function onEntityBuild(e)
 	elseif entity.type == "straight-rail" or entity.type == "curved-rail" then
 		-- Check if this rail is connected to a waterway
 		local bad_connection = false
+		local bad_name = ""
 		for _, rail in pairs(get_connected_rails(entity)) do
-			if string.find(rail.name, "%-water%-way") then
+			if string.find(rail.name, "%-water%-way") or rail.name == "bridge_crossing" then
 				bad_connection = true
+				bad_name = rail.name
 				break
 			end
 		end
 		if bad_connection then
+			local refund = entity.prototype.items_to_place_this[1]
 			if player then
-				player.insert(entity.prototype.items_to_place_this[1])
-				player.print("Cannot connect rails to waterways!")
+				player.insert(refund)
+				player.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..entity.name.."__", "__ENTITY__"..bad_name.."__"}
 			else
-				game.print("Cannot connect rails to waterways!")
+				game.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..entity.name.."__", "__ENTITY__"..bad_name.."__"}
 			end
 			entity.destroy()
 		end
@@ -160,7 +165,7 @@ function onEntityBuild(e)
 		end
 		
 	--elseif entity.name == "crane" then
-	--	OnCraneCreated(ent)
+	--	OnCraneCreated(entity)
 	end
 end
 
@@ -221,7 +226,7 @@ function OnEnterShip(e)
 	 		if old_vehicle.name == "indep-boat" then
 	 			local driver = old_vehicle.get_driver()  -- Can return either LuaEntity or LuaPlayer
 	 			if driver then
-					if driver.object_name == "LuaEntity" then
+					if not driver.is_player() then
 						if driver.type == "character" then
 							driver = driver.player  -- Get the player associated with this character, if any
 						else
@@ -234,7 +239,7 @@ function OnEnterShip(e)
 	 			end
 	 			local passenger = old_vehicle.get_passenger()  -- Can return either LuaEntity or LuaPlayer
 	 			if passenger then
-					if passenger.object_name == "LuaEntity" then
+					if not passenger.is_player() then
 						if passenger.type == "character" then
 							passenger = passenger.player  -- Get the player associated with this character, if any
 						else
@@ -302,7 +307,7 @@ function OnDeleted(e)
 			end
 
 		elseif string.match(entity.name, "bridge_") then
-			worked = DeleteBridge(ent, e.player_index)
+			worked = DeleteBridge(entity, e.player_index)
 			if not worked then e.buffer.clear() end
 		end
 	end
@@ -371,7 +376,7 @@ function updateAllBuoys()
 			count = count + 1
 		end
 	end
-	game.print("updated "..tostring(count).." buoys with destructible="..tostring(destructible))
+	--game.print("updated "..tostring(count).." buoys with destructible="..tostring(destructible))
 end
 
 

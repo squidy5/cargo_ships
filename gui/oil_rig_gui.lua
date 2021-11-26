@@ -1,11 +1,21 @@
+
+
+local function updateProgress(frame, oilrig)
+	local oil_rig_capacity = settings.startup["oil_rig_capacity"].value
+	local amount = oilrig.fluidbox[1] and oilrig.fluidbox[1]["amount"] or 0
+	frame.oily_progress.value = amount/(oil_rig_capacity*1000)
+	frame.oily_caption.caption = {"cargo-ship-gui.oil-rig-progress",math.floor(amount/1000),oil_rig_capacity}
+end
+
 function onOilrickGuiOpened(e)
 	if e.entity ~= nil and e.entity.name == "oil_rig" then
 		local gui = game.players[e.player_index].gui
 		if not gui.top.oilStorageFrame then 
-			local frame = gui.top.add{type="frame", name="oilStorageFrame", caption="Oil rig storage", direction="vertical"}
+			local frame = gui.top.add{type="frame", name="oilStorageFrame", caption={"cargo-ship-gui.oil-rig-storage"}, direction="vertical"}
 			--frame.add{type="line", name="line1"}
-			local progressbar = frame.add{type="progressbar", name="oily_progress"}
-			frame.add{type="label", name="oily_caption", caption="0k of 100k"}
+			frame.add{type="progressbar", name="oily_progress"}
+			frame.add{type="label", name="oily_caption", caption={"cargo-ship-gui.oil-rig-progress",0,100}}
+			updateProgress(frame, e.entity)
 		end
 		global.gui_oilrigs[e.player_index] = e.entity
 	end
@@ -30,10 +40,7 @@ function UpdateOilRigGui(e)
 	if global.gui_oilrigs == nil then
 		global.gui_oilrigs = {}
 	end
-	local oil_rig_capacity = settings.startup["oil_rig_capacity"].value;
-
-
-
+	
 	for i, oilrig in ipairs(global.gui_oilrigs) do
 		if not oilrig.valid then
 			deleteOilGui(i)
@@ -44,12 +51,7 @@ function UpdateOilRigGui(e)
 		if oilrig ~= nil then
 			local ourframe = game.players[i].gui.top.oilStorageFrame
 			if not ourframe then return end
-
-			local amount = oilrig.fluidbox[1] and oilrig.fluidbox[1]["amount"] or 0
-			--game.players[1].print("we have so much oil: " .. amount)
-			ourframe.oily_progress.value = amount/(oil_rig_capacity*1000)
-			ourframe.oily_caption.caption = math.floor(amount/1000) .. "k of ".. oil_rig_capacity .."k"
-
+			updateProgress(ourframe, oilrig)
 		end
 	end
 end

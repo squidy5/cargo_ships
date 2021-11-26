@@ -64,33 +64,36 @@ function CheckBoatPlacement(entity, p_i)
 	-- check if waterways present
 	local pos = entity.position
 	local surface = entity.surface
+	local local_name = entity.localised_name
 	local ww = surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way-placed"}
 	-- if so place waterway bound version of boat
 	if #ww >= 1 then
-		if p_i then
-			game.players[p_i].print("Placing boat on water-ways")
-		else
-			game.print("Placing boat on water-ways")
-		end
 		
 		local fo = entity.force
 		entity.destroy()
 		local boat = surface.create_entity{name = "boat", position=pos, direction=dir, force = fo}
 		if(boat ~= nil) then
+			if p_i then
+				game.players[p_i].print{"cargo-ship-message.place-on-waterway", local_name}
+			else
+				game.print{"cargo-ship-message.place-on-waterway", local_name}
+			end
 			local eng_pos, dir = localize_engine(boat)
 			local engine = surface.create_entity{name = "boat_engine", position = eng_pos, direction = dir, force = fo}
 			table.insert(global.check_entity_placement, {boat, engine, p_i})
 		else
-			game.print("could not make boat on waterway")
 			if p_i then
 				game.players[p_i].insert{name="boat", count=1}
+				game.players[p_i].print{"cargo-ship-message.error-place-on-waterway", local_name}
+			else
+				game.print{"cargo-ship-message.error-place-on-waterway", local_name}
 			end
 		end
 	else
 		if p_i then
-			game.players[p_i].print("Placing boat independently from water-ways")
+			game.players[p_i].print{"cargo-ship-message.place-independent", local_name}
 		else
-			game.print("Placing boat independently from water-ways")
+			game.print{"cargo-ship-message.place-independent", local_name}
 		end
 	end
 end
@@ -136,7 +139,7 @@ function checkPlacement()
 			
 			elseif entity.name == "cargo_ship_engine" or entity.name == "boat_engine" then
 				if not has_connected_stock(entity) then
-					game.print("canceling engine without matching ship")
+					game.print{"cargo-ship-message.error-unlinked-engine", entity.localised_name}
 					cancelPlacement(entity, player_index)
 				end
 
@@ -163,12 +166,12 @@ function cancelPlacement(entity, player_index)
 		if player_index then
 			game.players[player_index].insert{name=entity.name, count=1}
 			if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name =="boat" then
-				game.players[player_index].print("Ships need to be placed on straight water ways and with sufficient space to both sides!")
+				game.players[player_index].print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
 			else
-				game.players[player_index].print("Trains can not be placed on water ways!")
+				game.players[player_index].print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
 			end
 		else
-			game.print("Cannot place "..entity.name.." here, item destroyed.")
+			game.print{"cargo-ship-message.error-canceled", entity.localised_name}
 		end
 	end
 	entity.destroy()

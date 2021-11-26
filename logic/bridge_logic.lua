@@ -91,7 +91,7 @@ function checkBridgePlacement(pos,x1,y1,x2,y2, player_index, surface)
 	end
 	if not valid then
 		if player_index then
-			game.players[player_index].print("Bridges must be placed along straight stretches of waterways with sufficient space to all sides!")
+			game.players[player_index].print{"cargo-ship-message.error-ship-no-space", "__ENTITY__bridge_base__"}
 			game.players[player_index].insert{name="bridge_base", count=1}
 		end
 	else
@@ -195,7 +195,7 @@ function DeleteBridge(ent, player_index)
 
 	if not empty then
 		if player_index~= nil then
-			game.players[player_index].print("Make sure no trains and ships are currently crossing before deleting the bridge")
+			game.players[player_index].print{"cargo-ship-message.error-bridge-busy"}
 		end
 		ent.surface.create_entity{name=name , position=pos, direction = ent.direction, force = ent.force}
 		return false
