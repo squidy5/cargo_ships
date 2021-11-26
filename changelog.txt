@@ -15,6 +15,7 @@ Date: 2021-11-24
     - Floating Electric Poles: Reworked in HD, water reflections, new shadows.
     - Buoys and Chain Buoys: Reworked in HD, water reflections, new shadows and lights.
     - Bridges: HD version, doesn't create smoke on closing, water reflections (open and closed)
+    - Deep oil: Larger and more blurry.
     - Improved splash effect.
   Optimization:
     - Compressed some animations to save space.
@@ -29,7 +30,6 @@ Date: 2021-11-24
   TODO:
     - chain buoys
     - oil rig
-    - deep oil contour
     - technologies?
     - icon wave
     - pump reflection

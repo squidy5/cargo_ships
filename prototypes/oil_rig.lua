@@ -61,6 +61,7 @@ deep_oil.stages = {
     frame_count = 4,
     variation_count = 1,
     shift = util.by_pixel(0, -2),
+    scale = 1.4,
     hr_version =
     {
       filename = "__cargo-ships__/graphics/entity/crude-oil/hr-water-crude-oil.png",
@@ -70,11 +71,12 @@ deep_oil.stages = {
       frame_count = 4,
       variation_count = 1,
       shift = util.by_pixel(0, -2),
-      scale = 0.5
+      scale = 0.7
     }
   }
 }
-deep_oil.water_reflection = { --DOESNT WORK, FACTORIO BUG? / maybe it works when you have the rig over it.
+deep_oil.water_reflection = nil
+--[[{
   pictures = {
     sheet = {
       filename = "__cargo-ships__/graphics/entity/crude-oil/hr-water-crude-oil-water-reflection.png",
@@ -89,7 +91,7 @@ deep_oil.water_reflection = { --DOESNT WORK, FACTORIO BUG? / maybe it works when
   },
   rotate = false,
   orientation_to_variation = false
-}
+}]] -- FACTORIO dev confirms water_reflection only works for entities with health
 
 
 
