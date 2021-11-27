@@ -388,28 +388,57 @@ function onModSettingsChanged(e)
 	end
 end
 
+-- Register conditional events based on mod settting
+function init_events()
+	if settings.startup["deep_oil"].value then
+		-- place deep oil
+		script.on_event(defines.events.on_chunk_generated, placeDeepOil)
+		script.on_event(defines.events.on_gui_opened, onOilrickGuiOpened)
+		script.on_event(defines.events.on_gui_closed, onOilrickGuiClosed)
+	end
+end
 
 function init()
-	-- init globals
-	global.check_entity_placement = global.check_entity_placement or {}
+	-- Cache startup settings
+	global.deep_oil_enabled = settings.startup["deep_oil"].value
+	local oil_richness = settings.startup["oil_richness"].value
+	local mult = 1
+	if oil_richness == "very-poor" then
+		mult = 0.25
+	elseif oil_richness == "poor" then
+		mult = 0.5
+	elseif oil_richness == "good" then
+		mult = 2
+	elseif oil_richness == "very-good" then
+		mult = 4
+	end
+	global.oil_bonus = mult
+	global.no_oil_on_land = settings.startup["no_oil_on_land"].value
+	
+	-- Init global variables
+  global.check_entity_placement = global.check_entity_placement or {}
 	global.bridges = global.bridges or {}
 	global.bridgesToReplace = global.bridgesToReplace or {}
 	global.ship_pump_selected = global.ship_pump_selected or {}
 	global.pump_markers = global.pump_markers or {}
 	global.cranes = global.cranes or {}
 	global.new_cranes = global.new_cranes or {}
-	global.gui_oilrigs = global.gui_oilrigs or {}
+	global.gui_oilrigs = (global.deep_oil_enabled and global.gui_oilrigs) or {}
 	global.connection_counter = 0
-	-- apply buoy setting when mod is updated
+	
+	-- Reapply buoy setting when mod is updated
 	updateAllBuoys()
+	
+	-- Register conditional events
+	init_events()
 end
 
 function onTick(e)
-	powerOilRig(e)
+	if global.deep_oil_enabled then powerOilRig(e) end
 	checkPlacement()
 	ManageBridges(e)
 	UpdateVisuals(e)
-	UpdateOilRigGui(e)
+	if global.deep_oil_enabled then UpdateOilRigGui(e) end
 	--ManageCranes(e)
 end
 
@@ -421,6 +450,7 @@ end
 
 
 -- init
+script.on_load(init_events)
 script.on_init(init)
 script.on_configuration_changed(init)
 script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChanged)
@@ -455,9 +485,6 @@ script.on_event(defines.events.on_robot_mined_entity, OnDeleted, deleted_filters
 script.on_event(defines.events.script_raised_destroy, OnDeleted, deleted_filters)
 script.on_event(defines.events.on_player_mined_entity, OnMined, deleted_filters)
 
--- place deep oil
-script.on_event(defines.events.on_chunk_generated, placeDeepOil)
-
 -- tile created
 script.on_event(defines.events.on_player_built_tile, onTileBuild)
 script.on_event(defines.events.on_robot_built_tile, onTileBuild)
@@ -483,10 +510,8 @@ script.on_event(defines.events.on_entity_cloned, onEntityBuild, entity_filters)
 script.on_event(defines.events.script_raised_built, onEntityBuild, entity_filters)
 script.on_event(defines.events.script_raised_revive, onEntityBuild, entity_filters)
 
--- power oil rig
+-- update entities
 script.on_event(defines.events.on_tick, onTick)
-script.on_event(defines.events.on_gui_opened, onOilrickGuiOpened)
-script.on_event(defines.events.on_gui_closed, onOilrickGuiClosed)
 
 -- long reach
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)

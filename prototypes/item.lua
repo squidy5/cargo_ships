@@ -166,6 +166,24 @@ data:extend({
         place_result = "ship_pump",
         stack_size = 100
         },
+        {      
+        type = "item", 
+        name = "pump_marker", 
+        icon = "__cargo-ships__/graphics/blank.png", 
+        icon_size = 2,
+        flags = {"hidden"},
+        order = "b[fluids]-c[oil_rig]",
+        place_result = "pump_marker", 
+        stack_size = 5, 
+        },
+        
+
+})
+
+
+
+if settings.startup["deep_oil"].value then
+	data:extend({
         {
         type = "item", 
         name = "oil_rig", 
@@ -221,26 +239,5 @@ data:extend({
         place_result = "or_radar", 
         stack_size = 100, 
         },
-        {      
-        type = "item", 
-        name = "pump_marker", 
-        icon = "__cargo-ships__/graphics/blank.png", 
-        icon_size = 2,
-        flags = {"hidden"},
-        order = "b[fluids]-c[oil_rig]",
-        place_result = "pump_marker", 
-        stack_size = 5, 
-        },
-        
-
-})
-
-
-
-
-
-
-
-
-
-
+	})
+end
