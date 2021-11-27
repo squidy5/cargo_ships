@@ -241,9 +241,6 @@ buoy.water_reflection = {
   rotate = false,
   orientation_to_variation = true
 }
-
-
-
 buoy.rail_piece = nil
 
 
@@ -256,81 +253,78 @@ chain_buoy.minable = {mining_time = 0.5, result = "chain_buoy"}
 chain_buoy.animation = {
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/buoy/buoy-chained-base.png",
-      width = 115,
-      height = 115,
+      filename = "__cargo-ships__/graphics/entity/chain_buoy/chain-buoys-base.png",
+      width = 261,
+      height = 205,
       frame_count = 1,
       repeat_count = 5,
-      direction_count = 8,
-      hr_version = {
-        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-chained-base.png",
-        width = 230,
-        height = 230,
-        frame_count = 1,
-        repeat_count = 5,
-        direction_count = 8,
-        scale = 0.5
-      }
-    },
-    {
-      filename = "__cargo-ships__/graphics/entity/buoy/buoy-shadow.png",
-      draw_as_shadow = true,
-      width = 115,
-      height = 115,
-      frame_count = 1,
-      repeat_count = 5,
+      axially_symmetrical = false,
       direction_count = 8,
       hr_version =
       {
-        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-shadow.png",
-        draw_as_shadow = true,
-        width = 230,
-        height = 230,
+        filename = "__cargo-ships__/graphics/entity/chain_buoy/hr-chain-buoys-base.png",
+        width = 522,
+        height = 410,
         frame_count = 1,
         repeat_count = 5,
+        axially_symmetrical = false,
         direction_count = 8,
         scale = 0.5
       }
     },
     {
-      filename = "__cargo-ships__/graphics/entity/buoy/buoy-chained-lights.png",
-      blend_mode = "additive",
+      filename = "__cargo-ships__/graphics/entity/chain_buoy/chain-buoys-lights.png",
       draw_as_glow = true,
-      width = 115,
-      height = 115,
+      line_length = 5,
+      width = 261,
+      height = 205,
       frame_count = 5,
       direction_count = 8,
       hr_version =
       {
-        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-chained-lights.png",
-        blend_mode = "additive",
+        filename = "__cargo-ships__/graphics/entity/chain_buoy/hr-chain-buoys-lights.png",
         draw_as_glow = true,
-        width = 230,
-        height = 230,
+        line_length = 5,
+        width = 522,
+        height = 410,
         frame_count = 5,
         direction_count = 8,
         scale = 0.5
       }
-    },
+    }
   }
 }
-buoy.water_reflection = {
+
+chain_buoy.selection_box_offsets = {
+  {-0.15, 0},
+  {-0.25, -1},
+  {0.8, -1.1},
+  {1.7, -1.0},
+  {1.8, -0.1},
+  {1.9, 0.6},
+  {0.9, 0.65},
+  {-0.1, 0.6}
+}
+
+--[[chain_buoy.water_reflection = {
   pictures =
   {
-    filename = "__cargo-ships__/graphics/entity/buoy/buoy_water_reflection.png",
-    width = 23,
-    height = 23,
+    filename = "__cargo-ships__/graphics/entity/chain_buoy/chain-buoys-water-reflection.png",
+    width = 52,
+    height = 41,
+    --shift = util.by_pixel(0, -25),
     variation_count = 8,
     line_length = 1,
     scale = 5
   },
   rotate = false,
   orientation_to_variation = true
-}
+}]] -- doesn't work as intended
 chain_buoy.rail_piece = nil
-
-
-
+chain_buoy.green_light = nil
+chain_buoy.orange_light = nil
+chain_buoy.red_light = nil
+chain_buoy.blue_light = nil
 
 
 
