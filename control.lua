@@ -208,7 +208,7 @@ function OnEnterShip(e)
 					area={{X-dis, Y-dis}, {X+dis, Y+dis}},
 					name={"indep-boat","boat_engine","cargo_ship_engine"}}
 				local done = false
-				for _, target in ipairs(targets) do
+				for _, target in pairs(targets) do
 					if target and target.get_driver() == nil then
 						target.set_driver(player)
 						done = true
