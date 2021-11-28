@@ -7,19 +7,19 @@
 ----------------------------------------------------------------
 local deep_oil = table.deepcopy(data.raw["resource"]["crude-oil"])
 if mods["angelspetrochem"] then
-	deep_oil.minable = {
-		hardness = 1,
-		mining_time = 1,
-		results = {
-			{
-				type = "fluid",
-				name = "liquid-multi-phase-oil",
-				amount_min = 10,
-				amount_max = 10,
-				probability = 1
-			}
-		}
-	}
+  deep_oil.minable = {
+    hardness = 1,
+    mining_time = 1,
+    results = {
+      {
+        type = "fluid",
+        name = "liquid-multi-phase-oil",
+        amount_min = 10,
+        amount_max = 10,
+        probability = 1
+      }
+    }
+  }
 end
 deep_oil.name = "deep_oil"
 deep_oil.collision_mask = {'ground-tile','resource-layer'}
@@ -49,63 +49,63 @@ oil_rig.selection_box = {{ -3.3, -3.3}, {3.3, 3.3}}
 oil_rig.drawing_box = {{-3.3, -3.3}, {3.3, 8}}
 oil_rig.module_specification.module_slots = 3
 oil_rig.energy_source = {
-	type = "electric",
-	-- will produce this much * energy pollution units per tick
-	emissions = 0.2/60,
-	usage_priority = "secondary-input"
+  type = "electric",
+  -- will produce this much * energy pollution units per tick
+  emissions = 0.2/60,
+  usage_priority = "secondary-input"
 }
 oil_rig.output_fluid_box = {
-	base_area = 10,
-	base_level = 10,
-	height = 2*oil_rig_capacity,
-	pipe_covers = pipecoverspictures(),
-	pipe_connections = {
-		{position = {0, -4}}
-	},
+  base_area = 10,
+  base_level = 10,
+  height = 2*oil_rig_capacity,
+  pipe_covers = pipecoverspictures(),
+  pipe_connections = {
+    {position = {0, -4}}
+  },
 }
 oil_rig.base_picture = {
-	sheets = {
-		{
-			filename = "__cargo-ships__/graphics/entity/oil_rig/oil_rig.png",
-			priority = "very-low",
-			width = 300,
-			height = 471,
-			shift = util.by_pixel(-2.5, -29),
-			scale = 0.9,
-		}
-	}
+  sheets = {
+    {
+      filename = "__cargo-ships__/graphics/entity/oil_rig/oil_rig.png",
+      priority = "very-low",
+      width = 300,
+      height = 471,
+      shift = util.by_pixel(-2.5, -29),
+      scale = 0.9,
+    }
+  }
 }
 oil_rig.animations = {
-	layers = {
-		{
-			priority = "high",
-			filename = "__cargo-ships__/graphics/blank.png",
-			line_length = 8,
-			width = 2,
-			height = 2,
-			frame_count = 40,
-			shift = util.by_pixel(-4, -24),
-			animation_speed = 0.5
-		}
-	}
+  layers = {
+    {
+      priority = "high",
+      filename = "__cargo-ships__/graphics/blank.png",
+      line_length = 8,
+      width = 2,
+      height = 2,
+      frame_count = 40,
+      shift = util.by_pixel(-4, -24),
+      animation_speed = 0.5
+    }
+  }
 }
 oil_rig.smoke = {
-	{
-		name = "light-smoke",
-		north_position = {-3.2, -2.5},
-		frequency = 0.5,
-		starting_vertical_speed = 0.08,
-		slow_down_factor = 1,
-		starting_frame_deviation = 60
-	},
-	{
-		name = "smoke",
-		north_position = {1.4, -2.5},
-		frequency = 1,
-		starting_vertical_speed = 0.12,
-		slow_down_factor = 1,
-		starting_frame_deviation = 60
-	}
+  {
+    name = "light-smoke",
+    north_position = {-3.2, -2.5},
+    frequency = 0.5,
+    starting_vertical_speed = 0.08,
+    slow_down_factor = 1,
+    starting_frame_deviation = 60
+  },
+  {
+    name = "smoke",
+    north_position = {1.4, -2.5},
+    frequency = 1,
+    starting_vertical_speed = 0.12,
+    slow_down_factor = 1,
+    starting_frame_deviation = 60
+  }
 }
 
 
@@ -124,54 +124,54 @@ or_power.fast_replaceable_group = nil
 or_power.next_upgrade = nil
 or_power.fluid_usage_per_tick = 1
 or_power.fluid_box = {
-	base_area = 1,
-	height = 1,
-	base_level = -1,
-	pipe_covers = nil,
-	pipe_connections = {},
-	production_type = "input-output",
-	filter = "steam",
-	minimum_temperature = 100.0
+  base_area = 1,
+  height = 1,
+  base_level = -1,
+  pipe_covers = nil,
+  pipe_connections = {},
+  production_type = "input-output",
+  filter = "steam",
+  minimum_temperature = 100.0
 }
 or_power.horizontal_animation = {
-	layers = {
-		{
-			filename = "__cargo-ships__/graphics/blank.png",
-			width = 2,
-			height = 2,
-			frame_count = 32,
-			line_length = 8,
-		}
-	}
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/blank.png",
+      width = 2,
+      height = 2,
+      frame_count = 32,
+      line_length = 8,
+    }
+  }
 }
 or_power.vertical_animation = {
-	layers = {
-		{
-			filename = "__cargo-ships__/graphics/blank.png",
-			width = 2,
-			height = 2,
-			frame_count = 32,
-			line_length = 8,
-		}
-	}
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/blank.png",
+      width = 2,
+      height = 2,
+      frame_count = 32,
+      line_length = 8,
+    }
+  }
 }
 or_power.smoke = {
-	{
-		name = "light-smoke",
-		north_position = {-3.2, -4.5},
-		frequency = 0.5,
-		starting_vertical_speed = 0.08,
-		slow_down_factor = 1,
-		starting_frame_deviation = 60
-	},
-	{
-		name = "smoke",
-		north_position = {1.4, -4.5},
-		frequency = 1,
-		starting_vertical_speed = 0.12,
-		slow_down_factor = 1,
-		starting_frame_deviation = 60
-	}
+  {
+    name = "light-smoke",
+    north_position = {-3.2, -4.5},
+    frequency = 0.5,
+    starting_vertical_speed = 0.08,
+    slow_down_factor = 1,
+    starting_frame_deviation = 60
+  },
+  {
+    name = "smoke",
+    north_position = {1.4, -4.5},
+    frequency = 1,
+    starting_vertical_speed = 0.12,
+    slow_down_factor = 1,
+    starting_frame_deviation = 60
+  }
 }
 
 
@@ -187,11 +187,11 @@ or_pole.fast_replaceable_group = nil
 or_pole.next_upgrade = nil
 or_pole.maximum_wire_distance = 0
 or_pole.pictures = {
-	filename = "__cargo-ships__/graphics/blank.png",
-	width = 2,
-	height = 2,
-	direction_count = 4,
-	line_length = 4,
+  filename = "__cargo-ships__/graphics/blank.png",
+  width = 2,
+  height = 2,
+  direction_count = 4,
+  line_length = 4,
 }
 or_pole.supply_area_distance = 4.5
 
@@ -205,14 +205,14 @@ or_lamp.collision_box = nil
 or_lamp.selection_box = nil
 or_lamp.collision_mask = {}
 or_lamp.picture_off = {
-	filename = "__cargo-ships__/graphics/blank.png",
-	width = 2,
-	height = 2,
+  filename = "__cargo-ships__/graphics/blank.png",
+  width = 2,
+  height = 2,
 }
 or_lamp.picture_on = {
-	filename = "__cargo-ships__/graphics/blank.png",
-	width = 2,
-	height = 2,
+  filename = "__cargo-ships__/graphics/blank.png",
+  width = 2,
+  height = 2,
 }
 
 local or_radar = table.deepcopy(data.raw["radar"]["radar"])
@@ -224,11 +224,11 @@ or_radar.collision_mask ={}
 or_radar.collision_box = nil
 or_radar.selection_box = nil
 or_radar.pictures= {
-	filename = "__cargo-ships__/graphics/blank.png",
-	width = 2,
-	height = 2,
-	direction_count = 4,
-	line_length = 4,
+  filename = "__cargo-ships__/graphics/blank.png",
+  width = 2,
+  height = 2,
+  direction_count = 4,
+  line_length = 4,
 }
 or_radar.max_distance_of_sector_revealed = 0
 or_radar.energy_usage = "50kW"
