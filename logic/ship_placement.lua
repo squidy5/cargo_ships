@@ -105,8 +105,8 @@ end
 
 function cancelPlacement(entity, player_index)
   if entity.name ~= "cargo_ship_engine" and entity.name ~= "boat_engine" then
-    game.players[player_index].insert{name=entity.name, count=1}
-    if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name =="boat" then
+    game.players[player_index].insert{name = entity.name, count = 1}
+    if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
       game.players[player_index].print("Ships need to be placed on straight water ways and with sufficient space to both sides!")
     else
       game.players[player_index].print("Trains can not be placed on water ways!")

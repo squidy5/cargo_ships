@@ -52,17 +52,110 @@ deep_oil.name = "deep_oil"
 deep_oil.infinite_depletion_amount = 40
 deep_oil.autoplace = nil
 deep_oil.collision_mask = {'resource-layer'}
+deep_oil.stages = {
+  sheet = {
+    filename = "__cargo-ships__/graphics/entity/crude-oil/water-crude-oil.png",
+    priority = "extra-high",
+    width = 74,
+    height = 60,
+    frame_count = 4,
+    variation_count = 1,
+    shift = util.by_pixel(0, -2),
+    scale = 1.4,
+    hr_version =
+    {
+      filename = "__cargo-ships__/graphics/entity/crude-oil/hr-water-crude-oil.png",
+      priority = "extra-high",
+      width = 148,
+      height = 120,
+      frame_count = 4,
+      variation_count = 1,
+      shift = util.by_pixel(0, -2),
+      scale = 0.7
+    }
+  }
+}
+deep_oil.water_reflection = nil
+--[[{
+  pictures = {
+    sheet = {
+      filename = "__cargo-ships__/graphics/entity/crude-oil/hr-water-crude-oil-water-reflection.png",
+      width = 22,
+      height = 24,
+      --shift = util.by_pixel(0, 5),
+      variation_count = 1,
+      repeat_count = 4,
+      scale = 5,
 
+    }
+  },
+  rotate = false,
+  orientation_to_variation = false
+}]] -- FACTORIO dev confirms water_reflection only works for entities with health
 
-
-
-
+local function oilrig_layer(orientation)
+  return {
+    layers = {
+      {
+        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
+        width = 352,
+        height = 448,
+        scale = 1,
+        hr_version = {
+          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
+          width = 704,
+          height = 896,
+          scale = 0.5,
+        }
+      },
+      {
+        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base.png",
+        width = 352,
+        height = 448,
+        scale = 1,
+        hr_version = {
+          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base.png",
+          width = 704,
+          height = 896,
+          scale = 0.5,
+        }
+      },
+      {
+        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-shadow.png",
+        width = 352,
+        height = 448,
+        scale = 1,
+        draw_as_shadow = true,
+        hr_version = {
+          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-shadow.png",
+          width = 704,
+          height = 896,
+          scale = 0.5,
+          draw_as_shadow = true,
+        }
+      },
+      {
+        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-light.png",
+        width = 352,
+        height = 448,
+        scale = 1,
+        draw_as_light = true,
+        hr_version = {
+          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-light.png",
+          width = 704,
+          height = 896,
+          scale = 0.5,
+          draw_as_light = true,
+        }
+      },
+    }
+  }
+end
 
 ----------------------------------------------------------------
 ------------------------ OIL PLATFORM --------------------------
 ----------------------------------------------------------------
 local oil_rig_capacity = settings.startup["oil_rig_capacity"].value
-
 
 local oil_rig = table.deepcopy(data.raw["mining-drill"]["pumpjack"])
 oil_rig.name = "oil_rig"
@@ -73,9 +166,9 @@ oil_rig.max_health = 1000
 oil_rig.energy_usage = "750kW"
 oil_rig.mining_speed = 2
 oil_rig.resource_searching_radius = 1.49
-oil_rig.collision_box = {{ -3.2, -3.2}, {3.2, 3.2}}
-oil_rig.selection_box = {{ -3.3, -3.3}, {3.3, 3.3}}
-oil_rig.drawing_box = {{-3.3, -3.3}, {3.3, 8}}
+oil_rig.collision_box = {{-3.2, -3.2}, {3.2, 3.2}}
+oil_rig.selection_box = {{-3.5, -3.5}, {3.5, 3.5}}
+oil_rig.drawing_box =   {{-3.3, -3.3}, {3.3, 3.3}}
 oil_rig.module_specification.module_slots = 3
 oil_rig.energy_source =
 {
@@ -97,55 +190,57 @@ oil_rig.output_fluid_box =
 }
 oil_rig.base_picture =
 {
-  sheets =
-  {
-    {
-      filename = "__cargo-ships__/graphics/entity/oil_rig/oil_rig.png",
-      priority = "very-low",
-      width = 300,
-      height = 471,
-      shift = util.by_pixel(-2.5, -29),
-      scale = 0.9,
+  north = oilrig_layer("n"),
+  east = oilrig_layer("e"),
+  south = oilrig_layer("s"),
+  west = oilrig_layer("w"),
+}
+
+local function loopriganimstripes(frame1, framelast)
+  local stripes = {}
+  for i=frame1,framelast do
+    local stripe = {
+      filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-anim-" .. i .. ".png",
+      width_in_frames = 1,
+      height_in_frames = 1,
+    }
+    table.insert(stripes, stripe)
+  end
+  return stripes
+end
+
+oil_rig.animations = {
+  stripes = loopriganimstripes(1, 20),
+  width = 358,
+  height = 486,
+  scale = 0.5,
+  frame_count = 20,
+  animation_speed = 0.25,
+}
+--[[oil_rig.animations = nil
+oil_rig.graphics_set = {
+  working_visualisations = {
+    animation = {
+      stripes = loopriganimstripes(1, 20),
+      width = 358,
+      height = 486,
+      scale = 0.5,
+      frame_count = 20,
+      animation_speed = 0.25,
     }
   }
-}
-oil_rig.animations =
-{
-  north =
-  {
-    layers =
-    {
-      {
-        priority = "high",
-        filename = empty_pic,
-        line_length = 8,
-        width = 2,
-        height = 2,
-        frame_count = 40,
-        shift = util.by_pixel(-4, -24),
-        animation_speed = 0.5,
-      }
-    }
-  }
-}
-oil_rig.smoke =
-{
-  {
-    name = "light-smoke",
-    north_position = {-3.2, -2.5},
-    frequency = 0.5,
-    starting_vertical_speed = 0.08,
-    slow_down_factor = 1,
-    starting_frame_deviation = 60
+}]]
+oil_rig.water_reflection = {
+  pictures = {
+    filename = "__cargo-ships__/graphics/entity/oil_rig/oil-rig-water-reflection.png",
+    width = 70,
+    height = 89,
+    shift = util.by_pixel(0, 0),
+    variation_count = 1,
+    scale = 5
   },
-  {
-    name = "smoke",
-    north_position = {1.4, -2.5},
-    frequency = 1,
-    starting_vertical_speed = 0.12,
-    slow_down_factor = 1,
-    starting_frame_deviation = 60
-  }
+  rotate = false,
+  orientation_to_variation = false
 }
 
 ----------------------------------------------------------------
@@ -173,46 +268,35 @@ or_power.fluid_box = {
   filter = "steam",
   minimum_temperature = 100.0
 }
-or_power.horizontal_animation = {
-  layers = {
-    {
-      filename = empty_pic,
-      width = 2,
-      height = 2,
-      frame_count = 32,
-      line_length = 8,
-    }
-  }
-}
-or_power.vertical_animation = {
-  layers = {
-    {
-      filename = empty_pic,
-      width = 2,
-      height = 2,
-      frame_count = 32,
-      line_length = 8,
-    }
-  }
-}
+or_power.horizontal_animation = { filename = empty_pic, size = 1 }
+or_power.vertical_animation = { filename = empty_pic, size = 1 }
+local smoke1shift = util.by_pixel(-85 -14, -115 -14)
+local smoke2shift = util.by_pixel(53 -14, -167 -14)
 or_power.smoke = {
   {
     name = "light-smoke",
-    north_position = {-3.2, -4.5},
+    north_position = smoke1shift,
+    east_position = smoke1shift,
+    south_position = smoke1shift,
+    west_position = smoke1shift,
     frequency = 0.5,
-    starting_vertical_speed = 0.08,
+    starting_vertical_speed = 0.05,
     slow_down_factor = 1,
     starting_frame_deviation = 60
   },
   {
     name = "smoke",
-    north_position = {1.4, -4.5},
+    north_position = smoke2shift,
+    east_position = smoke2shift,
+    south_position = smoke2shift,
+    west_position = smoke2shift,
     frequency = 1,
-    starting_vertical_speed = 0.12,
+    starting_vertical_speed = 0.05,
     slow_down_factor = 1,
     starting_frame_deviation = 60
   }
 }
+or_power.water_reflection = nil
 
 local or_pole = table.deepcopy(data.raw["electric-pole"]["medium-electric-pole"])
 or_pole.name = "or_pole"
@@ -233,7 +317,9 @@ or_pole.pictures = {
   line_length = 4,
 }
 or_pole.supply_area_distance = 4.5
+or_pole.water_reflection = nil
 
+--[[
 local or_lamp = table.deepcopy(data.raw["lamp"]["small-lamp"])
 or_lamp.name = "or_lamp"
 or_lamp.flags = {"not-blueprintable", "not-deconstructable"}
@@ -248,6 +334,7 @@ or_lamp.picture_off = {
   height = 2,
 }
 or_lamp.pciture_on = {}
+]]
 
 local or_radar = table.deepcopy(data.raw["radar"]["radar"])
 or_radar.name = "or_radar"
@@ -265,6 +352,7 @@ or_radar.pictures = {
   line_length = 4,
 }
 or_radar.max_distance_of_sector_revealed = 0
-or_radar.energy_usage = "50kW",
+or_radar.energy_usage = "50kW"
+or_radar.water_reflection = nil
 
-data:extend({ship_pump, pump_marker, oil_rig, or_power, or_pole, or_radar, or_lamp, deep_oil})
+data:extend({ship_pump, pump_marker, oil_rig, or_power, or_pole, or_radar, deep_oil})

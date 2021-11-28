@@ -26,18 +26,18 @@ function CreateBridge(ent, player_index)
 
   if dir == defines.direction.north then
     if checkBridgePlacement(pos, -4.5,-3,6.5,3, player_index, surface) then
-      bridge = surface.create_entity {name="bridge_north", position = pos, force = f}
-      closed_bridge =surface.create_entity {name="bridge_north_closed", position = pos, force = f}
-      surface.create_entity {name="bridge_north_clickable", position = pos, force = f}
+      bridge = surface.create_entity {name="bridge_north", position = pos, force = f, create_build_effect_smoke = false}
+      closed_bridge =surface.create_entity {name="bridge_north_closed", position = pos, force = f, create_build_effect_smoke = false}
+      surface.create_entity {name="bridge_north_clickable", position = pos, force = f, create_build_effect_smoke = false}
       ver = 1
       hor = 0
     end
   end
   if dir == defines.direction.east then
     if checkBridgePlacement(pos, -3,-4.5,3,6.5, player_index, surface) then
-      bridge =surface.create_entity {name="bridge_east", position = pos, force = f}
-      closed_bridge =surface.create_entity {name="bridge_east_closed", position = pos, force = f}
-      surface.create_entity {name="bridge_east_clickable", position = pos, force = f}
+      bridge =surface.create_entity {name="bridge_east", position = pos, force = f, create_build_effect_smoke = false}
+      closed_bridge =surface.create_entity {name="bridge_east_closed", position = pos, force = f, create_build_effect_smoke = false}
+      surface.create_entity {name="bridge_east_clickable", position = pos, force = f, create_build_effect_smoke = false}
 
       ver = 0
       hor = 1
@@ -45,9 +45,9 @@ function CreateBridge(ent, player_index)
   end
   if dir == defines.direction.south then
     if checkBridgePlacement(pos, -6.5,-3,4.5,3, player_index, surface) then
-      bridge =surface.create_entity {name="bridge_south", position = pos, force = f}
-      closed_bridge =surface.create_entity {name="bridge_south_closed", position = pos, force = f}
-      surface.create_entity {name="bridge_south_clickable", position = pos, force = f}
+      bridge =surface.create_entity {name="bridge_south", position = pos, force = f, create_build_effect_smoke = false}
+      closed_bridge =surface.create_entity {name="bridge_south_closed", position = pos, force = f, create_build_effect_smoke = false}
+      surface.create_entity {name="bridge_south_clickable", position = pos, force = f, create_build_effect_smoke = false}
 
       ver = -1
       hor = 0
@@ -55,9 +55,9 @@ function CreateBridge(ent, player_index)
   end
   if dir == defines.direction.west then
     if checkBridgePlacement(pos, -3,-6.5,3,4.5, player_index, surface) then
-      bridge =surface.create_entity {name="bridge_west", position = pos, force = f}
-      closed_bridge =surface.create_entity {name="bridge_west_closed", position = pos, force = f}
-      surface.create_entity {name="bridge_west_clickable", position = pos, force = f}
+      bridge =surface.create_entity {name="bridge_west", position = pos, force = f, create_build_effect_smoke = false}
+      closed_bridge =surface.create_entity {name="bridge_west_closed", position = pos, force = f, create_build_effect_smoke = false}
+      surface.create_entity {name="bridge_west_clickable", position = pos, force = f, create_build_effect_smoke = false}
 
       ver = 0
       hor = -1
@@ -166,7 +166,7 @@ function addEntity(surface, pos, dir, n, f)
     k.destroy()
   end
 
-  local slave =surface.create_entity{name=n , position = pos, direction = dir, force = f}
+  local slave =surface.create_entity{name=n , position = pos, direction = dir, force = f, create_build_effect_smoke = false}
   if(slave) then
     --slave.destructible = false
     slave.minable = false
@@ -197,7 +197,7 @@ function DeleteBridge(ent, player_index)
     if player_index~= nil then
       game.players[player_index].print("Make sure no trains and ships are currently crossing before deleting the bridge")
     end
-    ent.surface.create_entity{name=name , position=pos, direction = ent.direction, force = ent.force}
+    ent.surface.create_entity{name=name , position=pos, direction = ent.direction, force = ent.force, create_build_effect_smoke = false}
     return false
   else
     if string.find(name, "bridge_north") then
@@ -232,7 +232,7 @@ function deleteSlaves(surface, pos, x1, y1, x2, y2, dirname)
       local d = ent.direction
       local f = ent.force
       ent.destroy()
-      surface.create_entity{name = "straight-water-way-placed", direction = d, position = p, force = f}
+      surface.create_entity{name = "straight-water-way-placed", direction = d, position = p, force = f, create_build_effect_smoke = false}
     end
 
   end
@@ -256,7 +256,7 @@ function ManageBridges(e)
             entry[10] = entry[10]-1
 
             if entry[1].power_switch_state == false and entry[10]==0 then--closing?
-              entry[2] = entry[1].surface.create_entity{name=entry[1].name .. "_closed", position = entry[1].position, force = entry[1].force}
+              entry[2] = entry[1].surface.create_entity{name=entry[1].name .. "_closed", position = entry[1].position, force = entry[1].force, create_build_effect_smoke = false}
               entry[2].destructible = false
               entry[2].minable = false
             elseif entry[1].power_switch_state == true and entry[10] == animation_time -1 then

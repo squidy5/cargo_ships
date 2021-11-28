@@ -1,15 +1,35 @@
---[[non_standard_wheels = {
-  priority = "very-low",
-  width = 2,
-  height = 2,
-  direction_count = 256,
-  filenames = {
-    "__cargo-ships__/graphics/blank.png",
-    "__cargo-ships__/graphics/blank.png",
+local car_sounds = {
+  sound = {
+    filename = "__base__/sound/car-engine.ogg",
+    volume = 0.6
   },
-  line_length =  32,
-  lines_per_file = 32
-}]]
+  activate_sound = {
+    filename = "__base__/sound/car-engine-start.ogg",
+    volume = 0.6
+  },
+  deactivate_sound = {
+    filename = "__base__/sound/car-engine-stop.ogg",
+    volume = 0.6
+  },
+  match_speed_to_activity = true
+}
+
+local tank_sounds = {
+  sound = {
+    filename = "__base__/sound/fight/tank-engine.ogg",
+    volume = 0.6
+  },
+  activate_sound = {
+    filename = "__base__/sound/fight/tank-engine-start.ogg",
+    volume = 0.6
+  },
+  deactivate_sound = {
+    filename = "__base__/sound/fight/tank-engine-stop.ogg",
+    volume = 0.6
+  },
+  match_speed_to_activity = true
+}
+
 function ship_light(yshift, cutpicture)
   local cut = cutpicture and "-cut" or ""
   return {
@@ -31,42 +51,205 @@ function ship_light(yshift, cutpicture)
   }
 end
 
---[[function empty_reflection()
+local function imageloop(filepath, filenumber, divider)
+  local filelist = {}
+  for i=0,(filenumber-1) do
+    local file = filepath .. i .. ".png"
+    if divider then
+      if i % divider == 0 then
+        table.insert(filelist, file)
+      end
+    else
+      table.insert(filelist, file)
+    end
+  end
+  return filelist
+end
+
+local indep_boat_animation = {
+  layers = {
+    {
+      slice = 1,
+      priority = "low",
+      width = 536,
+      height = 536,
+      --frame_count = 1,
+      direction_count = 256,
+      filenames = imageloop("__cargo-ships__/graphics/entity/boat/boat_", 256),
+      line_length = 1,
+      lines_per_file = 1,
+      shift = util.by_pixel(0, 0),
+      scale = 0.5, --1.19,
+      --animation_speed = 0.1,
+      max_advance = 0.2,
+    },
+    {
+      slice = 1,
+      priority = "low",
+      width = 536,
+      height = 536,
+      --frame_count = 1,
+      direction_count = 256,
+      filenames = imageloop("__cargo-ships__/graphics/entity/boat/boat_shadow_", 256),
+      line_length = 1,
+      lines_per_file = 1,
+      shift = util.by_pixel(0, 0),
+      scale = 0.5, --1.19,
+      --animation_speed = 0.1,
+      max_advance = 0.2,
+      draw_as_shadow = true,
+    },
+  }
+}
+
+local boat_pictures = {
+  layers = {
+    {
+      slice = 1,
+      priority = "low",
+      width = 750,
+      height = 750,
+      direction_count = 256,
+      allow_low_quality_rotation = true,
+      filenames = imageloop("__cargo-ships__/graphics/entity/boat/railed/boat_", 4),
+      line_length = 8,
+      lines_per_file = 8,
+      scale = 0.5, --1.5,
+      shift = util.by_pixel(0, -28),
+    },
+    {
+      slice = 1,
+      priority = "low",
+      width = 750,
+      height = 750,
+      direction_count = 256,
+      allow_low_quality_rotation = true,
+      filenames = imageloop("__cargo-ships__/graphics/entity/boat/railed/boat_shadow_", 4),
+      line_length = 8,
+      lines_per_file = 8,
+      scale = 0.5, --1.5,
+      shift = util.by_pixel(0, -28),
+      draw_as_shadow = true,
+    }
+  }
+}
+
+local cargo_ship_pictures = {
+  layers = {
+    {
+      slice = 4,
+      priority = "low",
+      width = 1000,
+      height = 1000,
+      direction_count = 256,
+      allow_low_quality_rotation = true,
+      filenames = imageloop("__cargo-ships__/graphics/entity/cargo_ship/cs_", 16),
+      line_length = 4,
+      lines_per_file = 4,
+      scale = 0.85,--3,
+      shift = util.by_pixel(0, -54.5),
+    },
+    {
+      slice = 4,
+      priority = "low",
+      width = 1000,
+      height = 1000,
+      direction_count = 256,
+      allow_low_quality_rotation = true,
+      filenames = imageloop("__cargo-ships__/graphics/entity/cargo_ship/cs_shadow_", 16),
+      line_length = 4,
+      lines_per_file = 4,
+      scale = 0.85,--3,
+      shift = util.by_pixel(0, -54.5),
+      draw_as_shadow = true,
+    }
+  }
+}
+
+local oil_tanker_pictures = {
+  layers = {
+    {
+      slice = 4,
+      priority = "low",
+      width = 890,
+      height = 912,
+      direction_count = 256,
+      allow_low_quality_rotation = true,
+      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_unit_", 256),
+      line_length = 1,
+      lines_per_file = 1,
+      scale = 0.85,
+      shift = util.by_pixel(0, -22.5),
+    },
+    {
+      slice = 4,
+      priority = "low",
+      width = 1000,
+      height = 1000,
+      direction_count = 256,
+      allow_low_quality_rotation = true,
+      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_shadow_", 256),
+      line_length = 4,
+      lines_per_file = 4,
+      scale = 0.85,
+      shift = util.by_pixel(0, -22.5),
+      draw_as_shadow = true,
+    },
+  }
+}
+
+local function water_reflection(name, size, yshift, rotate, variation_count)
   return {
     pictures = {
-      filename = "__cargo-ships__/graphics/blank.png",
-      width = 2,
-      height = 2,
-      variation_count = 1,
-      scale = 1,
+      filename = "__cargo-ships__/graphics/entity/" .. name .. "_water_reflection.png",
+      width = size,
+      height = size,
+      shift = util.by_pixel(0, yshift), --adjust with base shift
+      variation_count = variation_count or 1,
+      scale = 5
     },
-    rotate = true,
+    rotate = rotate or false,
     orientation_to_variation = false
   }
-end]]
+end
+
+local minimap_representation = {
+  filename = "__cargo-ships__/graphics/entity/ship-minimap-representation.png",
+  flags = {"icon"},
+  size = {26, 130},
+  scale = 0.5
+}
+
+local selected_minimap_representation = {
+  filename = "__cargo-ships__/graphics/entity/ship-selected-minimap-representation.png",
+  flags = {"icon"},
+  size = {26, 130},
+  scale = 0.5
+}
 
 local wave = table.deepcopy(data.raw["trivial-smoke"]["light-smoke"])
 wave.name = "wave"
 wave.cyclic = false
 wave.affected_by_wind = false
 wave.animation = {
-  filename = "__base__/graphics/entity/water-splash/water-splash.png",
+  filename = "__cargo-ships__/graphics/entity/wave/water-splash.png",
   priority = "extra-high",
-  width = 92,
-  height = 66,
+  width = 184,
+  height = 132,
   frame_count = 15,
   line_length = 5,
-  shift = {-0.437, -0.5},
-  animation_speed = 0.15,
+  shift = util.by_pixel(-14,-16),
+  animation_speed = 0.20,
 }
-wave.start_scale = 1.3
+--wave.start_scale = 1.3
+wave.start_scale = 0.65
 wave.color = { r = 0.9, g = 0.9, b = 0.9 }
-wave.render_layer = "lower-object"
+wave.render_layer = "water-tile"
 
 data:extend({wave})
 
 ----------------------------------------------------------------
------------------------- BOAT indep ---------------------------
+------   BOAT independant (when placed outside rails)   --------
 ----------------------------------------------------------------
 
 local speed_modifier = settings.startup["speed_modifier"].value
@@ -121,54 +304,20 @@ indep_boat.burner = {
     }
   }
 }
-indep_boat.working_sound = {
-  sound = {
-    filename = "__base__/sound/car-engine.ogg",
-    volume = 0.6
-  },
-  activate_sound = {
-    filename = "__base__/sound/car-engine-start.ogg",
-    volume = 0.6
-  },
-  deactivate_sound = {
-    filename = "__base__/sound/car-engine-stop.ogg",
-    volume = 0.6
-  },
-  match_speed = true
-}
-indep_boat.animation = {
-  layers = {
-    {
-      priority = "low",
-      width = 250,
-      height = 250,
-      frame_count = 1,
-      direction_count = 64,
-      shift = {0, 0.15},
-      scale = 1.19,
-      animation_speed = 8,
-      max_advance = 0.2,
-      stripes = {
-        {
-          filename = "__cargo-ships__/graphics/entity/boat/indep/boat.png",
-          width_in_frames = 8,
-          height_in_frames = 8,
-        }
-      }
-    }
-  }
-}
+indep_boat.working_sound = car_sounds
+indep_boat.sound_minimum_speed = 0.1
+indep_boat.sound_scaling_ratio = 0.4
+indep_boat.animation = indep_boat_animation
+indep_boat.water_reflection = water_reflection("boat/boat", 60, 25, true)
 indep_boat.turret_animation = {
   layers = {
     {
-      animation_speed = 8,
+      animation_speed = 1,
       direction_count = 1,
       frame_count = 1,
       height = 1,
       width = 1,
       max_advance = 0.2,
-      priority = "low",
-      shift = {0,0},
       stripes = {
         {
           filename = "__core__/graphics/empty.png",
@@ -179,7 +328,7 @@ indep_boat.turret_animation = {
     }
   }
 }
-indep_boat.light = ship_light(-13)
+indep_boat.light = ship_light(-13, true)
 indep_boat.light_animation = nil
 
 ----------------------------------------------------------------
@@ -196,35 +345,15 @@ boat.minable = {mining_time = 1, result = "boat"}
 boat.max_health = 1500
 boat.selection_box = {{-1.2, -1.5}, {1.2, 1.5}}
 boat.collision_box = {{-1.3, -1.5}, {1.3, 1.5}}
+--boat.vertical_selection_shift = 5
 boat.connection_distance = 1
 boat.joint_distance = 2.5
-boat.water_reflection = nil
+boat.water_reflection = water_reflection("boat/railed/boat", 60, 15, true)
 boat.weight = 5000
 boat.inventory_size = 60
 boat.max_speed = 1
-boat.pictures = {
-  layers = {
-    {
-      slice = 4,
-      priority = "low",
-      width = 250,
-      height = 250,
-      direction_count = 256,
-      allow_low_quality_rotation = true,
-      filenames = {
-        "__cargo-ships__/graphics/entity/boat/boat-0.png",
-        "__cargo-ships__/graphics/entity/boat/boat-1.png",
-        "__cargo-ships__/graphics/entity/boat/boat-2.png",
-        "__cargo-ships__/graphics/entity/boat/boat-3.png",
-      },
-      line_length = 8,
-      lines_per_file = 8,
-      scale = 1.5,--3,
-      shift = {0.0, -0.7}
-    }
-  }
-}
-boat.back_light = ship_light(-15)
+boat.pictures = boat_pictures
+boat.back_light = ship_light(-15, true)
 boat.stand_by_light = nil
 boat.horizontal_doors = nil
 boat.vertical_doors = nil
@@ -240,10 +369,10 @@ local boat_engine_power = 300 + (speed_modifier -1) * 150
 
 local boat_engine = table.deepcopy(data.raw["locomotive"]["locomotive"])
 boat_engine.name = "boat_engine"
-boat_engine.flags =  {"not-blueprintable", "placeable-neutral", "player-creation"}
+boat_engine.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 boat_engine.allow_copy_paste = false
 boat_engine.minable = nil
-boat_engine.icon = "__cargo-ships__/graphics/icons/ship-engine.png"
+boat_engine.icon = "__cargo-ships__/graphics/icons/boat.png"
 boat_engine.icon_size = 64
 boat_engine.weight = 5000
 boat_engine.max_speed = 0.27*speed_modifier
@@ -300,30 +429,13 @@ boat_engine.pictures = {
       line_length = 16,
       lines_per_file = 16,
       scale = 3,
-      shift = {0.0, -0.7}
+      shift = util.by_pixel(0, -22.5),
     }
   }
 }
 boat_engine.water_reflection = nil
 boat_engine.wheels = nil
-boat_engine.working_sound = {
-  sound =
-  {
-    filename = "__base__/sound/car-engine.ogg",
-    volume = 0.6
-  },
-  activate_sound =
-  {
-    filename = "__base__/sound/car-engine-start.ogg",
-    volume = 0.6
-  },
-  deactivate_sound =
-  {
-    filename = "__base__/sound/car-engine-stop.ogg",
-    volume = 0.6
-  },
-  match_speed_to_activity = true
-}
+boat_engine.working_sound = car_sounds
 boat_engine.front_light = nil
 boat_engine.back_light = nil
 boat_engine.stand_by_light = nil
@@ -338,7 +450,7 @@ local cargo_ship = table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 cargo_ship.name = "cargo_ship"
 cargo_ship.icon = "__cargo-ships__/graphics/icons/cargoship_icon.png"
 cargo_ship.icon_size = 64
-cargo_ship.flags = {"not-blueprintable","placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
+cargo_ship.flags = {"not-blueprintable","placeable-neutral", "player-creation", "placeable-off-grid"}
 cargo_ship.allow_copy_paste = false
 cargo_ship.minable = {mining_time = 1, result = "cargo_ship"}
 cargo_ship.max_health = 5000
@@ -351,41 +463,8 @@ cargo_ship.weight = 100000
 cargo_ship.inventory_size = 1000
 cargo_ship.max_speed = 0.5
 cargo_ship.air_resistance = 0.40
-cargo_ship.water_reflection = nil
-cargo_ship.pictures = {
-	layers = {
-		{
-			slice = 4,
-			priority = "low",
-			width = 500,
-			height = 500,
-			direction_count = 256,
-  		allow_low_quality_rotation = true,
-			filenames = {
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_0.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_1.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_2.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_3.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_4.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_5.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_6.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_7.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_8.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_9.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_10.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_11.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_12.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_13.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_14.png",
-        "__cargo-ships__/graphics/entity/cargo_ship/cs_15.png",
-      },
-			line_length = 4,
-  		lines_per_file = 4,
-  		scale = 1.7,--3,
-  		shift = {0.0, -1.7}
-		}
-	}
-}
+cargo_ship.water_reflection = water_reflection("cargo_ship/cargo_ship", 170, 25, true) --nil
+cargo_ship.pictures = cargo_ship_pictures
 cargo_ship.stand_by_light = {ship_light(-3, true)}
 --cargo_ship.back_light = {ship_light(-3, true)}
 cargo_ship.vertical_doors = {
@@ -393,11 +472,11 @@ cargo_ship.vertical_doors = {
     {
       filename = "__cargo-ships__/graphics/entity/cargo_ship/vertical_doors.png",
       line_length = 12,
-      width = 88,
-      height = 240,
+      width = 176,
+      height = 480,
       frame_count = 12,
-      scale = 1.7,
-      shift = {0.0, -1.01563},
+      scale = 0.85,
+      shift = util.by_pixel(0,-32.5),
     }
   }
 }
@@ -406,17 +485,29 @@ cargo_ship.horizontal_doors = {
     {
       filename = "__cargo-ships__/graphics/entity/cargo_ship/horizontal_doors.png",
       line_length = 1,
-      width = 252,
-      height = 71,
+      width = 504,
+      height = 142,
       frame_count = 12,
-      scale = 1.7,
-      shift = {0.055625, -1.01563},
+      scale = 0.85,
+      shift = util.by_pixel(2,-32.5),
     }
   }
 }
 cargo_ship.wheels = nil
 cargo_ship.working_sound = nil
 cargo_ship.drive_over_tie_trigger = nil
+cargo_ship.minimap_representation = {
+  filename = "__cargo-ships__/graphics/entity/cargo_ship/cargo_ship-minimap-representation.png",
+  flags = {"icon"},
+  size = {26, 160},
+  scale = 0.5
+}
+cargo_ship.selected_minimap_representation = {
+  filename = "__cargo-ships__/graphics/entity/cargo_ship/cargo_ship-selected-minimap-representation.png",
+  flags = {"icon"},
+  size = {26, 160},
+  scale = 0.5
+}
 
 ----------------------------------------------------------------
 ------------------------ OIL TANKER ----------------------------
@@ -428,7 +519,7 @@ local oil_tanker = table.deepcopy(data.raw["fluid-wagon"]["fluid-wagon"])
 oil_tanker.name = "oil_tanker"
 oil_tanker.icon = "__cargo-ships__/graphics/icons/tanker.png"
 oil_tanker.icon_size = 64
-oil_tanker.flags = {"not-blueprintable","placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
+oil_tanker.flags = {"not-blueprintable", "placeable-neutral", "player-creation", "placeable-off-grid"}
 oil_tanker.allow_copy_paste = false
 oil_tanker.minable = {mining_time = 1, result = "oil_tanker"}
 oil_tanker.max_health = 5000
@@ -441,46 +532,25 @@ oil_tanker.weight = 120000
 oil_tanker.capacity = tanker_capacity * 1000
 oil_tanker.max_speed = 0.5
 oil_tanker.air_resistance = 0.40
-oil_tanker.water_reflection = nil
-oil_tanker.pictures = {
-  layers = {
-    {
-      slice = 4,
-      priority = "very-low",
-      width = 500,
-      height = 500,
-      direction_count = 256,
-      allow_low_quality_rotation = true,
-      filenames = {
-        "__cargo-ships__/graphics/entity/tanker/tanker_0.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_1.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_2.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_3.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_4.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_5.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_6.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_7.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_8.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_9.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_10.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_11.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_12.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_13.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_14.png",
-        "__cargo-ships__/graphics/entity/tanker/tanker_15.png",
-      },
-      line_length = 4,
-      lines_per_file = 4,
-      scale = 1.7,
-      shift = {0.0, -0.7}
-    }
-  }
-}
+oil_tanker.water_reflection = water_reflection("tanker/tanker", 170, 25, true)
+oil_tanker.pictures = oil_tanker_pictures
 oil_tanker.stand_by_light = {ship_light(-3, true)}
 oil_tanker.back_light = nil
 oil_tanker.wheels = nil
 oil_tanker.working_sound = nil
 oil_tanker.drive_over_tie_trigger = nil
+oil_tanker.minimap_representation = {
+  filename = "__cargo-ships__/graphics/entity/tanker/tanker-minimap-representation.png",
+  flags = {"icon"},
+  size = {26, 160},
+  scale = 0.5
+}
+oil_tanker.selected_minimap_representation = {
+  filename = "__cargo-ships__/graphics/entity/tanker/tanker-selected-minimap-representation.png",
+  flags = {"icon"},
+  size = {26, 160},
+  scale = 0.5
+}
 
 ----------------------------------------------------------------
 ------------------------ CARGO SHIP ENGINE ---------------------
@@ -493,7 +563,7 @@ cargo_ship_engine.name = "cargo_ship_engine"
 cargo_ship_engine.minable = nil
 cargo_ship_engine.flags =  {"not-blueprintable", "placeable-neutral", "player-creation"}
 cargo_ship_engine.allow_copy_paste = false
-cargo_ship_engine.icon = "__cargo-ships__/graphics/icons/ship-engine.png"
+cargo_ship_engine.icon = "__cargo-ships__/graphics/icons/cargoship_icon.png"
 cargo_ship_engine.icon_size = 64
 cargo_ship_engine.weight = 100000
 cargo_ship_engine.max_speed = 0.15 * speed_modifier
@@ -563,27 +633,15 @@ cargo_ship_engine.pictures = {
       line_length = 16,
       lines_per_file = 16,
       scale = 3,
-      shift = {0.0, -0.7}
+      shift = util.by_pixel(0,-22.5),
     }
   }
 }
+cargo_ship_engine.minimap_representation = nil
+cargo_ship_engine.selected_minimap_representation = nil
 cargo_ship_engine.water_reflection = nil
 cargo_ship_engine.wheels = nil
-cargo_ship_engine.working_sound = {
-  sound = {
-    filename = "__base__/sound/fight/tank-engine.ogg",
-    volume = 0.6
-  },
-  activate_sound = {
-    filename = "__base__/sound/fight/tank-engine-start.ogg",
-    volume = 0.6
-  },
-  deactivate_sound = {
-    filename = "__base__/sound/fight/tank-engine-stop.ogg",
-    volume = 0.6
-  },
-  match_speed_to_activity = true
-}
+cargo_ship_engine.working_sound = tank_sounds
 cargo_ship_engine.front_light = nil
 cargo_ship_engine.back_light = nil
 cargo_ship_engine.stand_by_light = nil

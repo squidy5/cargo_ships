@@ -63,10 +63,10 @@ function onEntityBuild(e)
     table.insert(global.or_generators,or_power)
     ent.surface.create_entity{name = "or_pole", position = pos, force = ent.force}
     ent.surface.create_entity{name = "or_radar", position = pos, force = ent.force}
-    ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = ent.force}
-    ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = ent.force}
-    ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = ent.force}
-    ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
+    --ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = ent.force}
+    --ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = ent.force}
+    --ent.surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = ent.force}
+    --ent.surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = ent.force}
     return
 
   -- create bridge
@@ -96,7 +96,7 @@ function onEntityBuild(e)
         game.players[e.player_index].insert{name="water-way", count=c}
       end
     else
-      WW = s.create_entity{name= n, position = p, direction = d, force = f} -- create new
+      WW = s.create_entity{name = n, position = p, direction = d, force = f} -- create new
       -- make waterway indistructable
       if(WW) then
         WW.destructible = false
@@ -141,7 +141,7 @@ function OnEnterShip(e)
   if game.players[player_index].vehicle == nil then
     for dis = 1,10 do
       local targets = game.players[player_index].surface.find_entities_filtered{
-        area={{X-dis, Y-dis}, {X+dis, Y+dis}},name={"indep-boat","boat_engine","cargo_ship_engine"}}
+        area = { {X-dis, Y-dis}, {X+dis, Y+dis} }, name = {"indep-boat", "boat_engine", "cargo_ship_engine"} }
       local done = false
       for _, target in ipairs(targets) do
         if target and target.get_driver() == nil then
@@ -217,10 +217,10 @@ function OnDeleted(e)
       for i = 1, #or_inv do
         or_inv[i].destroy()
       end
-      or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_lamp"}
-      for i = 1, #or_inv do
-        or_inv[i].destroy()
-      end
+      --or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_lamp"}
+      --for i = 1, #or_inv do
+      --  or_inv[i].destroy()
+      --end
       or_inv = ent.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_pole"}
       for i = 1, #or_inv do
         or_inv[i].destroy()
