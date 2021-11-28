@@ -200,7 +200,7 @@ data:extend({
     place_result = "or_pole",
     stack_size = 100,
   },
-  {
+  --[[{
     type = "item",
     name = "or_lamp",
     icon = no_icon,
@@ -210,7 +210,7 @@ data:extend({
     order = "b[fluids]-c[oil_rig]",
     place_result = "or_lamp",
     stack_size = 100,
-  },
+  },]]
   {
     type = "item",
     name = "or_radar",

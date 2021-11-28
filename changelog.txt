@@ -10,6 +10,7 @@ Date: 2021-11-24
     - Railed boat: HD version (using AI upscaling, .5 scale, from 1.5), improved with filters, water reflection, separate shadow, softer light.
     - Oil Tanker: Twice as detailed (original render, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light.
     - Cargo Ship: Twice as detailed (using AI upscaling, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light.
+    - Oil Rig: Reinvented in HD with proper perspective, water reflection, separate shadow, animation, custom lights (removed hidden lamp entities).
     - Port: Reworked in HD, water relection, shadow, improved position.
     - Rails: Recreated in HD, aligned, removed transparency (which was messy).
     - Floating Electric Poles: Reworked in HD, water reflections, new shadows.
@@ -30,7 +31,6 @@ Date: 2021-11-24
     - Fixed typo.
 
   TODO:
-    - oil rig
     - technologies?
     - icon wave
     - pump reflection
