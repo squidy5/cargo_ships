@@ -1,71 +1,106 @@
-local bridge=table.deepcopy(data.raw["train-stop"]["port"])
-bridge.name = "bridge_base"
-bridge.animations = make_4way_animation_from_spritesheet({layers = {
-{
-    filename = "__cargo-ships__/graphics/entity/bridge/base.png",
-    --line_length = 4,
-    width = 275,
-    height = 275,
-    direction_count = 4,
-    scale = 1.7,
-    shift = util.by_pixel(-0.5, 0),
-  }
-  }
-})
+local emptypic = {
+  filename = "__cargo-ships__/graphics/blank.png",
+  width = 2,
+  height = 2,
+}
 
 --bridge.collision_box = {{-6,-3},{6,3}}
 
+local function build_bridge_anim(ori, shiftx, shifty)
+  local width = 436
+  local height = 930
+  if ori == "n" or ori == "s" then
+    width = 872
+    height = 436
+  end
 
+  local function imageloop(filename)
+    local filelist = {}
+    for i=1,20 do
+      local file = {filename = "__cargo-ships__/graphics/entity/bridge/" .. filename .. i .. ".png", width_in_frames = 1, height_in_frames = 1}
+      if i == 1 then file.filename = "__cargo-ships__/graphics/entity/bridge/" .. filename .. 0 .. ".png" end
+      table.insert(filelist, file)
+    end
+    return filelist
+  end
 
-
-
-----------------------------------------------------------------------------------
----------------------------------NORTH -------------------------------------------
-----------------------------------------------------------------------------------
-
-local bridge_north=table.deepcopy(data.raw["power-switch"]["power-switch"])
-bridge_north.name = "bridge_north"
-bridge_north.led_on={
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_north.led_off={
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_north.power_on_animation =
- {
- layers =
+  return {
+    layers = {
       {
-        {
-          filename = "__cargo-ships__/graphics/entity/bridge/north/bridge.png",
-          animation_speed = 0.4,
-          line_length = 4,
-          width = 512,
-          height = 256,
-          frame_count = 23,
-          axially_symmetrical = false,
-          direction_count = 1,
-          shift = {1.66, -0.55},
-          scale = 0.852,
-        },
-        {
-          filename = "__cargo-ships__/graphics/entity/bridge/north/shadows.png",
-          animation_speed = 0.4,
-          line_length = 4,
-          width = 512,
-          height = 256,
-          frame_count = 23,
-          axially_symmetrical = false,
-          direction_count = 1,
-          draw_as_shadow=true,
-          shift = {1.66, -0.55},
-          scale = 0.852,
-        },
+        stripes = imageloop("bridge-" .. ori .. "-"),
+        animation_speed = 0.4,
+        --line_length = 1,
+        width = width,
+        height = height,
+        frame_count = 20,
+        axially_symmetrical = false,
+        direction_count = 1,
+        shift = util.by_pixel(shiftx, shifty),
+        scale = 0.5,
+      },
+      {
+        stripes = imageloop("bridge-" .. ori .. "-shadow-"),
+        animation_speed = 0.4,
+        --line_length = 1,
+        width = width,
+        height = height,
+        frame_count = 20,
+        axially_symmetrical = false,
+        direction_count = 1,
+        draw_as_shadow = true,
+        shift = util.by_pixel(shiftx, shifty),
+        scale = 0.5,
+      },
     }
-}
+  }
+end
+
+local function water_reflection(dir, num, x, y, shiftx, shifty)
+  return {
+    pictures = {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-" .. dir .. "-" .. num .."-water-reflection.png",
+      width = x,
+      height = y,
+      shift = util.by_pixel(shiftx, shifty),
+      variation_count = 1,
+      scale = 5
+    },
+    rotate = false,
+    orientation_to_variation = false
+  }
+end
+
+
+
+local bridge = table.deepcopy(data.raw["train-stop"]["port"])
+bridge.name = "bridge_base"
+bridge.animations = make_4way_animation_from_spritesheet({
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-base.png",
+      --line_length = 4,
+      width = 275,
+      height = 275,
+      direction_count = 4,
+      scale = 1.7,
+      shift = util.by_pixel(-0.5, 0),
+    }
+  }
+})
+data:extend({bridge})
+
+----------------------------------------------------------------------------------
+--------------------------------- NORTH ------------------------------------------
+----------------------------------------------------------------------------------
+
+local shiftX = 53
+local shiftY = -17.5
+
+local bridge_north = table.deepcopy(data.raw["power-switch"]["power-switch"])
+bridge_north.name = "bridge_north"
+bridge_north.led_on = emptypic
+bridge_north.led_off = emptypic
+bridge_north.power_on_animation = build_bridge_anim("n", shiftX, shiftY)
 bridge_north.minable = nil
 bridge_north.destructible = false
 bridge_north.collision_box = {{-1,-1},{1,1}}
@@ -74,268 +109,159 @@ bridge_north.selection_box = nil
 bridge_north.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 bridge_north.selectable_in_game = false
 bridge_north.allow_copy_paste = false
+bridge_north.created_smoke = nil
+bridge_north.water_reflection = water_reflection("n", 20, 87, 44, shiftX, shiftY)
 
+data:extend({bridge_north})
 
-local bridge_north_closed=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
+local bridge_north_closed = table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
 bridge_north_closed.name = "bridge_north_closed"
-bridge_north_closed.created_smoke = nil
+
 bridge_north_closed.minable = nil
 bridge_north_closed.selection_box = nil
-bridge_north_closed.collision_box = {{-4,-2},{6,2}}
+bridge_north_closed.collision_box = {{-4,-2}, {6,2}}
 bridge_north_closed.collision_mask = {} --collision with boats
 bridge_north_closed.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 bridge_north_closed.selectable_in_game = false
 bridge_north_closed.allow_copy_paste = false
-bridge_north_closed.render_layer = "floor-mechanics"
+bridge_north_closed.render_layer = "object"
+bridge_north_closed.created_smoke = nil
 bridge_north_closed.picture = {
-      filename = "__cargo-ships__/graphics/entity/bridge/north/closed.png",
-      priority = "extra-high",
-      width = 512,
-      height = 256,
-      shift = {1.66, -0.55},
-      --shift = {1.16, -1.05},
-      scale = 0.852
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-n-shadow-1.png",
+      width = 872,
+      height = 436,
+      shift = util.by_pixel(shiftX, shiftY),
+      scale = 0.5,
+      draw_as_shadow = true
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-n-1.png",
+      width = 872,
+      height = 436,
+      shift = util.by_pixel(shiftX, shiftY),
+      scale = 0.5
+    },
+  }
 }
-----------------------------------------------------------------------------------
----------------------------------east -------------------------------------------
-----------------------------------------------------------------------------------
+bridge_north_closed.water_reflection = water_reflection("n", 1, 87, 44, shiftX, shiftY)
 
-local bridge_east=table.deepcopy(data.raw["power-switch"]["power-switch"])
-bridge_east.name = "bridge_east"
-bridge_east.led_on={
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_east.led_off={
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_east.power_on_animation =
- {
- layers =
-      {
-        {
-          filename = "__cargo-ships__/graphics/entity/bridge/east/bridge.png",
-          animation_speed = 0.4,
-          line_length = 8,
-          width = 256,
-          height = 546,
-          frame_count = 23,
-          axially_symmetrical = false,
-          direction_count = 1,
-          shift = {0.75, 0.7},
-          scale = 0.84,
-        },
-        {
-          filename = "__cargo-ships__/graphics/entity/bridge/east/shadows.png",
-          animation_speed = 0.4,
-          line_length = 8,
-          width = 256,
-          height = 546,
-          frame_count = 23,
-          axially_symmetrical = false,
-          direction_count = 1,
-          draw_as_shadow=true,
-          shift = {0.75, 0.7},
-          scale = 0.84,
-        },
-    }
-}
-
-bridge_east.minable = nil
-bridge_east.destructible = false
-bridge_east.collision_box = {{-1,-1},{1,1}}
-bridge_east.collision_mask = {}
-bridge_east.selection_box = nil
-bridge_east.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_east.selectable_in_game = false
-bridge_east.allow_copy_paste = false
-
-
-local bridge_east_closed=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
-bridge_east_closed.name = "bridge_east_closed"
-bridge_east_closed.created_smoke = nil
-bridge_east_closed.minable = nil
-bridge_east_closed.selection_box = nil
-bridge_east_closed.collision_box = {{-2,-4},{2,6}}
-bridge_east_closed.collision_mask = {} --collision with boats
-bridge_east_closed.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_east_closed.selectable_in_game = false
-bridge_east_closed.allow_copy_paste = false
-bridge_east_closed.render_layer = "floor-mechanics"
-bridge_east_closed.picture = {
-      filename = "__cargo-ships__/graphics/entity/bridge/east/closed.png",
-      priority = "extra-high",
-      width = 256,
-      height = 546,
-      shift = {0.75, 0.7},
---      shift = {0.25, 0.2},
-      scale = 0.84
-}
-
+data:extend({bridge_north_closed})
 
 ----------------------------------------------------------------------------------
----------------------------------SOUTH -------------------------------------------
+--------------------------------- SOUTH ------------------------------------------
 ----------------------------------------------------------------------------------
 
-local bridge_south=table.deepcopy(data.raw["power-switch"]["power-switch"])
+shiftX = -6.5
+shiftY = -19
+
+local bridge_south = table.deepcopy(data.raw["power-switch"]["bridge_north"])
 bridge_south.name = "bridge_south"
-bridge_south.led_on={
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_south.led_off={
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_south.power_on_animation =
- {
- layers =
-      {
-        {
-          filename = "__cargo-ships__/graphics/entity/bridge/south/bridge.png",
-          animation_speed = 0.4,
-          line_length = 4,
-          width = 512,
-          height = 256,
-          frame_count = 23,
-          axially_symmetrical = false,
-          direction_count = 1,
-          shift = {-0.2, -0.6},
-          scale = 0.852,
-        },
-        {
-          filename = "__cargo-ships__/graphics/entity/bridge/south/shadows.png",
-          animation_speed = 0.4,
-          line_length = 4,
-          width = 512,
-          height = 256,
-          frame_count = 23,
-          axially_symmetrical = false,
-          direction_count = 1,
-          draw_as_shadow=true,
-          shift = {-0.2, -0.6},
-          scale = 0.852,
-        },
-    }
-}
-bridge_south.minable = nil
-bridge_south.destructible = false
-bridge_south.collision_box = {{-1,-1},{1,1}}
-bridge_south.collision_mask = {}
-bridge_south.selection_box = nil
-bridge_south.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_south.selectable_in_game = false
-bridge_south.allow_copy_paste = false
+bridge_south.power_on_animation = build_bridge_anim("s", shiftX, shiftY)
+bridge_south.water_reflection = water_reflection("s", 20, 87, 44, shiftX, shiftY)
 
-
-local bridge_south_closed=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
+local bridge_south_closed = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_closed"])
 bridge_south_closed.name = "bridge_south_closed"
-bridge_south_closed.created_smoke = nil
-bridge_south_closed.minable = nil
-bridge_south_closed.selection_box = nil
-bridge_south_closed.collision_box = {{-6,-2},{4,2}}
-bridge_south_closed.collision_mask = {} --collision with boats
-bridge_south_closed.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_south_closed.selectable_in_game = false
-bridge_south_closed.allow_copy_paste = false
-bridge_south_closed.render_layer = "floor-mechanics"
+bridge_south_closed.collision_box = {{-6,-2}, {4,2}}
 bridge_south_closed.picture = {
-      filename = "__cargo-ships__/graphics/entity/bridge/south/closed.png",
-      priority = "extra-high",
-      width = 512,
-      height = 256,
-      shift = {-0.2, -0.6},
-      --shift = {-0.7, -1.1},
-      scale = 0.852
-    }
-
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-s-shadow-1.png",
+      width = 872,
+      height = 436,
+      shift = util.by_pixel(shiftX, shiftY),
+      scale = 0.5,
+      draw_as_shadow = true
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-s-1.png",
+      width = 872,
+      height = 436,
+      shift = util.by_pixel(shiftX, shiftY),
+      scale = 0.5
+    },
+  }
+}
+bridge_south_closed.water_reflection = water_reflection("s", 1, 87, 44, shiftX, shiftY)
 
 ----------------------------------------------------------------------------------
----------------------------------west -------------------------------------------
+--------------------------------- east -------------------------------------------
 ----------------------------------------------------------------------------------
 
-local bridge_west=table.deepcopy(data.raw["power-switch"]["power-switch"])
+shiftX = 24
+shiftY = 22.5
+
+local bridge_east = table.deepcopy(data.raw["power-switch"]["bridge_north"])
+bridge_east.name = "bridge_east"
+bridge_east.power_on_animation = build_bridge_anim("e", shiftX, shiftY)
+bridge_east.water_reflection = water_reflection("e", 20, 44, 94, shiftX, shiftY+32)
+
+local bridge_east_closed = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_closed"])
+bridge_east_closed.name = "bridge_east_closed"
+bridge_east_closed.collision_box = {{-2,-4}, {2,6}}
+bridge_east_closed.picture = {
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-e-shadow-1.png",
+      width = 436,
+      height = 930,
+      shift = util.by_pixel(shiftX, shiftY),
+      scale = 0.5,
+      draw_as_shadow = true
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-e-1.png",
+      width = 436,
+      height = 930,
+      shift = util.by_pixel(shiftX, shiftY),
+      scale = 0.5
+    },
+  }
+}
+bridge_east_closed.water_reflection = water_reflection("e", 1, 44, 94, shiftX, shiftY+32)
+
+----------------------------------------------------------------------------------
+--------------------------------- west -------------------------------------------
+----------------------------------------------------------------------------------
+
+shiftX = 24
+shiftY = -53
+
+local bridge_west = table.deepcopy(data.raw["power-switch"]["bridge_north"])
 bridge_west.name = "bridge_west"
-bridge_west.led_on={
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_west.led_off={
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_west.power_on_animation =
- {
- layers =
-      {
-        {
-          filename = "__cargo-ships__/graphics/entity/bridge/west/bridge.png",
-          animation_speed = 0.4,
-          line_length = 8,
-          width = 256,
-          height = 546,
-          frame_count = 23,
-          axially_symmetrical = false,
-          direction_count = 1,
-          shift = {0.75, -1.65},
-          scale = 0.84,
-        },
-        {
-          filename = "__cargo-ships__/graphics/entity/bridge/west/shadows.png",
-          animation_speed = 0.4,
-          line_length = 8,
-          width = 256,
-          height = 546,
-          frame_count = 23,
-          axially_symmetrical = false,
-          direction_count = 1,
-          draw_as_shadow=true,
-          shift = {0.75, -1.65},
-          scale = 0.84,
-        },
-    }
-}
-bridge_west.minable = nil
-bridge_west.destructible = false
-bridge_west.collision_box = {{-1,-1},{1,1}}
-bridge_west.collision_mask = {}
-bridge_west.selection_box = nil
-bridge_west.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_west.selectable_in_game = false
-bridge_west.allow_copy_paste = false
+bridge_west.power_on_animation = build_bridge_anim("w", shiftX, shiftY)
+bridge_west.water_reflection = water_reflection("w", 20, 44, 94, shiftX, shiftY)
 
-
-local bridge_west_closed=table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
+local bridge_west_closed = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_closed"])
 bridge_west_closed.name = "bridge_west_closed"
-bridge_west_closed.created_smoke = nil
-bridge_west_closed.minable = nil
-bridge_west_closed.selection_box = nil
-bridge_west_closed.collision_box = {{-2,-6},{2,4}}
-bridge_west_closed.collision_mask = {} --collision with boats
-bridge_west_closed.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_west_closed.selectable_in_game = false
-bridge_west_closed.allow_copy_paste = false
-bridge_west_closed.render_layer = "floor-mechanics"
+bridge_west_closed.collision_box = {{-2,-6}, {2,4}}
 bridge_west_closed.picture = {
-    filename = "__cargo-ships__/graphics/entity/bridge/west/closed.png",
-    priority = "extra-high",
-    width = 256,
-    height = 546,
-    shift = {0.75, -1.65},
-    --shift = {0.25, -2.15},
-    scale = 0.84
+  layers = {
+    {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-w-shadow-1.png",
+      width = 436,
+      height = 930,
+      shift = util.by_pixel(shiftX, shiftY),
+      scale = 0.5,
+      draw_as_shadow = true
+    },
+    {
+      filename = "__cargo-ships__/graphics/entity/bridge/bridge-w-1.png",
+      width = 436,
+      height = 930,
+      shift = util.by_pixel(shiftX, shiftY),
+      scale = 0.5
+    },
+  }
 }
+bridge_west_closed.water_reflection = water_reflection("w", 1, 44, 94, shiftX, shiftY+32)
 
-data:extend({bridge, bridge_north, bridge_north_closed, bridge_south, bridge_south_closed, bridge_east, bridge_east_closed, bridge_west, bridge_west_closed})
+data:extend({bridge_south, bridge_south_closed, bridge_east, bridge_east_closed, bridge_west, bridge_west_closed})
 
-local invisible_chain_signal=table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
+----------------------------------------------------------------------------------------------------------------------------------
+
+local invisible_chain_signal = table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 invisible_chain_signal.name = "invisible_chain_signal"
 invisible_chain_signal.selection_box = nil
 invisible_chain_signal.destructible = false
@@ -344,9 +270,7 @@ invisible_chain_signal.selectable_in_game = false
 invisible_chain_signal.collision_mask = {'rail-layer'}
 invisible_chain_signal.allow_copy_paste = false
 invisible_chain_signal.minable = nil
-
-invisible_chain_signal.animation =
-{
+invisible_chain_signal.animation = {
   filename = "__cargo-ships__/graphics/blank.png",
   priority = "high",
   width = 2,
@@ -360,13 +284,11 @@ invisible_chain_signal.orange_light = nil
 invisible_chain_signal.red_light = nil
 invisible_chain_signal.blue_light = nil
 invisible_chain_signal.fast_replaceable_group = nil
+invisible_chain_signal.created_smoke = nil
 data:extend({invisible_chain_signal})
 
 
-
-
 local bridge_north_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
-
 bridge_north_clickable.name = "bridge_north_clickable"
 bridge_north_clickable.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 bridge_north_clickable.minable = {mining_time = 1, result = "bridge_base"}
@@ -374,16 +296,9 @@ bridge_north_clickable.selection_box = {{-5,-3},{7,3}}
 bridge_north_clickable.collision_box = {{-5,-3},{7,3}}
 bridge_north_clickable.collision_mask = {"object-layer", "layer-14"}
 bridge_north_clickable.max_health = 500
-bridge_north_clickable.picture =
-{
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-
+bridge_north_clickable.picture = emptypic
+bridge_north_clickable.created_smoke = nil
 data:extend({bridge_north_clickable})
-
-
 
 local bridge_east_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
 local bridge_south_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
@@ -402,7 +317,6 @@ bridge_south_clickable.selection_box = {{-7,-3},{5,3}}
 bridge_west_clickable.selection_box = {{-3,-7},{3,5}}
 
 data:extend({bridge_south_clickable, bridge_east_clickable, bridge_west_clickable})
-
 
 local bridge_north_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_closed"])
 local bridge_east_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_east_closed"])
@@ -437,28 +351,8 @@ bridge_east_open.collision_mask = {}
 bridge_south_open.collision_mask = {}
 bridge_west_open.collision_mask = {}
 
-bridge_north_open.picture =
-{
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_east_open.picture =
-{
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_south_open.picture =
-{
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-bridge_west_open.picture =
-{
-  filename = "__cargo-ships__/graphics/blank.png",
-  width = 2,
-  height = 2,
-}
-data:extend({bridge_north_open,bridge_south_open, bridge_east_open, bridge_west_open})
+bridge_north_open.picture = emptypic
+bridge_east_open.picture = emptypic
+bridge_south_open.picture = emptypic
+bridge_west_open.picture = emptypic
+data:extend({bridge_north_open, bridge_south_open, bridge_east_open, bridge_west_open})
