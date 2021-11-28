@@ -1,21 +1,20 @@
-  {
+{
   "name": "cargo-ships",
-  "version": "0.0.57",
+  "version": "0.1.0",
   "title": "Cargo Ships",
   "author": "rude_grass",
   "description": "Adds cargo ships, oil tankers, deep sea oil rigs and other ocean based content",
-  "dependencies":
-   [
-		"base >= 1.0", 
-		"? factorio-world >= 0.16.1",
-		"? NewIslands >= 0.1.0", 
-		"? islands_world >= 0.16.3", 
-		"? SeaBlock >= 0.2.0", 
-		"? Hovercraft >= 0.0.1",
-		"? Hovercrafts >= 0.17.02", 
-		"? angelspetrochem >= 0.7.12", 
-		"? ctg >= 0.4.3", 
-		"? Krastorio2 >=0.1.0"
-	],
-  "factorio_version": "1.1" 
+  "dependencies": [
+    "base >= 1.0",
+    "? factorio-world >= 0.16.1",
+    "? NewIslands >= 0.1.0",
+    "? islands_world >= 0.16.3",
+    "? SeaBlock >= 0.2.0",
+    "? Hovercraft >= 0.0.1",
+    "? Hovercrafts >= 0.17.02",
+    "? angelspetrochem >= 0.7.12",
+    "? ctg >= 0.4.3",
+    "? Krastorio2 >=0.1.0"
+  ],
+  "factorio_version": "1.1"
 }
