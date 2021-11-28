@@ -1,4 +1,4 @@
-data:extend({
+data:extend{
     {
         type = "recipe", 
         name = "boat",
@@ -131,26 +131,25 @@ data:extend({
         result = "bridge_base",
         result_count = 1
     },
-
-})
+}
 
 if settings.startup["deep_oil"].value then
-	data:extend({
-	{
-        type = "recipe",
-        name = "oil_rig",
-        enabled = false,
-        ingredients =
+    data:extend{
         {
-            {"pumpjack", 5},
-            {"boiler", 1},
-            {"steam-engine", 1},
-            {"steel-plate", 150},
-            {"electronic-circuit", 75},
-            {"pipe", 75}
+            type = "recipe",
+            name = "oil_rig",
+            enabled = false,
+            ingredients =
+            {
+                {"pumpjack", 5},
+                {"boiler", 1},
+                {"steam-engine", 1},
+                {"steel-plate", 150},
+                {"electronic-circuit", 75},
+                {"pipe", 75}
+            },
+            result = "oil_rig",
+            result_count = 1
         },
-        result = "oil_rig",
-        result_count = 1
-    },
-  })
+    }
 end

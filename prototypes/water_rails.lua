@@ -10,14 +10,14 @@ railpictures = function(invisible)
                                {"segment_visualisation_continuing_front", "segment-visualisation-continuing-1"},
                                {"segment_visualisation_continuing_back", "segment-visualisation-continuing-2"}},
                                invisible)
-end    
+end
 
 railpicturesinternal = function(elems, invisible)
-  local railBlockKeys = {segment_visualisation_middle = true, 
-                      segment_visualisation_ending_front = true,
-                      segment_visualisation_ending_back = true, 
-                      segment_visualisation_continuing_front = true, 
-                      segment_visualisation_continuing_back = true}
+  local railBlockKeys = {segment_visualisation_middle = true,
+                         segment_visualisation_ending_front = true,
+                         segment_visualisation_ending_back = true,
+                         segment_visualisation_continuing_front = true,
+                         segment_visualisation_continuing_back = true}
 
   local keys = {{"straight_rail", "horizontal", 64, 64, 0, 0},
                 {"straight_rail", "vertical", 64, 64, 0, 0},
@@ -43,12 +43,12 @@ railpicturesinternal = function(elems, invisible)
   for _, key in pairs(keys) do
     part = {}
     dashkey = key[1]:gsub("_", "-")
-    for _ , elem in pairs(elems) do
+    for _, elem in pairs(elems) do
       if(elem[1] == "metals" and not invisible) then
-        part[elem[1]] = { 
+        part[elem[1]] = {
           sheet = {
               filename = string.format("__cargo-ships__/graphics/entity/%s%s/%s-%s-%s.png", dashkey, postfix, dashkey, key[2], elem[2]),
-              priority = "extra-high", 
+              priority = "extra-high",
               flags = elem.mipmap and { "icon" },
               width = key[3],
               height = key[4],
@@ -59,7 +59,7 @@ railpicturesinternal = function(elems, invisible)
       elseif(railBlockKeys[elem[1]] ~= nil) then
         part[elem[1]] = {
           filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
-          priority = "extra-high", 
+          priority = "extra-high",
           flags = elem.mipmap and { "icon" },
           width = key[3],
           height = key[4],
@@ -67,10 +67,10 @@ railpicturesinternal = function(elems, invisible)
           variation_count = 1,
         }
       else
-        part[elem[1]] = { 
+        part[elem[1]] = {
           sheet = {
             filename = string.format("__cargo-ships__/graphics/blank.png", dashkey, dashkey, key[2], elem[2]),
-            priority = "extra-high", 
+            priority = "extra-high",
             flags = elem.mipmap and { "icon" },
             width = 2,
             height = 2,
@@ -103,11 +103,11 @@ railpicturesinternal = function(elems, invisible)
 
     }
   }
-  return res 
+  return res
 end
 
 
-data:extend({
+data:extend{
   {
     type = "straight-rail",
     name = "straight-water-way",
@@ -157,7 +157,7 @@ data:extend({
     pictures = railpictures(),
     placeable_by = { item="water-way", count = 4}
   },
-})
+}
 
 local swwp = table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
 swwp.name = "straight-water-way-placed"
@@ -175,32 +175,28 @@ cwwp.minable = {mining_time = 0.2, result = "water-way", count = 4}
 cwwp.collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
 cwwp.secondary_collision_box = {{-1.7, -2.1}, {1.7, 2.1}},
 
-data:extend({swwp, cwwp})
-
-
-
+data:extend{swwp, cwwp}
 
 
 -- tracks used by bridges
-
-local invisible_rail=table.deepcopy(data.raw["straight-rail"]["straight-rail"])
+local invisible_rail = table.deepcopy(data.raw["straight-rail"]["straight-rail"])
 invisible_rail.name = "invisible_rail"
-invisible_rail.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
+invisible_rail.flags = {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 invisible_rail.pictures = railpictures(true)
 invisible_rail.minable = nil
 invisible_rail.selection_box = nil
 invisible_rail.selectable_in_game = false
-invisible_rail.collision_mask ={"object-layer"}
+invisible_rail.collision_mask = {"object-layer"}
 invisible_rail.allow_copy_paste = false
 
-local bridge_crossing=table.deepcopy(data.raw["straight-rail"]["straight-water-way-placed"])
+local bridge_crossing = table.deepcopy(data.raw["straight-rail"]["straight-water-way-placed"])
 bridge_crossing.name = "bridge_crossing"
-bridge_crossing.flags =  {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
+bridge_crossing.flags = {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 bridge_crossing.minable = nil
-bridge_crossing.collision_mask ={"object-layer"}
-bridge_crossing.collision_box ={{-0.6, -0.95}, {0.6, 0.95}}
+bridge_crossing.collision_mask = {"object-layer"}
+bridge_crossing.collision_box = {{-0.6, -0.95}, {0.6, 0.95}}
 bridge_crossing.selection_box = nil
 bridge_crossing.selectable_in_game = false
 bridge_crossing.allow_copy_paste = false
 
-data:extend({invisible_rail, bridge_crossing})
+data:extend{invisible_rail, bridge_crossing}
