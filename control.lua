@@ -527,8 +527,10 @@ script.on_event(defines.events.on_player_pipette, FixPipette)
 -- rolling stock connect
 script.on_event(defines.events.on_train_created, On_Train_Created)
 
+-- Console commands
+commands.add_command("regenerate-oil", {"cargo-ship-message.regenerate-oil-help"}, RegenerateOilCommand)
 
-
+-- Compatibility with AAI Vehicles
 remote.add_interface("aai-sci-burner", {
 	hauler_types = function(data)
 		return {
