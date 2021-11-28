@@ -17,18 +17,18 @@ function OnCraneCreated(entity)
   local startSprite
   if(entity.direction == defines.direction.west) then
     startSprite = rendering.draw_sprite{
-                sprite="crane_west", 
-                target=entity, 
-                surface=entity.surface}
+      sprite = "crane_west",
+      target = entity,
+      surface = entity.surface}
   elseif(entity.direction == defines.direction.east) then
     startSprite = rendering.draw_sprite{
-                sprite="crane_east", 
-                target=entity, 
-                surface=entity.surface}
+      sprite = "crane_east",
+      target = entity,
+      surface = entity.surface}
   end
 
   inserter = entity
-  table.insert(global.cranes, {inserter}) 
+  table.insert(global.cranes, {inserter})
 end
 
 function ManageCranes(e)
@@ -46,18 +46,18 @@ function ManageCranes(e)
 
       local inserter = crane[1]
       local framecount = crane[2] -- framecount == -1 --> inactive
-      -- TODO check if inserter active 
+      -- TODO check if inserter active
       --(if active and at pickup, and empty, and pickup empty --> not active) --> replace animation with sprite
       --(if ~active and ~at pickup --> active) --> replace sprite with animation
 
 
-      if (not inserter.held_stack == nil) and 
+      if (not inserter.held_stack == nil) and
         not AtPosition(ent.held_stack_position, ent.pickup_position, 0.1) then
         --moving towards drop off
-        
+
         --switch.power_switch_state = reversed and true or false
       elseif (inserter.held_stack == nil) then
-        
+
         -- moving towards pickup
         --switch.power_switch_state = reversed and false or true
       end

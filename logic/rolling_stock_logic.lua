@@ -5,7 +5,7 @@ function On_Train_Created(e)
   local parts = e.train.carriages
 
 
-  if  not next(global.check_entity_placement) == nil then
+  if   not next(global.check_entity_placement) == nil then
     game.players[1].print("full ")
 
     return
@@ -26,7 +26,7 @@ function On_Train_Created(e)
   end
 
   -- if ship  has been split reconnect
-  if # parts == 1 then 
+  if # parts == 1 then
     -- reconnect!
     local engine = parts[1]
     local dir = engine.direction
@@ -37,9 +37,9 @@ function On_Train_Created(e)
 
     game.players[1].print("reconnected!" .. engine.name)
 
-  
+
   -- else if ship has been overconnected split again
-  elseif # parts > 2 then  
+  elseif # parts > 2 then
   --  game.players[1].print("needs disconnection!")
 
     for i = 1, #parts do
@@ -67,5 +67,4 @@ function On_Train_Created(e)
       end
     end
   end
-
 end

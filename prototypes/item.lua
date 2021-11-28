@@ -1,8 +1,10 @@
+local no_icon = "__cargo-ships__/graphics/blank.png"
 require("bridge_items")
 
 -- Support for  Schallfalke's Schall Transport Group mod
 local subgroup_ship = "water_transport"
 local subgroup_shipequip = "water_transport"
+
 
 if mods["SchallTransportGroup"] then
   data:extend{
@@ -19,8 +21,8 @@ if mods["SchallTransportGroup"] then
       order = "j-2",
     },
   }
-  subgroup_ship = "water_transport2"
-  subgroup_shipequip = "water_equipment"
+	subgroup_ship = "water_transport2"
+	subgroup_shipequip = "water_equipment"
 end
 
 
@@ -56,7 +58,7 @@ data:extend{
   {
     type = "item-with-entity-data",
     name = "boat_engine",
-    icon = "__cargo-ships__/graphics/blank.png",
+    icon = no_icon,
     icon_size = 32,
     flags = {"hidden"},
     subgroup = subgroup_ship,
@@ -67,7 +69,7 @@ data:extend{
   {
     type = "item-with-entity-data",
     name = "cargo_ship_engine",
-    icon = "__cargo-ships__/graphics/blank.png",
+    icon = no_icon,
     icon_size = 32,
     flags = {"hidden"},
     subgroup = subgroup_ship,
@@ -79,7 +81,7 @@ data:extend{
     type = "item-with-entity-data",
     name = "cargo_ship",
     icon = "__cargo-ships__/graphics/icons/cargoship_icon.png",
-    icon_size = 128,
+    icon_size = 64,
     flags = {},
     subgroup = subgroup_ship,
     order = "a[water-system]-f[cargo_ship]",
@@ -90,7 +92,7 @@ data:extend{
     type = "item-with-entity-data",
     name = "oil_tanker",
     icon = "__cargo-ships__/graphics/icons/tanker.png",
-    icon_size = 128,
+    icon_size = 64,
     flags = {},
     subgroup = subgroup_ship,
     order = "a[water-system]-g[oil_tanker]",
@@ -114,7 +116,7 @@ data:extend{
     type = "item",
     name = "port",
     icon = "__cargo-ships__/graphics/icons/port.png",
-    icon_size = 114,
+    icon_size = 64,
     flags = {},
     subgroup = subgroup_shipequip,
     order = "a[water-system]-b[train-stop]",
@@ -125,7 +127,7 @@ data:extend{
     type = "item",
     name = "floating-electric-pole",
     icon = "__cargo-ships__/graphics/icons/floating_pole.png",
-    icon_size = 96,
+    icon_size = 64,
     flags = {},
     subgroup = subgroup_shipequip, --"energy-pipe-distribution",
     order = "a[energy]-d[floating-electric-pole]",
@@ -168,7 +170,7 @@ data:extend{
   {
     type = "item",
     name = "pump_marker",
-    icon = "__cargo-ships__/graphics/blank.png",
+    icon = no_icon,
     icon_size = 2,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -183,7 +185,7 @@ if settings.startup["deep_oil"].value then
       type = "item",
       name = "oil_rig",
       icon = "__cargo-ships__/graphics/icons/oil_rig.png",
-      icon_size = 96,
+      icon_size = 64,
       flags = {},
       subgroup = "extraction-machine",
       order = "b[fluids]-c[oil_rig]",
@@ -193,7 +195,7 @@ if settings.startup["deep_oil"].value then
     {
       type = "item",
       name = "or_power",
-      icon = "__cargo-ships__/graphics/blank.png",
+      icon = no_icon,
       icon_size = 2,
       subgroup = "extraction-machine",
       flags = {"hidden"},
@@ -204,7 +206,7 @@ if settings.startup["deep_oil"].value then
     {
       type = "item",
       name = "or_pole",
-      icon = "__cargo-ships__/graphics/blank.png",
+      icon = no_icon,
       icon_size = 2,
       subgroup = "extraction-machine",
       flags = {"hidden"},
@@ -212,21 +214,21 @@ if settings.startup["deep_oil"].value then
       place_result = "or_pole",
       stack_size = 100,
     },
-    {
+    --[[{
       type = "item",
       name = "or_lamp",
-      icon = "__cargo-ships__/graphics/blank.png",
+      icon = no_icon,
       icon_size = 2,
       subgroup = "extraction-machine",
       flags = {"hidden"},
       order = "b[fluids]-c[oil_rig]",
       place_result = "or_lamp",
       stack_size = 100,
-    },
+    },]]
     {
       type = "item",
       name = "or_radar",
-      icon = "__cargo-ships__/graphics/blank.png",
+      icon = no_icon,
       icon_size = 2,
       subgroup = "extraction-machine",
       flags = {"hidden"},
