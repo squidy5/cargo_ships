@@ -16,7 +16,7 @@ local car_sounds = {
 
 local tank_sounds = {
   sound = {
-    filename = "__base__/sound/fight/tank-engine.ogg",
+    filename = "__cargo-ships__/sound/ferry-sound.ogg",
     volume = 0.6
   },
   activate_sound = {
@@ -27,7 +27,7 @@ local tank_sounds = {
     filename = "__base__/sound/fight/tank-engine-stop.ogg",
     volume = 0.6
   },
-  match_speed_to_activity = true
+  match_speed_to_activity = false
 }
 
 function ship_light(yshift, cutpicture)
@@ -466,7 +466,7 @@ cargo_ship.air_resistance = 0.40
 cargo_ship.water_reflection = water_reflection("cargo_ship/cargo_ship", 170, 25, true) --nil
 cargo_ship.pictures = cargo_ship_pictures
 cargo_ship.stand_by_light = {ship_light(-3, true)}
---cargo_ship.back_light = {ship_light(-3, true)}
+cargo_ship.back_light = nil
 cargo_ship.vertical_doors = {
   layers = {
     {
@@ -643,6 +643,7 @@ cargo_ship_engine.water_reflection = nil
 cargo_ship_engine.wheels = nil
 cargo_ship_engine.working_sound = tank_sounds
 cargo_ship_engine.front_light = nil
+cargo_ship_engine.front_light_pictures = nil
 cargo_ship_engine.back_light = nil
 cargo_ship_engine.stand_by_light = nil
 cargo_ship_engine.stop_trigger = nil
