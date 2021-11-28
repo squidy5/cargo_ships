@@ -273,6 +273,7 @@ indep_boat.friction = 0.002/speed_modifier
 indep_boat.minable = {mining_time = 1,result = "boat"}
 indep_boat.rotation_speed = 0.008
 indep_boat.inventory_size = 80
+indep_boat.localised_description = {'entity-description.boat'}
 indep_boat.burner = {
   fuel_category = "chemical",
   effectivity = 1,
@@ -339,7 +340,7 @@ local boat = table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 boat.name = "boat"
 boat.icon = "__cargo-ships__/graphics/icons/boat.png"
 boat.icon_size = 64
-boat.flags = {"placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
+boat.flags = {"not-blueprintable", "placeable-neutral", "player-creation", "placeable-off-grid", "not-on-map"}
 boat.allow_copy_paste = false
 boat.minable = {mining_time = 1, result = "boat"}
 boat.max_health = 1500

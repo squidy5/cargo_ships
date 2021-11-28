@@ -7,26 +7,26 @@ local subgroup_shipequip = "water_transport"
 
 
 if mods["SchallTransportGroup"] then
-data:extend({
-	{
-    type = "item-subgroup",
-    name = "water_transport2",
-    group ="transport",
-    order = "b-2",
-  },
-	{
-    type = "item-subgroup",
-    name = "water_equipment",
-    group ="transport",
-    order = "j-2",
-  },
-})
+  data:extend{
+    {
+      type = "item-subgroup",
+      name = "water_transport2",
+      group ="transport",
+      order = "b-2",
+    },
+    {
+      type = "item-subgroup",
+      name = "water_equipment",
+      group ="transport",
+      order = "j-2",
+    },
+  }
 	subgroup_ship = "water_transport2"
 	subgroup_shipequip = "water_equipment"
 end
 
 
-data:extend({
+data:extend{
   {
     type = "item-subgroup",
     name = "water_transport",
@@ -169,61 +169,6 @@ data:extend({
   },
   {
     type = "item",
-    name = "oil_rig",
-    icon = "__cargo-ships__/graphics/icons/oil_rig.png",
-    icon_size = 64,
-    flags = {},
-    subgroup = "extraction-machine",
-    order = "b[fluids]-c[oil_rig]",
-    place_result = "oil_rig",
-    stack_size = 5,
-  },
-  {
-    type = "item",
-    name = "or_power",
-    icon = no_icon,
-    icon_size = 2,
-    subgroup = "extraction-machine",
-    flags = {"hidden"},
-    order = "b[fluids]-c[oil_rig]",
-    place_result = "or_power",
-    stack_size = 100,
-  },
-  {
-    type = "item",
-    name = "or_pole",
-    icon = no_icon,
-    icon_size = 2,
-    subgroup = "extraction-machine",
-    flags = {"hidden"},
-    order = "b[fluids]-c[oil_rig]",
-    place_result = "or_pole",
-    stack_size = 100,
-  },
-  --[[{
-    type = "item",
-    name = "or_lamp",
-    icon = no_icon,
-    icon_size = 2,
-    subgroup = "extraction-machine",
-    flags = {"hidden"},
-    order = "b[fluids]-c[oil_rig]",
-    place_result = "or_lamp",
-    stack_size = 100,
-  },]]
-  {
-    type = "item",
-    name = "or_radar",
-    icon = no_icon,
-    icon_size = 2,
-    subgroup = "extraction-machine",
-    flags = {"hidden"},
-    order = "b[fluids]-c[oil_rig]",
-    place_result = "or_radar",
-    stack_size = 100,
-  },
-  {
-    type = "item",
     name = "pump_marker",
     icon = no_icon,
     icon_size = 2,
@@ -232,14 +177,64 @@ data:extend({
     place_result = "pump_marker",
     stack_size = 5,
   },
-})
+}
 
-
-
-
-
-
-
-
-
-
+if settings.startup["deep_oil"].value then
+  data:extend{
+    {
+      type = "item",
+      name = "oil_rig",
+      icon = "__cargo-ships__/graphics/icons/oil_rig.png",
+      icon_size = 64,
+      flags = {},
+      subgroup = "extraction-machine",
+      order = "b[fluids]-c[oil_rig]",
+      place_result = "oil_rig",
+      stack_size = 5,
+    },
+    {
+      type = "item",
+      name = "or_power",
+      icon = no_icon,
+      icon_size = 2,
+      subgroup = "extraction-machine",
+      flags = {"hidden"},
+      order = "b[fluids]-c[oil_rig]",
+      place_result = "or_power",
+      stack_size = 100,
+    },
+    {
+      type = "item",
+      name = "or_pole",
+      icon = no_icon,
+      icon_size = 2,
+      subgroup = "extraction-machine",
+      flags = {"hidden"},
+      order = "b[fluids]-c[oil_rig]",
+      place_result = "or_pole",
+      stack_size = 100,
+    },
+    --[[{
+      type = "item",
+      name = "or_lamp",
+      icon = no_icon,
+      icon_size = 2,
+      subgroup = "extraction-machine",
+      flags = {"hidden"},
+      order = "b[fluids]-c[oil_rig]",
+      place_result = "or_lamp",
+      stack_size = 100,
+    },]]
+    {
+      type = "item",
+      name = "or_radar",
+      icon = no_icon,
+      icon_size = 2,
+      subgroup = "extraction-machine",
+      flags = {"hidden"},
+      order = "b[fluids]-c[oil_rig]",
+      place_result = "or_radar",
+      stack_size = 100,
+    },
+  }
+end
