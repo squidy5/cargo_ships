@@ -33,7 +33,7 @@ function onEntityBuild(e)
 	local surface = entity.surface
 	local force = entity.force
 	local player = (e.player_index and game.players[e.player_index]) or nil
-		
+
 
 	-- check ghost entities first
 	if entity.name == "entity-ghost" then
@@ -56,7 +56,7 @@ function onEntityBuild(e)
 		end
 		-- check placement in next tick
 		table.insert(global.check_entity_placement, {entity, engine, e.player_index})
-		
+
 	-- add oilrig slave entity
 	elseif entity.name == "oil_rig" then
 		local pos = entity.position
@@ -78,7 +78,7 @@ function onEntityBuild(e)
 			surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = force}
 			surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = force}
 		end
-		
+
 	-- create bridge
 	elseif entity.name == "bridge_base" then
 		CreateBridge(entity, e.player_index)
@@ -95,13 +95,13 @@ function onEntityBuild(e)
 				break
 			end
 		end
-	
+
 		local pos = entity.position
 		local name = entity.name .. "-placed"
 		local dir = entity.direction
 		local refund = entity.prototype.items_to_place_this[1]
 		entity.destroy() --destroy old
-		
+
 		--check for already placed entities
 		local give_refund = false
 		local prev = surface.find_entities_filtered{position = pos, name = name}
@@ -121,7 +121,7 @@ function onEntityBuild(e)
 				end
 			end
 		end
-		
+
 		if give_refund then
 			-- placement was invalid, give refund and don't rebuild
 			if player then
@@ -135,7 +135,7 @@ function onEntityBuild(e)
 				WW.destructible = false
 			end
 		end
-	
+
 	elseif entity.type == "straight-rail" or entity.type == "curved-rail" then
 		-- Check if this rail is connected to a waterway
 		local bad_connection = false
@@ -157,13 +157,13 @@ function onEntityBuild(e)
 			end
 			entity.destroy()
 		end
-	
+
 	elseif entity.name == "buoy" or entity.name == "chain_buoy" then
 		-- Make buoys indestructible
 		if settings.global["indestructible_buoys"].value then
 			entity.destructible = false
 		end
-		
+
 	--elseif entity.name == "crane" then
 	--	OnCraneCreated(entity)
 	end
@@ -308,7 +308,9 @@ function OnDeleted(e)
 
 		elseif string.match(entity.name, "bridge_") then
 			worked = DeleteBridge(entity, e.player_index)
-			if not worked then e.buffer.clear() end
+			if not worked then
+				e.buffer.clear()
+			end
 		end
 	end
 end
@@ -379,7 +381,6 @@ function updateAllBuoys()
 	--game.print("updated "..tostring(count).." buoys with destructible="..tostring(destructible))
 end
 
-
 function onModSettingsChanged(e)
 	if e.setting == "waterway_reach_increase" then
 		applyReachChanges(e)
@@ -414,9 +415,9 @@ function init()
 	end
 	global.oil_bonus = mult
 	global.no_oil_on_land = settings.startup["no_oil_on_land"].value
-	
+
 	-- Init global variables
-  global.check_entity_placement = global.check_entity_placement or {}
+	global.check_entity_placement = global.check_entity_placement or {}
 	global.bridges = global.bridges or {}
 	global.bridgesToReplace = global.bridgesToReplace or {}
 	global.ship_pump_selected = global.ship_pump_selected or {}
@@ -425,10 +426,10 @@ function init()
 	global.new_cranes = global.new_cranes or {}
 	global.gui_oilrigs = (global.deep_oil_enabled and global.gui_oilrigs) or {}
 	global.connection_counter = 0
-	
+
 	-- Reapply buoy setting when mod is updated
 	updateAllBuoys()
-	
+
 	-- Register conditional events
 	init_events()
 end
@@ -442,13 +443,12 @@ function onTick(e)
 	--ManageCranes(e)
 end
 
-
 function onStackChanged(e)
 	increaseReach(e)
 	PumpVisualisation(e)
 end
 
-
+---- Register Default Events ----
 -- init
 script.on_load(init_events)
 script.on_init(init)

@@ -77,8 +77,8 @@ data:extend({wave})
 
 
 
-speed_modifier = settings.startup["speed_modifier"].value;
-fuel_modifier = settings.startup["fuel_modifier"].value;
+speed_modifier = settings.startup["speed_modifier"].value
+fuel_modifier = settings.startup["fuel_modifier"].value
 
 
 ----------------------------------------------------------------
@@ -507,7 +507,7 @@ cargo_ship.drive_over_tie_trigger = nil
 
 
 
-local tanker_capacity = settings.startup["tanker_capacity"].value;
+local tanker_capacity = settings.startup["tanker_capacity"].value
 
 
 ----------------------------------------------------------------

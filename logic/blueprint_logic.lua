@@ -12,13 +12,13 @@ function FixBlueprints(e)
 	local blues = stack.get_blueprint_entities()
 	if blues and next(blues) then
 		local ww = false
-		for i,blue in pairs(blues) do
+		for i, blue in pairs(blues) do
 			if blue.name == "straight-water-way-placed" then
 				blue.name = "straight-water-way"
-				ww=true
+				ww = true
 			elseif blue.name == "curved-water-way-placed" then
 				blue.name = "curved-water-way"
-				ww=true
+				ww = true
 			end
 		end
 		if(ww) then
@@ -56,8 +56,8 @@ function FixPipette(e)
 					inventory.remove(new_stack)
 				end
 			end
-		elseif item.name == "bridge_north_clickable" or item.name == "bridge_east_clickable" or 
-		       item.name == "bridge_south_clickable" or item.name == "bridge_west_clickable" then
+		elseif (item.name == "bridge_north_clickable" or item.name == "bridge_east_clickable" or 
+		        item.name == "bridge_south_clickable" or item.name == "bridge_west_clickable") then
 			if cursor.valid_for_read == true and e.used_cheat_mode == false then
 				-- Give bridge to replace bridge parts that player accidentally had in inventory (when not in cheat mode)
 				cursor.set_stack{name="bridge_base", count=cursor.count}
@@ -67,7 +67,7 @@ function FixPipette(e)
 				local new_stack = inventory.find_item_stack("bridge_base")
 				cursor.set_stack(new_stack)  -- Set cursor with inventory contents OR clear it if none available
 				if not cursor.valid_for_read then
-					if player.cheat_mode==true then
+					if player.cheat_mode == true then
 						-- If none in inventory and cheat mode enabled, give stack of correct items
 						cursor.set_stack{name="bridge_base", count=game.item_prototypes["bridge_base"].stack_size}
 					end

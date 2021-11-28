@@ -40,10 +40,10 @@ railpicturesinternal = function(elems, invisible)
     postfix = "-dark"
   end
 
-  for _ , key in ipairs(keys) do
+  for _, key in pairs(keys) do
     part = {}
     dashkey = key[1]:gsub("_", "-")
-    for _ , elem in ipairs(elems) do
+    for _ , elem in pairs(elems) do
       if(elem[1] == "metals" and not invisible) then
         part[elem[1]] = { 
           sheet = {
