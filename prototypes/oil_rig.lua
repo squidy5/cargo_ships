@@ -1,39 +1,6 @@
 ----------------------------------------------------------------
---------------------------- PUMP -------------------------------
-----------------------------------------------------------------
-local ship_pump = table.deepcopy(data.raw["pump"]["pump"])
-ship_pump.name = "ship_pump"
-ship_pump.minable = {mining_time = 1, result = "ship_pump"}
-ship_pump.collision_mask = {"object-layer"}
-ship_pump.pumping_speed = 1000
-ship_pump.energy_usage = "50kW"
-ship_pump.next_upgrade = nil
-
-local pump_marker = table.deepcopy(data.raw["simple-entity-with-owner"]["simple-entity-with-owner"])
-pump_marker.name = "pump_marker"
-pump_marker.flags = {"not-repairable", "not-blueprintable", "not-deconstructable", "placeable-off-grid", "not-on-map"}
-pump_marker.selectable_in_game = false
-pump_marker.allow_copy_paste = false
-pump_marker.render_layer = "selection-box"
-pump_marker.minable = nil
-pump_marker.collision_mask = {}
-pump_marker.picture = {
-	filename = "__cargo-ships__/graphics/green_selection_box.png",
-	width = 128,
-	height = 128,
-	scale = 0.5,
-	frame_count = 1
-}
-
-data:extend{ship_pump, pump_marker}
-
-
-
-----------------------------------------------------------------
 -------------------DEEP SEA OIL EXTRACTION----------------------
 ----------------------------------------------------------------
--- Create the following items based on mod setting:
-if settings.startup["deep_oil"].value then
 
 ----------------------------------------------------------------
 -------------------------DEEP SEA OIL --------------------------
@@ -96,8 +63,7 @@ oil_rig.output_fluid_box = {
 		{position = {0, -4}}
 	},
 }
-oil_rig.base_picture =
-{
+oil_rig.base_picture = {
 	sheets = {
 		{
 			filename = "__cargo-ships__/graphics/entity/oil_rig/oil_rig.png",
@@ -110,18 +76,16 @@ oil_rig.base_picture =
 	}
 }
 oil_rig.animations = {
-	north = {
-		layers =
-			{
-				priority = "high",
-				filename = "__cargo-ships__/graphics/blank.png",
-				line_length = 8,
-				width = 2,
-				height = 2,
-				frame_count = 40,
-				shift = util.by_pixel(-4, -24),
-				animation_speed = 0.5,
-			}
+	layers = {
+		{
+			priority = "high",
+			filename = "__cargo-ships__/graphics/blank.png",
+			line_length = 8,
+			width = 2,
+			height = 2,
+			frame_count = 40,
+			shift = util.by_pixel(-4, -24),
+			animation_speed = 0.5
 		}
 	}
 }
@@ -245,8 +209,11 @@ or_lamp.picture_off = {
 	width = 2,
 	height = 2,
 }
-or_lamp.pciture_on = {}
-
+or_lamp.picture_on = {
+	filename = "__cargo-ships__/graphics/blank.png",
+	width = 2,
+	height = 2,
+}
 
 local or_radar = table.deepcopy(data.raw["radar"]["radar"])
 or_radar.name = "or_radar"
@@ -264,8 +231,6 @@ or_radar.pictures= {
 	line_length = 4,
 }
 or_radar.max_distance_of_sector_revealed = 0
-or_radar.energy_usage = "50kW",
+or_radar.energy_usage = "50kW"
 
 data:extend{oil_rig, or_power, or_pole, or_radar, or_lamp}
-
-end  -- if settings.startup["deep_oil"].value

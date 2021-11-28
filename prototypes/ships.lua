@@ -624,7 +624,7 @@ cargo_ship_engine.working_sound = {
 		filename = "__base__/sound/fight/tank-engine-stop.ogg",
 		volume = 0.9
 	},
-	match_speed_to_activity=true
+	match_speed_to_activity = true
 }
 cargo_ship_engine.front_light = nil
 cargo_ship_engine.back_light = nil
@@ -632,4 +632,4 @@ cargo_ship_engine.stand_by_light = nil
 cargo_ship_engine.stop_trigger = nil
 cargo_ship_engine.drive_over_tie_trigger = nil
 
-data:extend{cargo_ship_engine)
+data:extend{cargo_ship_engine}
