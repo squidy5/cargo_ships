@@ -73,10 +73,10 @@ function onEntityBuild(e)
       table.insert(global.or_generators, or_power)
       surface.create_entity{name = "or_pole", position = pos, force = force}
       surface.create_entity{name = "or_radar", position = pos, force = force}
-      surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = force}
-      surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = force}
-      surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = force}
-      surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = force}
+      --surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = force}
+      --surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = force}
+      --surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = force}
+      --surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = force}
     end
 
   -- create bridge
@@ -293,10 +293,10 @@ function OnDeleted(e)
       for i = 1, #or_inv do
         or_inv[i].destroy()
       end
-      or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_lamp"}
-      for i = 1, #or_inv do
-        or_inv[i].destroy()
-      end
+      --or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_lamp"}
+      --for i = 1, #or_inv do
+      --  or_inv[i].destroy()
+      --end
       or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_pole"}
       for i = 1, #or_inv do
         or_inv[i].destroy()
