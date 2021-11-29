@@ -1,15 +1,19 @@
 local car_sounds = {
   sound = {
     filename = "__base__/sound/car-engine.ogg",
-    volume = 0.6
+    volume = 0.6,
+    min_speed = 0.6,
+    max_speed = 0.9,
   },
   activate_sound = {
     filename = "__base__/sound/car-engine-start.ogg",
-    volume = 0.6
+    volume = 0.6,
+    speed = 0.6,
   },
   deactivate_sound = {
     filename = "__base__/sound/car-engine-stop.ogg",
-    volume = 0.6
+    volume = 0.6,
+    speed = 0.6,
   },
   match_speed_to_activity = true
 }
@@ -17,17 +21,36 @@ local car_sounds = {
 local tank_sounds = {
   sound = {
     filename = "__base__/sound/fight/tank-engine.ogg",
-    volume = 0.6
+    volume = 0.3
   },
   activate_sound = {
     filename = "__base__/sound/fight/tank-engine-start.ogg",
-    volume = 0.6
+    volume = 0.3
   },
   deactivate_sound = {
     filename = "__base__/sound/fight/tank-engine-stop.ogg",
-    volume = 0.6
+    volume = 0.3
   },
-  match_speed_to_activity = true
+  match_speed_to_activity = false,
+}
+
+local ships_working_sound = {
+  sound =
+  {
+    filename = "__cargo-ships__/sound/ferry-sound.ogg",
+    volume = 0.6,
+    min_speed = 0.6,
+    max_speed = 0.7,
+  },
+  match_volume_to_activity = true,
+  match_speed_to_activity = true,
+  use_doppler_shift = false,
+  aggregation = {
+    max_count = 20,
+    progress_threshold = 0.01,
+    remove = false,
+    count_already_playing = false,
+  },
 }
 
 function ship_light(yshift, cutpicture)
@@ -66,36 +89,47 @@ local function imageloop(filepath, filenumber, divider)
   return filelist
 end
 
+local function loopboatanimstripes(name, frame1, framelast)
+  local stripes = {}
+  for i=frame1,framelast do
+    local stripe = {
+      filename = name .. i .. ".png",
+      width_in_frames = 8,
+      height_in_frames = 8,
+    }
+    table.insert(stripes, stripe)
+  end
+  return stripes
+end
+
 local indep_boat_animation = {
   layers = {
     {
-      slice = 1,
+      slice = 4,
       priority = "low",
       width = 536,
       height = 536,
-      --frame_count = 1,
       direction_count = 256,
-      filenames = imageloop("__cargo-ships__/graphics/entity/boat/boat_", 256),
-      line_length = 1,
-      lines_per_file = 1,
+      stripes = loopboatanimstripes("__cargo-ships__/graphics/entity/boat/boat-", 1, 4),
+      --line_length = 8,
+      --lines_per_file = 8,
       shift = util.by_pixel(0, 0),
-      scale = 0.5, --1.19,
-      --animation_speed = 0.1,
+      scale = 0.5,
       max_advance = 0.2,
     },
     {
-      slice = 1,
+      slice = 4,
       priority = "low",
       width = 536,
       height = 536,
-      --frame_count = 1,
       direction_count = 256,
-      filenames = imageloop("__cargo-ships__/graphics/entity/boat/boat_shadow_", 256),
-      line_length = 1,
-      lines_per_file = 1,
+      --filenames = imageloop("__cargo-ships__/graphics/entity/boat/boat_shadow_", 256),
+
+      stripes = loopboatanimstripes("__cargo-ships__/graphics/entity/boat/boat-shadow-", 1, 4),
+      --line_length = 8,
+      --lines_per_file = 8,
       shift = util.by_pixel(0, 0),
-      scale = 0.5, --1.19,
-      --animation_speed = 0.1,
+      scale = 0.5,
       max_advance = 0.2,
       draw_as_shadow = true,
     },
@@ -105,7 +139,7 @@ local indep_boat_animation = {
 local boat_pictures = {
   layers = {
     {
-      slice = 1,
+      slice = 4,
       priority = "low",
       width = 750,
       height = 750,
@@ -118,7 +152,7 @@ local boat_pictures = {
       shift = util.by_pixel(0, -28),
     },
     {
-      slice = 1,
+      slice = 4,
       priority = "low",
       width = 750,
       height = 750,
@@ -137,7 +171,7 @@ local boat_pictures = {
 local cargo_ship_pictures = {
   layers = {
     {
-      slice = 4,
+      slice = 16,
       priority = "low",
       width = 1000,
       height = 1000,
@@ -150,7 +184,7 @@ local cargo_ship_pictures = {
       shift = util.by_pixel(0, -54.5),
     },
     {
-      slice = 4,
+      slice = 16,
       priority = "low",
       width = 1000,
       height = 1000,
@@ -169,26 +203,26 @@ local cargo_ship_pictures = {
 local oil_tanker_pictures = {
   layers = {
     {
-      slice = 4,
+      slice = 16,
       priority = "low",
       width = 890,
       height = 912,
       direction_count = 256,
       allow_low_quality_rotation = true,
-      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_unit_", 256),
-      line_length = 1,
-      lines_per_file = 1,
+      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_unit_", 16),
+      line_length = 4,
+      lines_per_file = 4,
       scale = 0.85,
       shift = util.by_pixel(0, -22.5),
     },
     {
-      slice = 4,
+      slice = 16,
       priority = "low",
       width = 1000,
       height = 1000,
       direction_count = 256,
       allow_low_quality_rotation = true,
-      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_shadow_", 256),
+      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_shadow_", 16),
       line_length = 4,
       lines_per_file = 4,
       scale = 0.85,
@@ -243,10 +277,35 @@ wave.animation = {
 }
 --wave.start_scale = 1.3
 wave.start_scale = 0.65
-wave.color = { r = 0.9, g = 0.9, b = 0.9 }
+wave.color = { r = 1, g = 1, b = 1 }
 wave.render_layer = "water-tile"
 
 data:extend({wave})
+
+local wave_circle = table.deepcopy(data.raw["trivial-smoke"]["wave"])
+wave_circle.name = "wave_circle"
+wave_circle.cyclic = true
+wave_circle.affected_by_wind = false
+wave_circle.animation = {
+  filename = "__cargo-ships__/graphics/entity/wave/wave_circle.png",
+  priority = "extra-high",
+  width = 612,
+  height = 612,
+  frame_count = 1,
+  line_length = 1,
+  shift = util.by_pixel(-14,-16),
+  animation_speed = 0.1,
+}
+wave_circle.start_scale = 0.01
+wave_circle.end_scale = 0.8
+wave_circle.color = { r = 1, g = 1, b = 1 }
+wave_circle.render_layer = "water-tile"
+wave_circle.duration = 500
+wave_circle.fade_away_duration = 500
+wave_circle.movement_slow_down_factor = 0
+wave_circle.show_when_smoke_off = true
+
+data:extend({wave_circle})
 
 ----------------------------------------------------------------
 ------   BOAT independant (when placed outside rails)   --------
@@ -295,6 +354,18 @@ indep_boat.burner = {
       name = "wave",
       deviation = {0.3, 0.3},
       frequency = 45,
+      position = {0, 3},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
+    },
+    {
+      name = "wave_circle",
+      deviation = {0.8, 0.8},
+      frequency = 15,
       position = {0, 3},
       starting_frame = 0,
       starting_frame_deviation = 60,
@@ -411,6 +482,18 @@ boat_engine.burner = {
       height_deviation = 0.2,
       starting_vertical_speed = 0.0,
       starting_vertical_speed_deviation = 0,
+    },
+    {
+      name = "wave_circle",
+      deviation = {0.8, 0.8},
+      frequency = 15,
+      position = {0, 5},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
     }
   }
 }
@@ -467,7 +550,7 @@ cargo_ship.air_resistance = 0.40
 cargo_ship.water_reflection = water_reflection("cargo_ship/cargo_ship", 170, 25, true) --nil
 cargo_ship.pictures = cargo_ship_pictures
 cargo_ship.stand_by_light = {ship_light(-3, true)}
---cargo_ship.back_light = {ship_light(-3, true)}
+cargo_ship.back_light = nil
 cargo_ship.vertical_doors = {
   layers = {
     {
@@ -495,7 +578,7 @@ cargo_ship.horizontal_doors = {
   }
 }
 cargo_ship.wheels = nil
-cargo_ship.working_sound = nil
+cargo_ship.working_sound = ships_working_sound
 cargo_ship.drive_over_tie_trigger = nil
 cargo_ship.minimap_representation = {
   filename = "__cargo-ships__/graphics/entity/cargo_ship/cargo_ship-minimap-representation.png",
@@ -538,7 +621,7 @@ oil_tanker.pictures = oil_tanker_pictures
 oil_tanker.stand_by_light = {ship_light(-3, true)}
 oil_tanker.back_light = nil
 oil_tanker.wheels = nil
-oil_tanker.working_sound = nil
+oil_tanker.working_sound = ships_working_sound
 oil_tanker.drive_over_tie_trigger = nil
 oil_tanker.minimap_representation = {
   filename = "__cargo-ships__/graphics/entity/tanker/tanker-minimap-representation.png",
@@ -614,7 +697,19 @@ cargo_ship_engine.burner = {
       height_deviation = 0.2,
       starting_vertical_speed = 0.0,
       starting_vertical_speed_deviation = 0,
-    }
+    },
+    {
+      name = "wave_circle",
+      deviation = {0.8, 0.8},
+      frequency = 15,
+      position = {0, 1},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
+    },
 
   }
 }
@@ -644,6 +739,7 @@ cargo_ship_engine.water_reflection = nil
 cargo_ship_engine.wheels = nil
 cargo_ship_engine.working_sound = tank_sounds
 cargo_ship_engine.front_light = nil
+cargo_ship_engine.front_light_pictures = nil
 cargo_ship_engine.back_light = nil
 cargo_ship_engine.stand_by_light = nil
 cargo_ship_engine.stop_trigger = nil
