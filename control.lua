@@ -129,9 +129,9 @@ function onEntityBuild(e)
       end
     else
       -- create waterway
-      WW = surface.create_entity{name = name, position = pos, direction = dir, force = force}
+      local WW = surface.create_entity{name = name, position = pos, direction = dir, force = force}
       -- make waterway indestructible
-      if(WW) then
+      if WW then
         WW.destructible = false
       end
     end
@@ -307,7 +307,7 @@ function OnDeleted(e)
       end
 
     elseif string.match(entity.name, "bridge_") then
-      worked = DeleteBridge(entity, e.player_index)
+      local worked = DeleteBridge(entity, e.player_index)
       if not worked then
         e.buffer.clear()
       end
@@ -383,7 +383,8 @@ end
 
 function onModSettingsChanged(e)
   if e.setting == "waterway_reach_increase" then
-    applyReachChanges(e)
+    global.current_distance_bonus = settings.global["waterway_reach_increase"].value
+    applyReachChanges()
   elseif e.setting == "indestructible_buoys" then
     updateAllBuoys()
   end
@@ -426,7 +427,18 @@ function init()
   global.new_cranes = global.new_cranes or {}
   global.gui_oilrigs = (global.deep_oil_enabled and global.gui_oilrigs) or {}
   global.connection_counter = 0
-
+  
+  -- Initialize or migrate long reach state
+  global.last_cursor_stack_name = 
+    ((type(global.last_cursor_stack_name) == "table") and global.last_cursor_stack_name) 
+      or {}
+  global.last_distance_bonus = 
+    ((type(global.last_distance_bonus) == "number") and global.last_distance_bonus) 
+      or settings.global["waterway_reach_increase"].value
+  global.current_distance_bonus = settings.global["waterway_reach_increase"].value
+  
+  -- Reapply long reach settings to existing characters
+  
   -- Reapply buoy setting when mod is updated
   updateAllBuoys()
 
@@ -515,7 +527,7 @@ script.on_event(defines.events.on_tick, onTick)
 
 -- long reach
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
-script.on_event(defines.events.on_player_died, deadReach)
+script.on_event(defines.events.on_pre_player_died, deadReach)
 
 -- blueprints
 script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
