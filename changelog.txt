@@ -56,12 +56,8 @@ Date: 2021-11-29
     - Added conflict with "cargo-ships-seraph" fork to avoid confusion.
 
   TODO:
-    - technologies?
-    - icon wave
     - pump reflection
-    - boat smoke
-    - sound bridge
-    - sound boats
+    - sound bridge?
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.59
   Bugfixes:
