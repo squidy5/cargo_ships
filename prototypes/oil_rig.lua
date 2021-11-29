@@ -271,6 +271,7 @@ or_power.smoke = {
   }
 }
 or_power.water_reflection = nil
+or_power.working_sound = nil
 
 local or_pole = table.deepcopy(data.raw["electric-pole"]["medium-electric-pole"])
 or_pole.name = "or_pole"
@@ -328,5 +329,6 @@ or_radar.pictures = {
 or_radar.max_distance_of_sector_revealed = 0
 or_radar.energy_usage = "50kW"
 or_radar.water_reflection = nil
+or_radar.working_sound = nil
 
 data:extend({oil_rig, or_power, or_pole, or_radar, deep_oil})
