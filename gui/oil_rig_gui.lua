@@ -16,7 +16,12 @@ local OILRIG_FRAME = "oilStorageFrame"
 local function updateProgress(frame, oilrig)
   local amount = (oilrig.fluidbox[1] and oilrig.fluidbox[1]["amount"]) or 0
   frame.oily_progress.value = amount / (global.oil_rig_capacity*1000)
-  frame.oily_caption.caption = {"cargo-ship-gui.oil-rig-progress", math.floor(amount/100)/10, global.oil_rig_capacity}
+  if amount >= 10000 then
+    amount = string.format("%.0f", amount/1000)
+  else
+    amount = string.format("%.1f", amount/1000)
+  end
+  frame.oily_caption.caption = {"cargo-ship-gui.oil-rig-progress", amount, global.oil_rig_capacity}
 end
 
 -- Creates a relative GUI that automatically appears when oil_rig entity GUI is opened.
