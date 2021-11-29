@@ -289,7 +289,7 @@ function OnDeleted(e)
 
     elseif entity.name == "oil_rig" then
       local pos = entity.position
-      or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_power"}
+      local or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_power"}
       for i = 1, #or_inv do
         or_inv[i].destroy()
       end
@@ -538,3 +538,18 @@ remote.add_interface("aai-sci-burner", {
     }
   end,
 })
+
+------------------------------------------------------------------------------------
+--                    FIND LOCAL VARIABLES THAT ARE USED GLOBALLY                 --
+--                              (Thanks to eradicator!)                           --
+------------------------------------------------------------------------------------
+setmetatable(_ENV,{
+  __newindex=function (self,key,value) --locked_global_write
+    error('\n\n[ER Global Lock] Forbidden global *write*:\n'
+      .. serpent.line{key=key or '<nil>',value=value or '<nil>'}..'\n')
+    end,
+  __index   =function (self,key) --locked_global_read
+    error('\n\n[ER Global Lock] Forbidden global *read*:\n'
+      .. serpent.line{key=key or '<nil>'}..'\n')
+    end ,
+  })
