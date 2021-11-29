@@ -205,9 +205,9 @@ local oil_tanker_pictures = {
       height = 912,
       direction_count = 256,
       allow_low_quality_rotation = true,
-      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_unit_", 256),
-      line_length = 1,
-      lines_per_file = 1,
+      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_unit_", 16),
+      line_length = 4,
+      lines_per_file = 4,
       scale = 0.85,
       shift = util.by_pixel(0, -22.5),
     },
@@ -218,7 +218,7 @@ local oil_tanker_pictures = {
       height = 1000,
       direction_count = 256,
       allow_low_quality_rotation = true,
-      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_shadow_", 256),
+      filenames = imageloop("__cargo-ships__/graphics/entity/tanker/tanker_shadow_", 16),
       line_length = 4,
       lines_per_file = 4,
       scale = 0.85,
@@ -273,7 +273,7 @@ wave.animation = {
 }
 --wave.start_scale = 1.3
 wave.start_scale = 0.65
-wave.color = { r = 0.9, g = 0.9, b = 0.9 }
+wave.color = { r = 1, g = 1, b = 1 }
 wave.render_layer = "water-tile"
 
 data:extend({wave})

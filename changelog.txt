@@ -42,7 +42,7 @@ Date: 2021-11-29
     - Removed Oil rig generator and radar sounds (kept only the pumpjack).
   Locale:
     - Added Polish locale (thanks to RadianOst).
-    - Updated Russian locale (thanks to IgorLutiy).
+    - Updated Russian locale (thanks to IgorLutiy & kylichist).
     - Fixed typos.
     - Moved all GUI text and console messages to locale file (EN only for now).
     - Restructured the locale file to eliminate duplicate text.
