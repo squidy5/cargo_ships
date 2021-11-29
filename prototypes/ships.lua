@@ -1,15 +1,19 @@
 local car_sounds = {
   sound = {
     filename = "__base__/sound/car-engine.ogg",
-    volume = 0.6
+    volume = 0.6,
+    min_speed = 0.6,
+    max_speed = 0.9,
   },
   activate_sound = {
     filename = "__base__/sound/car-engine-start.ogg",
-    volume = 0.6
+    volume = 0.6,
+    speed = 0.6,
   },
   deactivate_sound = {
     filename = "__base__/sound/car-engine-stop.ogg",
-    volume = 0.6
+    volume = 0.6,
+    speed = 0.6,
   },
   match_speed_to_activity = true
 }
@@ -36,7 +40,7 @@ local ships_working_sound = {
     filename = "__cargo-ships__/sound/ferry-sound.ogg",
     volume = 0.6,
     min_speed = 0.6,
-    max_speed = 0.8,
+    max_speed = 0.7,
   },
   match_volume_to_activity = true,
   match_speed_to_activity = true,
@@ -45,7 +49,7 @@ local ships_working_sound = {
     max_count = 20,
     progress_threshold = 0.01,
     remove = false,
-    count_already_playing = true,
+    count_already_playing = false,
   },
 }
 
@@ -278,6 +282,31 @@ wave.render_layer = "water-tile"
 
 data:extend({wave})
 
+local wave_circle = table.deepcopy(data.raw["trivial-smoke"]["wave"])
+wave_circle.name = "wave_circle"
+wave_circle.cyclic = true
+wave_circle.affected_by_wind = false
+wave_circle.animation = {
+  filename = "__cargo-ships__/graphics/entity/wave/wave_circle.png",
+  priority = "extra-high",
+  width = 612,
+  height = 612,
+  frame_count = 1,
+  line_length = 1,
+  shift = util.by_pixel(-14,-16),
+  animation_speed = 0.1,
+}
+wave_circle.start_scale = 0.01
+wave_circle.end_scale = 0.8
+wave_circle.color = { r = 1, g = 1, b = 1 }
+wave_circle.render_layer = "water-tile"
+wave_circle.duration = 500
+wave_circle.fade_away_duration = 500
+wave_circle.movement_slow_down_factor = 0
+wave_circle.show_when_smoke_off = true
+
+data:extend({wave_circle})
+
 ----------------------------------------------------------------
 ------   BOAT independant (when placed outside rails)   --------
 ----------------------------------------------------------------
@@ -325,6 +354,18 @@ indep_boat.burner = {
       name = "wave",
       deviation = {0.3, 0.3},
       frequency = 45,
+      position = {0, 3},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
+    },
+    {
+      name = "wave_circle",
+      deviation = {0.8, 0.8},
+      frequency = 15,
       position = {0, 3},
       starting_frame = 0,
       starting_frame_deviation = 60,
@@ -434,6 +475,18 @@ boat_engine.burner = {
       name = "wave",
       deviation = {0.3, 0.3},
       frequency = 45,
+      position = {0, 5},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
+    },
+    {
+      name = "wave_circle",
+      deviation = {0.8, 0.8},
+      frequency = 15,
       position = {0, 5},
       starting_frame = 0,
       starting_frame_deviation = 60,
@@ -644,7 +697,19 @@ cargo_ship_engine.burner = {
       height_deviation = 0.2,
       starting_vertical_speed = 0.0,
       starting_vertical_speed_deviation = 0,
-    }
+    },
+    {
+      name = "wave_circle",
+      deviation = {0.8, 0.8},
+      frequency = 15,
+      position = {0, 1},
+      starting_frame = 0,
+      starting_frame_deviation = 60,
+      height = 0,
+      height_deviation = 0.2,
+      starting_vertical_speed = 0.0,
+      starting_vertical_speed_deviation = 0,
+    },
 
   }
 }
