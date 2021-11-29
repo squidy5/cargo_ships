@@ -50,22 +50,6 @@ deep_oil.stages = {
   }
 }
 deep_oil.water_reflection = nil
---[[{
-  pictures = {
-    sheet = {
-      filename = "__cargo-ships__/graphics/entity/crude-oil/hr-water-crude-oil-water-reflection.png",
-      width = 22,
-      height = 24,
-      --shift = util.by_pixel(0, 5),
-      variation_count = 1,
-      repeat_count = 4,
-      scale = 5,
-
-    }
-  },
-  rotate = false,
-  orientation_to_variation = false
-}]] -- FACTORIO dev confirms water_reflection only works for entities with health
 
 local function oilrig_layer(orientation)
   return {
@@ -142,17 +126,15 @@ oil_rig.mining_speed = 2
 oil_rig.resource_searching_radius = 1.49
 oil_rig.collision_box = {{-3.2, -3.2}, {3.2, 3.2}}
 oil_rig.selection_box = {{-3.5, -3.5}, {3.5, 3.5}}
-oil_rig.drawing_box =   {{-3.3, -3.3}, {3.3, 3.3}}
+oil_rig.drawing_box = {{-3.3, -3.3}, {3.3, 3.3}}
 oil_rig.module_specification.module_slots = 3
-oil_rig.energy_source =
-{
+oil_rig.energy_source = {
   type = "electric",
   -- will produce this much * energy pollution units per tick
   emissions = 0.2/60,
   usage_priority = "secondary-input"
 }
-oil_rig.output_fluid_box =
-{
+oil_rig.output_fluid_box = {
   base_area = 10,
   base_level = 10,
   height = 2*oil_rig_capacity,
@@ -162,48 +144,30 @@ oil_rig.output_fluid_box =
     { position = {0, -4}}
   },
 }
-oil_rig.base_picture =
-{
+oil_rig.base_picture = {
   north = oilrig_layer("n"),
   east = oilrig_layer("e"),
   south = oilrig_layer("s"),
   west = oilrig_layer("w"),
 }
-
-local function loopriganimstripes(frame1, framelast)
-  local stripes = {}
-  for i=frame1,framelast do
-    local stripe = {
-      filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-anim-" .. i .. ".png",
-      width_in_frames = 1,
-      height_in_frames = 1,
-    }
-    table.insert(stripes, stripe)
-  end
-  return stripes
-end
-
 oil_rig.animations = {
-  stripes = loopriganimstripes(1, 20),
-  width = 358,
-  height = 486,
-  scale = 0.5,
+  filename = "__cargo-ships__/graphics/entity/oil_rig/oil-rig-anim.png",
+  width = 179,
+  height = 243,
+  scale = 1,
+  line_length = 5,
   frame_count = 20,
   animation_speed = 0.25,
-}
---[[oil_rig.animations = nil
-oil_rig.graphics_set = {
-  working_visualisations = {
-    animation = {
-      stripes = loopriganimstripes(1, 20),
-      width = 358,
-      height = 486,
-      scale = 0.5,
-      frame_count = 20,
-      animation_speed = 0.25,
-    }
+  hr_version = {
+    filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-anim.png",
+    width = 358,
+    height = 486,
+    scale = 0.5,
+    line_length = 5,
+    frame_count = 20,
+    animation_speed = 0.25,
   }
-}]]
+}
 oil_rig.water_reflection = {
   pictures = {
     filename = "__cargo-ships__/graphics/entity/oil_rig/oil-rig-water-reflection.png",
