@@ -85,36 +85,47 @@ local function imageloop(filepath, filenumber, divider)
   return filelist
 end
 
+local function loopboatanimstripes(name, frame1, framelast)
+  local stripes = {}
+  for i=frame1,framelast do
+    local stripe = {
+      filename = name .. i .. ".png",
+      width_in_frames = 8,
+      height_in_frames = 8,
+    }
+    table.insert(stripes, stripe)
+  end
+  return stripes
+end
+
 local indep_boat_animation = {
   layers = {
     {
-      slice = 1,
+      slice = 4,
       priority = "low",
       width = 536,
       height = 536,
-      --frame_count = 1,
       direction_count = 256,
-      filenames = imageloop("__cargo-ships__/graphics/entity/boat/boat_", 256),
-      line_length = 1,
-      lines_per_file = 1,
+      stripes = loopboatanimstripes("__cargo-ships__/graphics/entity/boat/boat-", 1, 4),
+      --line_length = 8,
+      --lines_per_file = 8,
       shift = util.by_pixel(0, 0),
-      scale = 0.5, --1.19,
-      --animation_speed = 0.1,
+      scale = 0.5,
       max_advance = 0.2,
     },
     {
-      slice = 1,
+      slice = 4,
       priority = "low",
       width = 536,
       height = 536,
-      --frame_count = 1,
       direction_count = 256,
-      filenames = imageloop("__cargo-ships__/graphics/entity/boat/boat_shadow_", 256),
-      line_length = 1,
-      lines_per_file = 1,
+      --filenames = imageloop("__cargo-ships__/graphics/entity/boat/boat_shadow_", 256),
+
+      stripes = loopboatanimstripes("__cargo-ships__/graphics/entity/boat/boat-shadow-", 1, 4),
+      --line_length = 8,
+      --lines_per_file = 8,
       shift = util.by_pixel(0, 0),
-      scale = 0.5, --1.19,
-      --animation_speed = 0.1,
+      scale = 0.5,
       max_advance = 0.2,
       draw_as_shadow = true,
     },
@@ -124,7 +135,7 @@ local indep_boat_animation = {
 local boat_pictures = {
   layers = {
     {
-      slice = 1,
+      slice = 4,
       priority = "low",
       width = 750,
       height = 750,
@@ -137,7 +148,7 @@ local boat_pictures = {
       shift = util.by_pixel(0, -28),
     },
     {
-      slice = 1,
+      slice = 4,
       priority = "low",
       width = 750,
       height = 750,
