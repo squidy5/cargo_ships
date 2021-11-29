@@ -16,18 +16,37 @@ local car_sounds = {
 
 local tank_sounds = {
   sound = {
-    filename = "__cargo-ships__/sound/ferry-sound.ogg",
-    volume = 0.6
+    filename = "__base__/sound/fight/tank-engine.ogg",
+    volume = 0.3
   },
   activate_sound = {
     filename = "__base__/sound/fight/tank-engine-start.ogg",
-    volume = 0.6
+    volume = 0.3
   },
   deactivate_sound = {
     filename = "__base__/sound/fight/tank-engine-stop.ogg",
-    volume = 0.6
+    volume = 0.3
   },
-  match_speed_to_activity = false
+  match_speed_to_activity = false,
+}
+
+local ships_working_sound = {
+  sound =
+  {
+    filename = "__cargo-ships__/sound/ferry-sound.ogg",
+    volume = 0.6,
+    min_speed = 0.6,
+    max_speed = 0.8,
+  },
+  match_volume_to_activity = true,
+  match_speed_to_activity = true,
+  use_doppler_shift = false,
+  aggregation = {
+    max_count = 20,
+    progress_threshold = 0.01,
+    remove = false,
+    count_already_playing = true,
+  },
 }
 
 function ship_light(yshift, cutpicture)
@@ -137,7 +156,7 @@ local boat_pictures = {
 local cargo_ship_pictures = {
   layers = {
     {
-      slice = 4,
+      slice = 16,
       priority = "low",
       width = 1000,
       height = 1000,
@@ -150,7 +169,7 @@ local cargo_ship_pictures = {
       shift = util.by_pixel(0, -54.5),
     },
     {
-      slice = 4,
+      slice = 16,
       priority = "low",
       width = 1000,
       height = 1000,
@@ -169,7 +188,7 @@ local cargo_ship_pictures = {
 local oil_tanker_pictures = {
   layers = {
     {
-      slice = 4,
+      slice = 16,
       priority = "low",
       width = 890,
       height = 912,
@@ -182,7 +201,7 @@ local oil_tanker_pictures = {
       shift = util.by_pixel(0, -22.5),
     },
     {
-      slice = 4,
+      slice = 16,
       priority = "low",
       width = 1000,
       height = 1000,
@@ -495,7 +514,7 @@ cargo_ship.horizontal_doors = {
   }
 }
 cargo_ship.wheels = nil
-cargo_ship.working_sound = nil
+cargo_ship.working_sound = ships_working_sound
 cargo_ship.drive_over_tie_trigger = nil
 cargo_ship.minimap_representation = {
   filename = "__cargo-ships__/graphics/entity/cargo_ship/cargo_ship-minimap-representation.png",
@@ -538,7 +557,7 @@ oil_tanker.pictures = oil_tanker_pictures
 oil_tanker.stand_by_light = {ship_light(-3, true)}
 oil_tanker.back_light = nil
 oil_tanker.wheels = nil
-oil_tanker.working_sound = nil
+oil_tanker.working_sound = ships_working_sound
 oil_tanker.drive_over_tie_trigger = nil
 oil_tanker.minimap_representation = {
   filename = "__cargo-ships__/graphics/entity/tanker/tanker-minimap-representation.png",

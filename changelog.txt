@@ -1,22 +1,25 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.0
-Date: 2021-11-24
+Date: 2021-11-29
   Info:
     - New and improved visuals by snouz.
-    - Bug fixes and code factorisation by Robot
+    - Bug fixes, improvements, features and code factorisation by Robot
+  Changes:
+    - Added option to disable oil on land.
+    - Changed oil generation settings to startup, and lock out oil/oil rig entities and processes when disabled.
   Visuals:
     - New HD technology icons (8).
-    - New item icons (11)
+    - New item icons (11).
     - Unrailed boat: HD version (original render, .5 scale, from 1.2), 256 directions (from 64), improved with filters, water reflection, separate shadow, softer light.
     - Railed boat: HD version (using AI upscaling, .5 scale, from 1.5), improved with filters, water reflection, separate shadow, softer light.
-    - Oil Tanker: Twice as detailed (original render, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light.
-    - Cargo Ship: Twice as detailed (using AI upscaling, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light.
+    - Oil Tanker: Twice as detailed (original render, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light, fixed unwanted light.
+    - Cargo Ship: Twice as detailed (using AI upscaling, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light, fixed unwanted light.
     - Oil Rig: Reinvented in HD with proper perspective, water reflection, separate shadow, animation, custom lights (removed hidden lamp entities).
     - Port: Reworked in HD, water relection, shadow, improved position.
     - Rails: Recreated in HD, aligned, removed transparency (which was messy).
     - Floating Electric Poles: Reworked in HD, water reflections, new shadows.
     - Buoys and Chain Buoys: Reworked in HD, water reflections, new shadows and lights.
-    - Bridges: HD version, doesn't create smoke on closing, water reflections (open and closed)
+    - Bridges: HD version, doesn't create smoke on closing, water reflections (open and closed).
     - Deep oil: Larger and slightly blurry.
     - Improved splash effect.
   Bugfixes:
@@ -26,30 +29,30 @@ Date: 2021-11-24
     - Fixed crash when using "enter ship" command while in editor or god mode (by preventing you from entering a boat without a character).
     - Fixed old typos in changelog.
     - Fixed that using pipette on bridges gave no or uncraftable entities.
-    - Added code to prevent linking waterways and railways (Fix rail waterway networks are interconactable #56).
+    - Linking waterways and railways is now impossible (Fix rail waterway networks are interconactable #56).
     - Added setting to make buoys indestructible (Fix buoys can be destroyed by driving over them with a ship #58).
   Optimization:
     - Compressed some animations to save space.
-    - Some file sorting
+    - Some file sorting.
+    - Added filters to entity created and destroyed events to improve performance.
+    - Redesigned offshore oil spawning using the vanilla Crude Oil generation settings. Vanilla oil patches generated at sea are consolidated into Offshore oil deposits if they are far enough from land.
   Sound:
+    - New sounds for ships (separate sound for boat moving and engine)
     - Small boat makes a noise scaled to speed.
   Locale:
     - Added Polish locale (thanks to RadianOst).
     - Updated Russian locale (thanks to IgorLutiy).
-    - Fixed typo.
+    - Fixed typos.
+    - Moved all GUI text and console messages to locale file (EN only for now).
+    - Restructured the locale file to eliminate duplicate text.
   Improvements:
     - Added handling of on_entity_cloned and area & entity cloning in editor and scripts.
     - Added handling of non-placed waterways in copy-paste generated blueprint.
     - Added handling of script_raised_revive.
-    - Added filters to entity created and destroyed events to improve performance.
-    - Added a dependency conflict entry for the "cargo-ships-seraph" fork, to avoid confused users.
-    - Moved all GUI text and console messages to locale file (EN only for now).
-    - Restructured the locale file to eliminate duplicate text.
-    - Redesigned offshore oil spawning using the vanilla Crude Oil generation settings. Vanilla oil patches generated at sea are consolidated into Offshore oil deposits if they are far enough from land.
-    - Changed oil generation settings to startup, and lock out oil/oil rig entities and processes when disabled.
-    - Added option to disable oil on land.
-    - Added built-in compatibility to disable offshore oil for SeaBlock and Omnimatter.
     - Added command "/regenerate-oil " that removes and regenerates all crude oil and offshore oil entities on the given surface, or all surfaces if none is specified.
+  Compatibility
+    - Disabled offshore oil for SeaBlock and Omnimatter.
+    - Added conflict with "cargo-ships-seraph" fork to avoid confusion.
 
   TODO:
     - technologies?
