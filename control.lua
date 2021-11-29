@@ -129,9 +129,9 @@ function onEntityBuild(e)
       end
     else
       -- create waterway
-      WW = surface.create_entity{name = name, position = pos, direction = dir, force = force}
+      local WW = surface.create_entity{name = name, position = pos, direction = dir, force = force}
       -- make waterway indestructible
-      if(WW) then
+      if WW then
         WW.destructible = false
       end
     end
@@ -289,7 +289,7 @@ function OnDeleted(e)
 
     elseif entity.name == "oil_rig" then
       local pos = entity.position
-      or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_power"}
+      local or_inv = entity.surface.find_entities_filtered{area =  {{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}},  name="or_power"}
       for i = 1, #or_inv do
         or_inv[i].destroy()
       end
@@ -307,7 +307,7 @@ function OnDeleted(e)
       end
 
     elseif string.match(entity.name, "bridge_") then
-      worked = DeleteBridge(entity, e.player_index)
+      local worked = DeleteBridge(entity, e.player_index)
       if not worked then
         e.buffer.clear()
       end
@@ -383,7 +383,8 @@ end
 
 function onModSettingsChanged(e)
   if e.setting == "waterway_reach_increase" then
-    applyReachChanges(e)
+    global.current_distance_bonus = settings.global["waterway_reach_increase"].value
+    applyReachChanges()
   elseif e.setting == "indestructible_buoys" then
     updateAllBuoys()
   end
@@ -394,8 +395,10 @@ function init_events()
   if settings.startup["deep_oil"].value then
     -- place deep oil
     script.on_event(defines.events.on_chunk_generated, placeDeepOil)
-    script.on_event(defines.events.on_gui_opened, onOilrickGuiOpened)
-    script.on_event(defines.events.on_gui_closed, onOilrickGuiClosed)
+    -- handle oil rig storage info guis
+    script.on_event(defines.events.on_gui_opened, onOilrigGuiOpened)
+    script.on_event(defines.events.on_gui_closed, onOilrigGuiClosed)
+    script.on_event(defines.events.on_player_created, onPlayerCreated)
   end
 end
 
@@ -415,6 +418,7 @@ function init()
   end
   global.oil_bonus = mult
   global.no_oil_on_land = settings.startup["no_oil_on_land"].value
+  global.oil_rig_capacity = settings.startup["oil_rig_capacity"].value
 
   -- Init global variables
   global.check_entity_placement = global.check_entity_placement or {}
@@ -426,20 +430,36 @@ function init()
   global.new_cranes = global.new_cranes or {}
   global.gui_oilrigs = (global.deep_oil_enabled and global.gui_oilrigs) or {}
   global.connection_counter = 0
-
+  
+  -- Initialize or migrate long reach state
+  global.last_cursor_stack_name = 
+    ((type(global.last_cursor_stack_name) == "table") and global.last_cursor_stack_name) 
+      or {}
+  global.last_distance_bonus = 
+    ((type(global.last_distance_bonus) == "number") and global.last_distance_bonus) 
+      or settings.global["waterway_reach_increase"].value
+  global.current_distance_bonus = settings.global["waterway_reach_increase"].value
+  
+  -- Reapply long reach settings to existing characters
+  
   -- Reapply buoy setting when mod is updated
   updateAllBuoys()
+  
+  -- Update GUI for all players if needed (after globals are re-cached)
+  createGuiAllPlayers()
 
   -- Register conditional events
   init_events()
 end
 
 function onTick(e)
-  if global.deep_oil_enabled then powerOilRig(e) end
   checkPlacement()
   ManageBridges(e)
   UpdateVisuals(e)
-  if global.deep_oil_enabled then UpdateOilRigGui(e) end
+  if global.deep_oil_enabled then
+    powerOilRig(e)
+    UpdateOilRigGui(e)
+  end
   --ManageCranes(e)
 end
 
@@ -515,7 +535,7 @@ script.on_event(defines.events.on_tick, onTick)
 
 -- long reach
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
-script.on_event(defines.events.on_player_died, deadReach)
+script.on_event(defines.events.on_pre_player_died, deadReach)
 
 -- blueprints
 script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
@@ -538,3 +558,18 @@ remote.add_interface("aai-sci-burner", {
     }
   end,
 })
+
+------------------------------------------------------------------------------------
+--                    FIND LOCAL VARIABLES THAT ARE USED GLOBALLY                 --
+--                              (Thanks to eradicator!)                           --
+------------------------------------------------------------------------------------
+setmetatable(_ENV,{
+  __newindex=function (self,key,value) --locked_global_write
+    error('\n\n[ER Global Lock] Forbidden global *write*:\n'
+      .. serpent.line{key=key or '<nil>',value=value or '<nil>'}..'\n')
+    end,
+  __index   =function (self,key) --locked_global_read
+    error('\n\n[ER Global Lock] Forbidden global *read*:\n'
+      .. serpent.line{key=key or '<nil>'}..'\n')
+    end ,
+  })

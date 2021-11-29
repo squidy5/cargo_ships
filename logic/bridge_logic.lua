@@ -144,7 +144,7 @@ function calcPos(pos1, pos2)
 end
 
 function addEntity(surface, pos, dir, n, f)
-	tokill = surface.find_entities_filtered{position = pos, name ={"straight-water-way-placed","curved-water-way-placed", "straight-rail", "curved-rail"}}
+	local tokill = surface.find_entities_filtered{position = pos, name ={"straight-water-way-placed","curved-water-way-placed", "straight-rail", "curved-rail"}}
 	for _, k in pairs(tokill) do
 		k.destroy()
 	end
@@ -198,9 +198,9 @@ end
 function deleteSlaves(surface, pos, x1, y1, x2, y2, dirname)
 	local entities =surface.find_entities{{pos.x+x1, pos.y+y1},{pos.x+x2, pos.y+y2}}
 	for _, ent in pairs(entities) do
-		n = ent.name
-		if ( n == "invisible_chain_signal" or
-				n== "invisible_signal" or
+		local n = ent.name
+		if (n == "invisible_chain_signal" or
+				n == "invisible_signal" or
 				n == "invisible_rail" or
 				n == "bridge_" .. dirname or
 				n == "bridge_" .. dirname .. "_closed" or
