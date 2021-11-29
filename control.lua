@@ -395,8 +395,10 @@ function init_events()
   if settings.startup["deep_oil"].value then
     -- place deep oil
     script.on_event(defines.events.on_chunk_generated, placeDeepOil)
-    script.on_event(defines.events.on_gui_opened, onOilrickGuiOpened)
-    script.on_event(defines.events.on_gui_closed, onOilrickGuiClosed)
+    -- handle oil rig storage info guis
+    script.on_event(defines.events.on_gui_opened, onOilrigGuiOpened)
+    script.on_event(defines.events.on_gui_closed, onOilrigGuiClosed)
+    script.on_event(defines.events.on_player_created, onPlayerCreated)
   end
 end
 
@@ -416,6 +418,7 @@ function init()
   end
   global.oil_bonus = mult
   global.no_oil_on_land = settings.startup["no_oil_on_land"].value
+  global.oil_rig_capacity = settings.startup["oil_rig_capacity"].value
 
   -- Init global variables
   global.check_entity_placement = global.check_entity_placement or {}
@@ -441,17 +444,22 @@ function init()
   
   -- Reapply buoy setting when mod is updated
   updateAllBuoys()
+  
+  -- Update GUI for all players if needed (after globals are re-cached)
+  createGuiAllPlayers()
 
   -- Register conditional events
   init_events()
 end
 
 function onTick(e)
-  if global.deep_oil_enabled then powerOilRig(e) end
   checkPlacement()
   ManageBridges(e)
   UpdateVisuals(e)
-  if global.deep_oil_enabled then UpdateOilRigGui(e) end
+  if global.deep_oil_enabled then
+    powerOilRig(e)
+    UpdateOilRigGui(e)
+  end
   --ManageCranes(e)
 end
 
