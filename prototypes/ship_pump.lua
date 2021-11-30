@@ -1,8 +1,12 @@
 ----------------------------------------------------------------
 --------------------------- PUMP -------------------------------
 ----------------------------------------------------------------
+
 local ship_pump = table.deepcopy(data.raw["pump"]["pump"])
 ship_pump.name = "ship_pump"
+ship_pump.icon = GRAPHICSPATH .. "icons/ship_pump.png"
+ship_pump.icon_size = 64
+ship_pump.icon_mipmaps = 0
 ship_pump.minable = {mining_time = 1, result = "ship_pump"}
 ship_pump.collision_mask = {"object-layer"}
 ship_pump.pumping_speed = 1000
@@ -18,11 +22,11 @@ pump_marker.render_layer = "selection-box"
 pump_marker.minable = nil
 pump_marker.collision_mask = {}
 pump_marker.picture = {
-  filename = "__cargo-ships__/graphics/green_selection_box.png",
+  filename = GRAPHICSPATH .. "green_selection_box.png",
   width = 128,
   height = 128,
   scale = 0.5,
   frame_count = 1
 }
 
-data:extend{ship_pump, pump_marker}
+data:extend({ ship_pump, pump_marker })

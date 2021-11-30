@@ -9,7 +9,7 @@ data:extend ({
 {
   type = "technology",
   name = "water_transport",
-  icon = "__cargo-ships__/graphics/technology/water_transport.png",
+  icon = GRAPHICSPATH .. "technology/water_transport.png",
   icon_size = 256,
   effects = {
     unlock("boat"),
@@ -28,7 +28,7 @@ data:extend ({
 {
   type = "technology",
   name = "cargo_ships",
-  icon = "__cargo-ships__/graphics/technology/cargo_ships.png",
+  icon = GRAPHICSPATH .. "technology/cargo_ships.png",
   icon_size = 256,
 
   effects = {
@@ -48,7 +48,7 @@ data:extend ({
 {
   type = "technology",
   name = "automated_water_transport",
-  icon = "__cargo-ships__/graphics/technology/automated_water_transport.png",
+  icon = GRAPHICSPATH .. "technology/automated_water_transport.png",
   icon_size = 256,
   effects = {
     unlock("port"),
@@ -68,7 +68,7 @@ data:extend ({
 {
   type = "technology",
   name = "oversea-energy-distribution",
-  icon = "__cargo-ships__/graphics/technology/oversea-energy-distribution.png",
+  icon = GRAPHICSPATH .. "technology/oversea-energy-distribution.png",
   icon_size = 256,
   effects = {
     unlock("floating-electric-pole"),
@@ -87,7 +87,7 @@ data:extend ({
 {
   type = "technology",
   name = "water_transport_signals",
-  icon = "__cargo-ships__/graphics/technology/water_transport_signals.png",
+  icon = GRAPHICSPATH .. "technology/water_transport_signals.png",
   icon_size = 256,
   effects = {
     unlock("buoy"),
@@ -107,7 +107,7 @@ data:extend ({
 {
   type = "technology",
   name = "tank_ship",
-  icon = "__cargo-ships__/graphics/technology/tank_ship.png",
+  icon = GRAPHICSPATH .. "technology/tank_ship.png",
   icon_size = 256,
   effects = {
     unlock("oil_tanker"),
@@ -127,7 +127,7 @@ data:extend ({
 {
   type = "technology",
   name = "automated_bridges",
-  icon = "__cargo-ships__/graphics/technology/automated_bridges.png",
+  icon = GRAPHICSPATH .. "technology/automated_bridges.png",
   icon_size = 256,
   effects = {
     unlock("bridge_base"),
@@ -151,7 +151,7 @@ if settings.startup["deep_oil"].value then
     {
       type = "technology",
       name = "deep_sea_oil_extraction",
-      icon = "__cargo-ships__/graphics/technology/deep_sea_oil_extraction.png",
+      icon = GRAPHICSPATH .. "technology/deep_sea_oil_extraction.png",
       icon_size = 256,
       effects = {
         unlock("oil_rig"),

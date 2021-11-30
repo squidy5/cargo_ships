@@ -1,5 +1,3 @@
-local empty_pic = "__cargo-ships__/graphics/blank.png"
-
 ----------------------------------------------------------------
 -------------------------DEEP SEA OIL --------------------------
 ----------------------------------------------------------------
@@ -28,7 +26,7 @@ deep_oil.collision_mask = {'ground-tile','resource-layer'}
 deep_oil.resource_patch_search_radius = 32
 deep_oil.stages = {
   sheet = {
-    filename = "__cargo-ships__/graphics/entity/crude-oil/water-crude-oil.png",
+    filename = GRAPHICSPATH .. "entity/crude-oil/water-crude-oil.png",
     priority = "extra-high",
     width = 74,
     height = 60,
@@ -38,7 +36,7 @@ deep_oil.stages = {
     scale = 1.4,
     hr_version =
     {
-      filename = "__cargo-ships__/graphics/entity/crude-oil/hr-water-crude-oil.png",
+      filename = GRAPHICSPATH .. "entity/crude-oil/hr-water-crude-oil.png",
       priority = "extra-high",
       width = 148,
       height = 120,
@@ -55,37 +53,37 @@ local function oilrig_layer(orientation)
   return {
     layers = {
       {
-        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
         width = 352,
         height = 448,
         scale = 1,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
+          filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
           width = 704,
           height = 896,
           scale = 0.5,
         }
       },
       {
-        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base.png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base.png",
         width = 352,
         height = 448,
         scale = 1,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base.png",
+          filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base.png",
           width = 704,
           height = 896,
           scale = 0.5,
         }
       },
       {
-        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-shadow.png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-shadow.png",
         width = 352,
         height = 448,
         scale = 1,
         draw_as_shadow = true,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-shadow.png",
+          filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-shadow.png",
           width = 704,
           height = 896,
           scale = 0.5,
@@ -93,13 +91,13 @@ local function oilrig_layer(orientation)
         }
       },
       {
-        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-light.png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-light.png",
         width = 352,
         height = 448,
         scale = 1,
         draw_as_light = true,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-light.png",
+          filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-light.png",
           width = 704,
           height = 896,
           scale = 0.5,
@@ -111,12 +109,14 @@ local function oilrig_layer(orientation)
 end
 
 ----------------------------------------------------------------
------------------------- OIL PLATFORM --------------------------
+--------------------------- OIL RIG ----------------------------
 ----------------------------------------------------------------
 local oil_rig_capacity = settings.startup["oil_rig_capacity"].value
 
 local oil_rig = table.deepcopy(data.raw["mining-drill"]["pumpjack"])
 oil_rig.name = "oil_rig"
+oil_rig.icon = GRAPHICSPATH .. "icons/oil_rig.png"
+oil_rig.icon_size = 64
 oil_rig.collision_mask = {'object-layer', "train-layer"}
 oil_rig.minable = {mining_time = 3, result = "oil_rig"}
 oil_rig.dying_explosion = "big-explosion"
@@ -151,7 +151,7 @@ oil_rig.base_picture = {
   west = oilrig_layer("w"),
 }
 oil_rig.animations = {
-  filename = "__cargo-ships__/graphics/entity/oil_rig/oil-rig-anim.png",
+  filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-anim.png",
   width = 179,
   height = 243,
   scale = 1,
@@ -159,7 +159,7 @@ oil_rig.animations = {
   frame_count = 20,
   animation_speed = 0.25,
   hr_version = {
-    filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-anim.png",
+    filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-anim.png",
     width = 358,
     height = 486,
     scale = 0.5,
@@ -170,7 +170,7 @@ oil_rig.animations = {
 }
 oil_rig.water_reflection = {
   pictures = {
-    filename = "__cargo-ships__/graphics/entity/oil_rig/oil-rig-water-reflection.png",
+    filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-water-reflection.png",
     width = 70,
     height = 89,
     shift = util.by_pixel(0, 0),
@@ -206,8 +206,8 @@ or_power.fluid_box = {
   filter = "steam",
   minimum_temperature = 100.0
 }
-or_power.horizontal_animation = { filename = empty_pic, size = 1 }
-or_power.vertical_animation = { filename = empty_pic, size = 1 }
+or_power.horizontal_animation = emptypic
+or_power.vertical_animation = emptypic
 local smoke1shift = util.by_pixel(-85 -14, -115 -14)
 local smoke2shift = util.by_pixel(53 -14, -167 -14)
 or_power.smoke = {
@@ -248,15 +248,10 @@ or_pole.collision_mask = {}
 or_pole.fast_replaceable_group = nil
 or_pole.next_upgrade = nil
 or_pole.maximum_wire_distance = 0
-or_pole.pictures = {
-  filename = empty_pic,
-  width = 2,
-  height = 2,
-  direction_count = 4,
-  line_length = 4,
-}
+or_pole.pictures = emptypic
 or_pole.supply_area_distance = 4.5
 or_pole.water_reflection = nil
+or_pole.connection_points = { data.raw["electric-pole"]["medium-electric-pole"].connection_points[1] }
 
 --[[
 local or_lamp = table.deepcopy(data.raw["lamp"]["small-lamp"])
@@ -283,13 +278,7 @@ or_radar.allow_copy_paste = false
 or_radar.collision_mask = {}
 or_radar.collision_box = nil
 or_radar.selection_box = nil
-or_radar.pictures = {
-  filename = empty_pic,
-  width = 2,
-  height = 2,
-  direction_count = 4,
-  line_length = 4,
-}
+or_radar.pictures = emptypic
 or_radar.max_distance_of_sector_revealed = 0
 or_radar.energy_usage = "50kW"
 or_radar.water_reflection = nil
