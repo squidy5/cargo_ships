@@ -1,10 +1,6 @@
 
 
-local emptypic = {
-  filename = GRAPHICSPATH .. "blank.png",
-  width = 2,
-  height = 2,
-}
+
 
 --bridge.collision_box = {{-6,-3},{6,3}}
 
@@ -72,10 +68,12 @@ local function water_reflection(dir, num, x, y, shiftx, shifty)
   }
 end
 
-
+-----------------------------------------------------------------------------------------
 
 local bridge = table.deepcopy(data.raw["train-stop"]["port"])
 bridge.name = "bridge_base"
+bridge.icon = GRAPHICSPATH .. "icons/bridge.png"
+bridge.icon_size = 64
 bridge.localised_description = {"description-template.bridge_base", {"entity-description.bridge_north_clickable"}}
 bridge.animations = make_4way_animation_from_spritesheet({
   layers = {
@@ -101,6 +99,8 @@ local shiftY = -17.5
 
 local bridge_north = table.deepcopy(data.raw["power-switch"]["power-switch"])
 bridge_north.name = "bridge_north"
+bridge_north.icon = GRAPHICSPATH .. "icons/bridge.png"
+bridge_north.icon_size = 64
 bridge_north.led_on = emptypic
 bridge_north.led_off = emptypic
 bridge_north.power_on_animation = build_bridge_anim("n", shiftX, shiftY)
@@ -109,7 +109,7 @@ bridge_north.destructible = false
 bridge_north.collision_box = {{-1,-1},{1,1}}
 bridge_north.collision_mask = {}
 bridge_north.selection_box = nil
-bridge_north.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_north.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation"}
 bridge_north.selectable_in_game = false
 bridge_north.allow_copy_paste = false
 bridge_north.created_smoke = nil
@@ -119,12 +119,13 @@ data:extend({bridge_north})
 
 local bridge_north_closed = table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
 bridge_north_closed.name = "bridge_north_closed"
-
+bridge_north_closed.icon = GRAPHICSPATH .. "icons/bridge.png"
+bridge_north_closed.icon_size = 64
 bridge_north_closed.minable = nil
 bridge_north_closed.selection_box = nil
 bridge_north_closed.collision_box = {{-4,-2}, {6,2}}
 bridge_north_closed.collision_mask = {} --collision with boats
-bridge_north_closed.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+bridge_north_closed.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation"}
 bridge_north_closed.selectable_in_game = false
 bridge_north_closed.allow_copy_paste = false
 bridge_north_closed.render_layer = "object"
@@ -266,18 +267,20 @@ data:extend({bridge_south, bridge_south_closed, bridge_east, bridge_east_closed,
 
 local invisible_chain_signal = table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 invisible_chain_signal.name = "invisible_chain_signal"
+invisible_chain_signal.icon = GRAPHICSPATH .. "icons/chain_buoy.png"
+invisible_chain_signal.icon_size = 64
 invisible_chain_signal.selection_box = nil
 invisible_chain_signal.destructible = false
-invisible_chain_signal.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+invisible_chain_signal.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation"}
 invisible_chain_signal.selectable_in_game = false
 invisible_chain_signal.collision_mask = {'rail-layer'}
 invisible_chain_signal.allow_copy_paste = false
 invisible_chain_signal.minable = nil
 invisible_chain_signal.animation = {
   filename = GRAPHICSPATH .. "blank.png",
-  priority = "high",
-  width = 2,
-  height = 2,
+  priority = "low",
+  width = 1,
+  height = 1,
   frame_count = 3,
   direction_count = 8,
 }
@@ -290,13 +293,17 @@ invisible_chain_signal.fast_replaceable_group = nil
 invisible_chain_signal.created_smoke = nil
 data:extend({invisible_chain_signal})
 
+-------------------------------------------------------------------------------------------------------------------
 
 local bridge_north_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
 bridge_north_clickable.name = "bridge_north_clickable"
+bridge_north_clickable.icon = GRAPHICSPATH .. "icons/bridge.png"
+bridge_north_clickable.icon_size = 64
+bridge_north_clickable.localised_description = {"entity-description.bridge_north_clickable"}
 bridge_north_clickable.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 bridge_north_clickable.minable = {mining_time = 1, result = "bridge_base"}
-bridge_north_clickable.selection_box = {{-5,-3},{7,3}}
-bridge_north_clickable.collision_box = {{-5,-3},{7,3}}
+bridge_north_clickable.selection_box = {{-5,-3}, {7,3}}
+bridge_north_clickable.collision_box = {{-5,-3}, {7,3}}
 bridge_north_clickable.collision_mask = {"object-layer", "layer-14"}
 bridge_north_clickable.max_health = 500
 bridge_north_clickable.picture = emptypic
@@ -304,62 +311,42 @@ bridge_north_clickable.created_smoke = nil
 data:extend({bridge_north_clickable})
 
 local bridge_east_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
-local bridge_south_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
-local bridge_west_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
-
 bridge_east_clickable.name = "bridge_east_clickable"
+bridge_east_clickable.collision_box = {{-3,-5}, {3,7}}
+bridge_east_clickable.selection_box = {{-3,-5}, {3,7}}
+
+local bridge_south_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
 bridge_south_clickable.name = "bridge_south_clickable"
+bridge_south_clickable.collision_box = {{-7,-3}, {5,3}}
+bridge_south_clickable.selection_box = {{-7,-3}, {5,3}}
+
+local bridge_west_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
 bridge_west_clickable.name = "bridge_west_clickable"
-
-bridge_east_clickable.localised_description = {"entity-description.bridge_north_clickable"}
-bridge_south_clickable.localised_description = {"entity-description.bridge_north_clickable"}
-bridge_west_clickable.localised_description = {"entity-description.bridge_north_clickable"}
-
-bridge_east_clickable.collision_box = {{-3,-5},{3,7}}
-bridge_south_clickable.collision_box = {{-7,-3},{5,3}}
-bridge_west_clickable.collision_box = {{-3,-7},{3,5}}
-
-bridge_east_clickable.selection_box = {{-3,-5},{3,7}}
-bridge_south_clickable.selection_box = {{-7,-3},{5,3}}
-bridge_west_clickable.selection_box = {{-3,-7},{3,5}}
+bridge_west_clickable.collision_box = {{-3,-7}, {3,5}}
+bridge_west_clickable.selection_box = {{-3,-7}, {3,5}}
 
 data:extend({bridge_south_clickable, bridge_east_clickable, bridge_west_clickable})
 
+-------------------------------------------------------------------------------------------------------------------
+
 local bridge_north_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_closed"])
-local bridge_east_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_east_closed"])
-local bridge_south_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_south_closed"])
-local bridge_west_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_west_closed"])
-
 bridge_north_open.name = "bridge_north_open"
-bridge_east_open.name = "bridge_east_open"
-bridge_south_open.name = "bridge_south_open"
-bridge_west_open.name = "bridge_west_open"
-
-bridge_north_open.minable = nil
-bridge_east_open.minable = nil
-bridge_south_open.minable = nil
-bridge_west_open.minable = nil
-
-bridge_north_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_north_open.selectable_in_game = false
-bridge_north_open.allow_copy_paste = false
-bridge_east_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_east_open.selectable_in_game = false
-bridge_east_open.allow_copy_paste = false
-bridge_south_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_south_open.selectable_in_game = false
-bridge_south_open.allow_copy_paste = false
-bridge_west_open.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
-bridge_west_open.selectable_in_game = false
-bridge_west_open.allow_copy_paste = false
-
-bridge_north_open.collision_mask = {}
-bridge_east_open.collision_mask = {}
-bridge_south_open.collision_mask = {}
-bridge_west_open.collision_mask = {}
-
 bridge_north_open.picture = emptypic
+bridge_north_open.water_reflection = nil
+
+local bridge_east_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_east_closed"])
+bridge_east_open.name = "bridge_east_open"
 bridge_east_open.picture = emptypic
+bridge_east_open.water_reflection = nil
+
+local bridge_south_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_south_closed"])
+bridge_south_open.name = "bridge_south_open"
 bridge_south_open.picture = emptypic
+bridge_south_open.water_reflection = nil
+
+local bridge_west_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_west_closed"])
+bridge_west_open.name = "bridge_west_open"
 bridge_west_open.picture = emptypic
+bridge_west_open.water_reflection = nil
+
 data:extend({bridge_north_open, bridge_south_open, bridge_east_open, bridge_west_open})

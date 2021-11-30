@@ -1,5 +1,3 @@
-local blank_icon = GRAPHICSPATH .. "blank.png"
-
 -- Support for  Schallfalke's Schall Transport Group mod
 local subgroup_shipequip = "water_transport"
 
@@ -22,8 +20,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_north",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -33,8 +31,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_north_closed",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -44,8 +42,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_east",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -55,8 +53,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_east_closed",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -66,8 +64,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_south",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -77,8 +75,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_south_closed",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -88,8 +86,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_west",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -99,8 +97,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_west_closed",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -110,8 +108,9 @@ data:extend({
   {
     type = "item",
     name = "invisible_rail",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = "__base__/graphics/icons/rail.png",
+    icon_size = 64,
+    icon_mipmaps = 4,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -121,8 +120,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_crossing",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -132,8 +131,8 @@ data:extend({
   {
     type = "item",
     name = "invisible_chain_signal",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/chain_buoy.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -143,8 +142,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_north_clickable",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -154,8 +153,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_east_clickable",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -165,8 +164,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_south_clickable",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -176,8 +175,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_west_clickable",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -187,8 +186,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_north_open",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -198,8 +197,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_east_open",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -209,8 +208,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_south_open",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",
@@ -220,8 +219,8 @@ data:extend({
   {
     type = "item",
     name = "bridge_west_open",
-    icon = blank_icon,
-    icon_size = 2,
+    icon = GRAPHICSPATH .. "icons/bridge.png",
+    icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {"hidden"},
     order = "b[fluids]-c[oil_rig]",

@@ -111,12 +111,14 @@ local function oilrig_layer(orientation)
 end
 
 ----------------------------------------------------------------
------------------------- OIL PLATFORM --------------------------
+--------------------------- OIL RIG ----------------------------
 ----------------------------------------------------------------
 local oil_rig_capacity = settings.startup["oil_rig_capacity"].value
 
 local oil_rig = table.deepcopy(data.raw["mining-drill"]["pumpjack"])
 oil_rig.name = "oil_rig"
+oil_rig.icon = GRAPHICSPATH .. "icons/oil_rig.png"
+oil_rig.icon_size = 64
 oil_rig.collision_mask = {'object-layer', "train-layer"}
 oil_rig.minable = {mining_time = 3, result = "oil_rig"}
 oil_rig.dying_explosion = "big-explosion"

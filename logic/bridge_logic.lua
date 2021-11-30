@@ -25,7 +25,7 @@ function CreateBridge(ent, player_index)
 		if checkBridgePlacement(pos, -4.5,-3,6.5,3, player_index, surface) then
 			bridge = surface.create_entity {name="bridge_north", position = pos, force = f, create_build_effect_smoke = false}
 			closed_bridge = surface.create_entity {name="bridge_north_closed", position = pos, force = f, create_build_effect_smoke = false}
-			surface.create_entity{name="bridge_north_clickable", position = pos, force = f, create_build_effect_smoke = false}
+			surface.create_entity {name="bridge_north_clickable", position = pos, force = f, create_build_effect_smoke = false}
 			ver = 1
 			hor = 0
 		end

@@ -128,8 +128,8 @@ data:extend({
   {
     type = "straight-rail",
     name = "straight-water-way",
-    icon = GRAPHICSPATH .. "blank.png",
-    icon_size = 32,
+    icon = GRAPHICSPATH .. "icons/water_rail.png",
+    icon_size = 64,
     flags = {"placeable-neutral", "player-creation", "building-direction-8-way"},
     destructible = false,
     minable = {mining_time = 0.2, result = "water-way"},
@@ -148,8 +148,8 @@ data:extend({
   {
     type = "curved-rail",
     name = "curved-water-way",
-    icon = GRAPHICSPATH .. "blank.png",
-    icon_size = 32,
+    icon = GRAPHICSPATH .. "icons/water_rail.png",
+    icon_size = 64,
     flags = {"placeable-neutral", "player-creation", "building-direction-8-way"},
     destructible = false,
     minable = {mining_time = 0.2, result = "water-way", count = 4},
@@ -192,7 +192,9 @@ data:extend({swwp, cwwp})
 
 local invisible_rail = table.deepcopy(data.raw["straight-rail"]["straight-rail"])
 invisible_rail.name = "invisible_rail"
-invisible_rail.flags = {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
+invisible_rail.icon = GRAPHICSPATH .. "icons/water_rail.png"
+invisible_rail.icon_size = 64
+invisible_rail.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 invisible_rail.pictures = railpictures(true)
 invisible_rail.minable = nil
 invisible_rail.selection_box = nil
@@ -202,7 +204,9 @@ invisible_rail.allow_copy_paste = false
 
 local bridge_crossing = table.deepcopy(data.raw["straight-rail"]["straight-water-way-placed"])
 bridge_crossing.name = "bridge_crossing"
-bridge_crossing.flags = {"not-blueprintable", "placeable-neutral", "player-creation", "building-direction-8-way"}
+bridge_crossing.icon = GRAPHICSPATH .. "icons/bridge.png"
+bridge_crossing.icon_size = 64
+bridge_crossing.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 bridge_crossing.minable = nil
 bridge_crossing.collision_mask = {"object-layer"}
 bridge_crossing.collision_box = {{-0.6, -0.95}, {0.6, 0.95}}

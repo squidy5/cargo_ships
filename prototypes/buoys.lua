@@ -1,6 +1,7 @@
 local floating_pole = table.deepcopy(data.raw["electric-pole"]["big-electric-pole"])
 floating_pole.name = "floating-electric-pole"
-floating_pole.minable ={mining_time = 0.5, result = "floating-electric-pole"}
+floating_pole.icon = GRAPHICSPATH .. "icons/floating_pole.png"
+floating_pole.minable = {mining_time = 0.5, result = "floating-electric-pole"}
 floating_pole.collision_mask = {'ground-tile', 'object-layer'}
 floating_pole.maximum_wire_distance = 48
 floating_pole.supply_area_distance = 0
@@ -150,22 +151,18 @@ for _,v in pairs(floating_pole.connection_points) do
   v.shadow.red[2] = v.shadow.red[2] + 0.5
 end
 
+---------------------------------------------------------------------------------------------------------------
+
 local buoy = table.deepcopy(data.raw["rail-signal"]["rail-signal"])
 buoy.name = "buoy"
+buoy.icon = GRAPHICSPATH .. "icons/buoy.png"
 buoy.collision_mask = {'ground-tile', 'rail-layer'}
 buoy.selection_box = {{-1.6, -0.8}, {0.01, 0.8}}
 buoy.fast_replaceable_group = "buoy"
 buoy.minable = {mining_time = 0.5, result = "buoy"}
-
---buoy.green_light = {intensity = 0.2, shift = util.by_pixel(0, -22), size = 3, color = {g=1}}
---buoy.orange_light = {intensity = 0.2, shift = util.by_pixel(0, -22), size = 3, color = {r=1, g=0.5}}
---buoy.red_light = {intensity = 0.2, shift = util.by_pixel(0, -22), size = 3, color = {r=1}}
-
 buoy.green_light = nil
 buoy.orange_light = nil
 buoy.red_light = nil
-
-
 buoy.animation = {
   layers = {
     {
@@ -243,11 +240,13 @@ buoy.water_reflection = {
 }
 buoy.rail_piece = nil
 
+---------------------------------------------------------------------------------------------------------------
 
 local chain_buoy = table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 chain_buoy.name = "chain_buoy"
+chain_buoyicon = GRAPHICSPATH .. "icons/chain_buoy.png"
 chain_buoy.collision_mask = {'ground-tile', 'rail-layer'}
-chain_buoy.selection_box =  {{-1.6, -0.8}, {0.01, 0.8}}
+chain_buoy.selection_box = {{-1.6, -0.8}, {0.01, 0.8}}
 chain_buoy.fast_replaceable_group = "buoy"
 chain_buoy.minable = {mining_time = 0.5, result = "chain_buoy"}
 chain_buoy.animation = {
@@ -294,7 +293,6 @@ chain_buoy.animation = {
     }
   }
 }
-
 chain_buoy.selection_box_offsets = {
   {-0.15, 0},
   {-0.25, -1},
@@ -305,39 +303,17 @@ chain_buoy.selection_box_offsets = {
   {0.9, 0.65},
   {-0.1, 0.6}
 }
-
---[[chain_buoy.water_reflection = {
-  pictures =
-  {
-    filename = GRAPHICSPATH .. "entity/chain_buoy/chain-buoys-water-reflection.png",
-    width = 52,
-    height = 41,
-    --shift = util.by_pixel(0, -25),
-    variation_count = 8,
-    line_length = 1,
-    scale = 5
-  },
-  rotate = false,
-  orientation_to_variation = true
-}]] -- doesn't work as intended
 chain_buoy.rail_piece = nil
 chain_buoy.green_light = nil
 chain_buoy.orange_light = nil
 chain_buoy.red_light = nil
 chain_buoy.blue_light = nil
 
-
-
-
-
-
-
-
-
+---------------------------------------------------------------------------------------------------------------
 
 local port = table.deepcopy(data.raw["train-stop"]["train-stop"])
 port.name = "port"
-port.icon = GRAPHICSPATH .. "blank.png"
+port.icon = GRAPHICSPATH .. "icons/port.png"
 port.minable = {mining_time = 1, result = "port"}
 port.rail_overlay_animations = nil
 port.collision_mask = {"object-layer"}
@@ -380,7 +356,6 @@ local function maker_layer_port(xshift, yshift)
     }
   }
 end
-
 port.animations = {
   north = maker_layer_port(30,0),
   east = maker_layer_port(0,30),
@@ -388,36 +363,21 @@ port.animations = {
   west = maker_layer_port(0,-30),
 }
 
+local function portwaterref(xshift, yshift)
+  return {
+    filename = GRAPHICSPATH .. "entity/port/port_water_reflection.png",
+    width = 30,
+    height = 30,
+    shift = util.by_pixel(xshift, yshift),
+    scale = 5
+  }
+end
 port.water_reflection = {
   pictures = {
-    {
-      filename = GRAPHICSPATH .. "entity/port/port_water_reflection.png",
-      width = 30,
-      height = 30,
-      shift = util.by_pixel(30, 0),
-      scale = 5
-    },
-    {
-      filename = GRAPHICSPATH .. "entity/port/port_water_reflection.png",
-      width = 30,
-      height = 30,
-      shift = util.by_pixel(0, 30),
-      scale = 5
-    },
-    {
-      filename = GRAPHICSPATH .. "entity/port/port_water_reflection.png",
-      width = 30,
-      height = 30,
-      shift = util.by_pixel(-30, 0),
-      scale = 5
-    },
-    {
-      filename = GRAPHICSPATH .. "entity/port/port_water_reflection.png",
-      width = 30,
-      height = 30,
-      shift = util.by_pixel(0, -30),
-      scale = 5
-    },
+    portwaterref(30, 0),
+    portwaterref(0, 30),
+    portwaterref(-30, 0),
+    portwaterref(0, -30),
   },
   rotate = false,
   orientation_to_variation = true
@@ -426,8 +386,7 @@ port.top_animations = nil
 port.light1 =
 {
   light = {intensity = 0.4, size = 4, color = {r = 1.0, g = 1.0, b = 1.0}},
-  picture =
-  {
+  picture = {
     north = {
       filename = GRAPHICSPATH .. "entity/port/hr-port-light.png",
       width = 44,
@@ -515,6 +474,4 @@ circuit_connector_definitions["cargo-ships-port"] = circuit_connector_definition
 port.circuit_wire_connection_points = circuit_connector_definitions["cargo-ships-port"].points
 port.circuit_connector_sprites = circuit_connector_definitions["cargo-ships-port"].sprites
 
-
-data:extend({buoy, chain_buoy, port, floating_pole})
-
+data:extend({floating_pole, buoy, chain_buoy, port})

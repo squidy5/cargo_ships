@@ -4,9 +4,10 @@ Date: 2021-11-29
   Info:
     - New and improved visuals by snouz.
     - Bug fixes, improvements, features and code factorisation by Robot
-  Changes:
+  Features:
     - Added option to disable oil on land.
     - Changed oil generation settings to startup, and lock out oil/oil rig entities and processes when disabled.
+    - Added command "/regenerate-oil " that removes and regenerates all crude oil and offshore oil entities on the given surface, or all surfaces if none is specified.
   Visuals:
     - New HD technology icons (8).
     - New item icons (11).
@@ -22,6 +23,7 @@ Date: 2021-11-29
     - Bridges: HD version, doesn't create smoke on closing, water reflections (open and closed).
     - Deep oil: Larger and slightly blurry.
     - Improved splash effect and added ripple effect.
+    - Fixed inconsistant or empty icons on deconstruction.
   Bugfixes:
     - Fixed Chain Buoys being unaligned with their selection box
     - Fixed that boats on rails were blueprintable.
@@ -37,7 +39,7 @@ Date: 2021-11-29
     - Added filters to entity created and destroyed events to improve performance.
     - Redesigned offshore oil spawning using the vanilla Crude Oil generation settings. Vanilla oil patches generated at sea are consolidated into Offshore oil deposits if they are far enough from land.
   Sound:
-    - New sounds for ships (separate sound for boat moving and engine)
+    - New sounds for ships (separate sound for boat and engine).
     - Small boat makes a noise scaled to speed.
     - Removed Oil rig generator and radar sounds (kept only the pumpjack).
   Locale:
@@ -50,7 +52,6 @@ Date: 2021-11-29
     - Added handling of on_entity_cloned and area & entity cloning in editor and scripts.
     - Added handling of non-placed waterways in copy-paste generated blueprint.
     - Added handling of script_raised_revive.
-    - Added command "/regenerate-oil " that removes and regenerates all crude oil and offshore oil entities on the given surface, or all surfaces if none is specified.
   Compatibility
     - Disabled offshore oil for SeaBlock and Omnimatter.
     - Added conflict with "cargo-ships-seraph" fork to avoid confusion.
