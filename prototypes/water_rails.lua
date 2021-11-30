@@ -60,7 +60,7 @@ railpicturesinternal = function(elems, invisible)
         part[elem[1]] = {
           layers = {
             --[[{
-              filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
+              filename = string.format(GRAPHICSPATH .. "entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
               priority = "low",
               width = key[3],
               height = key[4],
@@ -71,7 +71,7 @@ railpicturesinternal = function(elems, invisible)
               draw_as_shadow = true,
             },]]
             {
-              filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
+              filename = string.format(GRAPHICSPATH .. "entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
               priority = "extra-high",
               width = key[3],
               height = key[4],
@@ -83,7 +83,7 @@ railpicturesinternal = function(elems, invisible)
         }
       elseif(railBlockKeys[elem[1]] ~= nil) then
         part[elem[1]] = {
-          filename = string.format("__cargo-ships__/graphics/entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
+          filename = string.format(GRAPHICSPATH .. "entity/%s/%s-%s-%s.png", dashkey, dashkey, key[2], elem[2]),
           priority = "extra-high",
           width = key[3],
           height = key[4],
@@ -92,7 +92,7 @@ railpicturesinternal = function(elems, invisible)
         }
       else
         part[elem[1]] = {
-          filename = "__cargo-ships__/graphics/blank.png",
+          filename = GRAPHICSPATH .. "blank.png",
           width = 2,
           height = 2,
           variation_count = 1,
@@ -107,12 +107,12 @@ railpicturesinternal = function(elems, invisible)
    sheets =
    {
      {
-       filename = "__cargo-ships__/graphics/blank.png",
+       filename = GRAPHICSPATH .. "blank.png",
        width = 4,
        height = 4,
      },
      {
-       filename = "__cargo-ships__/graphics/blank.png",
+       filename = GRAPHICSPATH .. "blank.png",
        flags = { "icon" },
        width = 4,
        height = 4,
@@ -128,7 +128,7 @@ data:extend({
   {
     type = "straight-rail",
     name = "straight-water-way",
-    icon = "__cargo-ships__/graphics/blank.png",
+    icon = GRAPHICSPATH .. "blank.png",
     icon_size = 32,
     flags = {"placeable-neutral", "player-creation", "building-direction-8-way"},
     destructible = false,
@@ -148,7 +148,7 @@ data:extend({
   {
     type = "curved-rail",
     name = "curved-water-way",
-    icon = "__cargo-ships__/graphics/blank.png",
+    icon = GRAPHICSPATH .. "blank.png",
     icon_size = 32,
     flags = {"placeable-neutral", "player-creation", "building-direction-8-way"},
     destructible = false,

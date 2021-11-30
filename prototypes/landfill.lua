@@ -15,7 +15,7 @@ data:extend({
   {
     type = "item",
     name = "tile_test_item",
-    icon = "__cargo-ships__/graphics/blank.png",
+    icon = GRAPHICSPATH .. "blank.png",
     icon_size = 1,
     flags = {"hidden"},
     place_result = "tile_test_item",
@@ -24,7 +24,7 @@ data:extend({
   {
     type = "item",
     name = "tile_player_test_item",
-    icon = "__cargo-ships__/graphics/blank.png",
+    icon = GRAPHICSPATH .. "blank.png",
     icon_size = 1,
     flags = {"hidden"},
     place_result = "tile_player_test_item",

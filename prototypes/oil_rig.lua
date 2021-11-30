@@ -1,4 +1,4 @@
-local empty_pic = "__cargo-ships__/graphics/blank.png"
+local empty_pic = GRAPHICSPATH .. "blank.png"
 
 ----------------------------------------------------------------
 -------------------------DEEP SEA OIL --------------------------
@@ -28,7 +28,7 @@ deep_oil.collision_mask = {'ground-tile','resource-layer'}
 deep_oil.resource_patch_search_radius = 32
 deep_oil.stages = {
   sheet = {
-    filename = "__cargo-ships__/graphics/entity/crude-oil/water-crude-oil.png",
+    filename = GRAPHICSPATH .. "entity/crude-oil/water-crude-oil.png",
     priority = "extra-high",
     width = 74,
     height = 60,
@@ -38,7 +38,7 @@ deep_oil.stages = {
     scale = 1.4,
     hr_version =
     {
-      filename = "__cargo-ships__/graphics/entity/crude-oil/hr-water-crude-oil.png",
+      filename = GRAPHICSPATH .. "entity/crude-oil/hr-water-crude-oil.png",
       priority = "extra-high",
       width = 148,
       height = 120,
@@ -55,37 +55,37 @@ local function oilrig_layer(orientation)
   return {
     layers = {
       {
-        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
         width = 352,
         height = 448,
         scale = 1,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
+          filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
           width = 704,
           height = 896,
           scale = 0.5,
         }
       },
       {
-        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base.png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base.png",
         width = 352,
         height = 448,
         scale = 1,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base.png",
+          filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base.png",
           width = 704,
           height = 896,
           scale = 0.5,
         }
       },
       {
-        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-shadow.png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-shadow.png",
         width = 352,
         height = 448,
         scale = 1,
         draw_as_shadow = true,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-shadow.png",
+          filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-shadow.png",
           width = 704,
           height = 896,
           scale = 0.5,
@@ -93,13 +93,13 @@ local function oilrig_layer(orientation)
         }
       },
       {
-        filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-light.png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-light.png",
         width = 352,
         height = 448,
         scale = 1,
         draw_as_light = true,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-base-light.png",
+          filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-light.png",
           width = 704,
           height = 896,
           scale = 0.5,
@@ -151,7 +151,7 @@ oil_rig.base_picture = {
   west = oilrig_layer("w"),
 }
 oil_rig.animations = {
-  filename = "__cargo-ships__/graphics/entity/oil_rig/oil-rig-anim.png",
+  filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-anim.png",
   width = 179,
   height = 243,
   scale = 1,
@@ -159,7 +159,7 @@ oil_rig.animations = {
   frame_count = 20,
   animation_speed = 0.25,
   hr_version = {
-    filename = "__cargo-ships__/graphics/entity/oil_rig/hr-oil-rig-anim.png",
+    filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-anim.png",
     width = 358,
     height = 486,
     scale = 0.5,
@@ -170,7 +170,7 @@ oil_rig.animations = {
 }
 oil_rig.water_reflection = {
   pictures = {
-    filename = "__cargo-ships__/graphics/entity/oil_rig/oil-rig-water-reflection.png",
+    filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-water-reflection.png",
     width = 70,
     height = 89,
     shift = util.by_pixel(0, 0),

@@ -1,5 +1,7 @@
+
+
 local emptypic = {
-  filename = "__cargo-ships__/graphics/blank.png",
+  filename = GRAPHICSPATH .. "blank.png",
   width = 2,
   height = 2,
 }
@@ -17,8 +19,8 @@ local function build_bridge_anim(ori, shiftx, shifty)
   local function imageloop(filename)
     local filelist = {}
     for i=1,20 do
-      local file = {filename = "__cargo-ships__/graphics/entity/bridge/" .. filename .. i .. ".png", width_in_frames = 1, height_in_frames = 1}
-      if i == 1 then file.filename = "__cargo-ships__/graphics/entity/bridge/" .. filename .. 0 .. ".png" end
+      local file = {filename = GRAPHICSPATH .. "entity/bridge/" .. filename .. i .. ".png", width_in_frames = 1, height_in_frames = 1}
+      if i == 1 then file.filename = GRAPHICSPATH .. "entity/bridge/" .. filename .. 0 .. ".png" end
       table.insert(filelist, file)
     end
     return filelist
@@ -58,7 +60,7 @@ end
 local function water_reflection(dir, num, x, y, shiftx, shifty)
   return {
     pictures = {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-" .. dir .. "-" .. num .."-water-reflection.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-" .. dir .. "-" .. num .."-water-reflection.png",
       width = x,
       height = y,
       shift = util.by_pixel(shiftx, shifty),
@@ -78,7 +80,7 @@ bridge.localised_description = {"description-template.bridge_base", {"entity-des
 bridge.animations = make_4way_animation_from_spritesheet({
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-base.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-base.png",
       --line_length = 4,
       width = 275,
       height = 275,
@@ -130,7 +132,7 @@ bridge_north_closed.created_smoke = nil
 bridge_north_closed.picture = {
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-n-shadow-1.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-n-shadow-1.png",
       width = 872,
       height = 436,
       shift = util.by_pixel(shiftX, shiftY),
@@ -138,7 +140,7 @@ bridge_north_closed.picture = {
       draw_as_shadow = true
     },
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-n-1.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-n-1.png",
       width = 872,
       height = 436,
       shift = util.by_pixel(shiftX, shiftY),
@@ -168,7 +170,7 @@ bridge_south_closed.collision_box = {{-6,-2}, {4,2}}
 bridge_south_closed.picture = {
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-s-shadow-1.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-s-shadow-1.png",
       width = 872,
       height = 436,
       shift = util.by_pixel(shiftX, shiftY),
@@ -176,7 +178,7 @@ bridge_south_closed.picture = {
       draw_as_shadow = true
     },
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-s-1.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-s-1.png",
       width = 872,
       height = 436,
       shift = util.by_pixel(shiftX, shiftY),
@@ -204,7 +206,7 @@ bridge_east_closed.collision_box = {{-2,-4}, {2,6}}
 bridge_east_closed.picture = {
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-e-shadow-1.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-e-shadow-1.png",
       width = 436,
       height = 930,
       shift = util.by_pixel(shiftX, shiftY),
@@ -212,7 +214,7 @@ bridge_east_closed.picture = {
       draw_as_shadow = true
     },
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-e-1.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-e-1.png",
       width = 436,
       height = 930,
       shift = util.by_pixel(shiftX, shiftY),
@@ -240,7 +242,7 @@ bridge_west_closed.collision_box = {{-2,-6}, {2,4}}
 bridge_west_closed.picture = {
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-w-shadow-1.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-w-shadow-1.png",
       width = 436,
       height = 930,
       shift = util.by_pixel(shiftX, shiftY),
@@ -248,7 +250,7 @@ bridge_west_closed.picture = {
       draw_as_shadow = true
     },
     {
-      filename = "__cargo-ships__/graphics/entity/bridge/bridge-w-1.png",
+      filename = GRAPHICSPATH .. "entity/bridge/bridge-w-1.png",
       width = 436,
       height = 930,
       shift = util.by_pixel(shiftX, shiftY),
@@ -272,7 +274,7 @@ invisible_chain_signal.collision_mask = {'rail-layer'}
 invisible_chain_signal.allow_copy_paste = false
 invisible_chain_signal.minable = nil
 invisible_chain_signal.animation = {
-  filename = "__cargo-ships__/graphics/blank.png",
+  filename = GRAPHICSPATH .. "blank.png",
   priority = "high",
   width = 2,
   height = 2,

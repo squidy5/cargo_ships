@@ -9,7 +9,7 @@ floating_pole.next_upgrade = nil
 floating_pole.pictures = {
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole.png",
+      filename = GRAPHICSPATH .. "entity/floating_electric_pole/floating-electric-pole.png",
       priority = "high",
       width = 168,
       height = 165,
@@ -17,7 +17,7 @@ floating_pole.pictures = {
       direction_count = 4,
       shift = util.by_pixel(51, -58),
       hr_version = {
-        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/hr-floating-electric-pole.png",
+        filename = GRAPHICSPATH .. "entity/floating_electric_pole/hr-floating-electric-pole.png",
         priority = "high",
         width = 336,
         height = 330,
@@ -27,7 +27,7 @@ floating_pole.pictures = {
       }
     },
     {
-      filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole-shadows.png",
+      filename = GRAPHICSPATH .. "entity/floating_electric_pole/floating-electric-pole-shadows.png",
       priority = "high",
       width = 168,
       height = 165,
@@ -36,7 +36,7 @@ floating_pole.pictures = {
       shift = util.by_pixel(51, -58),
       draw_as_shadow = true,
       hr_version = {
-        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/hr-floating-electric-pole-shadows.png",
+        filename = GRAPHICSPATH .. "entity/floating_electric_pole/hr-floating-electric-pole-shadows.png",
         priority = "high",
         width = 336,
         height = 330,
@@ -52,7 +52,7 @@ floating_pole.water_reflection =
   {
     pictures = {
       {
-        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
+        filename = GRAPHICSPATH .. "entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
         width = 34,
         height = 33,
         shift = util.by_pixel(0, 58),
@@ -60,7 +60,7 @@ floating_pole.water_reflection =
         scale = 5
       },
       {
-        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
+        filename = GRAPHICSPATH .. "entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
         width = 34,
         height = 33,
         x = 34,
@@ -69,7 +69,7 @@ floating_pole.water_reflection =
         scale = 5
       },
       {
-        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
+        filename = GRAPHICSPATH .. "entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
         width = 34,
         height = 33,
         x = 68,
@@ -78,7 +78,7 @@ floating_pole.water_reflection =
         scale = 5
       },
       {
-        filename = "__cargo-ships__/graphics/entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
+        filename = GRAPHICSPATH .. "entity/floating_electric_pole/floating-electric-pole_water_reflection.png",
         width = 34,
         height = 33,
         x = 102,
@@ -169,14 +169,14 @@ buoy.red_light = nil
 buoy.animation = {
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/buoy/buoy-base.png",
+      filename = GRAPHICSPATH .. "entity/buoy/buoy-base.png",
       width = 115,
       height = 115,
       frame_count = 1,
       repeat_count = 3,
       direction_count = 8,
       hr_version = {
-        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-base.png",
+        filename = GRAPHICSPATH .. "entity/buoy/hr-buoy-base.png",
         width = 230,
         height = 230,
         frame_count = 1,
@@ -186,7 +186,7 @@ buoy.animation = {
       }
     },
     {
-      filename = "__cargo-ships__/graphics/entity/buoy/buoy-shadow.png",
+      filename = GRAPHICSPATH .. "entity/buoy/buoy-shadow.png",
       draw_as_shadow = true,
       width = 115,
       height = 115,
@@ -195,7 +195,7 @@ buoy.animation = {
       direction_count = 8,
       hr_version =
       {
-        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-shadow.png",
+        filename = GRAPHICSPATH .. "entity/buoy/hr-buoy-shadow.png",
         draw_as_shadow = true,
         width = 230,
         height = 230,
@@ -206,7 +206,7 @@ buoy.animation = {
       }
     },
     {
-      filename = "__cargo-ships__/graphics/entity/buoy/buoy-lights.png",
+      filename = GRAPHICSPATH .. "entity/buoy/buoy-lights.png",
       blend_mode = "additive",
       draw_as_glow = true,
       width = 115,
@@ -215,7 +215,7 @@ buoy.animation = {
       direction_count = 8,
       hr_version =
       {
-        filename = "__cargo-ships__/graphics/entity/buoy/hr-buoy-lights.png",
+        filename = GRAPHICSPATH .. "entity/buoy/hr-buoy-lights.png",
         blend_mode = "additive",
         draw_as_glow = true,
         width = 230,
@@ -230,7 +230,7 @@ buoy.animation = {
 buoy.water_reflection = {
   pictures =
   {
-    filename = "__cargo-ships__/graphics/entity/buoy/buoy_water_reflection.png",
+    filename = GRAPHICSPATH .. "entity/buoy/buoy_water_reflection.png",
     width = 23,
     height = 23,
     --shift = util.by_pixel(0, -25),
@@ -253,7 +253,7 @@ chain_buoy.minable = {mining_time = 0.5, result = "chain_buoy"}
 chain_buoy.animation = {
   layers = {
     {
-      filename = "__cargo-ships__/graphics/entity/chain_buoy/chain-buoys-base.png",
+      filename = GRAPHICSPATH .. "entity/chain_buoy/chain-buoys-base.png",
       width = 261,
       height = 205,
       frame_count = 1,
@@ -262,7 +262,7 @@ chain_buoy.animation = {
       direction_count = 8,
       hr_version =
       {
-        filename = "__cargo-ships__/graphics/entity/chain_buoy/hr-chain-buoys-base.png",
+        filename = GRAPHICSPATH .. "entity/chain_buoy/hr-chain-buoys-base.png",
         width = 522,
         height = 410,
         frame_count = 1,
@@ -273,7 +273,7 @@ chain_buoy.animation = {
       }
     },
     {
-      filename = "__cargo-ships__/graphics/entity/chain_buoy/chain-buoys-lights.png",
+      filename = GRAPHICSPATH .. "entity/chain_buoy/chain-buoys-lights.png",
       draw_as_glow = true,
       line_length = 5,
       width = 261,
@@ -282,7 +282,7 @@ chain_buoy.animation = {
       direction_count = 8,
       hr_version =
       {
-        filename = "__cargo-ships__/graphics/entity/chain_buoy/hr-chain-buoys-lights.png",
+        filename = GRAPHICSPATH .. "entity/chain_buoy/hr-chain-buoys-lights.png",
         draw_as_glow = true,
         line_length = 5,
         width = 522,
@@ -309,7 +309,7 @@ chain_buoy.selection_box_offsets = {
 --[[chain_buoy.water_reflection = {
   pictures =
   {
-    filename = "__cargo-ships__/graphics/entity/chain_buoy/chain-buoys-water-reflection.png",
+    filename = GRAPHICSPATH .. "entity/chain_buoy/chain-buoys-water-reflection.png",
     width = 52,
     height = 41,
     --shift = util.by_pixel(0, -25),
@@ -337,7 +337,7 @@ chain_buoy.blue_light = nil
 
 local port = table.deepcopy(data.raw["train-stop"]["train-stop"])
 port.name = "port"
-port.icon = "__cargo-ships__/graphics/blank.png"
+port.icon = GRAPHICSPATH .. "blank.png"
 port.minable = {mining_time = 1, result = "port"}
 port.rail_overlay_animations = nil
 port.collision_mask = {"object-layer"}
@@ -348,13 +348,13 @@ local function maker_layer_port(xshift, yshift)
   return {
     layers = {
       {
-        filename = "__cargo-ships__/graphics/entity/port/port.png",
+        filename = GRAPHICSPATH .. "entity/port/port.png",
         width = 40,
         height = 150,
         shift = util.by_pixel(xshift, yshift),
         scale = 1,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/port/hr-port.png",
+          filename = GRAPHICSPATH .. "entity/port/hr-port.png",
           width = 80,
           height = 300,
           shift = util.by_pixel(xshift, yshift),
@@ -362,14 +362,14 @@ local function maker_layer_port(xshift, yshift)
         }
       },
       {
-        filename = "__cargo-ships__/graphics/entity/port/port-shadow.png",
+        filename = GRAPHICSPATH .. "entity/port/port-shadow.png",
         width = 150,
         height = 40,
         shift = util.by_pixel(xshift, yshift),
         scale = 1,
         draw_as_shadow = true,
         hr_version = {
-          filename = "__cargo-ships__/graphics/entity/port/hr-port-shadow.png",
+          filename = GRAPHICSPATH .. "entity/port/hr-port-shadow.png",
           width = 300,
           height = 80,
           shift = util.by_pixel(xshift, yshift),
@@ -391,28 +391,28 @@ port.animations = {
 port.water_reflection = {
   pictures = {
     {
-      filename = "__cargo-ships__/graphics/entity/port/port_water_reflection.png",
+      filename = GRAPHICSPATH .. "entity/port/port_water_reflection.png",
       width = 30,
       height = 30,
       shift = util.by_pixel(30, 0),
       scale = 5
     },
     {
-      filename = "__cargo-ships__/graphics/entity/port/port_water_reflection.png",
+      filename = GRAPHICSPATH .. "entity/port/port_water_reflection.png",
       width = 30,
       height = 30,
       shift = util.by_pixel(0, 30),
       scale = 5
     },
     {
-      filename = "__cargo-ships__/graphics/entity/port/port_water_reflection.png",
+      filename = GRAPHICSPATH .. "entity/port/port_water_reflection.png",
       width = 30,
       height = 30,
       shift = util.by_pixel(-30, 0),
       scale = 5
     },
     {
-      filename = "__cargo-ships__/graphics/entity/port/port_water_reflection.png",
+      filename = GRAPHICSPATH .. "entity/port/port_water_reflection.png",
       width = 30,
       height = 30,
       shift = util.by_pixel(0, -30),
@@ -429,7 +429,7 @@ port.light1 =
   picture =
   {
     north = {
-      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      filename = GRAPHICSPATH .. "entity/port/hr-port-light.png",
       width = 44,
       height = 24,
       scale = 0.5,
@@ -437,7 +437,7 @@ port.light1 =
       shift = util.by_pixel(30, -69),
     },
     east = {
-      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      filename = GRAPHICSPATH .. "entity/port/hr-port-light.png",
       width = 44,
       height = 24,
       scale = 0.5,
@@ -445,7 +445,7 @@ port.light1 =
       shift = util.by_pixel(0, -39),
     },
     south = {
-      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      filename = GRAPHICSPATH .. "entity/port/hr-port-light.png",
       width = 44,
       height = 24,
       scale = 0.5,
@@ -453,7 +453,7 @@ port.light1 =
       shift = util.by_pixel(-30, -69),
     },
     west = {
-      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      filename = GRAPHICSPATH .. "entity/port/hr-port-light.png",
       width = 44,
       height = 24,
       scale = 0.5,
@@ -463,7 +463,7 @@ port.light1 =
   },
   red_picture = {
     north = {
-      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      filename = GRAPHICSPATH .. "entity/port/hr-port-light.png",
       width = 44,
       height = 24,
       scale = 0.5,
@@ -471,7 +471,7 @@ port.light1 =
       shift = util.by_pixel(30, -69),
     },
     east = {
-      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      filename = GRAPHICSPATH .. "entity/port/hr-port-light.png",
       width = 44,
       height = 24,
       scale = 0.5,
@@ -479,7 +479,7 @@ port.light1 =
       shift = util.by_pixel(0, -39),
     },
     south = {
-      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      filename = GRAPHICSPATH .. "entity/port/hr-port-light.png",
       width = 44,
       height = 24,
       scale = 0.5,
@@ -487,7 +487,7 @@ port.light1 =
       shift = util.by_pixel(-30, -69),
     },
     west = {
-      filename = "__cargo-ships__/graphics/entity/port/hr-port-light.png",
+      filename = GRAPHICSPATH .. "entity/port/hr-port-light.png",
       width = 44,
       height = 24,
       scale = 0.5,

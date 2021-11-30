@@ -1,3 +1,5 @@
+GRAPHICSPATH = "__cargo-ships__/graphics/"
+
 local collision_mask_util = require("collision-mask-util")
 
 -- change collision mask of boat if it was changed by hovercraft mod:

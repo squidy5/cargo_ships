@@ -1,4 +1,4 @@
-local blank_icon = "__cargo-ships__/graphics/blank.png"
+local blank_icon = GRAPHICSPATH .. "blank.png"
 
 -- Support for  Schallfalke's Schall Transport Group mod
 local subgroup_shipequip = "water_transport"
@@ -11,7 +11,7 @@ data:extend({
   {
     type = "item",
     name = "bridge_base",
-    icon = "__cargo-ships__/graphics/icons/bridge.png",
+    icon = GRAPHICSPATH .. "icons/bridge.png",
     icon_size = 64,
     subgroup = subgroup_shipequip,
     flags = {},

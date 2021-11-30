@@ -1,4 +1,4 @@
-local no_icon = "__cargo-ships__/graphics/blank.png"
+local no_icon = GRAPHICSPATH .. "blank.png"
 require("bridge_items")
 
 -- Support for  Schallfalke's Schall Transport Group mod
@@ -36,7 +36,7 @@ data:extend{
   {
     type = "item-with-entity-data",
     name = "indep-boat",
-    icon = "__cargo-ships__/graphics/icons/boat.png",
+    icon = GRAPHICSPATH .. "icons/boat.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_ship,
@@ -47,7 +47,7 @@ data:extend{
   {
     type = "item-with-entity-data",
     name = "boat",
-    icon = "__cargo-ships__/graphics/icons/boat.png",
+    icon = GRAPHICSPATH .. "icons/boat.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_ship,
@@ -80,7 +80,7 @@ data:extend{
   {
     type = "item-with-entity-data",
     name = "cargo_ship",
-    icon = "__cargo-ships__/graphics/icons/cargoship_icon.png",
+    icon = GRAPHICSPATH .. "icons/cargoship_icon.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_ship,
@@ -91,7 +91,7 @@ data:extend{
   {
     type = "item-with-entity-data",
     name = "oil_tanker",
-    icon = "__cargo-ships__/graphics/icons/tanker.png",
+    icon = GRAPHICSPATH .. "icons/tanker.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_ship,
@@ -102,7 +102,7 @@ data:extend{
   {
     type = "rail-planner",
     name = "water-way",
-    icon = "__cargo-ships__/graphics/icons/water_rail.png",
+    icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_shipequip,
@@ -115,7 +115,7 @@ data:extend{
   {
     type = "item",
     name = "port",
-    icon = "__cargo-ships__/graphics/icons/port.png",
+    icon = GRAPHICSPATH .. "icons/port.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_shipequip,
@@ -126,7 +126,7 @@ data:extend{
   {
     type = "item",
     name = "floating-electric-pole",
-    icon = "__cargo-ships__/graphics/icons/floating_pole.png",
+    icon = GRAPHICSPATH .. "icons/floating_pole.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_shipequip, --"energy-pipe-distribution",
@@ -137,7 +137,7 @@ data:extend{
   {
     type = "item",
     name = "buoy",
-    icon = "__cargo-ships__/graphics/icons/buoy.png",
+    icon = GRAPHICSPATH .. "icons/buoy.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_shipequip,
@@ -148,7 +148,7 @@ data:extend{
   {
     type = "item",
     name = "chain_buoy",
-    icon = "__cargo-ships__/graphics/icons/chain_buoy.png",
+    icon = GRAPHICSPATH .. "icons/chain_buoy.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_shipequip,
@@ -159,7 +159,7 @@ data:extend{
   {
     type = "item",
     name = "ship_pump",
-    icon = "__cargo-ships__/graphics/icons/ship_pump.png",
+    icon = GRAPHICSPATH .. "icons/ship_pump.png",
     icon_size = 64,
     flags = {},
     subgroup = subgroup_shipequip, --"energy-pipe-distribution",
@@ -184,7 +184,7 @@ if settings.startup["deep_oil"].value then
     {
       type = "item",
       name = "oil_rig",
-      icon = "__cargo-ships__/graphics/icons/oil_rig.png",
+      icon = GRAPHICSPATH .. "icons/oil_rig.png",
       icon_size = 64,
       flags = {},
       subgroup = "extraction-machine",
