@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "title": "Cargo Ships Graphics",
   "author": "rude_grass",
-  "description": "Graphics for Cargo Ships)",
+  "description": "Graphics for Cargo Ships.",
   "dependencies": [
     "base >= 1.1",
     "~ cargo-ships >= 0.1.0"
