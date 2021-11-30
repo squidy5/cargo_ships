@@ -169,7 +169,7 @@ function cancelPlacement(entity, player, robot)
   if entity.name ~= "cargo_ship_engine" and entity.name ~= "boat_engine" then
     if player and player.valid then
       player.insert{name=entity.name, count=1}
-      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name =="boat" then
+      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
         player.print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
       else
         player.print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
@@ -177,7 +177,11 @@ function cancelPlacement(entity, player, robot)
     elseif robot and robot.valid then
       -- Give the robot back the thing
       robot.get_inventory(defines.inventory.robot_cargo).insert{name=entity.name, count=1}
-      game.print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
+      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+        game.print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
+      else
+        game.print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
+      end
     else
       game.print{"cargo-ship-message.error-canceled", entity.localised_name}
     end

@@ -49,10 +49,32 @@ function onEntityBuild(e)
     local engine = nil
     if entity.name == "cargo_ship" or entity.name == "oil_tanker" then
       local pos, dir = localize_engine(entity)
-      engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = force}
+      -- see if there is an engine ghost from a blueprint behind us
+      local engine_ghosts = surface.find_entities_filtered{ghost_name="cargo_ship_engine", position = pos, radius = 1, force = force}
+      if engine_ghosts and next(engine_ghosts) then
+        local q
+        q,engine = engine_ghosts[1].revive()
+        -- If couldn't revive engine, destroy ghost
+        if not engine then
+          engine_ghosts[1].destroy()
+        end
+      else
+        engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = force}
+      end
     elseif entity.name == "boat"  then
       local pos, dir = localize_engine(entity)
-      engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = force}
+      -- see if there is an engine ghost from a blueprint behind us
+      local engine_ghosts = surface.find_entities_filtered{ghost_name="boat_engine", position = pos, radius = 1, force = force}
+      if engine_ghosts and next(engine_ghosts) then
+        local q
+        q,engine = engine_ghosts[1].revive()
+        -- If couldn't revive engine, destroy ghost
+        if not engine then
+          engine_ghosts[1].destroy()
+        end
+      else
+        engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = force}
+      end
     end
     -- check placement in next tick
     table.insert(global.check_entity_placement, {entity, engine, player, e.robot})
