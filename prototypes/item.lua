@@ -19,8 +19,8 @@ if mods["SchallTransportGroup"] then
       order = "j-2",
     },
   }
-	subgroup_ship = "water_transport2"
-	subgroup_shipequip = "water_equipment"
+  subgroup_ship = "water_transport2"
+  subgroup_shipequip = "water_equipment"
 end
 
 

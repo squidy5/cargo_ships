@@ -2,7 +2,7 @@
 local subgroup_shipequip = "water_transport"
 
 if mods["SchallTransportGroup"] then
-	subgroup_shipequip = "water_equipment"
+  subgroup_shipequip = "water_equipment"
 end
 
 data:extend({

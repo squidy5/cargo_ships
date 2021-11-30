@@ -1,6 +1,4 @@
-GRAPHICSPATH = "__cargo-ships__/graphics/"
-
-emptypic = { filename = GRAPHICSPATH .. "blank.png", size = 1 }
+require("constants")
 
 local collision_mask_util = require("collision-mask-util")
 
@@ -11,16 +9,14 @@ data.raw["car"]["indep-boat"].collision_mask = {"ground-tile", "train-layer"}
 data.raw.fish["fish"].collision_mask = {"ground-tile", "colliding-with-tiles-only"}
 
 if settings.startup["deep_oil"].value and settings.startup["no_oil_for_oil_rig"].value then
-  data.raw.technology["deep_sea_oil_extraction"].unit =
-  {
-      count = 300,
-      ingredients =
-      {
-        {"automation-science-pack", 1},
-        {"logistic-science-pack", 1},
-      },
-      time = 30
-   }
+  data.raw.technology["deep_sea_oil_extraction"].unit = {
+    count = 300,
+    ingredients = {
+      {"automation-science-pack", 1},
+      {"logistic-science-pack", 1},
+    },
+    time = 30
+  }
 end
 
 if settings.startup["no_catching_fish"].value then

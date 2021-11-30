@@ -91,12 +91,7 @@ railpicturesinternal = function(elems, invisible)
           scale = 0.5,
         }
       else
-        part[elem[1]] = {
-          filename = GRAPHICSPATH .. "blank.png",
-          width = 2,
-          height = 2,
-          variation_count = 1,
-        }
+        part[elem[1]] = emptypic
       end
     end
 
@@ -104,20 +99,9 @@ railpicturesinternal = function(elems, invisible)
     res[key[1] .. "_" .. dashkey2] = part
   end
   res["rail_endings"] = {
-   sheets =
-   {
-     {
-       filename = GRAPHICSPATH .. "blank.png",
-       width = 4,
-       height = 4,
-     },
-     {
-       filename = GRAPHICSPATH .. "blank.png",
-       flags = { "icon" },
-       width = 4,
-       height = 4,
-     }
-
+    sheets = {
+      emptypic,
+      emptypic
     }
   }
   return res

@@ -1,5 +1,3 @@
-local empty_pic = GRAPHICSPATH .. "blank.png"
-
 ----------------------------------------------------------------
 -------------------------DEEP SEA OIL --------------------------
 ----------------------------------------------------------------
@@ -208,8 +206,8 @@ or_power.fluid_box = {
   filter = "steam",
   minimum_temperature = 100.0
 }
-or_power.horizontal_animation = { filename = empty_pic, size = 1 }
-or_power.vertical_animation = { filename = empty_pic, size = 1 }
+or_power.horizontal_animation = emptypic
+or_power.vertical_animation = emptypic
 local smoke1shift = util.by_pixel(-85 -14, -115 -14)
 local smoke2shift = util.by_pixel(53 -14, -167 -14)
 or_power.smoke = {
@@ -250,15 +248,10 @@ or_pole.collision_mask = {}
 or_pole.fast_replaceable_group = nil
 or_pole.next_upgrade = nil
 or_pole.maximum_wire_distance = 0
-or_pole.pictures = {
-  filename = empty_pic,
-  width = 2,
-  height = 2,
-  direction_count = 4,
-  line_length = 4,
-}
+or_pole.pictures = emptypic
 or_pole.supply_area_distance = 4.5
 or_pole.water_reflection = nil
+or_pole.connection_points = { data.raw["electric-pole"]["medium-electric-pole"].connection_points[1] }
 
 --[[
 local or_lamp = table.deepcopy(data.raw["lamp"]["small-lamp"])
@@ -285,13 +278,7 @@ or_radar.allow_copy_paste = false
 or_radar.collision_mask = {}
 or_radar.collision_box = nil
 or_radar.selection_box = nil
-or_radar.pictures = {
-  filename = empty_pic,
-  width = 2,
-  height = 2,
-  direction_count = 4,
-  line_length = 4,
-}
+or_radar.pictures = emptypic
 or_radar.max_distance_of_sector_revealed = 0
 or_radar.energy_usage = "50kW"
 or_radar.water_reflection = nil

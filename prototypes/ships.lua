@@ -497,26 +497,7 @@ boat_engine.burner = {
     }
   }
 }
-boat_engine.pictures = {
-  layers = {
-    {
-      slice = 4,
-      priority = "very-low",
-      width = 3,
-      height = 3,
-      direction_count = 256,
-      allow_low_quality_rotation = true,
-      filenames =
-      {
-        GRAPHICSPATH .. "blank.png",
-      },
-      line_length = 16,
-      lines_per_file = 16,
-      scale = 3,
-      shift = util.by_pixel(0, -22.5),
-    }
-  }
-}
+boat_engine.pictures = emptypic
 boat_engine.water_reflection = nil
 boat_engine.wheels = nil
 boat_engine.working_sound = car_sounds
@@ -714,26 +695,7 @@ cargo_ship_engine.burner = {
 
   }
 }
-cargo_ship_engine.pictures = {
-  layers = {
-    {
-      slice = 4,
-      priority = "very-low",
-      width = 3,
-      height = 3,
-      direction_count = 256,
-      allow_low_quality_rotation = true,
-      filenames =
-      {
-        GRAPHICSPATH .. "blank.png",
-      },
-      line_length = 16,
-      lines_per_file = 16,
-      scale = 3,
-      shift = util.by_pixel(0,-22.5),
-    }
-  }
-}
+cargo_ship_engine.pictures = emptypic
 cargo_ship_engine.minimap_representation = nil
 cargo_ship_engine.selected_minimap_representation = nil
 cargo_ship_engine.water_reflection = nil

@@ -278,9 +278,7 @@ invisible_chain_signal.allow_copy_paste = false
 invisible_chain_signal.minable = nil
 invisible_chain_signal.animation = {
   filename = GRAPHICSPATH .. "blank.png",
-  priority = "low",
-  width = 1,
-  height = 1,
+  size = 1,
   frame_count = 3,
   direction_count = 8,
 }
@@ -307,7 +305,7 @@ bridge_north_clickable.collision_box = {{-5,-3}, {7,3}}
 bridge_north_clickable.collision_mask = {"object-layer", "layer-14"}
 bridge_north_clickable.max_health = 500
 bridge_north_clickable.picture = emptypic
-bridge_north_clickable.created_smoke = nil
+--bridge_north_clickable.created_smoke = nil
 data:extend({bridge_north_clickable})
 
 local bridge_east_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
