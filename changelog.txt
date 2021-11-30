@@ -8,6 +8,7 @@ Date: 2021-11-29
     - Added option to disable oil on land.
     - Changed oil generation settings to startup, and lock out oil/oil rig entities and processes when disabled.
     - Added command "/regenerate-oil " that removes and regenerates all crude oil and offshore oil entities on the given surface, or all surfaces if none is specified.
+    - Added setting to make buoys indestructible (Fix buoys can be destroyed by driving over them with a boat #58).
   Visuals:
     - New HD technology icons (8).
     - New item icons (11).
@@ -32,7 +33,6 @@ Date: 2021-11-29
     - Fixed old typos in changelog.
     - Fixed that using pipette on bridges gave no or uncraftable entities.
     - Linking waterways and railways is now impossible (Fix rail waterway networks are interconactable #56).
-    - Added setting to make buoys indestructible (Fix buoys can be destroyed by driving over them with a ship #58).
   Optimization:
     - Compressed some animations to save space.
     - Some file sorting.
