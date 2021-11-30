@@ -441,7 +441,7 @@ local boat_engine_power = 300 + (speed_modifier -1) * 150
 
 local boat_engine = table.deepcopy(data.raw["locomotive"]["locomotive"])
 boat_engine.name = "boat_engine"
-boat_engine.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
+boat_engine.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation"}
 boat_engine.allow_copy_paste = true
 boat_engine.minable = nil
 boat_engine.icon = "__cargo-ships__/graphics/icons/boat.png"
@@ -645,7 +645,7 @@ local cargo_ship_engine_power = 2000 + (speed_modifier-1)*1200
 local cargo_ship_engine = table.deepcopy(data.raw["locomotive"]["locomotive"])
 cargo_ship_engine.name = "cargo_ship_engine"
 cargo_ship_engine.minable = nil
-cargo_ship_engine.flags =  {"not-blueprintable", "placeable-neutral", "player-creation"}
+cargo_ship_engine.flags =  {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation"}
 cargo_ship_engine.allow_copy_paste = true
 cargo_ship_engine.icon = "__cargo-ships__/graphics/icons/cargoship_icon.png"
 cargo_ship_engine.icon_size = 64

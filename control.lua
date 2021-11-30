@@ -42,7 +42,7 @@ function onEntityBuild(e)
     end
 
   elseif entity.name == "indep-boat" then
-    CheckBoatPlacement(entity, e.player_index)
+    CheckBoatPlacement(entity, player)
 
   elseif entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or entity.type == "locomotive" or entity.type == "artillery-wagon" then
     --game.players[1].print(entity.collision_mask)
@@ -55,7 +55,7 @@ function onEntityBuild(e)
       engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = force}
     end
     -- check placement in next tick
-    table.insert(global.check_entity_placement, {entity, engine, e.player_index})
+    table.insert(global.check_entity_placement, {entity, engine, player, e.robot})
 
   -- add oilrig slave entity
   elseif entity.name == "oil_rig" then
@@ -63,20 +63,19 @@ function onEntityBuild(e)
     local a = {{pos.x-2, pos.y-2}, {pos.x+2, pos.y+2}}
     local deep_oil = surface.find_entities_filtered{area=a, name="deep_oil"}
     if #deep_oil == 0 then
-      entity.destroy()
       if player then
         player.insert{name="oil_rig", count= 1}
         player.print{"cargo-ship-message.error-place-on-water", entity.localised_name}
+      elseif e.robot then
+        e.robot.get_inventory(defines.inventory.robot_cargo).insert{name="oil_rig", count= 1}
+        game.print{"cargo-ship-message.error-place-on-water", entity.localised_name}
       end
+      entity.destroy()
     else
       local or_power = surface.create_entity{name = "or_power", position = pos, force = force}
       table.insert(global.or_generators, or_power)
       surface.create_entity{name = "or_pole", position = pos, force = force}
       surface.create_entity{name = "or_radar", position = pos, force = force}
-      --surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y -3}, force = force}
-      --surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y -3}, force = force}
-      --surface.create_entity{name = "or_lamp", position = {pos.x + 2, pos.y + 3}, force = force}
-      --surface.create_entity{name = "or_lamp", position = {pos.x - 3, pos.y + 3}, force = force}
     end
 
   -- create bridge
@@ -126,6 +125,8 @@ function onEntityBuild(e)
       -- placement was invalid, give refund and don't rebuild
       if player then
         player.insert(refund)
+      elseif e.robot then
+        e.robot.get_inventory(defines.inventory.robot_cargo).insert(refund)
       end
     else
       -- create waterway
@@ -153,6 +154,9 @@ function onEntityBuild(e)
         player.insert(refund)
         player.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..entity.name.."__", "__ENTITY__"..bad_name.."__"}
       else
+        if e.robot then
+          e.robot.get_inventory(defines.inventory.robot_cargo).insert(refund)
+        end
         game.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..entity.name.."__", "__ENTITY__"..bad_name.."__"}
       end
       entity.destroy()
