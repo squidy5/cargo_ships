@@ -26,3 +26,17 @@ Xterminators mod spotlight (older version)
 ## Planned
  - Artillery ship
  - Ore silos and cranes for faster loading and unloading
+
+## Credits
+ - schnurrebutz/rudegrass | Creator
+ - snouz | improved graphics and sound in 0.1
+ - robot256 | features, bugfixes, improvements in 0.1
+ - Contributions bits by: Optera, drivelikebrazil, kajacx, Capon, Oceanel51, mkaito, ArcaniVictus, phoenixuprising, Schallfalke, MatrixN1, Zetabite
+
+## Locale
+ - Russian: IgorLutiy, kylichist
+ - Polish: RadianOst
+ - English: rs017991
+ - Hungary: ZolfHUN
+ - Japanese: iida-hayato, Tei1988
+ - Korean: GimoXagros
