@@ -1,4 +1,4 @@
-# cargo_ships
+# Cargo Ships
 Create a network of ships, similar to trains, but slower, bulkier, with integrated engines, and on water. Take advantage of offshore oil, and have access to a personal boat vehicle. Just like rails, you place water ways, ports, signal buoys...
 
 ## Features
