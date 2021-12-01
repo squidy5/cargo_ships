@@ -3,7 +3,7 @@ Version: 0.1.0
 Date: 2021-11-29
   Info:
     - New/improved visuals by snouz.
-    - Bug fixes, improvements, features and code factorisation by Robot256
+    - Bug fixes, improvements, features and code factorisation by Robot256.
   Features:
     - Added option to disable oil on land.
     - Changed oil generation settings to startup, and lock out oil/oil rig entities and processes when disabled.
@@ -23,6 +23,7 @@ Date: 2021-11-29
     - Buoys and Chain Buoys: Reworked in HD, water reflections, new shadows and lights.
     - Bridges: HD version, doesn't create smoke on closing, water reflections (open and closed).
     - Deep oil: Larger and slightly blurry.
+    - Ship pump: water reflection.
     - Improved splash effect and added ripple effect.
     - Fixed inconsistant or empty icons on deconstruction.
     - Fixed some icons not appearing in the GUI.
@@ -38,6 +39,7 @@ Date: 2021-11-29
     - Added filters to entity created and destroyed events to improve performance.
     - Compressed some animations to save space.
     - Sorted files and code.
+    - Separated graphics into its own mod (for avoiding redownloads)
     - Redesigned offshore oil spawning using the vanilla Crude Oil generation settings. Vanilla oil patches generated at sea are consolidated into Offshore oil deposits if they are far enough from land.
   Sound:
     - New sounds for ships (separate sound for boat and engine).
@@ -59,10 +61,6 @@ Date: 2021-11-29
     - Added compatibility with Water Ores.
     - Disabled offshore oil for SeaBlock and Omnimatter.
     - Added conflict with "cargo-ships-seraph" fork to avoid confusion.
-
-  TODO:
-    - pump reflection
-    - sound bridge?
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.59
   Bugfixes:
