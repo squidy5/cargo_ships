@@ -1,6 +1,7 @@
 # Cargo Ships
 Create a network of ships, similar to trains, but slower, bulkier, with integrated engines, and on water. Take advantage of offshore oil, and have access to a personal boat vehicle. Just like rails, you place water ways, ports, signal buoys...
 
+![Imgur](https://i.imgur.com/GQdsnjn.png)
 ## Features
  - 3 railed ships (tanker, cargo ship, small boat)
  - 1 vehicle boat (SHIFT + ENTER to board)
@@ -12,11 +13,12 @@ Create a network of ships, similar to trains, but slower, bulkier, with integrat
  - Oil spwning frequency
  - Land oil disableable
  - Reach distance modifier for water buildings
-
+![Imgur](https://i.imgur.com/5tuUOo4.png)
 ## Tips
 To generate water-rich maps, change the terrain-settings for water to very low frequency & huge size or use one of the islands mods.
 
 ## Recommended mods
+ - [Landfill+](https://mods.factorio.com/mod/Landfill_plus)
  - [CanalBuilder](https://mods.factorio.com/mod/CanalBuilderWLK)
  - [Hovercraft](https://mods.factorio.com/mod/Hovercrafts)
  - [Water Placeable Lamps](https://mods.factorio.com/mod/rz-water-placeable-lamps)
