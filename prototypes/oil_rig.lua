@@ -49,63 +49,132 @@ deep_oil.stages = {
 }
 deep_oil.water_reflection = nil
 
-local function oilrig_layer(orientation)
-  return {
+local function oilrig_layer(orientation, animated)
+  local returned_value = {
     layers = {
       {
-        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-pipe-" .. orientation .. ".png",
         width = 352,
         height = 448,
         scale = 1,
+        frame_count = 1,
+        repeat_count = 20,
+        animation_speed = 0.25,
         hr_version = {
           filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-pipe-" .. orientation .. ".png",
           width = 704,
           height = 896,
           scale = 0.5,
+          frame_count = 1,
+          repeat_count = 20,
+        animation_speed = 0.25,
         }
       },
       {
-        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base.png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-base.png",
         width = 352,
         height = 448,
         scale = 1,
+        frame_count = 1,
+        repeat_count = 20,
+        animation_speed = 0.25,
         hr_version = {
           filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base.png",
           width = 704,
           height = 896,
           scale = 0.5,
+          frame_count = 1,
+          repeat_count = 20,
+          animation_speed = 0.25,
         }
       },
       {
-        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-shadow.png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-base-shadow.png",
         width = 352,
         height = 448,
         scale = 1,
         draw_as_shadow = true,
+        frame_count = 1,
+        repeat_count = 20,
+        animation_speed = 0.25,
         hr_version = {
           filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-shadow.png",
           width = 704,
           height = 896,
           scale = 0.5,
           draw_as_shadow = true,
+          frame_count = 1,
+          repeat_count = 20,
+          animation_speed = 0.25,
         }
       },
       {
-        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-light.png",
+        filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-base-light.png",
         width = 352,
         height = 448,
         scale = 1,
         draw_as_light = true,
+        frame_count = 1,
+        repeat_count = 20,
+        animation_speed = 0.25,
         hr_version = {
           filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-base-light.png",
           width = 704,
           height = 896,
           scale = 0.5,
           draw_as_light = true,
+          frame_count = 1,
+          repeat_count = 20,
+          animation_speed = 0.25,
         }
       },
+
     }
   }
+
+  if animated then
+    table.insert(returned_value.layers, {
+      filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-anim.png",
+      width = 179,
+      height = 243,
+      scale = 1,
+      line_length = 5,
+      frame_count = 20,
+      animation_speed = 0.25,
+      hr_version = {
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-anim.png",
+        width = 358,
+        height = 486,
+        scale = 0.5,
+        line_length = 5,
+        frame_count = 20,
+        animation_speed = 0.25,
+      }
+    })
+  else
+    table.insert(returned_value.layers, {
+      filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-anim.png",
+      width = 179,
+      height = 243,
+      scale = 1,
+      line_length = 1,
+      frame_count = 1,
+      repeat_count = 20,
+      animation_speed = 0.25,
+      hr_version = {
+        filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-anim.png",
+        width = 358,
+        height = 486,
+        scale = 0.5,
+        line_length = 1,
+        frame_count = 1,
+        repeat_count = 20,
+        animation_speed = 0.25,
+      }
+    })
+  end
+
+  return returned_value
 end
 
 ----------------------------------------------------------------
@@ -144,30 +213,24 @@ oil_rig.output_fluid_box = {
     { position = {0, -4}}
   },
 }
-oil_rig.base_picture = {
-  north = oilrig_layer("n"),
-  east = oilrig_layer("e"),
-  south = oilrig_layer("s"),
-  west = oilrig_layer("w"),
+oil_rig.graphics_set = {
+  idle_animation = {
+    north = oilrig_layer("n"),
+    east = oilrig_layer("e"),
+    south = oilrig_layer("s"),
+    west = oilrig_layer("w"),
+  },
+  --always_draw_idle_animation = true,
+  animation = {
+    north = oilrig_layer("n", true),
+    east = oilrig_layer("e", true),
+    south = oilrig_layer("s", true),
+    west = oilrig_layer("w", true),
+  },
 }
-oil_rig.animations = {
-  filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-anim.png",
-  width = 179,
-  height = 243,
-  scale = 1,
-  line_length = 5,
-  frame_count = 20,
-  animation_speed = 0.25,
-  hr_version = {
-    filename = GRAPHICSPATH .. "entity/oil_rig/hr-oil-rig-anim.png",
-    width = 358,
-    height = 486,
-    scale = 0.5,
-    line_length = 5,
-    frame_count = 20,
-    animation_speed = 0.25,
-  }
-}
+oil_rig.animations = nil
+oil_rig.base_picture = nil
+oil_rig.integration_patch = nil
 oil_rig.water_reflection = {
   pictures = {
     filename = GRAPHICSPATH .. "entity/oil_rig/oil-rig-water-reflection.png",
