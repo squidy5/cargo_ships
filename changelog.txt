@@ -4,9 +4,11 @@ Date: 2021-11-29
   Info:
     - New and improved visuals by snouz.
     - Bug fixes, improvements, features and code factorisation by Robot
-  Changes:
+  Features:
     - Added option to disable oil on land.
     - Changed oil generation settings to startup, and lock out oil/oil rig entities and processes when disabled.
+    - Added command "/regenerate-oil " that removes and regenerates all crude oil and offshore oil entities on the given surface, or all surfaces if none is specified.
+    - Added setting to make buoys indestructible (Fix buoys can be destroyed by driving over them with a boat #58).
   Visuals:
     - New HD technology icons (8).
     - New item icons (11).
@@ -22,6 +24,7 @@ Date: 2021-11-29
     - Bridges: HD version, doesn't create smoke on closing, water reflections (open and closed).
     - Deep oil: Larger and slightly blurry.
     - Improved splash effect and added ripple effect.
+    - Fixed inconsistant or empty icons on deconstruction.
   Bugfixes:
     - Fixed Chain Buoys being unaligned with their selection box
     - Fixed that boats on rails were blueprintable.
@@ -30,14 +33,13 @@ Date: 2021-11-29
     - Fixed old typos in changelog.
     - Fixed that using pipette on bridges gave no or uncraftable entities.
     - Linking waterways and railways is now impossible (Fix rail waterway networks are interconactable #56).
-    - Added setting to make buoys indestructible (Fix buoys can be destroyed by driving over them with a ship #58).
   Optimization:
     - Compressed some animations to save space.
     - Some file sorting.
     - Added filters to entity created and destroyed events to improve performance.
     - Redesigned offshore oil spawning using the vanilla Crude Oil generation settings. Vanilla oil patches generated at sea are consolidated into Offshore oil deposits if they are far enough from land.
   Sound:
-    - New sounds for ships (separate sound for boat moving and engine)
+    - New sounds for ships (separate sound for boat and engine).
     - Small boat makes a noise scaled to speed.
     - Removed Oil rig generator and radar sounds (kept only the pumpjack).
   Locale:
@@ -50,7 +52,6 @@ Date: 2021-11-29
     - Added handling of on_entity_cloned and area & entity cloning in editor and scripts.
     - Added handling of non-placed waterways in copy-paste generated blueprint.
     - Added handling of script_raised_revive.
-    - Added command "/regenerate-oil " that removes and regenerates all crude oil and offshore oil entities on the given surface, or all surfaces if none is specified.
   Compatibility
     - Disabled offshore oil for SeaBlock and Omnimatter.
     - Added conflict with "cargo-ships-seraph" fork to avoid confusion.
@@ -71,6 +72,7 @@ Version: 0.0.58
     - fixed ship placement not recognizing modded rails (i.e. space exploration rails)
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.57
+Date: 2020-12-19
   Changes:
     - updated to factorio 1.1
 ---------------------------------------------------------------------------------------------------
@@ -94,6 +96,7 @@ Version: 0.0.55
     - updated russian locale
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.54
+Date: 2020-05-15
   Bugfixes:
     - made it impossible to create ghost from bridges which led to crashes
     - made it impossible to landfill over waterways when used currently by ship
@@ -124,6 +127,7 @@ Version: 0.0.50
     - fixed unintended addition of unfinished crane entity in last update
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.49
+Date: 2019-12-20
   Changes:
     - added storage to oil rig. Adjustable via mod setting, default is 100k.
     - added gui to show current storage volume when clicking on oil rig.
@@ -134,6 +138,7 @@ Version: 0.0.49
     - fixed crash when deleting bridge by robot when bridge was opened
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.48
+Date: 2019-11-10
   Bugfixes:
     - fixed crashed on startup introduced in factorio 0.17.75
     - fixed messed up port graphics
@@ -146,6 +151,7 @@ Version: 0.0.47
     - bridges can only be mined now, when no trains or ships are currently crossing, fixing a bug with unminable rails/waterways
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.46
+Date: 2019-08-21
   Changes:
     - Added compatibility to ctp mod
 ---------------------------------------------------------------------------------------------------
@@ -155,11 +161,13 @@ Version: 0.0.45
     - Updated pump placement markers to the updated positions
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.44
+Date: 2019-07-11
   Changes:
     - Added mod option to change waterway visibility (requires restart)
     - Added mod option to adjust boats/ships movement speed (requires restart)
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.43
+Date: 2019-07-09
   Bugfixes:
     - fixed crash on startup introduced by factorio 0.17.55
 ---------------------------------------------------------------------------------------------------
@@ -173,6 +181,7 @@ Version: 0.0.41
     - added support for transport group mod
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.40
+Date: 2019-05-13
   Changes:
     - changes floating power pole collision box size to make them chunk aligned
     - increase oil tanker capacity too match cargo ships
@@ -181,6 +190,7 @@ Version: 0.0.40
     - fixed surface bug in creativemode
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.39
+Date: 2019-04-13
   Changes:
     - merged compatibility update for Multiple Unit Train Control
 ---------------------------------------------------------------------------------------------------
@@ -212,6 +222,7 @@ Version: 0.0.35
     - fixed crash when updating blueprint
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.34
+Date: 2019-03-18
   Changes:
     - made waterways blueprintable
   Bugfixes:
