@@ -60,7 +60,7 @@ end
 
 
 -- Cause this surface to regenerate all oil and redo our postprocessing of it
-function regenerateSurface(surface)
+local function regenerateSurface(surface)
   -- For each chunk (to keep lists small):
   -- 1. If deep_oil enabled, delete existing deep_oil
   local destroyed = 0
