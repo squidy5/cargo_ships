@@ -24,7 +24,7 @@ function localize_engine(ent)
   return pos, i
 end
 
-function has_connected_stock(wagon)
+local function has_connected_stock(wagon)
   local train = wagon.train
   local wagon_pos = 0
   for i=1, #train.carriages do
@@ -59,6 +59,31 @@ function has_connected_stock(wagon)
   --game.print("didn't find matching entity for "..wagon.name.." in train of "..#train.carriages.." wagons")
   return false
 end
+
+local function cancelPlacement(entity, player, robot)
+  if entity.name ~= "cargo_ship_engine" and entity.name ~= "boat_engine" then
+    if player and player.valid then
+      player.insert{name=entity.name, count=1}
+      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+        player.print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
+      else
+        player.print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
+      end
+    elseif robot and robot.valid then
+      -- Give the robot back the thing
+      robot.get_inventory(defines.inventory.robot_cargo).insert{name=entity.name, count=1}
+      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+        game.print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
+      else
+        game.print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
+      end
+    else
+      game.print{"cargo-ship-message.error-canceled", entity.localised_name}
+    end
+  end
+  entity.destroy()
+end
+
 
 function CheckBoatPlacement(entity, player, robot)
   -- check if waterways present
@@ -165,29 +190,6 @@ function checkPlacement()
   global.check_entity_placement = {}
 end
 
-function cancelPlacement(entity, player, robot)
-  if entity.name ~= "cargo_ship_engine" and entity.name ~= "boat_engine" then
-    if player and player.valid then
-      player.insert{name=entity.name, count=1}
-      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
-        player.print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
-      else
-        player.print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
-      end
-    elseif robot and robot.valid then
-      -- Give the robot back the thing
-      robot.get_inventory(defines.inventory.robot_cargo).insert{name=entity.name, count=1}
-      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
-        game.print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
-      else
-        game.print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
-      end
-    else
-      game.print{"cargo-ship-message.error-canceled", entity.localised_name}
-    end
-  end
-  entity.destroy()
-end
 
 
 -- Disconnects/reconnects rolling stocks if they get wrongly connected/disconnected
