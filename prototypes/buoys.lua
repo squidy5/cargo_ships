@@ -1,6 +1,8 @@
 local floating_pole = table.deepcopy(data.raw["electric-pole"]["big-electric-pole"])
 floating_pole.name = "floating-electric-pole"
 floating_pole.icon = GRAPHICSPATH .. "icons/floating_pole.png"
+floating_pole.icon_size = 64
+floating_pole.icon_mipmaps = 0
 floating_pole.minable = {mining_time = 0.5, result = "floating-electric-pole"}
 floating_pole.collision_mask = {'ground-tile', 'object-layer'}
 floating_pole.maximum_wire_distance = 48
@@ -156,6 +158,8 @@ end
 local buoy = table.deepcopy(data.raw["rail-signal"]["rail-signal"])
 buoy.name = "buoy"
 buoy.icon = GRAPHICSPATH .. "icons/buoy.png"
+buoy.icon_size = 64
+buoy.icon_mipmaps = 0
 buoy.collision_mask = {'ground-tile', 'rail-layer'}
 buoy.selection_box = {{-1.6, -0.8}, {0.01, 0.8}}
 buoy.fast_replaceable_group = "buoy"
@@ -244,7 +248,9 @@ buoy.rail_piece = nil
 
 local chain_buoy = table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 chain_buoy.name = "chain_buoy"
-chain_buoyicon = GRAPHICSPATH .. "icons/chain_buoy.png"
+chain_buoy.icon = GRAPHICSPATH .. "icons/chain_buoy.png"
+chain_buoy.icon_size = 64
+chain_buoy.icon_mipmaps = 0
 chain_buoy.collision_mask = {'ground-tile', 'rail-layer'}
 chain_buoy.selection_box = {{-1.6, -0.8}, {0.01, 0.8}}
 chain_buoy.fast_replaceable_group = "buoy"
@@ -314,6 +320,8 @@ chain_buoy.blue_light = nil
 local port = table.deepcopy(data.raw["train-stop"]["train-stop"])
 port.name = "port"
 port.icon = GRAPHICSPATH .. "icons/port.png"
+port.icon_size = 64
+port.icon_mipmaps = 0
 port.minable = {mining_time = 1, result = "port"}
 port.rail_overlay_animations = nil
 port.collision_mask = {"object-layer"}
