@@ -1,56 +1,110 @@
-
-
-
-
 --bridge.collision_box = {{-6,-3},{6,3}}
 
-local function build_bridge_anim(ori, shiftx, shifty)
+local function build_bridge_anim(ori, shiftx, shifty, picture)
   local width = 436
   local height = 930
+  local line_length = 7
   if ori == "n" or ori == "s" then
     width = 872
     height = 436
+    line_length = 3
   end
 
-  local function imageloop(filename)
-    local filelist = {}
-    for i=1,20 do
-      local file = {filename = GRAPHICSPATH .. "entity/bridge/" .. filename .. i .. ".png", width_in_frames = 1, height_in_frames = 1}
-      if i == 1 then file.filename = GRAPHICSPATH .. "entity/bridge/" .. filename .. 0 .. ".png" end
-      table.insert(filelist, file)
-    end
-    return filelist
-  end
-
-  return {
-    layers = {
-      {
-        stripes = imageloop("bridge-" .. ori .. "-"),
-        animation_speed = 0.4,
-        --line_length = 1,
-        width = width,
-        height = height,
-        frame_count = 20,
-        axially_symmetrical = false,
-        direction_count = 1,
-        shift = util.by_pixel(shiftx, shifty),
-        scale = 0.5,
-      },
-      {
-        stripes = imageloop("bridge-" .. ori .. "-shadow-"),
-        animation_speed = 0.4,
-        --line_length = 1,
-        width = width,
-        height = height,
-        frame_count = 20,
-        axially_symmetrical = false,
-        direction_count = 1,
-        draw_as_shadow = true,
-        shift = util.by_pixel(shiftx, shifty),
-        scale = 0.5,
-      },
+  if not picture then
+    return {
+      layers = {
+        {
+          filename = GRAPHICSPATH .. "entity/bridge/bridge-" .. ori .. ".png",
+          line_length = line_length,
+          animation_speed = 0.4,
+          width = width/2,
+          height = height/2,
+          frame_count = 21,
+          axially_symmetrical = false,
+          direction_count = 1,
+          shift = util.by_pixel(shiftx, shifty),
+          scale = 1,
+          hr_version = {
+            filename = GRAPHICSPATH .. "entity/bridge/hr-bridge-" .. ori .. ".png",
+            line_length = line_length,
+            animation_speed = 0.4,
+            width = width,
+            height = height,
+            frame_count = 21,
+            axially_symmetrical = false,
+            direction_count = 1,
+            shift = util.by_pixel(shiftx, shifty),
+            scale = 0.5,
+          }
+        },
+        {
+          filename = GRAPHICSPATH .. "entity/bridge/bridge-" .. ori .. "-shadow.png",
+          line_length = line_length,
+          animation_speed = 0.4,
+          width = width/2,
+          height = height/2,
+          frame_count = 21,
+          axially_symmetrical = false,
+          direction_count = 1,
+          draw_as_shadow = true,
+          shift = util.by_pixel(shiftx, shifty),
+          scale = 1,
+          hr_version = {
+            filename = GRAPHICSPATH .. "entity/bridge/hr-bridge-" .. ori .. "-shadow.png",
+            line_length = line_length,
+            animation_speed = 0.4,
+            width = width,
+            height = height,
+            frame_count = 21,
+            axially_symmetrical = false,
+            direction_count = 1,
+            draw_as_shadow = true,
+            shift = util.by_pixel(shiftx, shifty),
+            scale = 0.5,
+          }
+        },
+      }
     }
-  }
+  elseif picture then
+    return {
+      layers = {
+        {
+          filename = GRAPHICSPATH .. "entity/bridge/bridge-" .. ori .. "-shadow.png",
+          width = width/2,
+          height = height/2,
+          x = width/2,
+          shift = util.by_pixel(shiftx, shifty),
+          scale = 1,
+          draw_as_shadow = true,
+          hr_version = {
+            filename = GRAPHICSPATH .. "entity/bridge/hr-bridge-" .. ori .. "-shadow.png",
+            width = width,
+            height = height,
+            x = width,
+            shift = util.by_pixel(shiftx, shifty),
+            scale = 0.5,
+            draw_as_shadow = true,
+          }
+        },
+        {
+          filename = GRAPHICSPATH .. "entity/bridge/bridge-" .. ori .. ".png",
+          width = width/2,
+          height = height/2,
+          x = width/2,
+          shift = util.by_pixel(shiftx, shifty),
+          scale = 1,
+          hr_version = {
+            filename = GRAPHICSPATH .. "entity/bridge/hr-bridge-" .. ori .. ".png",
+            width = width,
+            height = height,
+            x = width,
+            shift = util.by_pixel(shiftx, shifty),
+            scale = 0.5,
+          }
+        },
+      }
+    }
+  end
 end
 
 local function water_reflection(dir, num, x, y, shiftx, shifty)
@@ -130,25 +184,7 @@ bridge_north_closed.selectable_in_game = false
 bridge_north_closed.allow_copy_paste = false
 bridge_north_closed.render_layer = "object"
 bridge_north_closed.created_smoke = nil
-bridge_north_closed.picture = {
-  layers = {
-    {
-      filename = GRAPHICSPATH .. "entity/bridge/bridge-n-shadow-1.png",
-      width = 872,
-      height = 436,
-      shift = util.by_pixel(shiftX, shiftY),
-      scale = 0.5,
-      draw_as_shadow = true
-    },
-    {
-      filename = GRAPHICSPATH .. "entity/bridge/bridge-n-1.png",
-      width = 872,
-      height = 436,
-      shift = util.by_pixel(shiftX, shiftY),
-      scale = 0.5
-    },
-  }
-}
+bridge_north_closed.picture = build_bridge_anim("n", shiftX, shiftY, true)
 bridge_north_closed.water_reflection = water_reflection("n", 1, 87, 44, shiftX, shiftY)
 
 data:extend({bridge_north_closed})
@@ -168,25 +204,7 @@ bridge_south.water_reflection = water_reflection("s", 20, 87, 44, shiftX, shiftY
 local bridge_south_closed = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_closed"])
 bridge_south_closed.name = "bridge_south_closed"
 bridge_south_closed.collision_box = {{-6,-2}, {4,2}}
-bridge_south_closed.picture = {
-  layers = {
-    {
-      filename = GRAPHICSPATH .. "entity/bridge/bridge-s-shadow-1.png",
-      width = 872,
-      height = 436,
-      shift = util.by_pixel(shiftX, shiftY),
-      scale = 0.5,
-      draw_as_shadow = true
-    },
-    {
-      filename = GRAPHICSPATH .. "entity/bridge/bridge-s-1.png",
-      width = 872,
-      height = 436,
-      shift = util.by_pixel(shiftX, shiftY),
-      scale = 0.5
-    },
-  }
-}
+bridge_south_closed.picture = build_bridge_anim("s", shiftX, shiftY, true)
 bridge_south_closed.water_reflection = water_reflection("s", 1, 87, 44, shiftX, shiftY)
 
 ----------------------------------------------------------------------------------
@@ -204,25 +222,7 @@ bridge_east.water_reflection = water_reflection("e", 20, 44, 94, shiftX, shiftY+
 local bridge_east_closed = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_closed"])
 bridge_east_closed.name = "bridge_east_closed"
 bridge_east_closed.collision_box = {{-2,-4}, {2,6}}
-bridge_east_closed.picture = {
-  layers = {
-    {
-      filename = GRAPHICSPATH .. "entity/bridge/bridge-e-shadow-1.png",
-      width = 436,
-      height = 930,
-      shift = util.by_pixel(shiftX, shiftY),
-      scale = 0.5,
-      draw_as_shadow = true
-    },
-    {
-      filename = GRAPHICSPATH .. "entity/bridge/bridge-e-1.png",
-      width = 436,
-      height = 930,
-      shift = util.by_pixel(shiftX, shiftY),
-      scale = 0.5
-    },
-  }
-}
+bridge_east_closed.picture = build_bridge_anim("e", shiftX, shiftY, true)
 bridge_east_closed.water_reflection = water_reflection("e", 1, 44, 94, shiftX, shiftY+32)
 
 ----------------------------------------------------------------------------------
@@ -240,25 +240,7 @@ bridge_west.water_reflection = water_reflection("w", 20, 44, 94, shiftX, shiftY)
 local bridge_west_closed = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_closed"])
 bridge_west_closed.name = "bridge_west_closed"
 bridge_west_closed.collision_box = {{-2,-6}, {2,4}}
-bridge_west_closed.picture = {
-  layers = {
-    {
-      filename = GRAPHICSPATH .. "entity/bridge/bridge-w-shadow-1.png",
-      width = 436,
-      height = 930,
-      shift = util.by_pixel(shiftX, shiftY),
-      scale = 0.5,
-      draw_as_shadow = true
-    },
-    {
-      filename = GRAPHICSPATH .. "entity/bridge/bridge-w-1.png",
-      width = 436,
-      height = 930,
-      shift = util.by_pixel(shiftX, shiftY),
-      scale = 0.5
-    },
-  }
-}
+bridge_west_closed.picture = build_bridge_anim("w", shiftX, shiftY, true)
 bridge_west_closed.water_reflection = water_reflection("w", 1, 44, 94, shiftX, shiftY+32)
 
 data:extend({bridge_south, bridge_south_closed, bridge_east, bridge_east_closed, bridge_west, bridge_west_closed})

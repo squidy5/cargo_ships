@@ -12,6 +12,21 @@ ship_pump.collision_mask = {"object-layer"}
 ship_pump.pumping_speed = 1000
 ship_pump.energy_usage = "50kW"
 ship_pump.next_upgrade = nil
+--ship_pump.fluid_wagon_connector_frame_count = nil
+--ship_pump.fluid_wagon_connector_graphics = nil
+ship_pump.water_reflection = {
+  pictures = {
+    filename = GRAPHICSPATH .. "entity/pump/pump-water-reflection.png",
+    line_length = 1,
+    width = 19,
+    height = 19,
+    shift = util.by_pixel(0, 10),
+    variation_count = 4,
+    scale = 5
+  },
+  rotate = false,
+  orientation_to_variation = true
+}
 
 local pump_marker = table.deepcopy(data.raw["simple-entity-with-owner"]["simple-entity-with-owner"])
 pump_marker.name = "pump_marker"
