@@ -128,7 +128,7 @@ data:extend({
     rail_category = "regular",
     pictures = railpictures(),
     placeable_by = { item = "water-way", count = 1},
-    localised_description = {"description-template.water-way"}
+    localised_description = {"item-description.water-way"}
   },
   {
     type = "curved-rail",
@@ -150,7 +150,7 @@ data:extend({
     rail_category = "regular",
     pictures = railpictures(),
     placeable_by = { item = "water-way", count = 4},
-    localised_description = {"description-template.water-way"}
+    localised_description = {"item-description.water-way"}
   },
 })
 
