@@ -24,7 +24,7 @@ function localize_engine(ent)
   return pos, i
 end
 
-function has_connected_stock(wagon)
+local function has_connected_stock(wagon)
   local train = wagon.train
   local wagon_pos = 0
   for i=1, #train.carriages do
@@ -60,37 +60,66 @@ function has_connected_stock(wagon)
   return false
 end
 
-function CheckBoatPlacement(entity, p_i)
+local function cancelPlacement(entity, player, robot)
+  if entity.name ~= "cargo_ship_engine" and entity.name ~= "boat_engine" then
+    if player and player.valid then
+      player.insert{name=entity.name, count=1}
+      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+        player.print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
+      else
+        player.print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
+      end
+    elseif robot and robot.valid then
+      -- Give the robot back the thing
+      robot.get_inventory(defines.inventory.robot_cargo).insert{name=entity.name, count=1}
+      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+        game.print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
+      else
+        game.print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
+      end
+    else
+      game.print{"cargo-ship-message.error-canceled", entity.localised_name}
+    end
+  end
+  entity.destroy()
+end
+
+
+function CheckBoatPlacement(entity, player, robot)
   -- check if waterways present
   local pos = entity.position
   local surface = entity.surface
   local local_name = entity.localised_name
   local ww = surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way-placed"}
+  
   -- if so place waterway bound version of boat
   if #ww >= 1 then
     local force = entity.force
     entity.destroy()
     local boat = surface.create_entity{name="boat", position=pos, direction=dir, force=force}
     if boat then
-      if p_i then
-        game.players[p_i].print{"cargo-ship-message.place-on-waterway", local_name}
+      if player then
+        player.print{"cargo-ship-message.place-on-waterway", local_name}
       else
         game.print{"cargo-ship-message.place-on-waterway", local_name}
       end
       local eng_pos, dir = localize_engine(boat)
       local engine = surface.create_entity{name="boat_engine", position=eng_pos, direction=dir, force=force}
-      table.insert(global.check_entity_placement, {boat, engine, p_i})
+      table.insert(global.check_entity_placement, {boat, engine, player})
     else
-      if p_i then
-        game.players[p_i].insert{name="boat", count=1}
-        game.players[p_i].print{"cargo-ship-message.error-place-on-waterway", local_name}
+      if player then
+        player.insert{name="boat", count=1}
+        player.print{"cargo-ship-message.error-place-on-waterway", local_name}
       else
+        if robot then
+          robot.get_inventory(defines.inventory.robot_cargo).insert{name="boat", count=1}
+        end
         game.print{"cargo-ship-message.error-place-on-waterway", local_name}
       end
     end
   else
-    if p_i then
-      game.players[p_i].print{"cargo-ship-message.place-independent", local_name}
+    if player then
+      player.print{"cargo-ship-message.place-independent", local_name}
     else
       game.print{"cargo-ship-message.place-independent", local_name}
     end
@@ -103,7 +132,9 @@ function checkPlacement()
   for _, entry in pairs(global.check_entity_placement) do
     local entity = entry[1]
     local engine = entry[2]
-    local player_index = entry[3]
+    local player = entry[3]
+    local robot = entry[4]
+    
     if entity and entity.valid then
       if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
         -- check for too many connections
@@ -111,26 +142,26 @@ function checkPlacement()
         if not engine then
           -- See if there is already an engine connected to this ship
           if not has_connected_stock(entity) then
-            cancelPlacement(entity, player_index)
+            cancelPlacement(entity, player, robot)
           end
         elseif entity.orientation ~= engine.orientation then
-          cancelPlacement(entity, player_index)
-          cancelPlacement(engine, player_index)
+          cancelPlacement(entity, player, robot)
+          cancelPlacement(engine, player)
         elseif entity.train then
           -- check if connected to too many carriages
           if #entity.train.carriages > 2 then
-            cancelPlacement(entity, player_index)
-            cancelPlacement(engine, player_index)
+            cancelPlacement(entity, player, robot)
+            cancelPlacement(engine, player)
           -- check if on rails
           elseif entity.train.front_rail then
             if entity.train.front_rail.name ~= "straight-water-way-placed" and entity.train.front_rail.name ~= "curved-water-way-placed" then
-              cancelPlacement(entity, player_index)
-              cancelPlacement(engine, player_index)
+              cancelPlacement(entity, player, robot)
+              cancelPlacement(engine, player)
             end
           elseif entity.train.back_rail then
             if entity.train.back_rail.name ~= "straight-water-way-placed" and entity.train.back_rail.name ~= "curved-water-way-placed" then
-              cancelPlacement(entity, player_index)
-              cancelPlacement(engine, player_index)
+              cancelPlacement(entity, player, robot)
+              cancelPlacement(engine, player)
             end
           end
         end
@@ -138,7 +169,7 @@ function checkPlacement()
       elseif entity.name == "cargo_ship_engine" or entity.name == "boat_engine" then
         if not has_connected_stock(entity) then
           game.print{"cargo-ship-message.error-unlinked-engine", entity.localised_name}
-          cancelPlacement(entity, player_index)
+          cancelPlacement(entity, player)
         end
 
       -- else: trains
@@ -146,11 +177,11 @@ function checkPlacement()
         -- check if on waterways
         if entity.train.front_rail then
           if entity.train.front_rail.name == "straight-water-way-placed" or entity.train.front_rail.name == "curved-water-way-placed" then
-            cancelPlacement(entity, player_index)
+            cancelPlacement(entity, player, robot)
           end
         elseif entity.train.back_rail then
           if entity.train.back_rail.name == "straight-water-way-placed" or entity.train.back_rail.name == "curved-water-way-placed" then
-            cancelPlacement(entity, player_index)
+            cancelPlacement(entity, player, robot)
           end
         end
       end
@@ -159,21 +190,6 @@ function checkPlacement()
   global.check_entity_placement = {}
 end
 
-function cancelPlacement(entity, player_index)
-  if entity.name ~= "cargo_ship_engine" and entity.name ~= "boat_engine" then
-    if player_index then
-      game.players[player_index].insert{name=entity.name, count=1}
-      if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name =="boat" then
-        game.players[player_index].print{"cargo-ship-message.error-ship-no-space", entity.localised_name}
-      else
-        game.players[player_index].print{"cargo-ship-message.error-train-on-waterway", entity.localised_name}
-      end
-    else
-      game.print{"cargo-ship-message.error-canceled", entity.localised_name}
-    end
-  end
-  entity.destroy()
-end
 
 
 -- Disconnects/reconnects rolling stocks if they get wrongly connected/disconnected

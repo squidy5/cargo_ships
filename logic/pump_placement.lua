@@ -1,28 +1,4 @@
-function PumpVisualisation(e)
-  local player = game.players[e.player_index]
-  local stack = player.cursor_stack
-
-  -- if stack valid
-  if stack and stack.valid_for_read then
-    -- if last was pump, current is not
-    if global.ship_pump_selected[e.player_index] and stack.name ~= "ship_pump" then
-      RemoveVisuals(e.player_index)
-      global.ship_pump_selected[e.player_index] = nil
-
-    -- if current is pump and last was not
-    elseif (not global.ship_pump_selected[e.player_index]) and stack.name == "ship_pump" then
-      AddVisuals(player)
-      global.ship_pump_selected[e.player_index] = true
-    end
-
-  -- if stack empty
-  elseif global.ship_pump_selected[e.player_index] then
-    RemoveVisuals(e.player_index)
-    global.ship_pump_selected[e.player_index] = nil
-  end
-end
-
-function AddVisuals(player)
+local function AddVisuals(player)
   local new_markers = {}
   local pos = player.position
   local a = {{pos.x-100, pos.y-100}, {pos.x+100, pos.y+100}}
@@ -44,7 +20,7 @@ function AddVisuals(player)
   end
 end
 
-function PlaceVisuals(position, horizontal, mult, player)
+local function PlaceVisuals(position, horizontal, mult, player)
   local surface = player.surface
   local markers = {}
   if horizontal ~= 0 then
@@ -69,7 +45,7 @@ function PlaceVisuals(position, horizontal, mult, player)
   return markers
 end
 
-function RemoveVisuals(player_index)
+local function RemoveVisuals(player_index)
   for _, marker_set in pairs(global.pump_markers[player_index]) do
     for _, marker in pairs(marker_set) do
       marker.destroy()
@@ -87,5 +63,29 @@ function UpdateVisuals(e)
         AddVisuals(player)
       end
     end
+  end
+end
+
+function PumpVisualisation(e)
+  local player = game.players[e.player_index]
+  local stack = player.cursor_stack
+
+  -- if stack valid
+  if stack and stack.valid_for_read then
+    -- if last was pump, current is not
+    if global.ship_pump_selected[e.player_index] and stack.name ~= "ship_pump" then
+      RemoveVisuals(e.player_index)
+      global.ship_pump_selected[e.player_index] = nil
+
+    -- if current is pump and last was not
+    elseif (not global.ship_pump_selected[e.player_index]) and stack.name == "ship_pump" then
+      AddVisuals(player)
+      global.ship_pump_selected[e.player_index] = true
+    end
+
+  -- if stack empty
+  elseif global.ship_pump_selected[e.player_index] then
+    RemoveVisuals(e.player_index)
+    global.ship_pump_selected[e.player_index] = nil
   end
 end
