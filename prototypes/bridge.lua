@@ -88,7 +88,7 @@ bridge.animations = make_4way_animation_from_spritesheet({
     }
   }
 })
-data:extend({bridge})
+data:extend{bridge}
 
 ----------------------------------------------------------------------------------
 --------------------------------- NORTH ------------------------------------------
@@ -114,8 +114,6 @@ bridge_north.selectable_in_game = false
 bridge_north.allow_copy_paste = false
 bridge_north.created_smoke = nil
 bridge_north.water_reflection = water_reflection("n", 20, 87, 44, shiftX, shiftY)
-
-data:extend({bridge_north})
 
 local bridge_north_closed = table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
 bridge_north_closed.name = "bridge_north_closed"
@@ -151,7 +149,7 @@ bridge_north_closed.picture = {
 }
 bridge_north_closed.water_reflection = water_reflection("n", 1, 87, 44, shiftX, shiftY)
 
-data:extend({bridge_north_closed})
+data:extend{bridge_north, bridge_north_closed}
 
 ----------------------------------------------------------------------------------
 --------------------------------- SOUTH ------------------------------------------
@@ -261,7 +259,8 @@ bridge_west_closed.picture = {
 }
 bridge_west_closed.water_reflection = water_reflection("w", 1, 44, 94, shiftX, shiftY+32)
 
-data:extend({bridge_south, bridge_south_closed, bridge_east, bridge_east_closed, bridge_west, bridge_west_closed})
+data:extend{bridge_south, bridge_south_closed, bridge_east, 
+            bridge_east_closed, bridge_west, bridge_west_closed}
 
 ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -289,7 +288,7 @@ invisible_chain_signal.red_light = nil
 invisible_chain_signal.blue_light = nil
 invisible_chain_signal.fast_replaceable_group = nil
 invisible_chain_signal.created_smoke = nil
-data:extend({invisible_chain_signal})
+data:extend{invisible_chain_signal}
 
 -------------------------------------------------------------------------------------------------------------------
 
@@ -323,7 +322,7 @@ bridge_west_clickable.name = "bridge_west_clickable"
 bridge_west_clickable.collision_box = {{-3,-7}, {3,5}}
 bridge_west_clickable.selection_box = {{-3,-7}, {3,5}}
 
-data:extend({bridge_south_clickable, bridge_east_clickable, bridge_west_clickable})
+data:extend{bridge_south_clickable, bridge_east_clickable, bridge_west_clickable}
 
 -------------------------------------------------------------------------------------------------------------------
 

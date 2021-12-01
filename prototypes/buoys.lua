@@ -244,7 +244,7 @@ buoy.rail_piece = nil
 
 local chain_buoy = table.deepcopy(data.raw["rail-chain-signal"]["rail-chain-signal"])
 chain_buoy.name = "chain_buoy"
-chain_buoyicon = GRAPHICSPATH .. "icons/chain_buoy.png"
+chain_buoy.icon = GRAPHICSPATH .. "icons/chain_buoy.png"
 chain_buoy.collision_mask = {'ground-tile', 'rail-layer'}
 chain_buoy.selection_box = {{-1.6, -0.8}, {0.01, 0.8}}
 chain_buoy.fast_replaceable_group = "buoy"
