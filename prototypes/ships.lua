@@ -317,7 +317,7 @@ local indep_boat_power = 300 + (speed_modifier -1) * 150
 
 local indep_boat = table.deepcopy(data.raw["car"]["car"])
 indep_boat.name = "indep-boat"
-indep_boat.collision_mask = {"ground-tile", "train-layer", "player-layer"}
+indep_boat.collision_mask = {"ground-tile", "train-layer"}
 indep_boat.collision_box = {{-1.2, -3}, {1.2, 3}}
 indep_boat.selection_box = {{-1.2, -3}, {1.2, 3}}
 indep_boat.max_health = 600

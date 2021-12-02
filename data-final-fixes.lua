@@ -31,7 +31,7 @@ end
 
 -- Disable sea oil generation and extraction if Omnimatter or Seablock are installed
 if data.raw.resource.deep_oil then
-  
+
   -- If Water_Ores is not installed, make it so that:
   -- 1. Crude Oil can generate on deepwater tiles, and
   -- 2. Other resources cannot generate on any water tiles
@@ -56,14 +56,29 @@ if data.raw.resource.deep_oil then
       end
     end
 
-    -- Add "water-tile" to collision masks of land resources (If Water_Ores is not installed)
+    -- Make new collision layer 'land-resource'
+    local land_resource_layer = collision_mask_util.get_first_unused_layer()
+
+    -- Add a new "land-resource" collision mask to land resources (If Water_Ores is not installed)
     for name, _ in pairs(data.raw.resource) do
       if name ~= "crude-oil" then
-        log("Adding collision layer 'water-tile' to resource '"..name.."'")
+        log("Adding collision layer 'land-resource:"..tostring(land_resource_layer).."' to resource '"..name.."'")
         if data.raw.resource[name].collision_mask then
-          table.insert(data.raw.resource[name].collision_mask, "water-tile")
+          table.insert(data.raw.resource[name].collision_mask, land_resource_layer)
         else
-          data.raw.resource[name].collision_mask = {"resource-layer", "water-tile"}
+          data.raw.resource[name].collision_mask = {"resource-layer", land_resource_layer}
+        end
+      end
+    end
+
+    -- Add land-resource to all water tiles also
+    for _,tile in pairs(collision_mask_util.collect_prototypes_with_layer("water-tile")) do
+      if tile.type == "tile" and string.find(tile.name, "water") then
+        log("Adding collision layer 'land-resource:"..tostring(land_resource_layer).."' to resource '"..tile.name.."'")
+        if tile.collision_mask then
+          table.insert(tile.collision_mask, land_resource_layer)
+        else
+          tile.collision_mask = {"resource-layer", land_resource_layer}
         end
       end
     end

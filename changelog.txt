@@ -1,6 +1,23 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.3
+Date: 2021-12-01
+  Bugfixes:
+    - Fixed boat compatibility with AAI Programmable Vehicles.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.2
+Date: 2021-12-01
+  Bugfixes:
+    - Fixed a crash when clicking on pump from a GUI.
+    - Removed obsolete dark waterways setting.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 2021-12-01
+  Bugfixes:
+    - Fixed not being able to build on ore.
+    - Fixed not being able to build boats outside of water ways.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.0
-Date: 2021-11-29
+Date: 2021-12-01
   Info:
     - New/improved visuals by snouz.
     - Bug fixes, improvements, features and code factorisation by Robot256.
@@ -12,21 +29,22 @@ Date: 2021-11-29
   Visuals:
     - New HD technology icons (8).
     - New item icons (11).
-    - Unrailed boat: HD version (original render, .5 scale, from 1.2), 256 directions (from 64), improved with filters, water reflection, separate shadow, softer light.
-    - Railed boat: HD version (using AI upscaling, .5 scale, from 1.5), improved with filters, water reflection, separate shadow, softer light.
-    - Oil Tanker: Twice as detailed (original render, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light, fixed unwanted light.
-    - Cargo Ship: Twice as detailed (using AI upscaling, .85 scale from 1.7), water reflection, separate shadow, custom map icon, softer light, fixed unwanted light.
-    - Oil Rig: Reinvented in HD with proper perspective, water reflection, separate shadow, animation, custom lights (removed hidden lamp entities).
-    - Port: Reworked in HD, water relection, shadow, improved position.
-    - Rails: Recreated in HD, aligned, removed transparency (which was messy).
-    - Floating Electric Poles: Reworked in HD, water reflections, new shadows.
-    - Buoys and Chain Buoys: Reworked in HD, water reflections, new shadows and lights.
-    - Bridges: HD version, doesn't create smoke on closing, water reflections (open and closed).
-    - Deep oil: Larger and slightly blurry.
-    - Ship pump: water reflection.
+    - Unrailed boat: HD version (original render, .5 scale, from 1.2), 256 directions (from 64), improved with filters.
+    - Railed boat: HD version (using AI upscaling, .5 scale, from 1.5), improved with filters.
+    - Oil Tanker: Twice as detailed (original render, .85 scale from 1.7).
+    - Cargo Ship: Twice as detailed (using AI upscaling, .85 scale from 1.7).
+    - Oil Rig: Compelely new HD visuals with proper perspective, animation and custom lights.
+    - Port: Reworked in HD, assed shadow, improved position.
+    - Rails: Recreated in HD, aligned, removed (messy) transparency.
+    - Floating Electric Poles: Reworked in HD.
+    - Buoys and Chain Buoys: Reworked in HD, new lights.
+    - Bridges: HD version, doesn't create smoke on closing.
+    - Added custom water reflection to all entities.
+    - Softer light on boats
+    - Standarized all shadows into a separate layer.
     - Improved splash effect and added ripple effect.
-    - Fixed inconsistant or empty icons on deconstruction.
-    - Fixed some icons not appearing in the GUI.
+    - Custom map icons for big boats
+    - Larger and slightly blurry deep oil.
   Bugfixes:
     - Fixed Chain Buoys being unaligned with their selection box
     - Fixed that boats on rails were blueprintable.
@@ -34,13 +52,17 @@ Date: 2021-11-29
     - Fixed crash when using "enter ship" command while in editor or god mode (by preventing you from entering a boat without a character).
     - Fixed old typos in changelog.
     - Fixed that using pipette on bridges gave no or uncraftable entities.
-    - Linking waterways and railways is now impossible (Fix rail waterway networks are interconactable #56).
+    - Fixed waterways and railways being interconactable (#56).
+    - Fixed some icons not appearing in the GUI.
+    - Fixed inconsistant or empty icons on deconstruction.
+    - Fixed car backlight appearing behind ships.
   Optimization:
     - Added filters to entity created and destroyed events to improve performance.
     - Compressed some animations to save space.
     - Sorted files and code.
     - Separated graphics into its own mod (for avoiding redownloads)
     - Redesigned offshore oil spawning using the vanilla Crude Oil generation settings. Vanilla oil patches generated at sea are consolidated into Offshore oil deposits if they are far enough from land.
+    - Replaced hidden lamp entities from the oil rig by a simple light layer.
   Sound:
     - New sounds for ships (separate sound for boat and engine).
     - Small boat makes a noise scaled to speed.

@@ -1,25 +1,3 @@
-local function AddVisuals(player)
-  local new_markers = {}
-  local pos = player.position
-  local a = {{pos.x-100, pos.y-100}, {pos.x+100, pos.y+100}}
-  local ports = player.surface.find_entities_filtered{area=a, name="port"}
-  -- initalize marker array if necessarry
-  global.pump_markers[player.index] = global.pump_markers[player.index] or {}
-  for _, port in pairs(ports) do
-    local dir = port.direction
-    if dir == defines.direction.north then
-      new_markers = PlaceVisuals(port.position, 0, 1, player)
-    elseif dir == defines.direction.south then
-      new_markers = PlaceVisuals(port.position, 0, -1, player)
-    elseif dir == defines.direction.east then
-      new_markers = PlaceVisuals(port.position, 1, -1, player)
-    elseif dir == defines.direction.west then
-      new_markers = PlaceVisuals(port.position, 1, 1, player)
-    end
-    table.insert(global.pump_markers[player.index], new_markers)
-  end
-end
-
 local function PlaceVisuals(position, horizontal, mult, player)
   local surface = player.surface
   local markers = {}
@@ -43,6 +21,28 @@ local function PlaceVisuals(position, horizontal, mult, player)
     end
   end
   return markers
+end
+
+local function AddVisuals(player)
+  local new_markers = {}
+  local pos = player.position
+  local a = {{pos.x-100, pos.y-100}, {pos.x+100, pos.y+100}}
+  local ports = player.surface.find_entities_filtered{area=a, name="port"}
+  -- initalize marker array if necessarry
+  global.pump_markers[player.index] = global.pump_markers[player.index] or {}
+  for _, port in pairs(ports) do
+    local dir = port.direction
+    if dir == defines.direction.north then
+      new_markers = PlaceVisuals(port.position, 0, 1, player)
+    elseif dir == defines.direction.south then
+      new_markers = PlaceVisuals(port.position, 0, -1, player)
+    elseif dir == defines.direction.east then
+      new_markers = PlaceVisuals(port.position, 1, -1, player)
+    elseif dir == defines.direction.west then
+      new_markers = PlaceVisuals(port.position, 1, 1, player)
+    end
+    table.insert(global.pump_markers[player.index], new_markers)
+  end
 end
 
 local function RemoveVisuals(player_index)
