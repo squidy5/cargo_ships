@@ -41,7 +41,7 @@ local function onEntityBuild(e)
       entity.destroy()
     end
 
-  elseif entity.name == "indep-boat" or entity.name == "indep-boat-0" then
+  elseif entity.name == "indep-boat" then
     CheckBoatPlacement(entity, player)
 
   elseif entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or entity.type == "locomotive" or entity.type == "artillery-wagon" then
@@ -571,7 +571,6 @@ local entity_filters = {
     {filter="type", type="locomotive"},
     {filter="type", type="artillery-wagon"},
     {filter="name", name="indep-boat"},
-    {filter="name", name="indep-boat-0"},
     {filter="name", name="oil_rig"},
     {filter="name", name="bridge_base"},
     {filter="type", type="straight-rail"},

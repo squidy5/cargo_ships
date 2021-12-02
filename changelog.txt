@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.4
+Date: 2021-12-01
+  Bugfixes:
+    - Fixed that ores might spawn in water accidentally (bug from 0.1.1).
+    - Fixed that placing AI Boat on waterway would result in non-AI railed boats.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.3
 Date: 2021-12-01
   Bugfixes:
@@ -47,7 +53,6 @@ Date: 2021-12-01
     - Larger and slightly blurry deep oil.
   Bugfixes:
     - Fixed Chain Buoys being unaligned with their selection box
-    - Fixed that boats on rails were blueprintable.
     - Fixed that using pipette in cheat mode gave uncraftable entities.
     - Fixed crash when using "enter ship" command while in editor or god mode (by preventing you from entering a boat without a character).
     - Fixed old typos in changelog.
