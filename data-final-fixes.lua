@@ -38,7 +38,10 @@ if data.raw.resource.deep_oil then
   -- (Water ores removes resource-layer from all water tiles, so crude oil AND ores can generate on water.
   --  In that case, it is up to the player if they want Offshore Oil to be consolidated, or leave the vanilla patches.)
   if not mods["Water_Ores"] then
-    -- Remove 'resource-layer' from the collision masks of water tiles where oil can go
+    -- Make new collision layer 'land-resource'
+    local land_resource_layer = collision_mask_util.get_first_unused_layer()
+
+    -- Replace 'resource-layer' with 'land-resource' in the collision masks of water tiles where oil can go
     if mods["ctg"] or mods["alien-biomes"] then
       valid_oil_tiles = {"water","water-green","deepwater","deepwater-green"}
     else
@@ -48,16 +51,13 @@ if data.raw.resource.deep_oil then
       if data.raw.tile[name] then
         for i=1, #data.raw.tile[name].collision_mask do
           if data.raw.tile[name].collision_mask[i] == "resource-layer" then
-            log("Removing collision layer 'resource-layer' from tile '"..name.."'")
-            table.remove(data.raw.tile[name].collision_mask, i)
+            log("Replacing collision layer 'resource-layer' with 'land-resource' on tile '"..name.."'")
+            data.raw.tile[name].collision_mask[i] = land_resource_layer
             break
           end
         end
       end
     end
-
-    -- Make new collision layer 'land-resource'
-    local land_resource_layer = collision_mask_util.get_first_unused_layer()
 
     -- Add a new "land-resource" collision mask to land resources (If Water_Ores is not installed)
     for name, _ in pairs(data.raw.resource) do
@@ -71,16 +71,5 @@ if data.raw.resource.deep_oil then
       end
     end
 
-    -- Add land-resource to all water tiles also
-    for _,tile in pairs(collision_mask_util.collect_prototypes_with_layer("water-tile")) do
-      if tile.type == "tile" and string.find(tile.name, "water") then
-        log("Adding collision layer 'land-resource:"..tostring(land_resource_layer).."' to resource '"..tile.name.."'")
-        if tile.collision_mask then
-          table.insert(tile.collision_mask, land_resource_layer)
-        else
-          tile.collision_mask = {"resource-layer", land_resource_layer}
-        end
-      end
-    end
   end
 end
