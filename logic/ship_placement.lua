@@ -11,7 +11,7 @@ offset[7] = {x = 7, y = 7}
 function localize_engine(ent)
   local i = (math.floor((ent.orientation*8)+0.5))%8
 
-  local mult = ((ent.name == "indep-boat" or ent.name == "boat") and -0.3) or 1
+  local mult = ((ent.name == "indep-boat" or ent.name == "indep-boat-0" or ent.name == "boat") and -0.3) or 1
   local pos = {x = ent.position.x + offset[i].x*mult, y = ent.position.y + offset[i].y*mult}
   --game.players[1].print("x_off: " .. offset[i].x*mult .. " y_off: " .. offset[i].y*mult)
 
@@ -91,7 +91,7 @@ function CheckBoatPlacement(entity, player, robot)
   local surface = entity.surface
   local local_name = entity.localised_name
   local ww = surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way-placed"}
-  
+
   -- if so place waterway bound version of boat
   if #ww >= 1 then
     local force = entity.force
@@ -134,7 +134,7 @@ function checkPlacement()
     local engine = entry[2]
     local player = entry[3]
     local robot = entry[4]
-    
+
     if entity and entity.valid then
       if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
         -- check for too many connections

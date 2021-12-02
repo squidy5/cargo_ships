@@ -41,7 +41,7 @@ local function onEntityBuild(e)
       entity.destroy()
     end
 
-  elseif entity.name == "indep-boat" then
+  elseif entity.name == "indep-boat" or entity.name == "indep-boat-0" then
     CheckBoatPlacement(entity, player)
 
   elseif entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or entity.type == "locomotive" or entity.type == "artillery-wagon" then
@@ -232,7 +232,7 @@ local function OnEnterShip(e)
       for dis = 1,10 do
         local targets = surface.find_entities_filtered{
           area={{X-dis, Y-dis}, {X+dis, Y+dis}},
-          name={"indep-boat","boat_engine","cargo_ship_engine"}}
+          name={"indep-boat","indep-boat-0","boat_engine","cargo_ship_engine"}}
         local done = false
         for _, target in pairs(targets) do
           if target and target.get_driver() == nil then
@@ -353,7 +353,7 @@ local function OnMined(e)
       local robot = e.robot
       if entity.train then
         local engine
-        if entity.train.back_stock and 
+        if entity.train.back_stock and
           (entity.train.back_stock.name == "cargo_ship_engine" or entity.train.back_stock.name == "boat_engine") then
           engine = entity.train.back_stock
         elseif entity.train.front_stock and
@@ -476,21 +476,21 @@ local function init()
   global.new_cranes = global.new_cranes or {}
   global.gui_oilrigs = (global.deep_oil_enabled and global.gui_oilrigs) or {}
   global.connection_counter = 0
-  
+
   -- Initialize or migrate long reach state
-  global.last_cursor_stack_name = 
-    ((type(global.last_cursor_stack_name) == "table") and global.last_cursor_stack_name) 
+  global.last_cursor_stack_name =
+    ((type(global.last_cursor_stack_name) == "table") and global.last_cursor_stack_name)
       or {}
-  global.last_distance_bonus = 
-    ((type(global.last_distance_bonus) == "number") and global.last_distance_bonus) 
+  global.last_distance_bonus =
+    ((type(global.last_distance_bonus) == "number") and global.last_distance_bonus)
       or settings.global["waterway_reach_increase"].value
   global.current_distance_bonus = settings.global["waterway_reach_increase"].value
-  
+
   -- Reapply long reach settings to existing characters
-  
+
   -- Reapply buoy setting when mod is updated
   updateAllBuoys()
-  
+
   -- Update GUI for all players if needed (after globals are re-cached)
   createGuiAllPlayers()
 
@@ -571,6 +571,7 @@ local entity_filters = {
     {filter="type", type="locomotive"},
     {filter="type", type="artillery-wagon"},
     {filter="name", name="indep-boat"},
+    {filter="name", name="indep-boat-0"},
     {filter="name", name="oil_rig"},
     {filter="name", name="bridge_base"},
     {filter="type", type="straight-rail"},
