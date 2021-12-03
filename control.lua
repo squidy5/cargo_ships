@@ -621,7 +621,7 @@ remote.add_interface("aai-sci-burner", {
 --                    FIND LOCAL VARIABLES THAT ARE USED GLOBALLY                 --
 --                              (Thanks to eradicator!)                           --
 ------------------------------------------------------------------------------------
-setmetatable(_ENV,{
+--[[setmetatable(_ENV,{
   __newindex=function (self,key,value) --locked_global_write
     error('\n\n[ER Global Lock] Forbidden global *write*:\n'
       .. serpent.line{key=key or '<nil>',value=value or '<nil>'}..'\n')
@@ -631,3 +631,4 @@ setmetatable(_ENV,{
       .. serpent.line{key=key or '<nil>'}..'\n')
     end ,
   })
+--]]
