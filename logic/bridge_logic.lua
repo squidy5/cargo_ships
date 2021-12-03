@@ -60,11 +60,11 @@ function CreateBridge(ent, player_index)
     closed_bridge.destructible = false
     local s1,s2,s3,s4, s5, s6
     s1, s2, s3, s4, s5, s6 = createSlaves(surface, pos, dir, hor, ver, f)
-    table.insert(global.bridges, {bridge, closed_bridge, nil, s1, s2,s3, s4, s5,s6 ,0})
+    table.insert(global.bridges, {bridge, closed_bridge, nil, s1, s2, s3, s4, s5, s6, 0})
   end
 end
 
-function checkBridgePlacement(pos, x1,y1,x2,y2, player_index, surface)
+function checkBridgePlacement(pos, x1, y1, x2, y2, player_index, surface)
   local valid = true
   local entities = surface.find_entities{{pos.x+x1, pos.y+y1}, {pos.x+x2, pos.y+y2}} --{{pos.x-5, pos.y-3},{pos.x+7, pos.y+3}})--
   local counter = 0
@@ -94,7 +94,7 @@ function checkBridgePlacement(pos, x1,y1,x2,y2, player_index, surface)
 end
 
 function createSlaves(surface, pos, dir, hor, ver, f)
-  local tmp, p, x, y, s1, s2, s3, s4, s5, s6, shift_x , shift_y
+  local tmp, p, x, y, s1, s2, s3, s4, s5, s6, shift_x, shift_y
   shift_y = 0
   shift_x = 0
   -- spawn waterway part of bridge, including signals
@@ -234,9 +234,12 @@ function ManageBridges(e)
             entry[2] = entry[1].surface.create_entity{name=entry[1].name .. "_closed", position = entry[1].position, force = entry[1].force, create_build_effect_smoke = false}
             entry[2].destructible = false
             entry[2].minable = false
+          elseif entry[1].power_switch_state == false and entry[10] == animation_time -1 then
+            game.play_sound{path = "cs_bridge", position = entry[1].position}
           elseif entry[1].power_switch_state == true and entry[10] == animation_time -1 then
             if entry[2].valid then
               entry[2].destroy()
+              game.play_sound{path = "cs_bridge", position = entry[1].position}
             end
           end
 

@@ -14,16 +14,15 @@ Create a network of ships, similar to trains, but slower, bulkier, with integrat
  - Land oil disableable
  - Reach distance modifier for water buildings
 ![Imgur](https://i.imgur.com/5tuUOo4.png)
-## Tips
-To generate water-rich maps, change the terrain-settings for water to very low frequency & huge size or use one of the islands mods.
-
 ## Recommended mods
- - [Landfill+](https://mods.factorio.com/mod/Landfill_plus)
- - [CanalBuilder](https://mods.factorio.com/mod/CanalBuilderWLK)
- - [Hovercraft](https://mods.factorio.com/mod/Hovercrafts)
- - [Water Placeable Lamps](https://mods.factorio.com/mod/rz-water-placeable-lamps)
- - [LTN - Logistic Train Network](https://mods.factorio.com/mod/LogisticTrainNetwork)
- - [Beautiful Bridge Railway](https://mods.factorio.com/mod/beautiful_bridge_railway_Cargoships)
+ - [Islands World](https://mods.factorio.com/mod/islands_world) | Changes map generation
+ - [Landfill+](https://mods.factorio.com/mod/Landfill_plus) | Remove placed landfill
+ - [Hovercraft](https://mods.factorio.com/mod/Hovercrafts) | Land/water vehicle hybrid
+ - [Water Placeable Lamps](https://mods.factorio.com/mod/rz-water-placeable-lamps) | Floating lamps
+ - [LTN - Logistic Train Network](https://mods.factorio.com/mod/LogisticTrainNetwork) | Adds logistic ports
+ - [Beautiful Bridge Railway](https://mods.factorio.com/mod/beautiful_bridge_railway_Cargoships) | Rails that go on water
+ - [Auto Track Laying](https://mods.factorio.com/mod/auto-track-laying) | Lay rails as you go - also works with waterways
+ - [CanalBuilder](https://mods.factorio.com/mod/CanalBuilderWLK) | Dig canals, swim in shallow water
 
 ## Videos
  - (Old version) Xterminator [Mod Spotlight](https://youtu.be/Ft1bdb0xZWs)
