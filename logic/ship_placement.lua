@@ -11,7 +11,7 @@ offset[7] = {x = 7, y = 7}
 function localize_engine(ent)
   local i = (math.floor((ent.orientation*8)+0.5))%8
 
-  local mult = ((ent.name == "indep-boat" or ent.name == "indep-boat-0" or ent.name == "boat") and -0.3) or 1
+  local mult = ((ent.name == "indep-boat" or ent.name == "boat") and -0.3) or 1
   local pos = {x = ent.position.x + offset[i].x*mult, y = ent.position.y + offset[i].y*mult}
   --game.players[1].print("x_off: " .. offset[i].x*mult .. " y_off: " .. offset[i].y*mult)
 
@@ -103,7 +103,9 @@ function CheckBoatPlacement(entity, player, robot)
       else
         game.print{"cargo-ship-message.place-on-waterway", local_name}
       end
-      local eng_pos, dir = localize_engine(boat)
+      local eng_pos
+      local dir
+      eng_pos, dir = localize_engine(boat)
       local engine = surface.create_entity{name="boat_engine", position=eng_pos, direction=dir, force=force}
       table.insert(global.check_entity_placement, {boat, engine, player})
     else

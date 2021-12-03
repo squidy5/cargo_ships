@@ -48,7 +48,9 @@ local function onEntityBuild(e)
     --game.players[1].print(entity.collision_mask)
     local engine = nil
     if entity.name == "cargo_ship" or entity.name == "oil_tanker" then
-      local pos, dir = localize_engine(entity)
+      local pos
+      local dir
+      pos, dir = localize_engine(entity)
       -- see if there is an engine ghost from a blueprint behind us
       local engine_ghosts = surface.find_entities_filtered{ghost_name="cargo_ship_engine", position = pos, radius = 1, force = force}
       if engine_ghosts and next(engine_ghosts) then
@@ -62,7 +64,9 @@ local function onEntityBuild(e)
         engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = force}
       end
     elseif entity.name == "boat"  then
-      local pos, dir = localize_engine(entity)
+      local pos
+      local dir
+      pos, dir = localize_engine(entity)
       -- see if there is an engine ghost from a blueprint behind us
       local engine_ghosts = surface.find_entities_filtered{ghost_name="boat_engine", position = pos, radius = 1, force = force}
       if engine_ghosts and next(engine_ghosts) then

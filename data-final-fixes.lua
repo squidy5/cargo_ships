@@ -51,7 +51,7 @@ if data.raw.resource.deep_oil then
       if data.raw.tile[name] then
         for i=1, #data.raw.tile[name].collision_mask do
           if data.raw.tile[name].collision_mask[i] == "resource-layer" then
-            log("Replacing collision layer 'resource-layer' with 'land-resource' on tile '"..name.."'")
+            log("Replacing collision layer 'resource-layer' with 'land-resource:"..tostring(land_resource_layer).."' on tile '"..name.."'")
             data.raw.tile[name].collision_mask[i] = land_resource_layer
             break
           end
@@ -62,12 +62,14 @@ if data.raw.resource.deep_oil then
     -- Add a new "land-resource" collision mask to land resources (If Water_Ores is not installed)
     for name, _ in pairs(data.raw.resource) do
       if name ~= "crude-oil" then
-        log("Adding collision layer 'land-resource:"..tostring(land_resource_layer).."' to resource '"..name.."'")
         if data.raw.resource[name].collision_mask then
           table.insert(data.raw.resource[name].collision_mask, land_resource_layer)
+          data.raw.resource[name].selection_priority = (data.raw.resource[name].selection_priority or 50) - 1
         else
           data.raw.resource[name].collision_mask = {"resource-layer", land_resource_layer}
+          data.raw.resource[name].selection_priority = (data.raw.resource[name].selection_priority or 50) - 1
         end
+        log("Adding collision layer 'land-resource:"..tostring(land_resource_layer).."' to resource '"..name.."' and demoting to selection_priority="..tostring(data.raw.resource[name].selection_priority))
       end
     end
 
