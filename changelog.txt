@@ -1,4 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.6
+Date: 2021-12-03
+  Visuals:
+    - Narrowed bridge selection box.
+    - Made fishes shadows so they don't get over other entities
+  Sound:
+    - Added sound to bridges opening and closing.
+  Bugfixes:
+    - Fixed crash when placing Boats on waterways (real).
+    - Fixed trains not selectable on bridges.
+    - Fixed trains appearing behind bridges.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.5
 Date: 2021-12-02
   Bugfixes:

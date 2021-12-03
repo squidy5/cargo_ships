@@ -55,8 +55,7 @@ data:extend({
     type = "recipe",
     name = "water-way",
     enabled = false,
-    ingredients = {
-    },
+    ingredients = {},
     result = "water-way",
     result_count = 5
   },

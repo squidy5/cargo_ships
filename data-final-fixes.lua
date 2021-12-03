@@ -7,6 +7,9 @@ local collision_mask_util = require("collision-mask-util")
 data.raw["car"]["indep-boat"].collision_mask = {"ground-tile", "train-layer"}
 
 data.raw.fish["fish"].collision_mask = {"ground-tile", "colliding-with-tiles-only"}
+data.raw.fish["fish"].pictures[1].draw_as_shadow = true
+data.raw.fish["fish"].pictures[2].draw_as_shadow = true
+data.raw.fish["fish"].selection_priority = 48
 
 if settings.startup["deep_oil"].value and settings.startup["no_oil_for_oil_rig"].value then
   data.raw.technology["deep_sea_oil_extraction"].unit = {

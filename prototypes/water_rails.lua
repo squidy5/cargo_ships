@@ -107,14 +107,14 @@ railpicturesinternal = function(elems, invisible)
   return res
 end
 
-
+local mapcolor = {0.56, 0.64, 0.65, 1} --doesn't work yet on rails for some reason
 data:extend({
   {
     type = "straight-rail",
     name = "straight-water-way",
     icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
-    flags = {"placeable-neutral", "player-creation", "building-direction-8-way"},
+    flags = {"placeable-neutral", "player-creation", "building-direction-8-way", "not-on-map"},
     destructible = false,
     minable = {mining_time = 0.2, result = "water-way"},
     max_health = 100,
@@ -128,14 +128,17 @@ data:extend({
     rail_category = "regular",
     pictures = railpictures(),
     placeable_by = { item = "water-way", count = 1},
-    localised_description = {"item-description.water-way"}
+    localised_description = {"item-description.water-way"},
+    map_color = mapcolor,
+    friendly_map_color = mapcolor,
+    enemy_map_color = mapcolor,
   },
   {
     type = "curved-rail",
     name = "curved-water-way",
     icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
-    flags = {"placeable-neutral", "player-creation", "building-direction-8-way"},
+    flags = {"placeable-neutral", "player-creation", "building-direction-8-way", "not-on-map"},
     destructible = false,
     minable = {mining_time = 0.2, result = "water-way", count = 4},
     max_health = 200,
@@ -150,7 +153,10 @@ data:extend({
     rail_category = "regular",
     pictures = railpictures(),
     placeable_by = { item = "water-way", count = 4},
-    localised_description = {"item-description.water-way"}
+    localised_description = {"item-description.water-way"},
+    map_color = mapcolor,
+    friendly_map_color = mapcolor,
+    enemy_map_color = mapcolor,
   },
 })
 
@@ -187,6 +193,8 @@ invisible_rail.selection_box = nil
 invisible_rail.selectable_in_game = false
 invisible_rail.collision_mask = {"object-layer"}
 invisible_rail.allow_copy_paste = false
+invisible_rail.map_color = mapcolor
+invisible_rail.friendly_map_color = mapcolor
 
 local bridge_crossing = table.deepcopy(data.raw["straight-rail"]["straight-water-way-placed"])
 bridge_crossing.name = "bridge_crossing"

@@ -11,12 +11,41 @@ local function build_bridge_anim(ori, shiftx, shifty, picture)
   end
 
   if not picture then
+    local anim_speed = 0.38
     return {
       layers = {
         {
+          filename = GRAPHICSPATH .. "entity/bridge/bridge-" .. ori .. "-shadow.png",
+          line_length = line_length,
+          animation_speed = anim_speed,
+          width = width/2,
+          height = height/2,
+          frame_count = 21,
+          frame_sequence = {1, 1, 1, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18,19,20,21},
+          axially_symmetrical = false,
+          direction_count = 1,
+          draw_as_shadow = true,
+          shift = util.by_pixel(shiftx, shifty),
+          scale = 1,
+          hr_version = {
+            filename = GRAPHICSPATH .. "entity/bridge/hr-bridge-" .. ori .. "-shadow.png",
+            line_length = line_length,
+            animation_speed = anim_speed,
+            width = width,
+            height = height,
+            frame_count = 21,
+            frame_sequence = {1, 1, 1, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18,19,20,21},
+            axially_symmetrical = false,
+            direction_count = 1,
+            draw_as_shadow = true,
+            shift = util.by_pixel(shiftx, shifty),
+            scale = 0.5,
+          }
+        },
+        {
           filename = GRAPHICSPATH .. "entity/bridge/bridge-" .. ori .. ".png",
           line_length = line_length,
-          animation_speed = 0.4,
+          animation_speed = anim_speed,
           width = width/2,
           height = height/2,
           frame_count = 21,
@@ -27,7 +56,7 @@ local function build_bridge_anim(ori, shiftx, shifty, picture)
           hr_version = {
             filename = GRAPHICSPATH .. "entity/bridge/hr-bridge-" .. ori .. ".png",
             line_length = line_length,
-            animation_speed = 0.4,
+            animation_speed = anim_speed,
             width = width,
             height = height,
             frame_count = 21,
@@ -37,32 +66,7 @@ local function build_bridge_anim(ori, shiftx, shifty, picture)
             scale = 0.5,
           }
         },
-        {
-          filename = GRAPHICSPATH .. "entity/bridge/bridge-" .. ori .. "-shadow.png",
-          line_length = line_length,
-          animation_speed = 0.4,
-          width = width/2,
-          height = height/2,
-          frame_count = 21,
-          axially_symmetrical = false,
-          direction_count = 1,
-          draw_as_shadow = true,
-          shift = util.by_pixel(shiftx, shifty),
-          scale = 1,
-          hr_version = {
-            filename = GRAPHICSPATH .. "entity/bridge/hr-bridge-" .. ori .. "-shadow.png",
-            line_length = line_length,
-            animation_speed = 0.4,
-            width = width,
-            height = height,
-            frame_count = 21,
-            axially_symmetrical = false,
-            direction_count = 1,
-            draw_as_shadow = true,
-            shift = util.by_pixel(shiftx, shifty),
-            scale = 0.5,
-          }
-        },
+
       }
     }
   elseif picture then
@@ -75,7 +79,8 @@ local function build_bridge_anim(ori, shiftx, shifty, picture)
           x = width/2,
           shift = util.by_pixel(shiftx, shifty),
           scale = 1,
-          draw_as_shadow = true,
+          --draw_as_shadow = true,
+          tint = {0,0,0,0.5}, --because else shadow gets over entity with render layer lower than "object"
           hr_version = {
             filename = GRAPHICSPATH .. "entity/bridge/hr-bridge-" .. ori .. "-shadow.png",
             width = width,
@@ -83,7 +88,8 @@ local function build_bridge_anim(ori, shiftx, shifty, picture)
             x = width,
             shift = util.by_pixel(shiftx, shifty),
             scale = 0.5,
-            draw_as_shadow = true,
+            --draw_as_shadow = true,
+            tint = {0,0,0,0.5},
           }
         },
         {
@@ -121,6 +127,17 @@ local function water_reflection(dir, num, x, y, shiftx, shifty)
     orientation_to_variation = false
   }
 end
+
+data:extend({
+  {
+    type = "sound",
+    name = "cs_bridge",
+    filename = "__cargo-ships__/sound/bridge.wav",
+    audible_distance_modifier = 5,
+    volume = 0.2,
+  },
+})
+
 
 -----------------------------------------------------------------------------------------
 
@@ -180,7 +197,7 @@ bridge_north_closed.collision_mask = {} --collision with boats
 bridge_north_closed.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation"}
 bridge_north_closed.selectable_in_game = false
 bridge_north_closed.allow_copy_paste = false
-bridge_north_closed.render_layer = "object"
+bridge_north_closed.render_layer = "lower-object"
 bridge_north_closed.created_smoke = nil
 bridge_north_closed.picture = build_bridge_anim("n", shiftX, shiftY, true)
 bridge_north_closed.water_reflection = water_reflection("n", 1, 87, 44, shiftX, shiftY)
@@ -241,7 +258,7 @@ bridge_west_closed.collision_box = {{-2,-6}, {2,4}}
 bridge_west_closed.picture = build_bridge_anim("w", shiftX, shiftY, true)
 bridge_west_closed.water_reflection = water_reflection("w", 1, 44, 94, shiftX, shiftY+32)
 
-data:extend{bridge_south, bridge_south_closed, bridge_east, 
+data:extend{bridge_south, bridge_south_closed, bridge_east,
             bridge_east_closed, bridge_west, bridge_west_closed}
 
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -274,6 +291,8 @@ data:extend{invisible_chain_signal}
 
 -------------------------------------------------------------------------------------------------------------------
 
+local WID = 1.7 --selection box short side/2
+
 local bridge_north_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
 bridge_north_clickable.name = "bridge_north_clickable"
 bridge_north_clickable.icon = GRAPHICSPATH .. "icons/bridge.png"
@@ -281,28 +300,29 @@ bridge_north_clickable.icon_size = 64
 bridge_north_clickable.localised_description = {"entity-description.bridge_north_clickable"}
 bridge_north_clickable.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 bridge_north_clickable.minable = {mining_time = 1, result = "bridge_base"}
-bridge_north_clickable.selection_box = {{-5,-3}, {7,3}}
-bridge_north_clickable.collision_box = {{-5,-3}, {7,3}}
+bridge_north_clickable.selection_box = {{-5,-WID}, {7,WID}}
+bridge_north_clickable.collision_box = {{-5,-WID}, {7,WID}}
 bridge_north_clickable.collision_mask = {"object-layer", "layer-14"}
 bridge_north_clickable.max_health = 500
 bridge_north_clickable.picture = emptypic
 --bridge_north_clickable.created_smoke = nil
+bridge_north_clickable.selection_priority = 49
 data:extend({bridge_north_clickable})
-
-local bridge_east_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
-bridge_east_clickable.name = "bridge_east_clickable"
-bridge_east_clickable.collision_box = {{-3,-5}, {3,7}}
-bridge_east_clickable.selection_box = {{-3,-5}, {3,7}}
 
 local bridge_south_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
 bridge_south_clickable.name = "bridge_south_clickable"
-bridge_south_clickable.collision_box = {{-7,-3}, {5,3}}
-bridge_south_clickable.selection_box = {{-7,-3}, {5,3}}
+bridge_south_clickable.collision_box = {{-7,-WID}, {5,WID}}
+bridge_south_clickable.selection_box = {{-7,-WID}, {5,WID}}
+
+local bridge_east_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
+bridge_east_clickable.name = "bridge_east_clickable"
+bridge_east_clickable.collision_box = {{-WID,-5}, {WID,7}}
+bridge_east_clickable.selection_box = {{-WID,-5}, {WID,7}}
 
 local bridge_west_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
 bridge_west_clickable.name = "bridge_west_clickable"
-bridge_west_clickable.collision_box = {{-3,-7}, {3,5}}
-bridge_west_clickable.selection_box = {{-3,-7}, {3,5}}
+bridge_west_clickable.collision_box = {{-WID,-7}, {WID,5}}
+bridge_west_clickable.selection_box = {{-WID,-7}, {WID,5}}
 
 data:extend{bridge_south_clickable, bridge_east_clickable, bridge_west_clickable}
 
@@ -313,15 +333,15 @@ bridge_north_open.name = "bridge_north_open"
 bridge_north_open.picture = emptypic
 bridge_north_open.water_reflection = nil
 
-local bridge_east_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_east_closed"])
-bridge_east_open.name = "bridge_east_open"
-bridge_east_open.picture = emptypic
-bridge_east_open.water_reflection = nil
-
 local bridge_south_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_south_closed"])
 bridge_south_open.name = "bridge_south_open"
 bridge_south_open.picture = emptypic
 bridge_south_open.water_reflection = nil
+
+local bridge_east_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_east_closed"])
+bridge_east_open.name = "bridge_east_open"
+bridge_east_open.picture = emptypic
+bridge_east_open.water_reflection = nil
 
 local bridge_west_open = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_west_closed"])
 bridge_west_open.name = "bridge_west_open"
