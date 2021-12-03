@@ -64,10 +64,10 @@ if data.raw.resource.deep_oil then
       if name ~= "crude-oil" then
         if data.raw.resource[name].collision_mask then
           table.insert(data.raw.resource[name].collision_mask, land_resource_layer)
-          data.raw.resource[name].selection_priority = (data.raw.resource[name].selection_priority or 50) - 1
+          data.raw.resource[name].selection_priority = math.max((data.raw.resource[name].selection_priority or 50) - 1, 0)
         else
           data.raw.resource[name].collision_mask = {"resource-layer", land_resource_layer}
-          data.raw.resource[name].selection_priority = (data.raw.resource[name].selection_priority or 50) - 1
+          data.raw.resource[name].selection_priority = math.max((data.raw.resource[name].selection_priority or 50) - 1, 0)
         end
         log("Adding collision layer 'land-resource:"..tostring(land_resource_layer).."' to resource '"..name.."' and demoting to selection_priority="..tostring(data.raw.resource[name].selection_priority))
       end
