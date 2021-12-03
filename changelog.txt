@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.5
+Date: 2021-12-02
+  Bugfixes:
+    - Fixed that buildings on ores could not be selected.
+    - Fixed that crash when placing Boats on waterways.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.4
 Date: 2021-12-01
   Bugfixes:
