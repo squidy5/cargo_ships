@@ -95,6 +95,9 @@ function CheckBoatPlacement(entity, player, robot)
   -- if so place waterway bound version of boat
   if #ww >= 1 then
     local force = entity.force
+    local eng_pos
+    local dir
+    eng_pos, dir = localize_engine(entity)
     entity.destroy()
     local boat = surface.create_entity{name="boat", position=pos, direction=dir, force=force}
     if boat then
@@ -103,9 +106,7 @@ function CheckBoatPlacement(entity, player, robot)
       else
         game.print{"cargo-ship-message.place-on-waterway", local_name}
       end
-      local eng_pos
-      local dir
-      eng_pos, dir = localize_engine(boat)
+      eng_pos, dir = localize_engine(boat)  -- Get better position for engine now that boat is on rails
       local engine = surface.create_entity{name="boat_engine", position=eng_pos, direction=dir, force=force}
       table.insert(global.check_entity_placement, {boat, engine, player})
     else
