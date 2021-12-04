@@ -265,23 +265,6 @@ or_pole.supply_area_distance = 4.5
 or_pole.water_reflection = nil
 or_pole.connection_points = { data.raw["electric-pole"]["medium-electric-pole"].connection_points[1] }
 
---[[
-local or_lamp = table.deepcopy(data.raw["lamp"]["small-lamp"])
-or_lamp.name = "or_lamp"
-or_lamp.flags = {"not-blueprintable", "not-deconstructable"}
-or_lamp.selectable_in_game = false
-or_lamp.allow_copy_paste = false
-or_lamp.collision_box = nil
-or_lamp.selection_box = nil
-or_lamp.collision_mask = {}
-or_lamp.picture_off = {
-  filename = empty_pic,
-  width = 2,
-  height = 2,
-}
-or_lamp.pciture_on = {}
-]]
-
 local or_radar = table.deepcopy(data.raw["radar"]["radar"])
 or_radar.name = "or_radar"
 or_radar.flags = {"not-blueprintable", "not-deconstructable"}
