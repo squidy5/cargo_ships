@@ -30,7 +30,7 @@ if settings.startup["no_catching_fish"].value then
 end
 
 -- Krastorio2 fuel compatibility
-if mods["Krastorio2"] then
+if mods["Krastorio2"] and settings.startup['kr-rebalance-vehicles&fuels'].value then
   data.raw.locomotive["cargo_ship_engine"].burner.fuel_categories = { "chemical", "vehicle-fuel" }
   log("Updated cargo_ship_engine to use chemical fuel and Krastorio2 vehicle-fuel")
   data.raw.locomotive["boat_engine"].burner.fuel_categories = { "vehicle-fuel" }
