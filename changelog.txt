@@ -1,9 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.7
+Date: 2021-12-04
+  Features:
+    - Added setting to enable/disable waterways-to-rails connections.
+  Info:
+    - Updated dependancies.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.6
 Date: 2021-12-03
   Visuals:
     - Narrowed bridge selection box.
-    - Made fishes shadows so they don't get over other entities
+    - Made fishes shadows so they don't get over other entities.
   Sound:
     - Added sound to bridges opening and closing.
   Bugfixes:
