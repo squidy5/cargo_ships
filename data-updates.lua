@@ -1,2 +1,4 @@
 require("constants")
-require("prototypes.resources")
+if settings.startup["deep_oil"].value then
+  require("prototypes.resources")
+end

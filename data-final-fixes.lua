@@ -1,17 +1,17 @@
 require("constants")
-
 local collision_mask_util = require("collision-mask-util")
 
--- change collision mask of boat if it was changed by hovercraft mod:
-
+-- Change collision mask of boat if it was changed by hovercraft mod:
 data.raw["car"]["indep-boat"].collision_mask = {"ground-tile", "train-layer"}
 
+-- Change drawing of fish to be underneath bridges
 data.raw.fish["fish"].collision_mask = {"ground-tile", "colliding-with-tiles-only"}
 data.raw.fish["fish"].pictures[1].draw_as_shadow = true
 data.raw.fish["fish"].pictures[2].draw_as_shadow = true
 data.raw.fish["fish"].selection_priority = 48
 
-if settings.startup["deep_oil"].value and settings.startup["no_oil_for_oil_rig"].value then
+-- Change technology requirement if oil is not available on land
+if settings.startup["deep_oil"].value and (settings.startup["no_oil_on_land"] or settings.startup["no_oil_for_oil_rig"].value) then
   data.raw.technology["deep_sea_oil_extraction"].unit = {
     count = 300,
     ingredients = {
@@ -22,10 +22,19 @@ if settings.startup["deep_oil"].value and settings.startup["no_oil_for_oil_rig"]
   }
 end
 
+-- Change inserters to not catch fish when waiting for ships
 if settings.startup["no_catching_fish"].value then
   for _, inserter in pairs(data.raw.inserter) do
     inserter.use_easter_egg = false
   end
+end
+
+-- Krastorio2 fuel compatibility
+if mods["Krastorio2"] then
+  data.raw.locomotive["cargo_ship_engine"].burner.fuel_categories = { "chemical", "vehicle-fuel" }
+  log("Updated cargo_ship_engine to use chemical fuel and Krastorio2 vehicle-fuel")
+  data.raw.locomotive["boat_engine"].burner.fuel_categories = { "vehicle-fuel" }
+  log("Updated boat_engine to use only Krastorio2 vehicle-fuel")
 end
 
 -----------------------------
