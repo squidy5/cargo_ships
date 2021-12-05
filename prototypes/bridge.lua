@@ -146,6 +146,8 @@ bridge.name = "bridge_base"
 bridge.icon = GRAPHICSPATH .. "icons/bridge.png"
 bridge.icon_size = 64
 bridge.localised_description = {"description-template.bridge_base", {"entity-description.bridge_north_clickable"}}
+bridge.fast_replaceable_group  = nil
+bridge.next_upgrade = nil
 bridge.animations = make_4way_animation_from_spritesheet({
   layers = {
     {
@@ -177,9 +179,11 @@ bridge_north.led_off = emptypic
 bridge_north.power_on_animation = build_bridge_anim("n", shiftX, shiftY)
 bridge_north.minable = nil
 bridge_north.destructible = false
+bridge_north.selection_box = nil
+bridge_north.fast_replaceable_group  = nil
 bridge_north.collision_box = {{-1,-1},{1,1}}
 bridge_north.collision_mask = {}
-bridge_north.selection_box = nil
+bridge_north.next_upgrade = nil
 bridge_north.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation"}
 bridge_north.selectable_in_game = false
 bridge_north.allow_copy_paste = false
@@ -191,6 +195,8 @@ bridge_north_closed.name = "bridge_north_closed"
 bridge_north_closed.icon = GRAPHICSPATH .. "icons/bridge.png"
 bridge_north_closed.icon_size = 64
 bridge_north_closed.minable = nil
+bridge_north_closed.fast_replaceable_group  = nil
+bridge_north_closed.next_upgrade = nil
 bridge_north_closed.selection_box = nil
 bridge_north_closed.collision_box = {{-4,-2}, {6,2}}
 bridge_north_closed.collision_mask = {} --collision with boats
@@ -287,6 +293,7 @@ invisible_chain_signal.red_light = nil
 invisible_chain_signal.blue_light = nil
 invisible_chain_signal.fast_replaceable_group = nil
 invisible_chain_signal.created_smoke = nil
+
 data:extend{invisible_chain_signal}
 
 -------------------------------------------------------------------------------------------------------------------
@@ -307,7 +314,8 @@ bridge_north_clickable.max_health = 500
 bridge_north_clickable.picture = emptypic
 --bridge_north_clickable.created_smoke = nil
 bridge_north_clickable.selection_priority = 49
-data:extend({bridge_north_clickable})
+
+data:extend{bridge_north_clickable}
 
 local bridge_south_clickable = table.deepcopy(data.raw["simple-entity-with-force"]["bridge_north_clickable"])
 bridge_south_clickable.name = "bridge_south_clickable"
@@ -348,4 +356,4 @@ bridge_west_open.name = "bridge_west_open"
 bridge_west_open.picture = emptypic
 bridge_west_open.water_reflection = nil
 
-data:extend({bridge_north_open, bridge_south_open, bridge_east_open, bridge_west_open})
+data:extend{bridge_north_open, bridge_south_open, bridge_east_open, bridge_west_open}
