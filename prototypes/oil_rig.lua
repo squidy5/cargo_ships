@@ -145,6 +145,8 @@ oil_rig.resource_searching_radius = 1.49
 oil_rig.collision_box = {{-3.2, -3.2}, {3.2, 3.2}}
 oil_rig.selection_box = {{-3.5, -3.5}, {3.5, 3.5}}
 oil_rig.drawing_box = {{-3.3, -3.3}, {3.3, 3.3}}
+oil_rig.fast_replaceable_group  = nil
+oil_rig.next_upgrade = nil
 oil_rig.module_specification.module_slots = 3
 oil_rig.energy_source = {
   type = "electric",
@@ -273,10 +275,12 @@ or_radar.allow_copy_paste = false
 or_radar.collision_mask = {}
 or_radar.collision_box = nil
 or_radar.selection_box = nil
+or_radar.fast_replaceable_group = nil
+or_radar.next_upgrade = nil
 or_radar.pictures = emptypic
 or_radar.max_distance_of_sector_revealed = 0
 or_radar.energy_usage = "50kW"
 or_radar.water_reflection = nil
 or_radar.working_sound = nil
 
-data:extend({oil_rig, or_power, or_pole, or_radar})
+data:extend{oil_rig, or_power, or_pole, or_radar}
