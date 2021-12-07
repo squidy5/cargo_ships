@@ -171,7 +171,7 @@ local boat_pictures = {
 local cargo_ship_pictures = {
   layers = {
     {
-      slice = 16,
+      slice = 4,
       priority = "low",
       width = 1000,
       height = 1000,
@@ -184,7 +184,7 @@ local cargo_ship_pictures = {
       shift = util.by_pixel(0, -54.5),
     },
     {
-      slice = 16,
+      slice = 4,
       priority = "low",
       width = 1000,
       height = 1000,
@@ -203,7 +203,7 @@ local cargo_ship_pictures = {
 local oil_tanker_pictures = {
   layers = {
     {
-      slice = 16,
+      slice = 4,
       priority = "low",
       width = 890,
       height = 912,
@@ -216,7 +216,7 @@ local oil_tanker_pictures = {
       shift = util.by_pixel(0, -22.5),
     },
     {
-      slice = 16,
+      slice = 4,
       priority = "low",
       width = 1000,
       height = 1000,
@@ -246,20 +246,6 @@ local function water_reflection(name, size, yshift, rotate, variation_count)
     orientation_to_variation = false
   }
 end
-
-local minimap_representation = {
-  filename = GRAPHICSPATH .. "entity/ship-minimap-representation.png",
-  flags = {"icon"},
-  size = {26, 130},
-  scale = 0.5
-}
-
-local selected_minimap_representation = {
-  filename = GRAPHICSPATH .. "entity/ship-selected-minimap-representation.png",
-  flags = {"icon"},
-  size = {26, 130},
-  scale = 0.5
-}
 
 local wave = table.deepcopy(data.raw["trivial-smoke"]["light-smoke"])
 wave.name = "wave"

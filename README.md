@@ -13,8 +13,9 @@ Create a network of ships, similar to trains, but slower, bulkier, with integrat
 ![Imgur](https://i.imgur.com/gMfmLgJ.png)
 ## Recommended mods
  - [Islands World](https://mods.factorio.com/mod/islands_world) | Changes map generation
- - [Landfill+](https://mods.factorio.com/mod/Landfill_plus) | Remove placed landfill
- - [Hovercraft](https://mods.factorio.com/mod/Hovercrafts) | Land/water vehicle hybrid
+ - [Landfill+](https://mods.factorio.com/mod/Landfill_plus) | You can remove placed landfill
+ - [Expensive Landfill](https://mods.factorio.com/mod/expensivelandfill3) | Changes price of landfill
+ - [Hovercrafts](https://mods.factorio.com/mod/Hovercrafts) | Land/water vehicle hybrid
  - [Water Placeable Lamps](https://mods.factorio.com/mod/rz-water-placeable-lamps) | Floating lamps
  - [LTN - Logistic Train Network](https://mods.factorio.com/mod/LogisticTrainNetwork) | Adds logistic ports
  - [Beautiful Bridge Railway](https://mods.factorio.com/mod/beautiful_bridge_railway_Cargoships) | Rails that go on water
@@ -33,11 +34,11 @@ Create a network of ships, similar to trains, but slower, bulkier, with integrat
  - schnurrebutz/rudegrass | Creator
  - snouz | improved graphics and sound in 0.1
  - robot256 | features, bugfixes, improvements in 0.1
- - Contributions bits by | Optera, drivelikebrazil, kajacx, Capon, Oceanel51, mkaito, ArcaniVictus, phoenixuprising, Schallfalke, MatrixN1, Zetabite (might be more!)
+ - Contributions bits by | Optera, drivelikebrazil, kajacx, Oceanel51, mkaito, Arcani_Victus, phoenixuprising, Schallfalke, MatrixN1, Zetabite (might be more!)
 
 ## Locale
  - Russian | IgorLutiy, kylichist
- - Polish | RadianOst
+ - Polish | RadianOst, jedrzej-p
  - English | rs017991
  - Hungarian | ZolfHUN
  - Japanese | iida-hayato, Tei1988

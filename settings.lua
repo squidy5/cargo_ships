@@ -86,7 +86,7 @@ data:extend({
     name = "use_dark_blue_waterways",
     setting_type = "startup",
     default_value = false,
-    hidden = true,
+    --hidden = true,
     order = "c-b"
   },
   {
