@@ -1,54 +1,3 @@
-----------------------------------------------------------------
--------------------------DEEP SEA OIL --------------------------
-----------------------------------------------------------------
-
-local deep_oil = table.deepcopy(data.raw["resource"]["crude-oil"])
-if mods["angelspetrochem"] then
-  deep_oil.minable = {
-    hardness = 1,
-    mining_time = 1,
-    results =
-    {
-      {
-        type = "fluid",
-        name = "liquid-multi-phase-oil",
-        amount_min = 10,
-        amount_max = 10,
-        probability = 1
-      }
-    }
-  }
-end
-deep_oil.name = "deep_oil"
-deep_oil.infinite_depletion_amount = 40
-deep_oil.autoplace = nil
-deep_oil.collision_mask = {'ground-tile','resource-layer'}
-deep_oil.resource_patch_search_radius = 32
-deep_oil.stages = {
-  sheet = {
-    filename = GRAPHICSPATH .. "entity/crude-oil/water-crude-oil.png",
-    priority = "extra-high",
-    width = 74,
-    height = 60,
-    frame_count = 4,
-    variation_count = 1,
-    shift = util.by_pixel(0, -2),
-    scale = 1.4,
-    hr_version =
-    {
-      filename = GRAPHICSPATH .. "entity/crude-oil/hr-water-crude-oil.png",
-      priority = "extra-high",
-      width = 148,
-      height = 120,
-      frame_count = 4,
-      variation_count = 1,
-      shift = util.by_pixel(0, -2),
-      scale = 0.7
-    }
-  }
-}
-deep_oil.water_reflection = nil
-
 local function oilrig_layer(orientation, animated)
   local returned_value = {
     layers = {
@@ -207,6 +156,8 @@ oil_rig.resource_searching_radius = 1.49
 oil_rig.collision_box = {{-3.2, -3.2}, {3.2, 3.2}}
 oil_rig.selection_box = {{-3.5, -3.5}, {3.5, 3.5}}
 oil_rig.drawing_box = {{-3.3, -3.3}, {3.3, 3.3}}
+oil_rig.fast_replaceable_group  = nil
+oil_rig.next_upgrade = nil
 oil_rig.module_specification.module_slots = 3
 oil_rig.energy_source = {
   type = "electric",
@@ -329,23 +280,6 @@ or_pole.supply_area_distance = 4.5
 or_pole.water_reflection = nil
 or_pole.connection_points = { data.raw["electric-pole"]["medium-electric-pole"].connection_points[1] }
 
---[[
-local or_lamp = table.deepcopy(data.raw["lamp"]["small-lamp"])
-or_lamp.name = "or_lamp"
-or_lamp.flags = {"not-blueprintable", "not-deconstructable"}
-or_lamp.selectable_in_game = false
-or_lamp.allow_copy_paste = false
-or_lamp.collision_box = nil
-or_lamp.selection_box = nil
-or_lamp.collision_mask = {}
-or_lamp.picture_off = {
-  filename = empty_pic,
-  width = 2,
-  height = 2,
-}
-or_lamp.pciture_on = {}
-]]
-
 local or_radar = table.deepcopy(data.raw["radar"]["radar"])
 or_radar.name = "or_radar"
 or_radar.flags = {"not-blueprintable", "not-deconstructable"}
@@ -354,10 +288,12 @@ or_radar.allow_copy_paste = false
 or_radar.collision_mask = {}
 or_radar.collision_box = nil
 or_radar.selection_box = nil
+or_radar.fast_replaceable_group = nil
+or_radar.next_upgrade = nil
 or_radar.pictures = emptypic
 or_radar.max_distance_of_sector_revealed = 0
 or_radar.energy_usage = "50kW"
 or_radar.water_reflection = nil
 or_radar.working_sound = nil
 
-data:extend({oil_rig, or_power, or_pole, or_radar, deep_oil})
+data:extend{oil_rig, or_power, or_pole, or_radar}

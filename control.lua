@@ -109,15 +109,17 @@ local function onEntityBuild(e)
     CreateBridge(entity, e.player_index)
 
   -- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collision mask
-  elseif (entity.name == "straight-water-way" or entity.name == "curved-water-way") and settings.global["prevent_waterway_rail_connections"].value then
+  elseif (entity.name == "straight-water-way" or entity.name == "curved-water-way") then
     -- Check if this waterway is connected to a non-waterway
     local bad_connection = false
     local bad_name = ""
-    for _, rail in pairs(get_connected_rails(entity)) do
-      if not (string.find(rail.name, "%-water%-way") or rail.name == "bridge_crossing") then
-        bad_connection = true
-        bad_name = rail.name
-        break
+    if settings.global["prevent_waterway_rail_connections"].value then
+      for _, rail in pairs(get_connected_rails(entity)) do
+        if not (string.find(rail.name, "%-water%-way") or rail.name == "bridge_crossing") then
+          bad_connection = true
+          bad_name = rail.name
+          break
+        end
       end
     end
 
