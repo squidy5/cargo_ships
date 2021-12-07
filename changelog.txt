@@ -1,4 +1,21 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.8
+Date: 2021-12-07
+  Bugfixes:
+    - Fixed blueprinted waterways sometimes not displaying on map / not correctly placed.
+    - Fixed cargo ship doors animation.
+    - Fixed train wheels not displaying in some parts of bridges.
+  Compatibility:
+    - Krastorio2: K2 fuels compatibility for boats and ships.
+    - Krastorio2: compatibility for deep_oil.
+    - Endgame Extension and other upgrade mods.
+  Features:
+    - Re-introduced light-dark waterways option.
+  Visuals:
+    - Improved position of oil rig circuit connection.
+  Locale:
+    - Updated Polish translation (thanks to jedrzej-p).
+---------------------------------------------------------------------------------------------------
 Version: 0.1.7
 Date: 2021-12-04
   Features:

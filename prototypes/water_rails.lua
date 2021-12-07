@@ -45,9 +45,11 @@ railpicturesinternal = function(elems, invisible)
   local res = {}
 
   --postfix = ""
-  --local tint = {1, 1, 1, 1}
+  local tint = {1, 1, 1, 1}
+  local blend_mode = "additive"
   if settings.startup["use_dark_blue_waterways"].value then
-    --tint = {0.5, 0.5, 0.5, 1}
+    --tint = {1, 1, 1, 1}
+    blend_mode = "normal"
     --tint = {1, 1, 1, 0.5}
     --postfix = "-dark"
   end
@@ -76,7 +78,8 @@ railpicturesinternal = function(elems, invisible)
               width = key[3],
               height = key[4],
               variation_count = 1,
-              --tint = tint,
+              tint = tint,
+              blend_mode = blend_mode,
               scale = 0.5,
             },
           }

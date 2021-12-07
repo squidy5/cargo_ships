@@ -182,6 +182,17 @@ end
 ----------------------------------------------------------------
 local oil_rig_capacity = settings.startup["oil_rig_capacity"].value
 
+circuit_connector_definitions["oil_rig"] = circuit_connector_definitions.create
+(
+  universal_connector_template,
+  {
+    { variation = 26, main_offset = util.by_pixel(-96, 76), shadow_offset = util.by_pixel(-72, 104), show_shadow = true },
+    { variation = 26, main_offset = util.by_pixel(-96, 76), shadow_offset = util.by_pixel(-72, 104), show_shadow = true },
+    { variation = 26, main_offset = util.by_pixel(-96, 76), shadow_offset = util.by_pixel(-72, 104), show_shadow = true },
+    { variation = 26, main_offset = util.by_pixel(-96, 76), shadow_offset = util.by_pixel(-72, 104), show_shadow = true }
+  }
+)
+
 local oil_rig = table.deepcopy(data.raw["mining-drill"]["pumpjack"])
 oil_rig.name = "oil_rig"
 oil_rig.icon = GRAPHICSPATH .. "icons/oil_rig.png"
@@ -243,6 +254,8 @@ oil_rig.water_reflection = {
   rotate = false,
   orientation_to_variation = false
 }
+oil_rig.circuit_wire_connection_points = circuit_connector_definitions["oil_rig"].points
+oil_rig.circuit_connector_sprites = circuit_connector_definitions["oil_rig"].sprites
 
 ----------------------------------------------------------------
 ----------- OIL PLATFORM SLAVE ENTITES--------------------------
