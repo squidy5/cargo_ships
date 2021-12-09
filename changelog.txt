@@ -3,6 +3,8 @@ Version: 0.1.9
 Date: 2021-12-09
   Compatibility:
     - LTN: logistic ports now also have pump markers when placing ship pumps.
+  Visuals:
+    - Adjusted vehicle boat's smoke position.
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.8
 Date: 2021-12-07
