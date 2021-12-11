@@ -1,8 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.9
 Date: 2021-12-09
+  Bugfixes:
+    - Fixed crash when some bridge were invalid.
   Compatibility:
-    - LTN: logistic ports now also have pump markers when placing ship pumps.
+    - LTN: logistic ports also get pump markers when placing ship pumps.
   Visuals:
     - Adjusted vehicle boat's smoke position.
 ---------------------------------------------------------------------------------------------------
