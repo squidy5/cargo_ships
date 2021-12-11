@@ -1,5 +1,26 @@
 --bridge.collision_box = {{-6,-3},{6,3}}
 
+local invincible =
+   {
+     {
+       type = "physical",
+       percent = 100
+     },
+     {
+       type = "explosion",
+       percent = 100
+     },
+     {
+       type = "acid",
+       percent = 100
+     },
+     {
+       type = "fire",
+       percent = 100
+     }
+   }
+
+
 local function build_bridge_anim(ori, shiftx, shifty, picture)
   local width = 436
   local height = 930
@@ -178,7 +199,7 @@ bridge_north.led_on = emptypic
 bridge_north.led_off = emptypic
 bridge_north.power_on_animation = build_bridge_anim("n", shiftX, shiftY)
 bridge_north.minable = nil
-bridge_north.destructible = false
+bridge_north.resistances = invincible
 bridge_north.selection_box = nil
 bridge_north.fast_replaceable_group  = nil
 bridge_north.collision_box = {{-1,-1},{1,1}}
@@ -195,6 +216,7 @@ bridge_north_closed.name = "bridge_north_closed"
 bridge_north_closed.icon = GRAPHICSPATH .. "icons/bridge.png"
 bridge_north_closed.icon_size = 64
 bridge_north_closed.minable = nil
+bridge_north_closed.resistances = invincible
 bridge_north_closed.fast_replaceable_group  = nil
 bridge_north_closed.next_upgrade = nil
 bridge_north_closed.selection_box = nil
@@ -274,7 +296,7 @@ invisible_chain_signal.name = "invisible_chain_signal"
 invisible_chain_signal.icon = GRAPHICSPATH .. "icons/chain_buoy.png"
 invisible_chain_signal.icon_size = 64
 invisible_chain_signal.selection_box = nil
-invisible_chain_signal.destructible = false
+invisible_chain_signal.resistances = invincible
 invisible_chain_signal.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation"}
 invisible_chain_signal.selectable_in_game = false
 invisible_chain_signal.collision_mask = {'rail-layer'}
@@ -310,10 +332,11 @@ bridge_north_clickable.minable = {mining_time = 1, result = "bridge_base"}
 bridge_north_clickable.selection_box = {{-5,-WID}, {7,WID}}
 bridge_north_clickable.collision_box = {{-5,-WID}, {7,WID}}
 bridge_north_clickable.collision_mask = {"object-layer", "layer-14"}
-bridge_north_clickable.max_health = 500
+bridge_north_clickable.max_health = 1000
 bridge_north_clickable.picture = emptypic
 --bridge_north_clickable.created_smoke = nil
 bridge_north_clickable.selection_priority = 49
+bridge_north_clickable.create_ghost_on_death = false
 
 data:extend{bridge_north_clickable}
 
