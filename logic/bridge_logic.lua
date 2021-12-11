@@ -247,7 +247,17 @@ function ManageBridges(e)
         -------------check signal reservations
         ----------------------------------------------
         else
-          if entry[1].power_switch_state == false then -- bridge closed ?
+          --check if valid first, got some errors on "entry[4].signal_state"
+          local valid = true
+          for i = 4, 9 do
+            valid = valid and entry[i].valid
+          end
+          -- delete broken bridge...
+          if not valid then
+            DeleteBridge(entry[1])
+          end
+
+          if valid and entry[1].power_switch_state == false then -- bridge closed ?
             --game.players[1].print("bridge " .. i .. " is closed")
             if (entry[4].signal_state == defines.signal_state.reserved or
                 entry[5].signal_state == defines.signal_state.reserved) then -- reserved by ship?
@@ -258,19 +268,11 @@ function ManageBridges(e)
               --entry[3].destructible = false
             end
           else -- bridge open?
-            local valid = true
-            for i = 4, 9 do
-              valid = valid and entry[i].valid
-            end
-            -- delete broken bridge...
-            if not valid then
-              DeleteBridge(entry[1])
-            end
             if valid and (
-                ( (entry[8].signal_state == defines.signal_state.open or entry[9].signal_state == defines.signal_state.open) and
-                  entry[4].signal_state ~= defines.signal_state.reserved and entry[5].signal_state ~= defines.signal_state.reserved ) or
-                entry[6].signal_state == defines.signal_state.reserved or
-                entry[7].signal_state == defines.signal_state.reserved
+                ((entry[8].signal_state == defines.signal_state.open or entry[9].signal_state == defines.signal_state.open) and
+                  entry[4].signal_state ~= defines.signal_state.reserved and entry[5].signal_state ~= defines.signal_state.reserved) or
+                  entry[6].signal_state == defines.signal_state.reserved or
+                  entry[7].signal_state == defines.signal_state.reserved
               ) then -- no ships or reserved by train?
               -- close bridge --
               entry[1].power_switch_state = false

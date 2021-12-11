@@ -28,6 +28,10 @@ local function AddVisuals(player)
   local pos = player.position
   local a = {{pos.x-100, pos.y-100}, {pos.x+100, pos.y+100}}
   local ports = player.surface.find_entities_filtered{area=a, name="port"}
+  local ltnports = player.surface.find_entities_filtered{area=a, name="ltn-port"}
+  for _, ltnport in pairs(ltnports) do
+    table.insert(ports, ltnport)
+  end
   -- initalize marker array if necessarry
   global.pump_markers[player.index] = global.pump_markers[player.index] or {}
   for _, port in pairs(ports) do

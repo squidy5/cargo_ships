@@ -132,7 +132,7 @@ data:extend({
   {
     type = "sound",
     name = "cs_bridge",
-    filename = "__cargo-ships__/sound/bridge.wav",
+    filename = "__cargo-ships__/sound/bridge.ogg",
     audible_distance_modifier = 5,
     volume = 0.2,
   },

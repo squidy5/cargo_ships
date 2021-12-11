@@ -1,4 +1,18 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.10
+Date: 2021-12-11
+  Bugfixes:
+    - Fixed the deeper problem of bridges being invalid (because invisible entities were being damaged)
+---------------------------------------------------------------------------------------------------
+Version: 0.1.9
+Date: 2021-12-11
+  Bugfixes:
+    - Fixed crash when some bridge were invalid.
+  Compatibility:
+    - LTN: logistic ports also get pump markers when placing ship pumps.
+  Visuals:
+    - Adjusted vehicle boat's smoke position.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.8
 Date: 2021-12-07
   Bugfixes:
