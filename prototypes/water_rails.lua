@@ -1,4 +1,25 @@
 
+
+local invincible =
+   {
+     {
+       type = "physical",
+       percent = 100
+     },
+     {
+       type = "explosion",
+       percent = 100
+     },
+     {
+       type = "acid",
+       percent = 100
+     },
+     {
+       type = "fire",
+       percent = 100
+     }
+   }
+
 railpictures = function(invisible)
   return railpicturesinternal({
     {"metals",                                  "metals"},
@@ -118,13 +139,10 @@ data:extend({
     icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
     flags = {"placeable-neutral", "player-creation", "building-direction-8-way", "not-on-map"},
-    destructible = false,
+    resistances = invincible,
     minable = {mining_time = 0.2, result = "water-way"},
     max_health = 100,
     corpse = nil,
-    resistances = {
-      { type = "fire", percent = 100 }
-    },
     collision_box = {{-1.01, -0.95}, {1.01, 0.95}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
     collision_mask = {'ground-tile', "object-layer"},
@@ -142,13 +160,10 @@ data:extend({
     icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
     flags = {"placeable-neutral", "player-creation", "building-direction-8-way", "not-on-map"},
-    destructible = false,
+    resistances = invincible,
     minable = {mining_time = 0.2, result = "water-way", count = 4},
     max_health = 200,
     corpse = nil,
-    resistances = {
-      { type = "fire", percent = 100 }
-    },
     collision_box = {{-1, -2}, {1, 3.1}},
     secondary_collision_box = {{-0.65, -2.1}, {0.65, 2.1}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
@@ -184,7 +199,6 @@ data:extend({swwp, cwwp})
 
 
 -- tracks used by bridges
-
 local invisible_rail = table.deepcopy(data.raw["straight-rail"]["straight-rail"])
 invisible_rail.name = "invisible_rail"
 invisible_rail.icon = GRAPHICSPATH .. "icons/water_rail.png"
@@ -192,6 +206,7 @@ invisible_rail.icon_size = 64
 invisible_rail.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 invisible_rail.pictures = railpictures(true)
 invisible_rail.minable = nil
+invisible_rail.resistances = invincible
 invisible_rail.selection_box = nil
 invisible_rail.selectable_in_game = false
 invisible_rail.collision_mask = {"object-layer"}
@@ -205,6 +220,7 @@ bridge_crossing.icon = GRAPHICSPATH .. "icons/bridge.png"
 bridge_crossing.icon_size = 64
 bridge_crossing.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 bridge_crossing.minable = nil
+bridge_crossing.resistances = invincible
 bridge_crossing.collision_mask = {"object-layer"}
 bridge_crossing.collision_box = {{-0.6, -0.95}, {0.6, 0.95}}
 bridge_crossing.selection_box = nil
