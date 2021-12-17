@@ -1,6 +1,6 @@
 {
   "name": "cargo-ships",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "title": "Cargo Ships",
   "author": "rude_grass",
   "description": "Adds cargo ships, oil tankers, deep sea oil rigs and other ocean based content",
@@ -16,7 +16,8 @@
     "? angelspetrochem >= 0.9.17",
     "(?) ctg >= 0.4.3",
     "? Krastorio2 >= 1.0.18",
-    "! cargo-ships-seraph"
+    "! cargo-ships-seraph",
+    "(?) rso-mod"
   ],
   "factorio_version": "1.1"
 }

@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.11
+Date: 2021-12-16
+  Bugfixes:
+    - Fixed generation of offshore oil with RSO installed.
+    - Added migration to regenerate oil automatically if crude-oil is found on water.
+    - ** Please report any issues with existing oil deposits on land disappearing or changing! **
+---------------------------------------------------------------------------------------------------
 Version: 0.1.10
 Date: 2021-12-11
   Bugfixes:
