@@ -1,6 +1,7 @@
 require("util")
 require("logic.ship_placement")
 require("logic.oil_placement")
+require("logic.rail_placement")
 require("logic.long_reach")
 require("logic.bridge_logic")
 require("logic.pump_placement")
@@ -8,20 +9,6 @@ require("logic.blueprint_logic")
 require("gui.oil_rig_gui")
 --require("logic.crane_logic")
 --require("logic.rolling_stock_logic")
-
--- Find the up to six different rails that can be connected to this one
-local function get_connected_rails(rail)
-  local connected_rails = {}
-  for _, d in pairs({defines.rail_direction.front, defines.rail_direction.back}) do
-    for _, c in pairs({defines.rail_connection_direction.straight, defines.rail_connection_direction.left, defines.rail_connection_direction.right}) do
-      local r = rail.get_connected_rail{rail_direction = d, rail_connection_direction = c}
-      if r then
-        table.insert(connected_rails, r)
-      end
-    end
-  end
-  return connected_rails
-end
 
 -- spawn additional invisible entities
 local function onEntityBuild(e)
@@ -38,7 +25,32 @@ local function onEntityBuild(e)
   -- check ghost entities first
   if entity.name == "entity-ghost" then
     if entity.ghost_name == "bridge_base" then
+      -- Not allowed to make ghost bridges yet
       entity.destroy()
+
+    elseif entity.ghost_name == "straight-water-way-placed" or entity.ghost_name == "curved-water-way-placed" then
+      -- Convert ghosts of water-way-placed into water-way
+      local surface = entity.surface
+      local time_to_live = entity.time_to_live
+      local new_params = {
+        name="entity-ghost",
+        position=entity.position,
+        direction=entity.direction,
+        force=entity.force,
+        player=entity.last_user,
+        inner_name=string.sub(entity.ghost_name, 1, -8),
+        expires=(time_to_live and time_to_live < 4294967295)
+      }
+      -- Destroy the water-way-placed ghost
+      entity.destroy()
+
+      -- Make sure the new water-way ghost isn't placed on land, because create_entity doesn't do collision checks
+      if surface.count_tiles_filtered{position=new_params.position, radius=1, collision_mask="ground-tile"} == 0 then
+        local ghost = surface.create_entity(new_params)
+        if ghost and time_to_live then
+          ghost.time_to_live = time_to_live
+        end
+      end
     end
 
   elseif entity.name == "indep-boat" then
@@ -109,86 +121,8 @@ local function onEntityBuild(e)
     CreateBridge(entity, e.player_index)
 
   -- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collision mask
-  elseif (entity.name == "straight-water-way" or entity.name == "curved-water-way") then
-    -- Check if this waterway is connected to a non-waterway
-    local bad_connection = false
-    local bad_name = ""
-    if settings.global["prevent_waterway_rail_connections"].value then
-      for _, rail in pairs(get_connected_rails(entity)) do
-        if not (string.find(rail.name, "%-water%-way") or rail.name == "bridge_crossing") then
-          bad_connection = true
-          bad_name = rail.name
-          break
-        end
-      end
-    end
-
-    local pos = entity.position
-    local name = entity.name .. "-placed"
-    local dir = entity.direction
-    local refund = entity.prototype.items_to_place_this[1]
-    entity.destroy() --destroy old
-
-    --check for already placed entities
-    local give_refund = false
-    local prev = surface.find_entities_filtered{position = pos, name = name}
-    if bad_connection then
-      -- Refund ww if connected to rails
-      give_refund = true
-      if player then
-        player.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..name.."__", "__ENTITY__"..bad_name.."__"}
-      else
-        game.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..name.."__", "__ENTITY__"..bad_name.."__"}
-      end
-    else
-      for _, pr in pairs(prev) do
-        if pr.direction == dir then
-          give_refund = true
-          break
-        end
-      end
-    end
-
-    if give_refund then
-      -- placement was invalid, give refund and don't rebuild
-      if player then
-        player.insert(refund)
-      elseif e.robot then
-        e.robot.get_inventory(defines.inventory.robot_cargo).insert(refund)
-      end
-    else
-      -- create waterway
-      local WW = surface.create_entity{name = name, position = pos, direction = dir, force = force}
-      -- make waterway indestructible
-      if WW then
-        WW.destructible = false
-      end
-    end
-
-  elseif (entity.type == "straight-rail" or entity.type == "curved-rail") and settings.global["prevent_waterway_rail_connections"].value then
-    -- Check if this rail is connected to a waterway
-    local bad_connection = false
-    local bad_name = ""
-    for _, rail in pairs(get_connected_rails(entity)) do
-      if string.find(rail.name, "%-water%-way") or rail.name == "bridge_crossing" then
-        bad_connection = true
-        bad_name = rail.name
-        break
-      end
-    end
-    if bad_connection then
-      local refund = entity.prototype.items_to_place_this[1]
-      if player then
-        player.insert(refund)
-        player.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..entity.name.."__", "__ENTITY__"..bad_name.."__"}
-      else
-        if e.robot then
-          e.robot.get_inventory(defines.inventory.robot_cargo).insert(refund)
-        end
-        game.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..entity.name.."__", "__ENTITY__"..bad_name.."__"}
-      end
-      entity.destroy()
-    end
+  elseif entity.type == "straight-rail" or entity.type == "curved-rail" then
+    CheckRailPlacement(entity, player, e.robot)
 
   elseif entity.name == "buoy" or entity.name == "chain_buoy" then
     -- Make buoys indestructible
@@ -572,6 +506,8 @@ script.on_event(defines.events.on_robot_built_tile, onTileBuild)
 -- entity created
 local entity_filters = {
     {filter="ghost", ghost_name="bridge_base"},
+    {filter="ghost", ghost_name="straight-water-way-placed"},
+    {filter="ghost", ghost_name="curved-water-way-placed"},
     {filter="type", type="cargo-wagon"},
     {filter="type", type="fluid-wagon"},
     {filter="type", type="locomotive"},
