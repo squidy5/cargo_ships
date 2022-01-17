@@ -11,7 +11,7 @@ data.raw.fish["fish"].pictures[2].draw_as_shadow = true
 data.raw.fish["fish"].selection_priority = 48
 
 -- Change technology requirement if oil is not available on land
-if settings.startup["deep_oil"].value and (settings.startup["no_oil_on_land"] or settings.startup["no_oil_for_oil_rig"].value) then
+if settings.startup["deep_oil"].value and (settings.startup["no_oil_on_land"].value or settings.startup["no_oil_for_oil_rig"].value) then
   data.raw.technology["deep_sea_oil_extraction"].unit = {
     count = 300,
     ingredients = {
