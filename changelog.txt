@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.14
+Date: 2022-01-30
+  Compatibility:
+    - Fixed compatibility with Noxy's Swimming (boat will ignore terrain friction).
+  Changes:
+	  - Enlarged range for fuel and speed modifier options.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.13
 Date: 2022-01-16
   Bugfixes:

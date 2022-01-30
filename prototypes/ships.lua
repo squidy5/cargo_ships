@@ -315,7 +315,8 @@ indep_boat.weight = 10000
 indep_boat.max_health = 1500
 indep_boat.consumption = indep_boat_power.."kW"
 indep_boat.friction = 0.002/speed_modifier
-indep_boat.minable = {mining_time = 1,result = "boat"}
+indep_boat.terrain_friction_modifier = 0
+indep_boat.minable = {mining_time = 1, result = "boat"}
 indep_boat.rotation_speed = 0.008
 indep_boat.inventory_size = 80
 indep_boat.localised_description = {'entity-description.boat'}
@@ -393,6 +394,8 @@ indep_boat.light_animation = nil
 ------------------------ BOAT  ----------------------------
 ----------------------------------------------------------------
 
+local boat_max_speed = 0.27*speed_modifier
+
 local boat = table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 boat.name = "boat"
 boat.icon = GRAPHICSPATH .. "icons/boat.png"
@@ -410,7 +413,7 @@ boat.joint_distance = 2.5
 boat.water_reflection = water_reflection("boat/railed/boat", 60, 15, true)
 boat.weight = 5000
 boat.inventory_size = 60
-boat.max_speed = 1
+boat.max_speed = boat_max_speed
 boat.pictures = boat_pictures
 boat.back_light = ship_light(-15, true)
 boat.stand_by_light = nil
@@ -434,7 +437,7 @@ boat_engine.minable = nil
 boat_engine.icon = GRAPHICSPATH .. "icons/boat.png"
 boat_engine.icon_size = 64
 boat_engine.weight = 5000
-boat_engine.max_speed = 0.27*speed_modifier
+boat_engine.max_speed = boat_max_speed
 boat_engine.max_power = boat_engine_power .. "kW"
 boat_engine.air_resistance = 0.02
 boat_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}
@@ -498,6 +501,8 @@ boat_engine.drive_over_tie_trigger = nil
 ------------------------ CARGO SHIP ----------------------------
 ----------------------------------------------------------------
 
+local ship_max_speed = 0.15 * speed_modifier
+
 local cargo_ship = table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 cargo_ship.name = "cargo_ship"
 cargo_ship.icon = GRAPHICSPATH .. "icons/cargoship_icon.png"
@@ -513,7 +518,7 @@ cargo_ship.connection_distance = 3
 cargo_ship.joint_distance = 12
 cargo_ship.weight = 100000
 cargo_ship.inventory_size = 1000
-cargo_ship.max_speed = 0.5
+cargo_ship.max_speed = ship_max_speed
 cargo_ship.air_resistance = 0.40
 cargo_ship.water_reflection = water_reflection("cargo_ship/cargo_ship", 170, 25, true) --nil
 cargo_ship.pictures = cargo_ship_pictures
@@ -582,7 +587,7 @@ oil_tanker.connection_distance = 3
 oil_tanker.joint_distance = 12
 oil_tanker.weight = 120000
 oil_tanker.capacity = tanker_capacity * 1000
-oil_tanker.max_speed = 0.5
+oil_tanker.max_speed = ship_max_speed
 oil_tanker.air_resistance = 0.40
 oil_tanker.water_reflection = water_reflection("tanker/tanker", 170, 25, true)
 oil_tanker.pictures = oil_tanker_pictures
@@ -619,7 +624,7 @@ cargo_ship_engine.icon = "__base__/graphics/icons/engine-unit.png"
 cargo_ship_engine.icon_size = 64
 cargo_ship_engine.icon_mipmaps = 4
 cargo_ship_engine.weight = 100000
-cargo_ship_engine.max_speed = 0.15 * speed_modifier
+cargo_ship_engine.max_speed = ship_max_speed
 cargo_ship_engine.max_power = cargo_ship_engine_power.."kW"
 cargo_ship_engine.air_resistance = 0.40
 cargo_ship_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}

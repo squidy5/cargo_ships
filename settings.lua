@@ -1,6 +1,3 @@
---local choices = require("choices")
-
-
 data:extend({
   {
     type = "bool-setting",
@@ -51,8 +48,8 @@ data:extend({
     name = "speed_modifier",
     setting_type = "startup",
     default_value = 1,
-    minimum_value = 0.5,
-    maximum_value = 2,
+    minimum_value = 0.25,
+    maximum_value = 4,
     order = "b-a"
   },
   {
@@ -60,7 +57,7 @@ data:extend({
     name = "fuel_modifier",
     setting_type = "startup",
     default_value = 2,
-    minimum_value = 1,
+    minimum_value = 0.5,
     maximum_value = 10,
     order = "b-b"
   },
@@ -78,7 +75,6 @@ data:extend({
     name = "no_catching_fish",
     setting_type = "startup",
     default_value = true,
-    minimum_value = 0.5,
     order = "c-a"
   },
   {
