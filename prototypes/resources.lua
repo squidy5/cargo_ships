@@ -51,5 +51,3 @@ deep_oil.water_reflection = nil
 
 data:extend{deep_oil}
 
--- Make sure the oil rig can mine deep oil:
-data.raw["mining-drill"]["oil_rig"].resource_categories = {data.raw.resource["deep_oil"].category}

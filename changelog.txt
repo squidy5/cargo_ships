@@ -1,10 +1,17 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.15
+Date: 2022-02-06
+  Bugfixes:
+    - Fixed that deep_oil entity could not be placed on water in editor.
+  Compatibility:
+    - Added changes for Alien Biomes trees so that they can be chopped on top of ore patches again.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.14
 Date: 2022-01-30
   Compatibility:
     - Fixed compatibility with Noxy's Swimming (boat will ignore terrain friction).
   Changes:
-	  - Enlarged range for fuel and speed modifier options.
+    - Enlarged range for fuel and speed modifier options.
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.13
 Date: 2022-01-16

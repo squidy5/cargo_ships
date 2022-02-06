@@ -73,7 +73,7 @@ if data.raw.resource.deep_oil then
 
     -- Add a new "land-resource" collision mask to land resources (If Water_Ores is not installed)
     for name, _ in pairs(data.raw.resource) do
-      if name ~= "crude-oil" then
+      if name ~= "crude-oil" and name ~= "deep_oil" then
         if data.raw.resource[name].collision_mask then
           table.insert(data.raw.resource[name].collision_mask, land_resource_layer)
           data.raw.resource[name].selection_priority = math.max((data.raw.resource[name].selection_priority or 50) - 1, 0)
@@ -84,6 +84,17 @@ if data.raw.resource.deep_oil then
         log("Adding collision layer 'land-resource:"..tostring(land_resource_layer).."' to resource '"..name.."' and demoting to selection_priority="..tostring(data.raw.resource[name].selection_priority))
       end
     end
+    
+    -- Fix Alien Biomes tree selection priority
+    for name, _ in pairs(data.raw.tree) do
+      if data.raw.tree[name].selection_priority and data.raw.tree[name].selection_priority == 0 then
+        data.raw.tree[name].selection_priority = 1
+      end
+    end
 
   end
+
+  -- Make sure the oil rig can mine deep oil:
+  data.raw["mining-drill"]["oil_rig"].resource_categories = {data.raw.resource["deep_oil"].category}
+
 end
