@@ -2,7 +2,9 @@
 for index, force in pairs(game.forces) do
   local technologies = force.technologies
   local recipes = force.recipes
-  recipes["oil_rig"].enabled = technologies["deep_sea_oil_extraction"].researched
+  if recipes["oil_rig"] then
+    recipes["oil_rig"].enabled = technologies["deep_sea_oil_extraction"].researched
+  end
 end
 
 -- add radar sight to all existing oil_rigs

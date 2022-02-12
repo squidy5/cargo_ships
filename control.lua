@@ -172,13 +172,13 @@ local function OnEnterShip(e)
       for dis = 1,10 do
         local targets = surface.find_entities_filtered{
           area={{X-dis, Y-dis}, {X+dis, Y+dis}},
-          name={"indep-boat","indep-boat-0","boat_engine","cargo_ship_engine"}}
+          name={"indep-boat","indep-boat-0","boat_engine","cargo_ship_engine","boat","cargo_ship","oil_tanker"}}
         local done = false
         for _, target in pairs(targets) do
           if target and target.get_driver() == nil then
             target.set_driver(player)
             done = true
-          elseif target and target.name == "indep-boat" and target.get_passenger() == nil then
+          elseif target and (target.name == "indep-boat" or target.name == "indep-boat-0") and target.get_passenger() == nil then
             target.set_passenger(player)
           end
         end
@@ -189,7 +189,7 @@ local function OnEnterShip(e)
     local new_pos = surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
     if new_pos then
       local old_vehicle = player.vehicle
-      if old_vehicle.name == "indep-boat" then
+      if old_vehicle.name == "indep-boat" or old_vehicle.name == "indep-boat-0" then
         local driver = old_vehicle.get_driver()  -- Can return either LuaEntity or LuaPlayer
         if driver then
           if not driver.is_player() then
