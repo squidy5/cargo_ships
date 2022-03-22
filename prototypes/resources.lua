@@ -1,6 +1,7 @@
 ----------------------------------------------------------------
 -------------------------DEEP SEA OIL --------------------------
 ----------------------------------------------------------------
+if settings.startup["deep_oil"].value then
 
 local deep_oil = table.deepcopy(data.raw.resource["crude-oil"])
 if mods["angelspetrochem"] then
@@ -51,3 +52,4 @@ deep_oil.water_reflection = nil
 
 data:extend{deep_oil}
 
+end

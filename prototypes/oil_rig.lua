@@ -1,3 +1,5 @@
+if settings.startup["deep_oil"].value then
+
 local function oilrig_layer(orientation, animated)
   local returned_value = {
     layers = {
@@ -297,3 +299,5 @@ or_radar.water_reflection = nil
 or_radar.working_sound = nil
 
 data:extend{oil_rig, or_power, or_pole, or_radar}
+
+end

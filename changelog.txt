@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.16
+Date: 2022-03-21
+  Bugfixes:
+    - Fixed potential issue synchronizing settings to a multiplayer game if deep sea oil is disabled on server.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.15
 Date: 2022-02-06
   Bugfixes:
