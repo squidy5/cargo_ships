@@ -57,7 +57,7 @@ local function onEntityBuild(e)
   elseif global.boat_bodies[entity.name] then
     CheckBoatPlacement(entity, player)
 
-  elseif (entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or 
+  elseif (entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or
           entity.type == "locomotive" or entity.type == "artillery-wagon") then
     --game.players[1].print(entity.collision_mask)
     local engine = nil
@@ -295,7 +295,7 @@ local function OnMined(e)
               (global.ship_engines[entity.train.front_stock.name]) then
           engine = entity.train.front_stock
         end
-        if ( engine and global.ship_engines[engine.name].recover_fuel and 
+        if ( engine and global.ship_engines[engine.name].recover_fuel and
              engine.get_fuel_inventory() and not engine.get_fuel_inventory().is_empty() ) then
           local fuel = engine.get_fuel_inventory()
           if player and player.character then
@@ -382,6 +382,79 @@ local function init_events()
     script.on_event(defines.events.on_gui_closed, onOilrigGuiClosed)
     script.on_event(defines.events.on_player_created, onPlayerCreated)
   end
+
+  -- entity created, check placement and create invisible elements
+  local entity_filters = {
+      {filter="ghost", ghost_name="bridge_base"},
+      {filter="ghost", ghost_name="straight-water-way-placed"},
+      {filter="ghost", ghost_name="curved-water-way-placed"},
+      {filter="type", type="cargo-wagon"},
+      {filter="type", type="fluid-wagon"},
+      {filter="type", type="locomotive"},
+      {filter="type", type="artillery-wagon"},
+      {filter="name", name="oil_rig"},
+      {filter="name", name="bridge_base"},
+      {filter="type", type="straight-rail"},
+      {filter="type", type="curved-rail"},
+      {filter="name", name="buoy"},
+      {filter="name", name="chain_buoy"}
+    }
+  for name,_ in pairs(global.boat_bodies) do
+    table.insert(entity_filters, {filter="name", name=name})
+  end
+  script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
+  script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
+  script.on_event(defines.events.on_entity_cloned, onEntityBuild, entity_filters)
+  script.on_event(defines.events.script_raised_built, onEntityBuild, entity_filters)
+  script.on_event(defines.events.script_raised_revive, onEntityBuild, entity_filters)
+
+  -- delete invisible oil rig, bridge, and ship elements
+  local deleted_filters = {
+      {filter="name", name="oil_rig"},
+      {filter="name", name="bridge_base"},
+      {filter="name", name="bridge_north"},
+      {filter="name", name="bridge_north_closed"},
+      {filter="name", name="bridge_north_clickable"},
+      {filter="name", name="bridge_east"},
+      {filter="name", name="bridge_east_closed"},
+      {filter="name", name="bridge_east_clickable"},
+      {filter="name", name="bridge_south"},
+      {filter="name", name="bridge_south_closed"},
+      {filter="name", name="bridge_south_clickable"},
+      {filter="name", name="bridge_west"},
+      {filter="name", name="bridge_west_closed"},
+      {filter="name", name="bridge_west_clickable"}
+    }
+  for name,_ in pairs(global.ship_bodies) do
+    table.insert(deleted_filters, {filter="name", name=name})
+  end
+  for name,_ in pairs(global.ship_engines) do
+    table.insert(deleted_filters, {filter="name", name=name})
+  end
+  script.on_event(defines.events.on_entity_died, OnDeleted, deleted_filters)
+  script.on_event(defines.events.script_raised_destroy, OnDeleted, deleted_filters)
+  script.on_event(defines.events.on_player_mined_entity, OnDeleted, deleted_filters)
+  script.on_event(defines.events.on_robot_mined_entity, OnDeleted, deleted_filters)
+
+  -- recover fuel from mined ships
+  local mined_filters = {}
+  for name,_ in pairs(global.ship_bodies) do
+    table.insert(mined_filters, {filter="name", name=name})
+  end
+  script.on_event(defines.events.on_pre_player_mined_item, OnMined, mined_filters)
+  script.on_event(defines.events.on_robot_pre_mined, OnMined, mined_filters)
+
+  -- Compatibility with AAI Vehicles (Modify this whenever the list of boats changes)
+  remote.add_interface("aai-sci-burner", {
+    hauler_types = function(data)
+      local types={}
+      for name,_ in pairs(global.boat_bodies) do
+        table.insert(types, name)
+      end
+      return types
+    end,
+  })
+
 end
 
 local function init()
@@ -413,7 +486,7 @@ local function init()
   global.new_cranes = global.new_cranes or {}
   global.gui_oilrigs = (global.deep_oil_enabled and global.gui_oilrigs) or {}
   global.connection_counter = 0
-  
+
   init_ship_globals()  -- Init database of ship parameters
 
   -- Initialize or migrate long reach state
@@ -462,68 +535,11 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChan
 
 -- custom commands
 script.on_event("enter_ship", OnEnterShip)
---%%%%%%%%%%%%%%%%%%%% TODO BELOW
--- delete invisibles
-local deleted_filters = {
-    {filter="name", name="cargo_ship"},
-    {filter="name", name="oil_tanker"},
-    {filter="name", name="boat"},
-    {filter="name", name="cargo_ship_engine"},
-    {filter="name", name="boat_engine"},
-    {filter="name", name="oil_rig"},
-    {filter="name", name="bridge_base"},
-    {filter="name", name="bridge_north"},
-    {filter="name", name="bridge_north_closed"},
-    {filter="name", name="bridge_north_clickable"},
-    {filter="name", name="bridge_east"},
-    {filter="name", name="bridge_east_closed"},
-    {filter="name", name="bridge_east_clickable"},
-    {filter="name", name="bridge_south"},
-    {filter="name", name="bridge_south_closed"},
-    {filter="name", name="bridge_south_clickable"},
-    {filter="name", name="bridge_west"},
-    {filter="name", name="bridge_west_closed"},
-    {filter="name", name="bridge_west_clickable"}
-  }
-script.on_event(defines.events.on_entity_died, OnDeleted, deleted_filters)
-script.on_event(defines.events.script_raised_destroy, OnDeleted, deleted_filters)
-script.on_event(defines.events.on_player_mined_entity, OnDeleted, deleted_filters)
-script.on_event(defines.events.on_robot_mined_entity, OnDeleted, deleted_filters)
-
-local mined_filters = {
-    {filter="name", name="cargo_ship"},
-    {filter="name", name="oil_tanker"},
-    {filter="name", name="boat"},
-  }
-script.on_event(defines.events.on_pre_player_mined_item, OnMined, mined_filters)
-script.on_event(defines.events.on_robot_pre_mined, OnMined, mined_filters)
 
 -- tile created
 script.on_event(defines.events.on_player_built_tile, onTileBuild)
 script.on_event(defines.events.on_robot_built_tile, onTileBuild)
 
--- entity created
-local entity_filters = {
-    {filter="ghost", ghost_name="bridge_base"},
-    {filter="ghost", ghost_name="straight-water-way-placed"},
-    {filter="ghost", ghost_name="curved-water-way-placed"},
-    {filter="type", type="cargo-wagon"},
-    {filter="type", type="fluid-wagon"},
-    {filter="type", type="locomotive"},
-    {filter="type", type="artillery-wagon"},
-    {filter="name", name="indep-boat"},
-    {filter="name", name="oil_rig"},
-    {filter="name", name="bridge_base"},
-    {filter="type", type="straight-rail"},
-    {filter="type", type="curved-rail"},
-    {filter="name", name="buoy"},
-    {filter="name", name="chain_buoy"}
-  }
-script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
-script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
-script.on_event(defines.events.on_entity_cloned, onEntityBuild, entity_filters)
-script.on_event(defines.events.script_raised_built, onEntityBuild, entity_filters)
-script.on_event(defines.events.script_raised_revive, onEntityBuild, entity_filters)
 
 -- update entities
 script.on_event(defines.events.on_tick, onTick)
@@ -545,14 +561,6 @@ script.on_event(defines.events.on_train_created, On_Train_Created)
 -- Console commands
 commands.add_command("regenerate-oil", {"cargo-ship-message.regenerate-oil-help"}, RegenerateOilCommand)
 
--- Compatibility with AAI Vehicles
-remote.add_interface("aai-sci-burner", {
-  hauler_types = function(data)
-    return {
-      'indep-boat',
-    }
-  end,
-})
 
 ------------------------------------------------------------------------------------
 --                    FIND LOCAL VARIABLES THAT ARE USED GLOBALLY                 --
