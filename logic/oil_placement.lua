@@ -103,13 +103,13 @@ function RegenerateOilCommand(params)
     if player.admin then
       if params.parameter and game.surfaces[params.parameter] then
         -- Regenerate on a specific surface (only works if RSO is not installed)
-        if not remote.interfaces["RSO"] and 
+        if remote.interfaces["RSO"] then 
           player.print{"cargo-ship-message.error-rso-regenerate-surface"}
         else
           local surface = game.surfaces[params.parameter]
           game.print{"cargo-ship-message.regenerate-started",player.name,surface.name}
           regenerateSurface(game.surfaces[params.parameter])
-        else
+        end
       else
         -- Regenerate on all surfaces
         game.print{"cargo-ship-message.regenerate-started",player.name,{"cargo-ship-message.all-surfaces"}}
