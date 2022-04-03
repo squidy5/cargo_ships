@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.17
+Date: 2022-04-03
+  Features:
+    - Added a setting to disable offshore in shallow water.
+  Changes:
+    - Increased the offshore oil richness bonus for "good" and "very-good" settings.
+    - Changed the default behavior to generate offshore oil in shallow water.
+  Bugfixes:
+    - Fixed behavior of "/regenerate-oil" command when RSO is installed.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.16
 Date: 2022-03-21
   Changes:
