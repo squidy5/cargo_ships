@@ -10,6 +10,7 @@ function init_ship_globals()
   -- Add the independent boat
   global.boat_bodies["indep_boat"] = {
     rail_version = "boat",    -- Name of ship_body to place on rails OR nil
+    placing_item = "boat"
   }
   
   -- Placeable ship bodies

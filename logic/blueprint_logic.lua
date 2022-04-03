@@ -32,24 +32,27 @@ function FixPipette(e)
   local item = e.item
   if item and item.valid then
     local player = game.players[e.player_index]
+    local selected = game.player.selected
     local cursor = player.cursor_stack
-    if item.name == "cargo_ship_engine" then
+    if global.ship_engines[item.name] then
       -- not allowed to get these, from inventory or otherwise
       cursor.clear()
-    elseif item.name == "indep-boat" or item.name == "boat_engine" then
+      -- Actually we could check the train of the selected entity
+    elseif global.boat_bodies[item.name] then
+      local new_item = global.boat_bodies[item.name].placing_item
       -- The following logic copied from Robot256Lib.
       if cursor.valid_for_read == true and e.used_cheat_mode == false then
         -- Give boat to replace boat parts that player accidentally had in inventory (when not in cheat mode)
-        cursor.set_stack{name="boat", count=cursor.count}
+        cursor.set_stack{name=new_item, count=cursor.count}
       else
         -- Check for boat in inventory
         local inventory = player.get_main_inventory()
-        local new_stack = inventory.find_item_stack("boat")
+        local new_stack = inventory.find_item_stack(new_item)
         cursor.set_stack(new_stack)  -- Set cursor with inventory contents OR clear it if none available
         if not cursor.valid_for_read then
           if player.cheat_mode==true then
             -- If none in inventory and cheat mode enabled, give stack of correct items
-            cursor.set_stack{name="boat", count=game.item_prototypes["boat"].stack_size}
+            cursor.set_stack{name=new_item, count=game.item_prototypes[new_item].stack_size}
           end
         else
           -- Found items in inventory. Remove it from inventory now that it is in the cursor.
