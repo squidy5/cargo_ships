@@ -47,7 +47,7 @@ data:extend({
     type = "bool-setting",
     name = "no_shallow_oil",
     setting_type = "startup",
-    default_value = false,
+    default_value = true,
     order = "a-f"
   },
   {
@@ -89,7 +89,6 @@ data:extend({
     name = "use_dark_blue_waterways",
     setting_type = "startup",
     default_value = false,
-    --hidden = true,
     order = "c-b"
   },
   {
