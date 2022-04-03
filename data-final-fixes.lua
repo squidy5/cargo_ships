@@ -54,10 +54,10 @@ if data.raw.resource.deep_oil then
     local land_resource_layer = collision_mask_util.get_first_unused_layer()
 
     -- Replace 'resource-layer' with 'land-resource' in the collision masks of water tiles where oil can go
-    if mods["ctg"] or mods["alien-biomes"] then
-      valid_oil_tiles = {"water","water-green","deepwater","deepwater-green"}
+    if settings.startup["no_shallow_oil"].value then
+      valid_oil_tiles = {"deepwater","deepwater-green"}
     else
-      valid_oil_tiles = {"deepwater"}
+      valid_oil_tiles = {"water","water-green","deepwater","deepwater-green"}
     end
     for _, name in pairs(valid_oil_tiles) do
       if data.raw.tile[name] then

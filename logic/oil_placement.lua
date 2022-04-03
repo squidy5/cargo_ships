@@ -15,10 +15,10 @@ function placeDeepOil(e)
     if num_deposits > 0 then
       -- Check if this chunk is entirely ocean
       local deep_tiles = 0
-      if game.active_mods["ctg"] or game.active_mods["alien-biomes"] or global.no_shallow_oil == false then
-        deep_tiles = surface.count_tiles_filtered{area=area, name={"water","water-green","deepwater","deepwater-green"}}
+      if global.no_shallow_oil then
+        deep_tiles = surface.count_tiles_filtered{area=area, name="deepwater","deepwater-green"}
       else
-        deep_tiles = surface.count_tiles_filtered{area=area, name="deepwater"}
+        deep_tiles = surface.count_tiles_filtered{area=area, name={"water","water-green","deepwater","deepwater-green"}}
       end
 
       if deep_tiles == 1024 then
