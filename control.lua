@@ -398,9 +398,9 @@ local function init()
   elseif oil_richness == "poor" then
     mult = 0.5
   elseif oil_richness == "good" then
-    mult = 2
-  elseif oil_richness == "very-good" then
     mult = 4
+  elseif oil_richness == "very-good" then
+    mult = 10
   end
   global.oil_bonus = mult
   global.no_oil_on_land = settings.startup["no_oil_on_land"].value
