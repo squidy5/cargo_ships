@@ -8,4 +8,5 @@ if mods["omnimatter"] or mods["SeaBlock"] then
   data.raw["bool-setting"]["no_oil_for_oil_rig"].hidden=true
   data.raw["int-setting"]["oil_rig_capacity"].hidden=true
   data.raw["bool-setting"]["no_oil_on_land"].hidden=true
+  data.raw["no_shallow_oil"]["no_shallow_oil"].hidden=true
 end 

@@ -405,6 +405,7 @@ local function init()
   global.oil_bonus = mult
   global.no_oil_on_land = settings.startup["no_oil_on_land"].value
   global.oil_rig_capacity = settings.startup["oil_rig_capacity"].value
+  global.no_shallow_oil = settings.startup["no_shallow_oil"].value
 
   -- Init global variables
   global.check_entity_placement = global.check_entity_placement or {}

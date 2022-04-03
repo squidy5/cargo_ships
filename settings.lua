@@ -44,6 +44,13 @@ data:extend({
     order = "a-e"
   },
   {
+    type = "bool-setting",
+    name = "no_shallow_oil",
+    setting_type = "startup",
+    default_value = false,
+    order = "a-f"
+  },
+  {
     type = "double-setting",
     name = "speed_modifier",
     setting_type = "startup",
