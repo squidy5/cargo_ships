@@ -1,4 +1,5 @@
 require("util")
+require("logic.ship-api.lua")
 require("logic.ship_placement")
 require("logic.oil_placement")
 require("logic.rail_placement")
@@ -53,43 +54,31 @@ local function onEntityBuild(e)
       end
     end
 
-  elseif entity.name == "indep-boat" then
+  elseif global.boat_bodies[entity.name] then
     CheckBoatPlacement(entity, player)
 
-  elseif entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or entity.type == "locomotive" or entity.type == "artillery-wagon" then
+  elseif (entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or 
+          entity.type == "locomotive" or entity.type == "artillery-wagon") then
     --game.players[1].print(entity.collision_mask)
     local engine = nil
-    if entity.name == "cargo_ship" or entity.name == "oil_tanker" then
-      local pos
-      local dir
-      pos, dir = localize_engine(entity)
-      -- see if there is an engine ghost from a blueprint behind us
-      local engine_ghosts = surface.find_entities_filtered{ghost_name="cargo_ship_engine", position = pos, radius = 1, force = force}
-      if engine_ghosts and next(engine_ghosts) then
-        local q
-        q,engine = engine_ghosts[1].revive()
-        -- If couldn't revive engine, destroy ghost
-        if not engine then
-          engine_ghosts[1].destroy()
+    if global.ship_bodies[entity.name] then
+      local ship_data = global.ship_bodies[entity.name]
+      if ship_data.engine then
+        local pos
+        local dir
+        pos, dir = localize_engine(entity)
+        -- see if there is an engine ghost from a blueprint behind us
+        local engine_ghosts = surface.find_entities_filtered{ghost_name=ship_data.engine, position = pos, radius = 1, force = force}
+        if engine_ghosts and next(engine_ghosts) then
+          local q
+          q,engine = engine_ghosts[1].revive()
+          -- If couldn't revive engine, destroy ghost
+          if not engine then
+            engine_ghosts[1].destroy()
+          end
+        else
+          engine = surface.create_entity{name = ship_data.engine, position = pos, direction = dir, force = force}
         end
-      else
-        engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = force}
-      end
-    elseif entity.name == "boat"  then
-      local pos
-      local dir
-      pos, dir = localize_engine(entity)
-      -- see if there is an engine ghost from a blueprint behind us
-      local engine_ghosts = surface.find_entities_filtered{ghost_name="boat_engine", position = pos, radius = 1, force = force}
-      if engine_ghosts and next(engine_ghosts) then
-        local q
-        q,engine = engine_ghosts[1].revive()
-        -- If couldn't revive engine, destroy ghost
-        if not engine then
-          engine_ghosts[1].destroy()
-        end
-      else
-        engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = force}
       end
     end
     -- check placement in next tick
@@ -169,27 +158,33 @@ local function OnEnterShip(e)
   if player.vehicle == nil then
     -- Only enter vehicle if player has a character
     if player.character then
-      for dis = 1,10 do
+      for dist = 1,10 do
         local targets = surface.find_entities_filtered{
-          area={{X-dis, Y-dis}, {X+dis, Y+dis}},
-          name={"indep-boat","indep-boat-0","boat_engine","cargo_ship_engine","boat","cargo_ship","oil_tanker"}}
+          position = pos,
+          radius = dist,
+          name = global.enter_ship_entities
+        }
         local done = false
         for _, target in pairs(targets) do
           if target and target.get_driver() == nil then
             target.set_driver(player)
             done = true
-          elseif target and (target.name == "indep-boat" or target.name == "indep-boat-0") and target.get_passenger() == nil then
+          elseif target and target.type == "car" and target.get_passenger() == nil then
             target.set_passenger(player)
+            done = true
           end
         end
-        if done then break end
+        if done then
+          break
+        end
       end
     end
   else
     local new_pos = surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
     if new_pos then
       local old_vehicle = player.vehicle
-      if old_vehicle.name == "indep-boat" or old_vehicle.name == "indep-boat-0" then
+      if old_vehicle.type == "car" then
+        -- Figure out whether the player is driver or passenger
         local driver = old_vehicle.get_driver()  -- Can return either LuaEntity or LuaPlayer
         if driver then
           if not driver.is_player() then
@@ -224,34 +219,34 @@ local function OnEnterShip(e)
     end
   end
 end
-
+--%%%%%%%%%%%%%%%%%%%%%
 -- delete invisible entities if master entity is destroyed
 local function OnDeleted(e)
   if(e.entity and e.entity.valid) then
     local entity = e.entity
-    if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+    if global.ship_bodies[entity.name] then
       if entity.train then
         if entity.train.back_stock then
-          if entity.train.back_stock.name == "cargo_ship_engine" or entity.train.back_stock.name == "boat_engine" then
+          if global.ship_engines[entity.train.back_stock.name] then
             entity.train.back_stock.destroy()
           end
         end
         if entity.train.front_stock then
-          if entity.train.front_stock.name == "cargo_ship_engine" or entity.train.front_stock.name == "boat_engine" then
+          if global.ship_engines[entity.train.front_stock.name] then
             entity.train.front_stock.destroy()
           end
         end
       end
 
-    elseif entity.name == "cargo_ship_engine" or entity.name == "boat_engine" then
+    elseif global.ship_engines[entity.name] then
       if entity.train then
         if entity.train.front_stock then
-          if entity.train.front_stock.name == "cargo_ship" or entity.train.front_stock.name == "oil_tanker" or entity.train.front_stock.name == "boat" then
+          if global.ship_bodies[entity.train.front_stock.name] then
             entity.train.front_stock.destroy()
           end
         end
         if entity.train.back_stock then
-          if entity.train.back_stock.name == "cargo_ship" or entity.train.back_stock.name == "oil_tanker" or entity.train.back_stock.name == "boat" then
+          if global.ship_bodies[entity.train.back_stock.name]  then
             entity.train.back_stock.destroy()
           end
         end
@@ -287,20 +282,21 @@ local function OnMined(e)
   if(e.entity and e.entity.valid) then
     local entity = e.entity
     local okay_to_delete = true
-    if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+    if global.ship_bodies[entity.name] then
       okay_to_delete = false
       local player = (e.player_index and game.players[e.player_index]) or nil
       local robot = e.robot
       if entity.train then
         local engine
         if entity.train.back_stock and
-          (entity.train.back_stock.name == "cargo_ship_engine" or entity.train.back_stock.name == "boat_engine") then
+          (global.ship_engines[entity.train.back_stock.name]) then
           engine = entity.train.back_stock
         elseif entity.train.front_stock and
-              (entity.train.front_stock.name == "cargo_ship_engine" or entity.train.front_stock.name == "boat_engine") then
+              (global.ship_engines[entity.train.front_stock.name]) then
           engine = entity.train.front_stock
         end
-        if engine and engine.get_fuel_inventory() and not engine.get_fuel_inventory().is_empty() then
+        if ( engine and global.ship_engines[engine.name].recover_fuel and 
+             engine.get_fuel_inventory() and not engine.get_fuel_inventory().is_empty() ) then
           local fuel = engine.get_fuel_inventory()
           if player and player.character then
             for f_type,f_amount in pairs(fuel.get_contents()) do
@@ -417,6 +413,8 @@ local function init()
   global.new_cranes = global.new_cranes or {}
   global.gui_oilrigs = (global.deep_oil_enabled and global.gui_oilrigs) or {}
   global.connection_counter = 0
+  
+  init_ship_globals()  -- Init database of ship parameters
 
   -- Initialize or migrate long reach state
   global.last_cursor_stack_name =
@@ -464,7 +462,7 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChan
 
 -- custom commands
 script.on_event("enter_ship", OnEnterShip)
-
+--%%%%%%%%%%%%%%%%%%%% TODO BELOW
 -- delete invisibles
 local deleted_filters = {
     {filter="name", name="cargo_ship"},
