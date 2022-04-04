@@ -32,14 +32,15 @@ function FixPipette(e)
   local item = e.item
   if item and item.valid then
     local player = game.players[e.player_index]
-    local selected = game.player.selected
+    local selected = player.selected
     local cursor = player.cursor_stack
     if global.ship_engines[item.name] then
       -- not allowed to get these, from inventory or otherwise
       cursor.clear()
       -- Actually we could check the train of the selected entity
-    elseif global.boat_bodies[item.name] then
-      local new_item = global.boat_bodies[item.name].placing_item
+    elseif global.boat_bodies[item.name] or global.ship_bodies[item.name] then
+      local new_item = (global.boat_bodies[item.name] and global.boat_bodies[item.name].placing_item) or 
+                       (global.ship_bodies[item.name] and global.ship_bodies[item.name].placing_item)
       -- The following logic copied from Robot256Lib.
       if cursor.valid_for_read == true and e.used_cheat_mode == false then
         -- Give boat to replace boat parts that player accidentally had in inventory (when not in cheat mode)

@@ -1,9 +1,9 @@
 
-function localize_engine(ent)
+function localize_engine(ent, ship_name)
   local dir = (math.floor((ent.orientation*8)+0.5))%8
-  local ship_data = global.ship_bodies[ent.name]
-  local pos = {x = ent.position.x + ship_data.engine_offset.x,
-               y = ent.position.y + ship_data.engine_offset.y}
+  local ship_data = global.ship_bodies[ship_name or ent.name]
+  local pos = {x = ent.position.x + ship_data.engine_offset[dir].x,
+               y = ent.position.y + ship_data.engine_offset[dir].y}
   local orient = ship_data.engine_orientation[dir]
   return pos, orient
 end
@@ -88,7 +88,7 @@ function CheckBoatPlacement(entity, player, robot)
     local force = entity.force
     local eng_pos
     local dir
-    eng_pos, dir = localize_engine(entity)
+    eng_pos, dir = localize_engine(entity, ship_name)
     entity.destroy()
     local boat = surface.create_entity{name=ship_name, position=pos, direction=dir, force=force}
     if boat then

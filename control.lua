@@ -1,5 +1,5 @@
 require("util")
-require("logic.ship-api.lua")
+require("logic.ship_api")
 require("logic.ship_placement")
 require("logic.oil_placement")
 require("logic.rail_placement")
@@ -219,7 +219,7 @@ local function OnEnterShip(e)
     end
   end
 end
---%%%%%%%%%%%%%%%%%%%%%
+
 -- delete invisible entities if master entity is destroyed
 local function OnDeleted(e)
   if(e.entity and e.entity.valid) then
@@ -399,8 +399,10 @@ local function init_events()
       {filter="name", name="buoy"},
       {filter="name", name="chain_buoy"}
     }
-  for name,_ in pairs(global.boat_bodies) do
-    table.insert(entity_filters, {filter="name", name=name})
+  if global.boat_bodies then
+    for name,_ in pairs(global.boat_bodies) do
+      table.insert(entity_filters, {filter="name", name=name})
+    end
   end
   script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
   script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
@@ -425,11 +427,15 @@ local function init_events()
       {filter="name", name="bridge_west_closed"},
       {filter="name", name="bridge_west_clickable"}
     }
-  for name,_ in pairs(global.ship_bodies) do
-    table.insert(deleted_filters, {filter="name", name=name})
+  if global.ship_bodies then
+    for name,_ in pairs(global.ship_bodies) do
+      table.insert(deleted_filters, {filter="name", name=name})
+    end
   end
-  for name,_ in pairs(global.ship_engines) do
-    table.insert(deleted_filters, {filter="name", name=name})
+  if global.ship_engines then
+    for name,_ in pairs(global.ship_engines) do
+      table.insert(deleted_filters, {filter="name", name=name})
+    end
   end
   script.on_event(defines.events.on_entity_died, OnDeleted, deleted_filters)
   script.on_event(defines.events.script_raised_destroy, OnDeleted, deleted_filters)
@@ -438,18 +444,23 @@ local function init_events()
 
   -- recover fuel from mined ships
   local mined_filters = {}
-  for name,_ in pairs(global.ship_bodies) do
-    table.insert(mined_filters, {filter="name", name=name})
+  if global.ship_bodies then
+    for name,_ in pairs(global.ship_bodies) do
+      table.insert(mined_filters, {filter="name", name=name})
+    end
   end
   script.on_event(defines.events.on_pre_player_mined_item, OnMined, mined_filters)
   script.on_event(defines.events.on_robot_pre_mined, OnMined, mined_filters)
 
   -- Compatibility with AAI Vehicles (Modify this whenever the list of boats changes)
+  remote.remove_interface("aai-sci-burner")
   remote.add_interface("aai-sci-burner", {
     hauler_types = function(data)
       local types={}
-      for name,_ in pairs(global.boat_bodies) do
-        table.insert(types, name)
+      if global.boat_bodies then
+        for name,_ in pairs(global.boat_bodies) do
+          table.insert(types, name)
+        end
       end
       return types
     end,
