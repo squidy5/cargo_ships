@@ -2,7 +2,7 @@
 function localize_engine(ent)
   local dir = (math.floor((ent.orientation*8)+0.5))%8
   local ship_data = global.ship_bodies[ent.name]
-  local pos = {x = ent.position.x + ship_data.engine_offset.x, 
+  local pos = {x = ent.position.x + ship_data.engine_offset.x,
                y = ent.position.y + ship_data.engine_offset.y}
   local orient = ship_data.engine_orientation[dir]
   return pos, orient
@@ -80,7 +80,7 @@ function CheckBoatPlacement(entity, player, robot)
   if boat_data and boat_data.rail_version then
     ww = surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way-placed"}
   end
-  
+
   -- if so place waterway bound version of boat
   if ww and #ww >= 1 then
     local ship_name = boat_data.rail_version

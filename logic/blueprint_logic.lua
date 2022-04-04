@@ -59,7 +59,7 @@ function FixPipette(e)
           inventory.remove(new_stack)
         end
       end
-    elseif (item.name == "bridge_north_clickable" or item.name == "bridge_east_clickable" or 
+    elseif (item.name == "bridge_north_clickable" or item.name == "bridge_east_clickable" or
             item.name == "bridge_south_clickable" or item.name == "bridge_west_clickable") then
       if cursor.valid_for_read == true and e.used_cheat_mode == false then
         -- Give bridge to replace bridge parts that player accidentally had in inventory (when not in cheat mode)

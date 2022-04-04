@@ -21,8 +21,6 @@ local default_orientation = {
       [7] = 7
     }
 
-
-
 --[[
     add_ship:  Adds definition for a new ship and ship engine (rolling-stock types)
     parameters:
@@ -36,7 +34,7 @@ local default_orientation = {
       recover_fuel (boolean, optional): Whether fuel items in this ship's engine should be collected when mining the ship. If not specified, will use the engine's prototype data.
 --]]
 
-local function add_ship(params)
+function add_ship(params)
   local ship_data = {}
   log("Adding ship '"..tostring(params.name).."':")
 
@@ -50,7 +48,7 @@ local function add_ship(params)
     return
   end
   ship_data.name = params.name
-    
+
   -- Find the item to refund if building fails
   if param.placing_item then
     if game.item_prototypes[params.placing_item] then
@@ -62,7 +60,7 @@ local function add_ship(params)
   else
     ship_data.placing_item = game.entity_prototypes[params.name].items_to_place_this and game.entity_prototypes[params.name].items_to_place_this[1]
   end
-  
+
   -- Process engine data, if any
   if params.engine and game.entity_prototypes[params.engine] then
     ship_data.engine = params.engine
@@ -104,7 +102,7 @@ local function add_ship(params)
         ship_data.engine_offset[i].y = ship_data.engine_offset[i].y * offset_scale
       end
     end
-    
+
     if params.engine_orientation then
       -- Engine orientation specified in a custom table
       for i=0,7 do
@@ -118,7 +116,7 @@ local function add_ship(params)
       -- Use default orientation
       ship_data.engine_orientation = default_orientation
     end
-    
+
     -- Add data on this engine
     if not global.ship_engines[ship_data.engine] then
       global.ship_engines[ship_data.engine] = {
@@ -126,6 +124,7 @@ local function add_ship(params)
         coupled_ship = -1 * ship_data.coupled_engine,
         compatible_ships = {ship_data.name},
       }
+
       -- Check if fuel should be recovered when mining the ship
       if params.engine_recover_fuel ~= nil then
         global.ship_engines[ship_data.engine].recover_fuel = params.engine_recover_fuel  -- Use specified value
@@ -134,19 +133,32 @@ local function add_ship(params)
       else
         global.ship_engines[ship_data.engine].recover_fuel = false  -- Not specified, and no burner inventories
       end
+
+      -- Add to list of enterable ships
+      if game.entity_prototypes[ship_data.engine].allow_passengers then
+        table.insert(global.enter_ship_entities, ship_data.engine)
+      end
+
     else
       -- Engine already exists, make sure things match
       if global.ship_engines[ship_data.engine].coupled_ship ~= (-1 * ship_data.coupled_engine) then
         log("Error adding ship data: Engine '"..ship_data.engine.."' has already been added by another ship with the wrong coupling direction")
         return
       end
+
       -- Add this ship to list of compatible ships
       table.insert(global.ship_engines[ship_data.engine].compatible_ships, ship_data.name)
     end
-    
+
   end
-  
+
   global.ship_bodies[ship_data.name] = ship_data
+
+  -- Add to list of enterable ships
+  if game.entity_prototypes[ship_data.name].allow_passengers then
+    table.insert(global.enter_ship_entities, ship_data.name)
+  end
+
   log("Added ship specification:\n"..serpent.block(ship_data))
 
 end
@@ -159,7 +171,7 @@ end
       placing_item (string, optional): Name of item that places this boat, if different from prototype data.
       rail_version (string, optional): Name of the ship entity to be placed instead, if this boat is placed on a waterway. (Ship definition must be added first)
 --]]
-local function add_boat(params)
+function add_boat(params)
   local boat_data = {}
   log("Adding boat '"..tostring(params.name).."':")
 
@@ -173,7 +185,7 @@ local function add_boat(params)
     return
   end
   boat_data.name = params.name
-  
+
   -- Find the item to refund if building fails
   if param.placing_item then
     if game.item_prototypes[params.placing_item] then
@@ -185,7 +197,7 @@ local function add_boat(params)
   else
     boat_data.placing_item = game.entity_prototypes[params.name].items_to_place_this and game.entity_prototypes[params.name].items_to_place_this[1]
   end
-  
+
   -- Add rail-version of this boat, if any
   if params.rail_version then
     if global.ship_bodies[params.rail_version] then
@@ -195,7 +207,12 @@ local function add_boat(params)
       return
     end
   end
-  
+
+  -- Add to list of enterable ships
+  if game.entity_prototypes[boat_data.name].allow_passengers then
+    table.insert(global.enter_ship_entities, boat_data.name)
+  end
+
   global.boat_bodies[boat_data.name] = boat_data
   log("Added boat specification:\n"..serpent.block(boat_data))
 
@@ -204,128 +221,150 @@ end
 
 
 function init_ship_globals()
-  
+
   -- Independent boats to use for Enter Ship command
   global.boat_bodies = {}
-  
-  -- Add the independent boat
-  global.boat_bodies["indep_boat"] = {
-    rail_version = "boat",    -- Name of ship_body to place on rails OR nil
-    placing_item = "boat"
-  }
-  
-  -- Placeable ship bodies
-  global.ship_bodies = {}
-  
-  global.ship_bodies["cargo_ship"] = {
-    engine = "cargo_ship_engine",  -- Name of engine entity OR nil
-    engine_offset = {    -- Relative position to place engine for each straight rail direction
-      [0] = {x = 0, y = 9.5},   -- North-facing
-      [1] = {x = -7, y = 7},    -- Northeast-facing
-      [2] = {x = -9.5, y = 0},  -- East-facing
-      [3] = {x = -7, y = -7},   -- Southeast-facing
-      [4] = {x = 0, y = -9.5},  -- South-facing
-      [5] = {x = 7, y = -7},    -- Southwest-facing
-      [6] = {x = 9.5, y = 0},   -- West-facing
-      [7] = {x = 7, y = 7}      -- Northwest-facing
-    },
-    engine_orientation = {
-      [0] = 0,
-      [1] = 5,  -- NE is weird for some reason
-      [2] = 2,
-      [3] = 3,
-      [4] = 4,
-      [5] = 1,  -- SW is weird for some reason
-      [6] = 6,
-      [7] = 7
-    },
-    coupled_engine = 1,
-    placing_item = "cargo_ship",
-  }
-  
-  global.ship_bodies["oil_tanker"] = {
-    engine = "cargo_ship_engine",  -- Name of engine entity OR nil
-    engine_offset = {    -- Relative position to place engine for each straight rail direction
-      [0] = {x = 0, y = 9.5},   -- North-facing
-      [1] = {x = -7, y = 7},    -- Northeast-facing
-      [2] = {x = -9.5, y = 0},  -- East-facing
-      [3] = {x = -7, y = -7},   -- Southeast-facing
-      [4] = {x = 0, y = -9.5},  -- South-facing
-      [5] = {x = 7, y = -7},    -- Southwest-facing
-      [6] = {x = 9.5, y = 0},   -- West-facing
-      [7] = {x = 7, y = 7}      -- Northwest-facing
-    },
-    engine_orientation = {
-      [0] = 0,
-      [1] = 5,  -- NE is weird for some reason
-      [2] = 2,
-      [3] = 3,
-      [4] = 4,
-      [5] = 1,  -- SW is weird for some reason
-      [6] = 6,
-      [7] = 7
-    },
-    coupled_engine = 1,
-    placing_item = "oil_tanker",
-  }
-  
-  global.ship_bodies["boat"] = {
-    engine = "boat_engine",
-    engine_offset = {
-      [0] = {x = 0, y = -2.85},   -- North-facing
-      [1] = {x = 2.1, y = -2.1},    -- Northeast-facing
-      [2] = {x = 2.85, y = 0},  -- East-facing
-      [3] = {x = 2.1, y = 2.1},   -- Southeast-facing
-      [4] = {x = 0, y = 2.85},  -- South-facing
-      [5] = {x = -2.1, y = 2.1},    -- Southwest-facing
-      [6] = {x = -2.85, y = 0},   -- West-facing
-      [7] = {x = -2.1, y = -2.1}      -- Northwest-facing
-    },
-    engine_orientation = {
-      [0] = 0,
-      [1] = 5,  -- NE is weird for some reason
-      [2] = 2,
-      [3] = 3,
-      [4] = 4,
-      [5] = 1,  -- SW is weird for some reason
-      [6] = 6,
-      [7] = 7
-    },
-    coupled_engine = -1,
-    placing_item = "boat",
-  }
-  
-  -- Invisible ship engines to be built along with ship bodies
   global.ship_engines = {}
-  
-  global.ship_engines["cargo_ship_engine"] = {
-    recover_fuel = true,
-    compatible_ships = {
-      ["cargo_ship"] = true,
-      ["oil_tanker"] = true,
-    },
-    coupled_ship = -1,
-  }
-  
-  global.ship_engines["boat_engine"] = {
-    recover_fuel = true,
-    compatible_ships = {
-      ["boat"] = true,
-    },
-    coupled_ship = 1,
-  }
-  
-  -- List of 
+  global.ship_bodies = {}
   global.enter_ship_entities = {}
-  for name,_ in pairs(global.boat_bodies) do
-    table.insert(global.enter_ship_entities, name)
-  end
-  for name,_ in pairs(global.ship_bodies) do
-    table.insert(global.enter_ship_entities, name)
-  end
-  for name,_ in pairs(global.ship_engines) do
-    table.insert(global.enter_ship_entities, name)
-  end
+
+  -- Add the independent boat
+  -- global.boat_bodies["indep_boat"] = {
+    -- rail_version = "boat",    -- Name of ship_body to place on rails OR nil
+    -- placing_item = "boat"
+  -- }
+
+  -- Placeable ship bodies
+
+  -- global.ship_bodies["cargo_ship"] = {
+    -- engine = "cargo_ship_engine",  -- Name of engine entity OR nil
+    -- engine_offset = {    -- Relative position to place engine for each straight rail direction
+      -- [0] = {x = 0, y = 9.5},   -- North-facing
+      -- [1] = {x = -7, y = 7},    -- Northeast-facing
+      -- [2] = {x = -9.5, y = 0},  -- East-facing
+      -- [3] = {x = -7, y = -7},   -- Southeast-facing
+      -- [4] = {x = 0, y = -9.5},  -- South-facing
+      -- [5] = {x = 7, y = -7},    -- Southwest-facing
+      -- [6] = {x = 9.5, y = 0},   -- West-facing
+      -- [7] = {x = 7, y = 7}      -- Northwest-facing
+    -- },
+    -- engine_orientation = {
+      -- [0] = 0,
+      -- [1] = 5,  -- NE is weird for some reason
+      -- [2] = 2,
+      -- [3] = 3,
+      -- [4] = 4,
+      -- [5] = 1,  -- SW is weird for some reason
+      -- [6] = 6,
+      -- [7] = 7
+    -- },
+    -- coupled_engine = 1,
+    -- placing_item = "cargo_ship",
+  -- }
+
+  -- global.ship_bodies["oil_tanker"] = {
+    -- engine = "cargo_ship_engine",  -- Name of engine entity OR nil
+    -- engine_offset = {    -- Relative position to place engine for each straight rail direction
+      -- [0] = {x = 0, y = 9.5},   -- North-facing
+      -- [1] = {x = -7, y = 7},    -- Northeast-facing
+      -- [2] = {x = -9.5, y = 0},  -- East-facing
+      -- [3] = {x = -7, y = -7},   -- Southeast-facing
+      -- [4] = {x = 0, y = -9.5},  -- South-facing
+      -- [5] = {x = 7, y = -7},    -- Southwest-facing
+      -- [6] = {x = 9.5, y = 0},   -- West-facing
+      -- [7] = {x = 7, y = 7}      -- Northwest-facing
+    -- },
+    -- engine_orientation = {
+      -- [0] = 0,
+      -- [1] = 5,  -- NE is weird for some reason
+      -- [2] = 2,
+      -- [3] = 3,
+      -- [4] = 4,
+      -- [5] = 1,  -- SW is weird for some reason
+      -- [6] = 6,
+      -- [7] = 7
+    -- },
+    -- coupled_engine = 1,
+    -- placing_item = "oil_tanker",
+  -- }
+
+  -- global.ship_bodies["boat"] = {
+    -- engine = "boat_engine",
+    -- engine_offset = {
+      -- [0] = {x = 0, y = -2.85},   -- North-facing
+      -- [1] = {x = 2.1, y = -2.1},    -- Northeast-facing
+      -- [2] = {x = 2.85, y = 0},  -- East-facing
+      -- [3] = {x = 2.1, y = 2.1},   -- Southeast-facing
+      -- [4] = {x = 0, y = 2.85},  -- South-facing
+      -- [5] = {x = -2.1, y = 2.1},    -- Southwest-facing
+      -- [6] = {x = -2.85, y = 0},   -- West-facing
+      -- [7] = {x = -2.1, y = -2.1}      -- Northwest-facing
+    -- },
+    -- engine_orientation = {
+      -- [0] = 0,
+      -- [1] = 5,  -- NE is weird for some reason
+      -- [2] = 2,
+      -- [3] = 3,
+      -- [4] = 4,
+      -- [5] = 1,  -- SW is weird for some reason
+      -- [6] = 6,
+      -- [7] = 7
+    -- },
+    -- coupled_engine = -1,
+    -- placing_item = "boat",
+  -- }
+
+  -- Invisible ship engines to be built along with ship bodies
+
+  -- global.ship_engines["cargo_ship_engine"] = {
+    -- recover_fuel = true,
+    -- compatible_ships = {
+      -- ["cargo_ship"] = true,
+      -- ["oil_tanker"] = true,
+    -- },
+    -- coupled_ship = -1,
+  -- }
+
+  -- global.ship_engines["boat_engine"] = {
+    -- recover_fuel = true,
+    -- compatible_ships = {
+      -- ["boat"] = true,
+    -- },
+    -- coupled_ship = 1,
+  -- }
+
+  -- Create the built-in ships and boat
+  add_ship({
+    name = "cargo_ship",
+    engine = "cargo_ship_engine",
+    engine_scale = 1,
+    engine_at_front = false,
+  })
+
+  add_ship({
+    name = "oil_tanker",
+    engine = "cargo_ship_engine",
+    engine_scale = 1,
+    engine_at_front = false,
+  })
+
+  add_ship({
+    name = "boat",
+    placing_item = "boat",
+    engine = "boat_engine",
+    engine_scale = 0.3,
+    engine_at_front = true,
+  })
+
+  add_boat({
+    name = "indep-boat",
+    placing_item = "boat",
+    rail_version = "boat",
+  })
+
+
+  -- List of entities to use the "Enter Ship" command with (any of the above that accepts passengers)
+  log("Enterable ships:\n"..serpent.block(global.enter_ship_entities))
 
 end
 
