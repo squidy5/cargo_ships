@@ -21,6 +21,27 @@ local default_orientation = {
       [7] = 7
     }
 
+function create_globals()
+  global.boat_bodies = global.boat_bodies or {}
+  global.ship_engines = global.ship_engines or {}
+  global.ship_bodies = global.ship_bodies or {}
+  global.enter_ship_entities = global.enter_ship_entities or {}
+end
+
+local function add_to_list(list, name)
+  local found = false
+  for _,v in pairs(list) do
+    if v == name then
+      found = true
+      break
+    end
+  end
+  if found == false then
+    table.insert(list, name)
+  end
+end
+
+
 --[[
     add_ship:  Adds definition for a new ship and ship engine (rolling-stock types)
     parameters:
@@ -33,19 +54,18 @@ local default_orientation = {
       engine_orientation (table of Integer, optional): Lookup table for engine direction, if different from default. Usually don't need to specify this.
       recover_fuel (boolean, optional): Whether fuel items in this ship's engine should be collected when mining the ship. If not specified, will use the engine's prototype data.
 --]]
-
 function add_ship(params)
   local ship_data = {}
   log("Adding ship '"..tostring(params.name).."':")
-
+  create_globals()
+  
   -- Check ship name
   if not (params.name and game.entity_prototypes[params.name]) then
     log("Error adding ship data: Cannot find entity named '"..tostring(params.name).."'")
     return
   end
   if global.ship_bodies[params.name] then
-    log("Error adding ship data: Ship '"..params.name.."' already added!")
-    return
+    log("Warning: Ship '"..params.name.."' already added")
   end
   ship_data.name = params.name
 
@@ -138,7 +158,7 @@ function add_ship(params)
 
       -- Add to list of enterable ships
       if game.entity_prototypes[ship_data.engine].allow_passengers then
-        table.insert(global.enter_ship_entities, ship_data.engine)
+        add_to_list(global.enter_ship_entities, ship_data.engine)
       end
 
     else
@@ -149,7 +169,7 @@ function add_ship(params)
       end
 
       -- Add this ship to list of compatible ships
-      table.insert(global.ship_engines[ship_data.engine].compatible_ships, ship_data.name)
+      add_to_list(global.ship_engines[ship_data.engine].compatible_ships, ship_data.name)
     end
 
   end
@@ -158,7 +178,7 @@ function add_ship(params)
 
   -- Add to list of enterable ships
   if game.entity_prototypes[ship_data.name].allow_passengers then
-    table.insert(global.enter_ship_entities, ship_data.name)
+    add_to_list(global.enter_ship_entities, ship_data.name)
   end
 
   log("Added ship specification:\n"..serpent.block(ship_data))
@@ -176,15 +196,15 @@ end
 function add_boat(params)
   local boat_data = {}
   log("Adding boat '"..tostring(params.name).."':")
-
+  create_globals()
+  
   -- Check boat name
   if not (params.name and game.entity_prototypes[params.name]) then
     log("Error adding boat data: Cannot find entity named '"..tostring(params.name).."'")
     return
   end
   if global.boat_bodies[params.name] then
-    log("Error adding boat data: Boat '"..params.name.."' already added!")
-    return
+    log("Warning: Boat '"..params.name.."' already added")
   end
   boat_data.name = params.name
 
@@ -212,7 +232,7 @@ function add_boat(params)
 
   -- Add to list of enterable ships
   if game.entity_prototypes[boat_data.name].allow_passengers then
-    table.insert(global.enter_ship_entities, boat_data.name)
+    add_to_list(global.enter_ship_entities, boat_data.name)
   end
 
   global.boat_bodies[boat_data.name] = boat_data
@@ -221,15 +241,7 @@ function add_boat(params)
 end
 
 
-
 function init_ship_globals()
-
-  -- Independent boats to use for Enter Ship command
-  global.boat_bodies = {}
-  global.ship_engines = {}
-  global.ship_bodies = {}
-  global.enter_ship_entities = {}
-
   -- Create the built-in ships and boat
   add_ship({
     name = "cargo_ship",
@@ -266,3 +278,18 @@ function init_ship_globals()
 
 end
 
+
+remote.add_interface("cargo-ships", {
+    
+    add_ship = function(params)
+      add_ship(params)
+      init_events()
+    end,
+    
+    add_boat = function(params)
+      add_boat(params)
+      init_events()
+    end,
+    
+  }
+)

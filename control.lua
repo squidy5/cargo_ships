@@ -373,7 +373,7 @@ local function onModSettingsChanged(e)
 end
 
 -- Register conditional events based on mod settting
-local function init_events()
+function init_events()
   if settings.startup["deep_oil"].value then
     -- place deep oil
     script.on_event(defines.events.on_chunk_generated, placeDeepOil)
@@ -539,9 +539,18 @@ end
 
 ---- Register Default Events ----
 -- init
-script.on_load(init_events)
-script.on_init(init)
-script.on_configuration_changed(init)
+script.on_load(function()
+  log("cargo ships on_load")
+  init_events()
+  end)
+script.on_init(function()
+  log("cargo ships on_init")
+  init()
+  end)
+script.on_configuration_changed(function()
+  log("cargo ships on_init")
+  init()
+  end)
 script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChanged)
 
 -- custom commands
