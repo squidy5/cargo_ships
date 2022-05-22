@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.19
+Date: 2022-04-03
+  Features:
+    - Added a remote interface so other mods can add compatible boats and ships.
+  Changes:
+    - Refactored the entity handling code to utilize the data table maintained by the remote interface.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.18
 Date: 2022-04-03
   Bugfixes:
