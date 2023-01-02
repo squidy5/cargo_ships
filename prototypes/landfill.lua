@@ -1,6 +1,6 @@
 local tile_test_item = table.deepcopy(data.raw["simple-entity-with-force"]["simple-entity-with-force"])
 tile_test_item.name = "tile_test_item"
-tile_test_item.collision_mask = {"object-layer", "train-layer", "player-layer"}
+tile_test_item.collision_mask = {waterway_layer, "train-layer", "player-layer"}
 tile_test_item.collsion_box = {{-4,-4.2},{4,4.2}}
 tile_test_item.selection_box = {{-4,-4.2},{4,4.2}}
 
