@@ -389,6 +389,7 @@ indep_boat.turret_animation = {
 }
 indep_boat.light = ship_light(-13, true)
 indep_boat.light_animation = nil
+indep_boat.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ BOAT  ----------------------------
@@ -422,6 +423,7 @@ boat.vertical_doors = nil
 boat.wheels = nil
 boat.working_sound = nil
 boat.drive_over_tie_trigger = nil
+boat.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ BOAT ENGINE ---------------------------
@@ -496,6 +498,7 @@ boat_engine.back_light = nil
 boat_engine.stand_by_light = nil
 boat_engine.stop_trigger = nil
 boat_engine.drive_over_tie_trigger = nil
+boat_engine.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ CARGO SHIP ----------------------------
@@ -565,6 +568,7 @@ cargo_ship.selected_minimap_representation = {
   size = {26, 160},
   scale = 0.5
 }
+cargo_ship.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ OIL TANKER ----------------------------
@@ -608,6 +612,7 @@ oil_tanker.selected_minimap_representation = {
   size = {26, 160},
   scale = 0.5
 }
+oil_tanker.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ CARGO SHIP ENGINE ---------------------
@@ -699,5 +704,6 @@ cargo_ship_engine.back_light = nil
 cargo_ship_engine.stand_by_light = nil
 cargo_ship_engine.stop_trigger = nil
 cargo_ship_engine.drive_over_tie_trigger = nil
+cargo_ship_engine.corpse = nil
 
 data:extend{cargo_ship_engine, cargo_ship, oil_tanker, indep_boat, boat, boat_engine}

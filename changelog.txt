@@ -5,6 +5,8 @@ Date: 2022-04-03
     - Added a remote interface so other mods can add compatible boats and ships.
   Changes:
     - Refactored the entity handling code to utilize the data table maintained by the remote interface.
+  Bugfixes:
+    - Fixed that boats, ships, and ship engines left corpse remnants in the water instead of sinking properly.
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.18
 Date: 2022-04-03
