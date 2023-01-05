@@ -1,4 +1,4 @@
-require("bridge_items")
+require("__cargo-ships__/prototypes/bridge_items")
 
 -- Support for  Schallfalke's Schall Transport Group mod
 local subgroup_ship = "water_transport"

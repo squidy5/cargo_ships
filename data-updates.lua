@@ -1,2 +1,2 @@
-require("constants")
-require("prototypes.resources")
+require("__cargo-ships__/constants")
+require("__cargo-ships__/prototypes/resources")

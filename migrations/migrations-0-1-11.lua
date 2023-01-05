@@ -1,5 +1,5 @@
 -- Regenerate oil on each surface if RSO allowed crude-oil to generate in water
-require("logic.oil_placement")
+require("__cargo-ships__/logic/oil_placement")
 log("Offshore Oil Migration Started")
 for _, surface in pairs(game.surfaces) do
   local vanilla_deposits = surface.find_entities_filtered{name="crude-oil"}

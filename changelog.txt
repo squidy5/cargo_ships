@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.20
+Date: 2023-01-04
+  Bugfixes:
+    - Workaround for bug in Tips & Tricks scenario migration script relative path resolution.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.19
 Date: 2023-01-01
   Features:

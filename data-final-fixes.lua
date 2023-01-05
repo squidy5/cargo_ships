@@ -1,4 +1,4 @@
-require("constants")
+require("__cargo-ships__/constants")
 local collision_mask_util = require("collision-mask-util")
 
 -- Change collision mask of boat if it was changed by hovercraft mod:
