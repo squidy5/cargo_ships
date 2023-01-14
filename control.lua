@@ -180,7 +180,7 @@ local function OnEnterShip(e)
       end
     end
   else
-    local new_pos = surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
+    local new_pos = surface.find_non_colliding_position(player.character.name, pos, 10, 0.5, true)
     if new_pos then
       local old_vehicle = player.vehicle
       if old_vehicle.type == "car" then
