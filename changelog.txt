@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.21
+Date: 2023-01-22
+  Bugfixes:
+    - Fixed that ships had lower selection priority than waterways.
+    - Fixed that ship-exit command would not work on walkable shallow water.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.20
 Date: 2023-01-06
   Bugfixes:
