@@ -25,6 +25,7 @@ deep_oil.infinite_depletion_amount = 40
 deep_oil.autoplace = nil
 deep_oil.collision_mask = {'ground-tile','resource-layer'}
 deep_oil.resource_patch_search_radius = 32
+deep_oil.protected_from_tile_building = false
 deep_oil.stages = {
   sheet = {
     filename = GRAPHICSPATH .. "entity/crude-oil/water-crude-oil.png",
