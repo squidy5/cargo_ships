@@ -163,8 +163,7 @@ oil_rig.next_upgrade = nil
 oil_rig.module_specification.module_slots = 3
 oil_rig.energy_source = {
   type = "electric",
-  -- will produce this much * energy pollution units per tick
-  emissions = 0.2/60,
+  emissions_per_minute = 25,
   usage_priority = "secondary-input"
 }
 oil_rig.output_fluid_box = {
