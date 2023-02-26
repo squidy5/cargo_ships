@@ -104,7 +104,7 @@ data:extend{
     name = "water-way",
     icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
-    localised_name = {"item-name.water-way"}
+    localised_name = {"item-name.water-way"},
     flags = {},
     subgroup = subgroup_shipequip,
     order = "a[water-system]-a[water-way]",

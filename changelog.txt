@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.22
+Date: 2023-02-26
+  Bugfixes:
+    - Made deep_oil deposits able to be destroyed by landfill.
+    - Fixed that crafting time was not specified for some recipes.
+    - Fixed that oil rig emissions were specified incorrectly.
+    - Fixed localised name of waterway rail planner tool.
+    - Made bridge-related "invisible chain signal" hidden.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.21
 Date: 2023-01-22
   Bugfixes:
