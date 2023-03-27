@@ -28,30 +28,6 @@ local function onEntityBuild(e)
     if entity.ghost_name == "bridge_base" then
       -- Not allowed to make ghost bridges yet
       entity.destroy()
-
-    elseif entity.ghost_name == "straight-water-way-placed" or entity.ghost_name == "curved-water-way-placed" then
-      -- Convert ghosts of water-way-placed into water-way
-      local surface = entity.surface
-      local time_to_live = entity.time_to_live
-      local new_params = {
-        name="entity-ghost",
-        position=entity.position,
-        direction=entity.direction,
-        force=entity.force,
-        player=entity.last_user,
-        inner_name=string.sub(entity.ghost_name, 1, -8),
-        expires=(time_to_live and time_to_live < 4294967295)
-      }
-      -- Destroy the water-way-placed ghost
-      entity.destroy()
-
-      -- Make sure the new water-way ghost isn't placed on land, because create_entity doesn't do collision checks
-      if surface.count_tiles_filtered{position=new_params.position, radius=1, collision_mask="ground-tile"} == 0 then
-        local ghost = surface.create_entity(new_params)
-        if ghost and time_to_live then
-          ghost.time_to_live = time_to_live
-        end
-      end
     end
 
   elseif global.boat_bodies[entity.name] then
@@ -386,8 +362,8 @@ function init_events()
   -- entity created, check placement and create invisible elements
   local entity_filters = {
       {filter="ghost", ghost_name="bridge_base"},
-      {filter="ghost", ghost_name="straight-water-way-placed"},
-      {filter="ghost", ghost_name="curved-water-way-placed"},
+      {filter="ghost", ghost_name="straight-water-way"},
+      {filter="ghost", ghost_name="curved-water-way"},
       {filter="type", type="cargo-wagon"},
       {filter="type", type="fluid-wagon"},
       {filter="type", type="locomotive"},

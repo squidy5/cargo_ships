@@ -136,15 +136,14 @@ data:extend({
     name = "straight-water-way",
     icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
-    flags = {"placeable-neutral", "player-creation", "building-direction-8-way", "not-on-map"},
+    flags = {"placeable-neutral", "player-creation", "building-direction-8-way"},
     resistances = invincible,
     minable = {mining_time = 0.2, result = "water-way"},
     max_health = 100,
     corpse = nil,
     collision_box = {{-1.01, -0.95}, {1.01, 0.95}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
-    collision_mask = {'ground-tile', "object-layer", waterway_layer},
-    rail_category = "regular",
+    collision_mask = {"object-layer"},  -- waterway_layer added in data-final-fixes
     pictures = railpictures(),
     placeable_by = { item = "water-way", count = 1},
     localised_description = {"item-description.water-way"},
@@ -157,16 +156,14 @@ data:extend({
     name = "curved-water-way",
     icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
-    flags = {"placeable-neutral", "player-creation", "building-direction-8-way", "not-on-map"},
+    flags = {"placeable-neutral", "player-creation", "building-direction-8-way"},
     resistances = invincible,
     minable = {mining_time = 0.2, result = "water-way", count = 4},
     max_health = 200,
     corpse = nil,
     collision_box = {{-1, -2}, {1, 3.1}},
-    secondary_collision_box = {{-0.65, -2.1}, {0.65, 2.1}},
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
-    collision_mask = {'ground-tile', "object-layer", waterway_layer},
-    rail_category = "regular",
+    collision_mask = {"object-layer"},  -- waterway_layer added in data-final-fixes
     pictures = railpictures(),
     placeable_by = { item = "water-way", count = 4},
     localised_description = {"item-description.water-way"},
@@ -175,25 +172,6 @@ data:extend({
     enemy_map_color = mapcolor,
   },
 })
-
-local swwp = table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
-swwp.name = "straight-water-way-placed"
-swwp.flags = {"placeable-neutral", "player-creation", "building-direction-8-way"}
-swwp.collision_mask = {"object-layer", waterway_layer}
-swwp.minable = {mining_time = 0.2, result = "water-way", count = 1}
-swwp.collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
-swwp.secondary_collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
-
-local cwwp = table.deepcopy(data.raw["curved-rail"]["curved-water-way"])
-cwwp.name = "curved-water-way-placed"
-cwwp.flags = {"placeable-neutral", "player-creation", "building-direction-8-way"}
-cwwp.collision_mask = {"object-layer", waterway_layer}
-cwwp.minable = {mining_time = 0.2, result = "water-way", count = 4}
-cwwp.collision_box = {{-1.7, -0.95}, {1.7, 0.95}}
-cwwp.secondary_collision_box = {{-1.7, -2.1}, {1.7, 2.1}},
-
-data:extend({swwp, cwwp})
-
 
 
 -- tracks used by bridges
@@ -207,19 +185,19 @@ invisible_rail.minable = nil
 invisible_rail.resistances = invincible
 invisible_rail.selection_box = nil
 invisible_rail.selectable_in_game = false
-invisible_rail.collision_mask = {"object-layer", waterway_layer}
+invisible_rail.collision_mask = {"object-layer"}  -- waterway_layer added in data-final-fixes
 invisible_rail.allow_copy_paste = false
 invisible_rail.map_color = mapcolor
 invisible_rail.friendly_map_color = mapcolor
 
-local bridge_crossing = table.deepcopy(data.raw["straight-rail"]["straight-water-way-placed"])
+local bridge_crossing = table.deepcopy(data.raw["straight-rail"]["straight-water-way"])
 bridge_crossing.name = "bridge_crossing"
 bridge_crossing.icon = GRAPHICSPATH .. "icons/bridge.png"
 bridge_crossing.icon_size = 64
 bridge_crossing.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation", "building-direction-8-way"}
 bridge_crossing.minable = nil
 bridge_crossing.resistances = invincible
-bridge_crossing.collision_mask = {"object-layer", waterway_layer}
+bridge_crossing.collision_mask = {"object-layer"}  -- waterway_layer added in data-final-fixes
 bridge_crossing.collision_box = {{-0.6, -0.95}, {0.6, 0.95}}
 bridge_crossing.selection_box = nil
 bridge_crossing.selectable_in_game = false

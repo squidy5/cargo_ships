@@ -17,9 +17,7 @@ function CheckRailPlacement(entity, player, robot)
   local surface = entity.surface
   local force = entity.force
 
-  -- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collision mask
-  if (entity.name == "straight-water-way" or entity.name == "curved-water-way" or
-      entity.name == "straight-water-way-placed" or entity.name == "curved-water-way-placed") then
+  if (entity.name == "straight-water-way" or entity.name == "curved-water-way") then
     -- Check if this waterway is connected to a non-waterway
     local bad_connection = false
     local bad_name = ""
@@ -33,56 +31,16 @@ function CheckRailPlacement(entity, player, robot)
       end
     end
 
-    local do_swap = (entity.name == "straight-water-way" or entity.name == "curved-water-way")
-    local give_refund = false
-
-    local pos = entity.position
-    local name = (do_swap and (entity.name .. "-placed")) or entity.name
-    local dir = entity.direction
-    local refund = entity.prototype.items_to_place_this[1]
-
-    local prev
-    if do_swap then
-      entity.destroy() --destroy old
-      --check for already placed entities after deleting the old one
-      prev = surface.find_entities_filtered{position = pos, name = name}
-    end
-
+    local name = entity.name
     if bad_connection then
       -- Refund ww if connected to rails
-      give_refund = true
       if player then
         player.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..name.."__", "__ENTITY__"..bad_name.."__"}
       else
         game.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..name.."__", "__ENTITY__"..bad_name.."__"}
       end
-
-    elseif prev then
-      -- Refund ww if we tried to swap and for some reason a placed entity already exists
-      for _, pr in pairs(prev) do
-        if pr.direction == dir then
-          give_refund = true
-          break
-        end
-      end
-    end
-
-    if give_refund then
-      -- placement was invalid, give refund and don't rebuild
-      if player then
-        player.insert(refund)
-      elseif robot then
-        robot.get_inventory(defines.inventory.robot_cargo).insert(refund)
-      end
-    elseif do_swap then
-      -- create new placed waterway
-      local WW = surface.create_entity{name = name, position = pos, direction = dir, force = force}
-      -- make waterway indestructible
-      if WW then
-        WW.destructible = false
-      end
+      entity.destroy()
     else
-      -- make newly placed water-way-placed indestructible
       entity.destructible = false
     end
 
