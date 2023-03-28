@@ -102,28 +102,6 @@ local function onEntityBuild(e)
   end
 end
 
--- destroy waterways when landfill is build on top
-local function onTileBuild(e)
-  if e.item and e.item.name == "landfill" then
-    ----- New event code prevents mods from omitting mandatory arguments, so this will always work
-    local surface = game.surfaces[e.surface_index]
-
-    local old_tiles = {}
-    for _, tile in pairs(e.tiles) do
-      if not surface.can_place_entity{name = "tile_test_item", position = tile.position}
-        and surface.can_place_entity{name = "tile_player_test_item", position = tile.position} then
-        -- refund
-        if e.player_index then
-          game.players[e.player_index].insert{name = "landfill", count = 1}
-        end
-        table.insert(old_tiles, {name = tile.old_tile.name or "deepwater", position = tile.position})
-
-      end
-    end
-    surface.set_tiles(old_tiles)
-  end
-end
-
 local function onMarkedForDeconstruction(e)
   local entity = e.entity
   if entity.name == "straight-water-way" or entity.name == "curved-water-way" then
@@ -546,11 +524,6 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChan
 
 -- custom commands
 script.on_event("enter_ship", OnEnterShip)
-
--- tile created
-script.on_event(defines.events.on_player_built_tile, onTileBuild)
-script.on_event(defines.events.on_robot_built_tile, onTileBuild)
-
 
 -- update entities
 script.on_event(defines.events.on_tick, onTick)

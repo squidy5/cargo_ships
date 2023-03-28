@@ -12,7 +12,8 @@ collision_mask_util.add_layer(data.raw["straight-rail"]["straight-water-way"].co
 collision_mask_util.add_layer(data.raw["curved-rail"]["curved-water-way"].collision_mask, waterway_layer)
 collision_mask_util.add_layer(data.raw["straight-rail"]["invisible_rail"].collision_mask, waterway_layer)
 collision_mask_util.add_layer(data.raw["straight-rail"]["bridge_crossing"].collision_mask, waterway_layer)
-collision_mask_util.add_layer(data.raw["simple-entity-with-force"]["tile_test_item"].collision_mask, waterway_layer)
+
+data.raw.tile["landfill"].check_collision_with_entities = true
 
 -- Change drawing of fish to be underneath bridges
 data.raw.fish["fish"].collision_mask = {"ground-tile", "colliding-with-tiles-only"}
