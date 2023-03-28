@@ -105,11 +105,11 @@ data:extend{
     icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
     localised_name = {"item-name.water-way"},
-    flags = {},
+    flags = {"only-in-cursor"},
     subgroup = subgroup_shipequip,
     order = "a[water-system]-a[water-way]",
     place_result = "straight-water-way",
-    stack_size = 1000,
+    stack_size = 1000,  -- Have to leave it at 1000 so that people who still have it in their inventories can easily remove it by picking up the stack
     straight_rail = "straight-water-way",
     curved_rail = "curved-water-way"
   },

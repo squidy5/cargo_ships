@@ -53,14 +53,6 @@ data:extend({
   },
   {
     type = "recipe",
-    name = "water-way",
-    enabled = false,
-    ingredients = {},
-    result = "water-way",
-    result_count = 5
-  },
-  {
-    type = "recipe",
     name = "port",
     enabled = false,
     energy_required = 2,

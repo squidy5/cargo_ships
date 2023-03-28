@@ -109,6 +109,14 @@ local function onMarkedForDeconstruction(e)
   end
 end
 
+local function onGiveWaterway(e)
+  local player = game.get_player(e.player_index)
+  local cleared = player.clear_cursor()
+  if cleared then
+    player.cursor_ghost = "water-way"
+  end
+end
+
 -- enter or leave ship
 local function OnEnterShip(e)
   local player_index = e.player_index
@@ -524,6 +532,14 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChan
 
 -- custom commands
 script.on_event("enter_ship", OnEnterShip)
+
+-- custom-input and shortcut button
+script.on_event({defines.events.on_lua_shortcut, "give-water-way"},
+  function(e)
+    if e.prototype_name and e.prototype_name ~= "give-water-way" then return end
+    onGiveWaterway(e)
+  end
+)
 
 -- update entities
 script.on_event(defines.events.on_tick, onTick)
