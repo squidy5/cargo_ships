@@ -28,6 +28,8 @@ local function onEntityBuild(e)
     if entity.ghost_name == "bridge_base" then
       -- Not allowed to make ghost bridges yet
       entity.destroy()
+    elseif entity.ghost_name == "straight-water-way" or entity.ghost_name == "curved-water-way" then
+      entity.revive{raise_revive = true}
     end
 
   elseif global.boat_bodies[entity.name] then
@@ -119,6 +121,13 @@ local function onTileBuild(e)
       end
     end
     surface.set_tiles(old_tiles)
+  end
+end
+
+local function onMarkedForDeconstruction(e)
+  local entity = e.entity
+  if entity.name == "straight-water-way" or entity.name == "curved-water-way" then
+    entity.destroy()
   end
 end
 
@@ -427,6 +436,12 @@ function init_events()
   end
   script.on_event(defines.events.on_pre_player_mined_item, OnMined, mined_filters)
   script.on_event(defines.events.on_robot_pre_mined, OnMined, mined_filters)
+
+  local deconstructed_filters = {
+    {filter="name", name="straight-water-way"},
+    {filter="name", name="curved-water-way"},
+  }
+  script.on_event(defines.events.on_marked_for_deconstruction, onMarkedForDeconstruction, deconstructed_filters)
 
   -- Compatibility with AAI Vehicles (Modify this whenever the list of boats changes)
   remote.remove_interface("aai-sci-burner")
