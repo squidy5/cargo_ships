@@ -548,10 +548,6 @@ script.on_event(defines.events.on_tick, onTick)
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
 script.on_event(defines.events.on_pre_player_died, deadReach)
 
--- blueprints
-script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
-script.on_event(defines.events.on_player_setup_blueprint, FixBlueprints)
-
 -- pipette
 script.on_event(defines.events.on_player_pipette, FixPipette)
 
