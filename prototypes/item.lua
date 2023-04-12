@@ -130,8 +130,8 @@ data:extend{
     icon = GRAPHICSPATH .. "icons/floating_pole.png",
     icon_size = 64,
     flags = {},
-    subgroup = subgroup_shipequip, --"energy-pipe-distribution",
-    order = "a[energy]-d[floating-electric-pole]",
+    subgroup = "energy-pipe-distribution",
+    order = "a[energy]-c[big-electric-pole]-a[floating-electric-pole]",
     place_result = "floating-electric-pole",
     stack_size = 50
   },
