@@ -85,7 +85,6 @@ function checkBridgePlacement(pos, x1, y1, x2, y2, player_index, surface)
   else
     for _, ent in pairs(entities) do
       if (not (ent.name == "fish" or ent.name == "bridge_base")) then
-        game.players[player_index].insert{name="water-way", count=1}
         ent.destroy()
       end
     end

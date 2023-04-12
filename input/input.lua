@@ -11,18 +11,18 @@ data:extend{
   },
   {
     type = "custom-input",
-    name = "give-water-way",
-    localised_name = {"item-name.water-way"},
+    name = "give-waterway",
+    localised_name = {"item-name.waterway"},
     key_sequence = "",
     consuming = "none",
   },
   {
     type = "shortcut",
-    name = "give-water-way",
-    localised_name = {"item-name.water-way"},
+    name = "give-waterway",
+    localised_name = {"item-name.waterway"},
     order = "",
     action = "lua",
-    associated_control_input = "give-water-way",
+    associated_control_input = "give-waterway",
     technology_to_unlock = "automated_water_transport",
     --style = "blue",
     icon =

@@ -534,9 +534,9 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChan
 script.on_event("enter_ship", OnEnterShip)
 
 -- custom-input and shortcut button
-script.on_event({defines.events.on_lua_shortcut, "give-water-way"},
+script.on_event({defines.events.on_lua_shortcut, "give-waterway"},
   function(e)
-    if e.prototype_name and e.prototype_name ~= "give-water-way" then return end
+    if e.prototype_name and e.prototype_name ~= "give-waterway" then return end
     onGiveWaterway(e)
   end
 )

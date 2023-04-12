@@ -146,7 +146,7 @@ data:extend({
     collision_mask = {"object-layer"},  -- waterway_layer added in data-final-fixes
     pictures = railpictures(),
     placeable_by = {item = "waterway", count = 1},
-    localised_description = {"item-description.water-way"},
+    localised_description = {"item-description.waterway"},
     map_color = mapcolor,
     friendly_map_color = mapcolor,
     enemy_map_color = mapcolor,
@@ -166,7 +166,7 @@ data:extend({
     collision_mask = {"object-layer"},  -- waterway_layer added in data-final-fixes
     pictures = railpictures(),
     placeable_by = {item = "waterway", count = 1},
-    localised_description = {"item-description.water-way"},
+    localised_description = {"item-description.waterway"},
     map_color = mapcolor,
     friendly_map_color = mapcolor,
     enemy_map_color = mapcolor,
