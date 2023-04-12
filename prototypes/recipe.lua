@@ -41,18 +41,6 @@ data:extend({
   },
   {
     type = "recipe",
-    name = "ship_pump",
-    enabled = false,
-    energy_required = 1,
-    ingredients = {
-      {"engine-unit", 2},
-      {"steel-plate", 5},
-      {"pipe", 2}
-    },
-    result = "ship_pump"
-  },
-  {
-    type = "recipe",
     name = "water-way",
     enabled = false,
     ingredients = {},

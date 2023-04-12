@@ -77,12 +77,12 @@ function PumpVisualisation(e)
   -- if stack valid
   if stack and stack.valid_for_read then
     -- if last was pump, current is not
-    if global.ship_pump_selected[e.player_index] and stack.name ~= "ship_pump" then
+    if global.ship_pump_selected[e.player_index] and stack.name ~= "pump" then
       RemoveVisuals(e.player_index)
       global.ship_pump_selected[e.player_index] = nil
 
     -- if current is pump and last was not
-    elseif (not global.ship_pump_selected[e.player_index]) and stack.name == "ship_pump" then
+    elseif (not global.ship_pump_selected[e.player_index]) and stack.name == "pump" then
       AddVisuals(player)
       global.ship_pump_selected[e.player_index] = true
     end
