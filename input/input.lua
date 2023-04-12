@@ -27,9 +27,9 @@ data:extend{
     --style = "blue",
     icon =
     {
-      filename = GRAPHICSPATH .. "icons/water_rail.png",
+      filename = GRAPHICSPATH .. "icons/waterway-shortcut.png",
       priority = "extra-high-no-scale",
-      size = 64,
+      size = 32,
       scale = 0.5,
       mipmap_count = 1,
       flags = {"gui-icon"}
