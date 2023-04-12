@@ -91,12 +91,6 @@ local function onEntityBuild(e)
   elseif entity.type == "straight-rail" or entity.type == "curved-rail" then
     CheckRailPlacement(entity, player, e.robot)
 
-  elseif entity.name == "buoy" or entity.name == "chain_buoy" then
-    -- Make buoys indestructible
-    if settings.global["indestructible_buoys"].value then
-      entity.destructible = false
-    end
-
   --elseif entity.name == "crane" then
   --  OnCraneCreated(entity)
   end
@@ -320,26 +314,10 @@ local function powerOilRig(e)
   end
 end
 
-local function updateAllBuoys()
-  -- search for all buoys and make them either destructible or indestructible
-  local destructible = not settings.global["indestructible_buoys"].value
-  local count = 0
-  for _, surface in pairs(game.surfaces) do
-    local buoys = surface.find_entities_filtered{name={"buoy","chain_buoy"}}
-    for _, buoy in pairs(buoys) do
-      buoy.destructible = destructible
-      count = count + 1
-    end
-  end
-  --game.print("updated "..tostring(count).." buoys with destructible="..tostring(destructible))
-end
-
 local function onModSettingsChanged(e)
   if e.setting == "waterway_reach_increase" then
     global.current_distance_bonus = settings.global["waterway_reach_increase"].value
     applyReachChanges()
-  elseif e.setting == "indestructible_buoys" then
-    updateAllBuoys()
   end
 end
 
@@ -367,8 +345,6 @@ function init_events()
       {filter="name", name="bridge_base"},
       {filter="type", type="straight-rail"},
       {filter="type", type="curved-rail"},
-      {filter="name", name="buoy"},
-      {filter="name", name="chain_buoy"}
     }
   if global.boat_bodies then
     for name,_ in pairs(global.boat_bodies) do
@@ -487,9 +463,6 @@ local function init()
   global.current_distance_bonus = settings.global["waterway_reach_increase"].value
 
   -- Reapply long reach settings to existing characters
-
-  -- Reapply buoy setting when mod is updated
-  updateAllBuoys()
 
   -- Update GUI for all players if needed (after globals are re-cached)
   createGuiAllPlayers()
