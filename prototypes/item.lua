@@ -101,7 +101,7 @@ data:extend{
   },
   {
     type = "rail-planner",
-    name = "water-way-planner",
+    name = "waterway",
     icon = GRAPHICSPATH .. "icons/water_rail.png",
     icon_size = 64,
     localised_name = {"item-name.water-way"},
