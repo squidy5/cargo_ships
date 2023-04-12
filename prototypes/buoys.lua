@@ -160,7 +160,7 @@ buoy.name = "buoy"
 buoy.icon = GRAPHICSPATH .. "icons/buoy.png"
 buoy.icon_size = 64
 buoy.icon_mipmaps = 0
-buoy.collision_mask = {'ground-tile', 'rail-layer'}
+buoy.collision_mask = {"object-layer", "rail-layer"}  -- waterway_layer added in data-final-fixes
 buoy.selection_box = {{-1.6, -0.8}, {0.01, 0.8}}
 buoy.fast_replaceable_group = "buoy"
 buoy.minable = {mining_time = 0.5, result = "buoy"}
@@ -251,7 +251,7 @@ chain_buoy.name = "chain_buoy"
 chain_buoy.icon = GRAPHICSPATH .. "icons/chain_buoy.png"
 chain_buoy.icon_size = 64
 chain_buoy.icon_mipmaps = 0
-chain_buoy.collision_mask = {'ground-tile', 'rail-layer'}
+chain_buoy.collision_mask = {"object-layer", "rail-layer"}  -- waterway_layer added in data-final-fixes
 chain_buoy.selection_box = {{-1.6, -0.8}, {0.01, 0.8}}
 chain_buoy.fast_replaceable_group = "buoy"
 chain_buoy.minable = {mining_time = 0.5, result = "chain_buoy"}

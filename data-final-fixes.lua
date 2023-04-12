@@ -13,6 +13,10 @@ collision_mask_util.add_layer(data.raw["curved-rail"]["curved-water-way"].collis
 collision_mask_util.add_layer(data.raw["straight-rail"]["invisible_rail"].collision_mask, waterway_layer)
 collision_mask_util.add_layer(data.raw["straight-rail"]["bridge_crossing"].collision_mask, waterway_layer)
 
+collision_mask_util.add_layer(data.raw["rail-signal"]["buoy"].collision_mask, waterway_layer)
+collision_mask_util.add_layer(data.raw["rail-chain-signal"]["chain_buoy"].collision_mask, waterway_layer)
+collision_mask_util.add_layer(data.raw["rail-chain-signal"]["invisible_chain_signal"].collision_mask, waterway_layer)
+
 data.raw.tile["landfill"].check_collision_with_entities = true
 
 -- Change drawing of fish to be underneath bridges
