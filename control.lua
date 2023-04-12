@@ -29,7 +29,7 @@ local function onEntityBuild(e)
       -- Not allowed to make ghost bridges yet
       entity.destroy()
     elseif entity.ghost_name == "straight-water-way" or entity.ghost_name == "curved-water-way" then
-      entity.revive{raise_revive = true}
+      entity.silent_revive{raise_revive = true}
     end
 
   elseif global.boat_bodies[entity.name] then
