@@ -145,7 +145,7 @@ data:extend({
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
     collision_mask = {"object-layer"},  -- waterway_layer added in data-final-fixes
     pictures = railpictures(),
-    placeable_by = {item = "water-way", count = 1},
+    placeable_by = {item = "water-way-planner", count = 1},
     localised_description = {"item-description.water-way"},
     map_color = mapcolor,
     friendly_map_color = mapcolor,
@@ -165,7 +165,7 @@ data:extend({
     selection_box = {{-1.7, -0.8}, {1.7, 0.8}},
     collision_mask = {"object-layer"},  -- waterway_layer added in data-final-fixes
     pictures = railpictures(),
-    placeable_by = {item = "water-way", count = 1},
+    placeable_by = {item = "water-way-planner", count = 1},
     localised_description = {"item-description.water-way"},
     map_color = mapcolor,
     friendly_map_color = mapcolor,

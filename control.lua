@@ -113,7 +113,7 @@ local function onGiveWaterway(e)
   local player = game.get_player(e.player_index)
   local cleared = player.clear_cursor()
   if cleared then
-    player.cursor_ghost = "water-way"
+    player.cursor_ghost = "water-way-planner"
   end
 end
 
