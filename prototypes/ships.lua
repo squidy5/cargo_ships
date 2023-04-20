@@ -498,6 +498,7 @@ boat_engine.water_reflection = nil
 boat_engine.wheels = nil
 boat_engine.working_sound = car_sounds
 boat_engine.front_light = nil
+boat_engine.front_light_pictures = nil
 boat_engine.back_light = nil
 boat_engine.stand_by_light = nil
 boat_engine.stop_trigger = nil

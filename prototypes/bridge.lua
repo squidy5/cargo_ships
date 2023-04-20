@@ -329,6 +329,7 @@ bridge_north_clickable.icon_size = 64
 bridge_north_clickable.localised_description = {"entity-description.bridge_north_clickable"}
 bridge_north_clickable.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 bridge_north_clickable.minable = {mining_time = 1, result = "bridge_base"}
+bridge_north_clickable.placeable_by = {item = "bridge_base", count = 1}  -- For pipette (Q)
 bridge_north_clickable.selection_box = {{-5,-WID}, {7,WID}}
 bridge_north_clickable.collision_box = {{-5,-WID}, {7,WID}}
 bridge_north_clickable.collision_mask = {"object-layer", "layer-14"}
