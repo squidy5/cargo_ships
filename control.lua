@@ -101,6 +101,8 @@ local function onEntityBuild(e)
     else
       local or_power = surface.create_entity{name = "or_power", position = pos, force = force}
       table.insert(global.or_generators, or_power)
+      or_power.fluidbox[1] = {name="steam", amount = 200, temperature=165}  -- Initial power for rig, more comes from PowerOilRig()
+      surface.create_entity{name = "or_power_electric", position = pos, force = force}
       surface.create_entity{name = "or_pole", position = pos, force = force}
       surface.create_entity{name = "or_radar", position = pos, force = force}
     end
@@ -255,6 +257,10 @@ local function OnDeleted(e)
     elseif entity.name == "oil_rig" then
       local pos = entity.position
       local or_inv = entity.surface.find_entities_filtered{area={{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}}, name="or_power"}
+      for i = 1, #or_inv do
+        or_inv[i].destroy()
+      end
+      or_inv = entity.surface.find_entities_filtered{area={{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}}, name="or_power_electric"}
       for i = 1, #or_inv do
         or_inv[i].destroy()
       end
@@ -545,8 +551,13 @@ local function config_changed(changed_data)
       if global.or_generators ~= nil then
         for i, generator in pairs(global.or_generators) do
           if generator.valid then
-            local oil_rig = generator.surface.find_entity("oil_rig", generator.position)
-            generator.teleport(oil_rig.position)
+            local surface = generator.surface
+            local oil_rig = surface.find_entity("oil_rig", generator.position)
+            local position = oil_rig.position
+            generator.teleport(position)
+
+            -- Add new power entity
+            surface.create_entity{name = "or_power_electric", position = position, force = oil_rig.force}
           end
         end
       end

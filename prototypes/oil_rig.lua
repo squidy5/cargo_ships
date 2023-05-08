@@ -223,7 +223,7 @@ or_power.selection_box = nil
 or_power.collision_mask = {}
 or_power.fast_replaceable_group = nil
 or_power.next_upgrade = nil
-or_power.fluid_usage_per_tick = 1
+or_power.fluid_usage_per_tick = 0.1
 or_power.fluid_box = {
   base_area = 1,
   height = 1,
@@ -234,6 +234,7 @@ or_power.fluid_box = {
   filter = "steam",
   minimum_temperature = 100.0
 }
+or_power.energy_source.usage_priority = "primary-output"  -- Use all of this entity's power before using or_power_electric's
 or_power.horizontal_animation = emptypic
 or_power.vertical_animation = emptypic
 local smoke1shift = util.by_pixel(-85 + 2, -115 + 2)
@@ -245,7 +246,7 @@ or_power.smoke = {
     east_position = smoke1shift,
     south_position = smoke1shift,
     west_position = smoke1shift,
-    frequency = 0.5,
+    frequency = 0.25,
     starting_vertical_speed = 0.05,
     slow_down_factor = 1,
     starting_frame_deviation = 60
@@ -256,7 +257,7 @@ or_power.smoke = {
     east_position = smoke2shift,
     south_position = smoke2shift,
     west_position = smoke2shift,
-    frequency = 1,
+    frequency = 0.5,
     starting_vertical_speed = 0.05,
     slow_down_factor = 1,
     starting_frame_deviation = 60
@@ -264,6 +265,13 @@ or_power.smoke = {
 }
 or_power.water_reflection = nil
 or_power.working_sound = nil
+
+-- or_power's primary purpose is to create smoke when the oil rig is in use (and a little bit to power radar/pumps when not in use).
+-- Since the smoke is created proportional to the energy usage, we need this EEI to cover the high power demands e.g. when modules are used.
+local or_power_electric = table.deepcopy(data.raw["electric-energy-interface"]["hidden-electric-energy-interface"])
+or_power_electric.name = "or_power_electric"
+or_power_electric.energy_source.usage_priority = "secondary-output"
+or_power_electric.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-grid"}
 
 local or_pole = table.deepcopy(data.raw["electric-pole"]["medium-electric-pole"])
 or_pole.name = "or_pole"
@@ -293,10 +301,10 @@ or_radar.fast_replaceable_group = nil
 or_radar.next_upgrade = nil
 or_radar.pictures = emptypic
 or_radar.max_distance_of_sector_revealed = 0
-or_radar.energy_usage = "50kW"
+or_radar.energy_usage = "30kW"
 or_radar.water_reflection = nil
 or_radar.working_sound = nil
 
-data:extend{oil_rig, or_power, or_pole, or_radar}
+data:extend{oil_rig, or_power, or_power_electric, or_pole, or_radar}
 
 end
