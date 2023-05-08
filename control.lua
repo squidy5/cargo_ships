@@ -7,6 +7,7 @@ require("__cargo-ships__/logic/long_reach")
 require("__cargo-ships__/logic/bridge_logic")
 require("__cargo-ships__/logic/pump_placement")
 require("__cargo-ships__/logic/blueprint_logic")
+require("__cargo-ships__/logic/ship_enter")
 require("__cargo-ships__/gui/oil_rig_gui")
 --require("__cargo-ships__/logic/crane_logic")
 --require("__cargo-ships__/logic/rolling_stock_logic")
@@ -529,9 +530,6 @@ script.on_configuration_changed(function()
   init()
   end)
 script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChanged)
-
--- custom commands
-script.on_event("enter_ship", OnEnterShip)
 
 -- custom-input and shortcut button
 script.on_event({defines.events.on_lua_shortcut, "give-waterway"},

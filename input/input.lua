@@ -11,6 +11,14 @@ data:extend{
   },
   {
     type = "custom-input",
+    name = "enter-vehicle",
+    enabled_while_spectating = true,
+    order = "a",
+    key_sequence = "",
+    linked_game_control = "toggle-driving"
+  },
+  {
+    type = "custom-input",
     name = "give-waterway",
     localised_name = {"item-name.waterway"},
     key_sequence = "",
@@ -27,7 +35,8 @@ data:extend{
     --style = "blue",
     icon =
     {
-      filename = GRAPHICSPATH .. "icons/waterway-shortcut.png",
+      --filename = GRAPHICSPATH .. "icons/waterway-shortcut.png",
+      filename = "__cargo-ships__/waterway-shortcut.png",
       priority = "extra-high-no-scale",
       size = 32,
       scale = 0.5,
