@@ -236,8 +236,8 @@ or_power.fluid_box = {
 }
 or_power.horizontal_animation = emptypic
 or_power.vertical_animation = emptypic
-local smoke1shift = util.by_pixel(-85 -14, -115 -14)
-local smoke2shift = util.by_pixel(53 -14, -167 -14)
+local smoke1shift = util.by_pixel(-85 + 2, -115 + 2)
+local smoke2shift = util.by_pixel(53 + 2, -167 + 2)
 or_power.smoke = {
   {
     name = "light-smoke",
