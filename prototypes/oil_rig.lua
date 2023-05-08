@@ -214,7 +214,7 @@ oil_rig.circuit_connector_sprites = circuit_connector_definitions["oil_rig"].spr
 ----------------------------------------------------------------
 
 local or_power = table.deepcopy(data.raw["generator"]["steam-engine"])
-or_power.flags = {"not-blueprintable", "not-deconstructable"}
+or_power.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-grid"}
 or_power.selectable_in_game = false
 or_power.allow_copy_paste = false
 or_power.name = "or_power"
@@ -267,7 +267,7 @@ or_power.working_sound = nil
 
 local or_pole = table.deepcopy(data.raw["electric-pole"]["medium-electric-pole"])
 or_pole.name = "or_pole"
-or_pole.flags = {"not-blueprintable", "not-deconstructable"}
+or_pole.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-grid"}
 or_pole.selectable_in_game = false
 or_pole.allow_copy_paste = false
 or_pole.collision_box = nil
@@ -283,7 +283,7 @@ or_pole.connection_points = { data.raw["electric-pole"]["medium-electric-pole"].
 
 local or_radar = table.deepcopy(data.raw["radar"]["radar"])
 or_radar.name = "or_radar"
-or_radar.flags = {"not-blueprintable", "not-deconstructable"}
+or_radar.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-grid"}
 or_radar.selectable_in_game = false
 or_radar.allow_copy_paste = false
 or_radar.collision_mask = {}
