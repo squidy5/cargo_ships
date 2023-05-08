@@ -521,6 +521,39 @@ local function init()
   init_events()
 end
 
+local function config_changed(changed_data)
+  local mod_changes = changed_data.mod_changes
+  local old_version
+  if mod_changes and mod_changes["cargo-ships"] and mod_changes["cargo-ships"]["old_version"] then
+    old_version = mod_changes["cargo-ships"]["old_version"]
+  else
+    return
+  end
+
+  log("Coming from old version: " .. old_version)
+  old_version = util.split(old_version, ".")
+  for i=1, #old_version do
+    old_version[i] = tonumber(old_version[i])
+  end
+
+  if old_version[1] == 0 then
+    if old_version[2] < 2 then
+      -- Pre 0.2.0
+
+      -- Teleport power entities to center of oil rigs since previously they didn't have
+      -- placeable-off-grid flag so weren't centered
+      if global.or_generators ~= nil then
+        for i, generator in pairs(global.or_generators) do
+          if generator.valid then
+            local oil_rig = generator.surface.find_entity("oil_rig", generator.position)
+            generator.teleport(oil_rig.position)
+          end
+        end
+      end
+    end
+  end
+end
+
 local function onTick(e)
   checkPlacement()
   ManageBridges(e)
@@ -547,9 +580,10 @@ script.on_init(function()
   log("cargo ships on_init")
   init()
   end)
-script.on_configuration_changed(function()
-  log("cargo ships on_init")
+script.on_configuration_changed(function(changed_data)
+  log("cargo ships on_configuration_changed")
   init()
+  config_changed(changed_data)
   end)
 script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChanged)
 
