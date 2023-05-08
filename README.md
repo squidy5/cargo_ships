@@ -6,7 +6,7 @@ Create a network of ships, similar to trains, but slower, bulkier, with integrat
  - 3 railed ships (tanker, cargo ship, small boat)
  - 1 vehicle boat (SHIFT + ENTER to board)
  - Water ways (rails), port (train stop), buoy and chain-buoy (rail signals), retractable rail bridge (makes crossing rails and water ways possible)
- - Oil rig (to pump offshore oil), floating electric pole (transmit but doesn't distribute electricity), floating pump
+ - Oil rig (to pump offshore oil), floating electric pole (transmit but doesn't distribute electricity)
  - 8 technologies
  - Possibility to disable land oil
 

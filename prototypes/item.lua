@@ -159,14 +159,14 @@ data:extend{
   },
   {
     type = "item",
-    name = "ship_pump",
-    icon = GRAPHICSPATH .. "icons/ship_pump.png",
+    name = "pump_marker",
+    icon = "__base__/graphics/icons/crude-oil-resource.png",
     icon_size = 64,
-    flags = {},
-    subgroup = subgroup_shipequip, --"energy-pipe-distribution",
-    order = "c[pump]-e[ship_pump]",
-    place_result = "ship_pump",
-    stack_size = 100
+    icon_mipmaps = 4,
+    flags = {"hidden"},
+    order = "b[fluids]-c[oil_rig]",
+    place_result = "pump_marker",
+    stack_size = 5,
   },
 }
 

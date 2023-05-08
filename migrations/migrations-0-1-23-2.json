@@ -1,0 +1,14 @@
+{
+  "entity":
+  [
+    ["ship_pump", "pump"]
+  ],
+  "item":
+  [
+    ["ship_pump", "pump"]
+  ],
+  "recipe":
+  [
+    ["ship_pump", "pump"]
+  ]
+}
