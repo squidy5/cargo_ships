@@ -102,13 +102,6 @@ data:extend({
   },
   {
     type = "bool-setting",
-    name = "indestructible_buoys",
-    setting_type = "runtime-global",
-    default_value = false,
-    order = "a-b"
-  },
-  {
-    type = "bool-setting",
     name = "prevent_waterway_rail_connections",
     setting_type = "runtime-global",
     default_value = true,
