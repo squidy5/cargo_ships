@@ -13,7 +13,7 @@ data:extend{
     type = "custom-input",
     name = "give-waterway",
     localised_name = {"item-name.waterway"},
-    key_sequence = "",
+    key_sequence = "ALT + W",
     consuming = "none",
   },
   {
@@ -34,5 +34,14 @@ data:extend{
       mipmap_count = 1,
       flags = {"gui-icon"}
     },
+    disabled_icon =
+    {
+      filename = GRAPHICSPATH .. "icons/waterway-shortcut-white.png",
+      priority = "extra-high-no-scale",
+      size = 32,
+      scale = 0.5,
+      mipmap_count = 1,
+      flags = {"gui-icon"}
+    }
   }
 }
