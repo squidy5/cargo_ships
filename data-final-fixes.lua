@@ -1,8 +1,19 @@
 require("__cargo-ships__/constants")
 local collision_mask_util = require("collision-mask-util")
 
--- Change collision mask of boat if it was changed by hovercraft mod:
-data.raw["car"]["indep-boat"].collision_mask = {"ground-tile", "train-layer"}
+-- Prevent waterways being placed on land, but without colliding with ground-tile directly, so that ships don't collide
+waterway_layer = collision_mask_util.get_first_unused_layer()
+for _, tile in pairs(data.raw.tile) do
+  if collision_mask_util.mask_contains_layer(tile.collision_mask, "ground-tile") then
+    table.insert(tile.collision_mask, waterway_layer)
+  end
+end
+collision_mask_util.add_layer(data.raw["straight-rail"]["straight-water-way"].collision_mask, waterway_layer)
+collision_mask_util.add_layer(data.raw["curved-rail"]["curved-water-way"].collision_mask, waterway_layer)
+collision_mask_util.add_layer(data.raw["straight-rail"]["invisible_rail"].collision_mask, waterway_layer)
+collision_mask_util.add_layer(data.raw["straight-rail"]["bridge_crossing"].collision_mask, waterway_layer)
+
+data.raw.tile["landfill"].check_collision_with_entities = true
 
 -- Change drawing of fish to be underneath bridges
 data.raw.fish["fish"].collision_mask = {"ground-tile", "colliding-with-tiles-only"}

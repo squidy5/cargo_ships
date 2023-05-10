@@ -28,30 +28,8 @@ local function onEntityBuild(e)
     if entity.ghost_name == "bridge_base" then
       -- Not allowed to make ghost bridges yet
       entity.destroy()
-
-    elseif entity.ghost_name == "straight-water-way-placed" or entity.ghost_name == "curved-water-way-placed" then
-      -- Convert ghosts of water-way-placed into water-way
-      local surface = entity.surface
-      local time_to_live = entity.time_to_live
-      local new_params = {
-        name="entity-ghost",
-        position=entity.position,
-        direction=entity.direction,
-        force=entity.force,
-        player=entity.last_user,
-        inner_name=string.sub(entity.ghost_name, 1, -8),
-        expires=(time_to_live and time_to_live < 4294967295)
-      }
-      -- Destroy the water-way-placed ghost
-      entity.destroy()
-
-      -- Make sure the new water-way ghost isn't placed on land, because create_entity doesn't do collision checks
-      if surface.count_tiles_filtered{position=new_params.position, radius=1, collision_mask="ground-tile"} == 0 then
-        local ghost = surface.create_entity(new_params)
-        if ghost and time_to_live then
-          ghost.time_to_live = time_to_live
-        end
-      end
+    elseif entity.ghost_name == "straight-water-way" or entity.ghost_name == "curved-water-way" then
+      entity.silent_revive{raise_revive = true}
     end
 
   elseif global.boat_bodies[entity.name] then
@@ -124,25 +102,18 @@ local function onEntityBuild(e)
   end
 end
 
--- destroy waterways when landfill is build on top
-local function onTileBuild(e)
-  if e.item and e.item.name == "landfill" then
-    ----- New event code prevents mods from omitting mandatory arguments, so this will always work
-    local surface = game.surfaces[e.surface_index]
+local function onMarkedForDeconstruction(e)
+  local entity = e.entity
+  if entity.name == "straight-water-way" or entity.name == "curved-water-way" then
+    entity.destroy()
+  end
+end
 
-    local old_tiles = {}
-    for _, tile in pairs(e.tiles) do
-      if not surface.can_place_entity{name = "tile_test_item", position = tile.position}
-        and surface.can_place_entity{name = "tile_player_test_item", position = tile.position} then
-        -- refund
-        if e.player_index then
-          game.players[e.player_index].insert{name = "landfill", count = 1}
-        end
-        table.insert(old_tiles, {name = tile.old_tile.name or "deepwater", position = tile.position})
-
-      end
-    end
-    surface.set_tiles(old_tiles)
+local function onGiveWaterway(e)
+  local player = game.get_player(e.player_index)
+  local cleared = player.clear_cursor()
+  if cleared then
+    player.cursor_ghost = "waterway"
   end
 end
 
@@ -386,8 +357,8 @@ function init_events()
   -- entity created, check placement and create invisible elements
   local entity_filters = {
       {filter="ghost", ghost_name="bridge_base"},
-      {filter="ghost", ghost_name="straight-water-way-placed"},
-      {filter="ghost", ghost_name="curved-water-way-placed"},
+      {filter="ghost", ghost_name="straight-water-way"},
+      {filter="ghost", ghost_name="curved-water-way"},
       {filter="type", type="cargo-wagon"},
       {filter="type", type="fluid-wagon"},
       {filter="type", type="locomotive"},
@@ -451,6 +422,12 @@ function init_events()
   end
   script.on_event(defines.events.on_pre_player_mined_item, OnMined, mined_filters)
   script.on_event(defines.events.on_robot_pre_mined, OnMined, mined_filters)
+
+  local deconstructed_filters = {
+    {filter="name", name="straight-water-way"},
+    {filter="name", name="curved-water-way"},
+  }
+  script.on_event(defines.events.on_marked_for_deconstruction, onMarkedForDeconstruction, deconstructed_filters)
 
   -- Compatibility with AAI Vehicles (Modify this whenever the list of boats changes)
   remote.remove_interface("aai-sci-burner")
@@ -556,10 +533,13 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChan
 -- custom commands
 script.on_event("enter_ship", OnEnterShip)
 
--- tile created
-script.on_event(defines.events.on_player_built_tile, onTileBuild)
-script.on_event(defines.events.on_robot_built_tile, onTileBuild)
-
+-- custom-input and shortcut button
+script.on_event({defines.events.on_lua_shortcut, "give-waterway"},
+  function(e)
+    if e.prototype_name and e.prototype_name ~= "give-waterway" then return end
+    onGiveWaterway(e)
+  end
+)
 
 -- update entities
 script.on_event(defines.events.on_tick, onTick)
@@ -567,10 +547,6 @@ script.on_event(defines.events.on_tick, onTick)
 -- long reach
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
 script.on_event(defines.events.on_pre_player_died, deadReach)
-
--- blueprints
-script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
-script.on_event(defines.events.on_player_setup_blueprint, FixBlueprints)
 
 -- pipette
 script.on_event(defines.events.on_player_pipette, FixPipette)

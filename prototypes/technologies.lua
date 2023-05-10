@@ -52,7 +52,6 @@ data:extend ({
   icon_size = 256,
   effects = {
     unlock("port"),
-    unlock("water-way"),
   },
   prerequisites = {"water_transport"},
   unit = {

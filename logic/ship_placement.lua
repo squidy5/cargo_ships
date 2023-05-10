@@ -78,7 +78,7 @@ function CheckBoatPlacement(entity, player, robot)
   local boat_data = global.boat_bodies[entity.name]
   local ww = nil
   if boat_data and boat_data.rail_version then
-    ww = surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way-placed"}
+    ww = surface.find_entities_filtered{area={{pos.x-1, pos.y-1}, {pos.x+1, pos.y+1}}, name="straight-water-way"}
   end
 
   -- if so place waterway bound version of boat
@@ -150,12 +150,12 @@ function checkPlacement()
             cancelPlacement(engine, player)
           -- check if on rails
           elseif entity.train.front_rail then
-            if entity.train.front_rail.name ~= "straight-water-way-placed" and entity.train.front_rail.name ~= "curved-water-way-placed" then
+            if entity.train.front_rail.name ~= "straight-water-way" and entity.train.front_rail.name ~= "curved-water-way" then
               cancelPlacement(entity, player, robot)
               cancelPlacement(engine, player)
             end
           elseif entity.train.back_rail then
-            if entity.train.back_rail.name ~= "straight-water-way-placed" and entity.train.back_rail.name ~= "curved-water-way-placed" then
+            if entity.train.back_rail.name ~= "straight-water-way" and entity.train.back_rail.name ~= "curved-water-way" then
               cancelPlacement(entity, player, robot)
               cancelPlacement(engine, player)
             end
@@ -172,11 +172,11 @@ function checkPlacement()
       elseif entity.train then
         -- check if on waterways
         if entity.train.front_rail then
-          if entity.train.front_rail.name == "straight-water-way-placed" or entity.train.front_rail.name == "curved-water-way-placed" then
+          if entity.train.front_rail.name == "straight-water-way" or entity.train.front_rail.name == "curved-water-way" then
             cancelPlacement(entity, player, robot)
           end
         elseif entity.train.back_rail then
-          if entity.train.back_rail.name == "straight-water-way-placed" or entity.train.back_rail.name == "curved-water-way-placed" then
+          if entity.train.back_rail.name == "straight-water-way" or entity.train.back_rail.name == "curved-water-way" then
             cancelPlacement(entity, player, robot)
           end
         end
