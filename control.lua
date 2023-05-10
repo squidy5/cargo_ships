@@ -79,6 +79,8 @@ local function onEntityBuild(e)
     else
       local or_power = surface.create_entity{name = "or_power", position = pos, force = force}
       table.insert(global.or_generators, or_power)
+      or_power.fluidbox[1] = {name="steam", amount = 200, temperature=165}  -- Initial power for rig, more comes from PowerOilRig()
+      surface.create_entity{name = "or_power_electric", position = pos, force = force}
       surface.create_entity{name = "or_pole", position = pos, force = force}
       surface.create_entity{name = "or_radar", position = pos, force = force}
     end
@@ -220,6 +222,10 @@ local function OnDeleted(e)
     elseif entity.name == "oil_rig" then
       local pos = entity.position
       local or_inv = entity.surface.find_entities_filtered{area={{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}}, name="or_power"}
+      for i = 1, #or_inv do
+        or_inv[i].destroy()
+      end
+      or_inv = entity.surface.find_entities_filtered{area={{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}}, name="or_power_electric"}
       for i = 1, #or_inv do
         or_inv[i].destroy()
       end
@@ -498,7 +504,7 @@ script.on_init(function()
   init()
   end)
 script.on_configuration_changed(function()
-  log("cargo ships on_init")
+  log("cargo ships on_configuration_changed")
   init()
   end)
 script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChanged)
