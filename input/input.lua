@@ -25,8 +25,7 @@ data:extend{
     --style = "blue",
     icon =
     {
-      --filename = GRAPHICSPATH .. "icons/waterway-shortcut.png",
-      filename = "__cargo-ships__/waterway-shortcut.png",
+      filename = GRAPHICSPATH .. "icons/waterway-shortcut.png",
       priority = "extra-high-no-scale",
       size = 32,
       scale = 0.5,
