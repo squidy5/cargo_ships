@@ -1,13 +1,11 @@
 data:extend{
   {
     type = "custom-input",
-    name = "enter_ship",
-    key_sequence = "SHIFT + RETURN",
-    consuming = "none"
-    -- 'consuming'
-    -- available options:
-    -- none: default if not defined
-    -- game-only: The opposite of script-only: blocks game inputs using the same key sequence but lets other custom inputs using the same key sequence fire.
+    name = "enter-vehicle",
+    enabled_while_spectating = true,
+    order = "a",
+    key_sequence = "",
+    linked_game_control = "toggle-driving"
   },
   {
     type = "custom-input",

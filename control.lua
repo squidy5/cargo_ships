@@ -7,6 +7,7 @@ require("__cargo-ships__/logic/long_reach")
 require("__cargo-ships__/logic/bridge_logic")
 require("__cargo-ships__/logic/pump_placement")
 require("__cargo-ships__/logic/blueprint_logic")
+require("__cargo-ships__/logic/ship_enter")
 require("__cargo-ships__/gui/oil_rig_gui")
 --require("__cargo-ships__/logic/crane_logic")
 --require("__cargo-ships__/logic/rolling_stock_logic")
@@ -110,80 +111,6 @@ local function onGiveWaterway(e)
   local cleared = player.clear_cursor()
   if cleared then
     player.cursor_ghost = "waterway"
-  end
-end
-
--- enter or leave ship
-local function OnEnterShip(e)
-  local player_index = e.player_index
-  local player = game.players[player_index]
-  local surface = player.surface
-  local pos = player.position
-  local X = pos.x
-  local Y = pos.y
-
-  if player.vehicle == nil then
-    -- Only enter vehicle if player has a character
-    if player.character then
-      for dist = 1,10 do
-        local targets = surface.find_entities_filtered{
-          position = pos,
-          radius = dist,
-          name = global.enter_ship_entities
-        }
-        local done = false
-        for _, target in pairs(targets) do
-          if target and target.get_driver() == nil then
-            target.set_driver(player)
-            done = true
-          elseif target and target.type == "car" and target.get_passenger() == nil then
-            target.set_passenger(player)
-            done = true
-          end
-        end
-        if done then
-          break
-        end
-      end
-    end
-  else
-    local new_pos = surface.find_non_colliding_position(player.character.name, pos, 10, 0.5, true)
-    if new_pos then
-      local old_vehicle = player.vehicle
-      if old_vehicle.type == "car" then
-        -- Figure out whether the player is driver or passenger
-        local driver = old_vehicle.get_driver()  -- Can return either LuaEntity or LuaPlayer
-        if driver then
-          if not driver.is_player() then
-            if driver.type == "character" then
-              driver = driver.player  -- Get the player associated with this character, if any
-            else
-              driver = nil
-            end
-          end
-          if driver and driver == player then
-            old_vehicle.set_driver(nil)
-          end
-        end
-        local passenger = old_vehicle.get_passenger()  -- Can return either LuaEntity or LuaPlayer
-        if passenger then
-          if not passenger.is_player() then
-            if passenger.type == "character" then
-              passenger = passenger.player  -- Get the player associated with this character, if any
-            else
-              passenger = nil
-            end
-          end
-          if passenger and passenger == player then
-            old_vehicle.set_passenger(nil)
-          end
-        end
-      else
-        old_vehicle.set_driver(nil)
-      end
-      player.driving = false
-      player.teleport(new_pos)
-    end
   end
 end
 
@@ -508,9 +435,6 @@ script.on_configuration_changed(function()
   init()
   end)
 script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChanged)
-
--- custom commands
-script.on_event("enter_ship", OnEnterShip)
 
 -- custom-input and shortcut button
 script.on_event({defines.events.on_lua_shortcut, "give-waterway"},
