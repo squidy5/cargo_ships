@@ -3,7 +3,7 @@
 ----------------------------------------------------------------
 
 local pump = data.raw["pump"]["pump"]
-pump.collision_mask = {"object-layer", "player-layer"}
+pump.collision_mask = {"object-layer", "train-layer"} -- train-layer collides with player
 pump.water_reflection = {
   pictures = {
     filename = GRAPHICSPATH .. "entity/pump/pump-water-reflection.png",
