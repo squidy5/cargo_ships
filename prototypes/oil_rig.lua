@@ -218,6 +218,8 @@ or_power.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-gri
 or_power.selectable_in_game = false
 or_power.allow_copy_paste = false
 or_power.name = "or_power"
+or_power.icon = oil_rig.icon
+or_power.icon_size = oil_rig.icon_size
 or_power.collision_box = nil
 or_power.selection_box = nil
 or_power.collision_mask = {}
@@ -270,11 +272,16 @@ or_power.working_sound = nil
 -- Since the smoke is created proportional to the energy usage, we need this EEI to cover the high power demands e.g. when modules are used.
 local or_power_electric = table.deepcopy(data.raw["electric-energy-interface"]["hidden-electric-energy-interface"])
 or_power_electric.name = "or_power_electric"
+or_power_electric.icon = oil_rig.icon
+or_power_electric.icon_size = oil_rig.icon_size
+or_power_electric.localised_name = nil
 or_power_electric.energy_source.usage_priority = "secondary-output"
 or_power_electric.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-grid"}
 
 local or_pole = table.deepcopy(data.raw["electric-pole"]["medium-electric-pole"])
 or_pole.name = "or_pole"
+or_pole.icon = oil_rig.icon
+or_pole.icon_size = oil_rig.icon_size
 or_pole.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-grid"}
 or_pole.selectable_in_game = false
 or_pole.allow_copy_paste = false
@@ -291,6 +298,8 @@ or_pole.connection_points = { data.raw["electric-pole"]["medium-electric-pole"].
 
 local or_radar = table.deepcopy(data.raw["radar"]["radar"])
 or_radar.name = "or_radar"
+or_radar.icon = oil_rig.icon
+or_radar.icon_size = oil_rig.icon_size
 or_radar.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-grid"}
 or_radar.selectable_in_game = false
 or_radar.allow_copy_paste = false

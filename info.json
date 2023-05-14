@@ -6,7 +6,7 @@
   "description": "Adds cargo ships, oil tankers, deep sea oil rigs and other ocean based content",
   "dependencies": [
     "base >= 1.1",
-    "cargo-ships-graphics >= 0.1.0",
+    "cargo-ships-graphics >= 0.2.0",
     "? factorio-world >= 1.0.2",
     "(?) NewIslands >= 0.1.0",
     "? islands_world >= 1.1.0",
