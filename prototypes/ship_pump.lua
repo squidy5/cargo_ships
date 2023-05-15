@@ -3,7 +3,7 @@
 ----------------------------------------------------------------
 
 local pump = data.raw["pump"]["pump"]
-pump.collision_mask = {"object-layer", "train-layer"} -- train-layer collides with player
+pump.collision_mask = {"object-layer"} -- player can walk through all pumps, but ships don't destroy them
 pump.water_reflection = {
   pictures = {
     filename = GRAPHICSPATH .. "entity/pump/pump-water-reflection.png",
