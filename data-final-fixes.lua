@@ -52,6 +52,14 @@ if mods["Krastorio2"] and settings.startup['kr-rebalance-vehicles&fuels'].value 
   log("Updated boat_engine to use only Krastorio2 vehicle-fuel")
 end
 
+-- Compatibility for pump upgrade mods
+local next_pump = data.raw.pump["pump"].next_upgrade
+while next_pump and data.raw.pump[next_pump] do
+  data.raw.pump[next_pump].collision_mask = data.raw.pump["pump"].collision_mask
+  next_pump = data.raw.pump[next_pump].next_upgrade
+end
+
+
 -----------------------------
 ---- DEEP OIL GENERATION ----
 -----------------------------
