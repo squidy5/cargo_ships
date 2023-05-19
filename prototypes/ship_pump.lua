@@ -2,8 +2,10 @@
 --------------------------- PUMP -------------------------------
 ----------------------------------------------------------------
 
+local collision_mask_util = require("collision-mask-util")
+
 local pump = data.raw["pump"]["pump"]
-pump.collision_mask = {"object-layer"} -- player can walk through all pumps, but ships don't destroy them
+pump.collision_mask = {"object-layer"}
 pump.water_reflection = {
   pictures = {
     filename = GRAPHICSPATH .. "entity/pump/pump-water-reflection.png",
@@ -17,6 +19,22 @@ pump.water_reflection = {
   rotate = false,
   orientation_to_variation = true
 }
+
+-- Ensure player collides with pump
+local pump_collision_layer = collision_mask_util.get_first_unused_layer()
+collision_mask_util.add_layer(pump.collision_mask, pump_collision_layer)
+for _, character in pairs(data.raw.character) do
+  local collision_mask = collision_mask_util.get_mask(character)
+  if collision_mask_util.mask_contains_layer(collision_mask, "player-layer") then
+    collision_mask_util.add_layer(collision_mask, pump_collision_layer)
+    character.collision_mask = collision_mask
+  end
+end
+
+-- In vanilla: shallow waters have object-layer, regular/deep waters have player-layer
+-- Many mods that use shallow water remove object-layer from it anyway (e.g. Alien Biomes, Freight Forwarding)
+collision_mask_util.remove_layer(data.raw.tile["water-shallow"].collision_mask, "object-layer")
+collision_mask_util.remove_layer(data.raw.tile["water-mud"].collision_mask, "object-layer")
 
 local pump_marker = table.deepcopy(data.raw["simple-entity-with-owner"]["simple-entity-with-owner"])
 pump_marker.name = "pump_marker"

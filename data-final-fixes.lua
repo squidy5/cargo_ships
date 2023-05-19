@@ -55,7 +55,7 @@ end
 -- Compatibility for pump upgrade mods
 local next_pump = data.raw.pump["pump"].next_upgrade
 while next_pump and data.raw.pump[next_pump] do
-  data.raw.pump[next_pump].collision_mask = data.raw.pump["pump"].collision_mask
+  data.raw.pump[next_pump].collision_mask = table.deepcopy(data.raw.pump["pump"].collision_mask)
   next_pump = data.raw.pump[next_pump].next_upgrade
 end
 
