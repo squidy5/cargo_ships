@@ -52,13 +52,24 @@ if mods["Krastorio2"] and settings.startup['kr-rebalance-vehicles&fuels'].value 
   log("Updated boat_engine to use only Krastorio2 vehicle-fuel")
 end
 
+-- Ensure player collides with pump
+local pump = data.raw["pump"]["pump"]
+local pump_collision_layer = collision_mask_util.get_first_unused_layer()
+collision_mask_util.add_layer(pump.collision_mask, pump_collision_layer)
+for _, character in pairs(data.raw.character) do
+  local collision_mask = collision_mask_util.get_mask(character)
+  if collision_mask_util.mask_contains_layer(collision_mask, "player-layer") then
+    collision_mask_util.add_layer(collision_mask, pump_collision_layer)
+    character.collision_mask = collision_mask
+  end
+end
+
 -- Compatibility for pump upgrade mods
 local next_pump = data.raw.pump["pump"].next_upgrade
 while next_pump and data.raw.pump[next_pump] do
   data.raw.pump[next_pump].collision_mask = table.deepcopy(data.raw.pump["pump"].collision_mask)
   next_pump = data.raw.pump[next_pump].next_upgrade
 end
-
 
 -----------------------------
 ---- DEEP OIL GENERATION ----
