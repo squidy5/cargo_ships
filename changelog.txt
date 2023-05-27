@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.2
+Date: 2023-05-26
+Features:
+  - Added "tips and tricks" entry to demonstrate Waterway shortcut item use.
+Changes:
+  - Updated Japanese translation thanks to YAMATO_Hajime.
+  - Updated Russian translation thanks to Astorin.
+Bugfixes:
+  - Player now collides with pump again (pump can still be placed on water for ship loading).
+---------------------------------------------------------------------------------------------------
 Version: 0.2.1
 Date: 2023-05-14
 Bugfixes:
