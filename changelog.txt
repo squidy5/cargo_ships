@@ -1,31 +1,31 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.2
 Date: 2023-05-26
-Features:
-  - Added "tips and tricks" entry to demonstrate Waterway shortcut item use.
-Changes:
-  - Updated Japanese translation thanks to YAMATO_Hajime.
-  - Updated Russian translation thanks to Astorin.
-Bugfixes:
-  - Player now collides with pump again (pump can still be placed on water for ship loading).
+  Features:
+    - Added "tips and tricks" entry to demonstrate Waterway shortcut item use.
+  Changes:
+    - Updated Japanese translation thanks to YAMATO_Hajime.
+    - Updated Russian translation thanks to Astorin.
+  Bugfixes:
+    - Player now collides with pump again (pump can still be placed on water for ship loading).
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.1
 Date: 2023-05-14
-Bugfixes:
-  - Fixed crash when loading with Krastorio2 and other pump-upgrade mods.
+  Bugfixes:
+    - Fixed crash when loading with Krastorio2 and other pump-upgrade mods.
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.0
 Date: 2023-05-14
-Changes:
-  - Waterways are now accessed using a shortcut button or ‘Alt + W’ instead of a free recipe
-  - 'Ghost' waterways are now instantly 'revived', and marked-for-deconstruction waterways are instantly destroyed
-  - You can now enter and exit ships at a distance using 'Enter' rather than 'Shift + Enter'
-  - Boat no longer collides with buoys and offshore oil
-  - Removed ship loading pump, regular pump can now be placed on water
-  - Moved floating electric pole to be next to other electric poles in the crafting menu
-Bugfixes:
-  - Fixed oil rig power supply area not being correctly centered
-  - Fixed oil rigs having insufficient power when energy consumption is increased by modules
+  Changes:
+    - Waterways are now accessed using a shortcut button or ‘Alt + W’ instead of a free recipe
+    - 'Ghost' waterways are now instantly 'revived', and marked-for-deconstruction waterways are instantly destroyed
+    - You can now enter and exit ships at a distance using 'Enter' rather than 'Shift + Enter'
+    - Boat no longer collides with buoys and offshore oil
+    - Removed ship loading pump, regular pump can now be placed on water
+    - Moved floating electric pole to be next to other electric poles in the crafting menu
+  Bugfixes:
+    - Fixed oil rig power supply area not being correctly centered
+    - Fixed oil rigs having insufficient power when energy consumption is increased by modules
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.22
 Date: 2023-02-26
