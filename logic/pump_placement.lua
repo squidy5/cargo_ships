@@ -70,25 +70,38 @@ function UpdateVisuals(e)
   end
 end
 
-function PumpVisualisation(e)
-  local player = game.players[e.player_index]
-  local stack = player.cursor_stack
-
-  -- if stack valid
-  if stack and stack.valid_for_read then
-    -- if last was pump, current is not
-    if global.ship_pump_selected[e.player_index] and stack.name ~= "pump" then
-      RemoveVisuals(e.player_index)
-      global.ship_pump_selected[e.player_index] = nil
-
-    -- if current is pump and last was not
-    elseif (not global.ship_pump_selected[e.player_index]) and stack.name == "pump" then
-      AddVisuals(player)
-      global.ship_pump_selected[e.player_index] = true
+local function is_holding_pump(player)
+  if player.is_cursor_blueprint() then
+    local blueprint_entities = player.get_blueprint_entities()
+    for _, bp_entity in pairs(blueprint_entities) do
+      if bp_entity.name == "pump" then
+        return true
+      end
     end
+    return false
+  end
+  local stack = player.cursor_stack
+  if stack and stack.valid_for_read and stack.name == "pump" then
+    return true
+  end
+  local ghost = player.cursor_ghost
+  if ghost and ghost.name == "pump" then
+    return true
+  end
+end
 
-  -- if stack empty
-  elseif global.ship_pump_selected[e.player_index] then
+function PumpVisualisation(e)
+  local player = game.get_player(e.player_index)
+
+  local holding_pump = is_holding_pump(player)
+
+  if (not global.ship_pump_selected[e.player_index]) and holding_pump then
+    -- if current is pump and last was not
+    AddVisuals(player)
+    global.ship_pump_selected[e.player_index] = true
+
+  elseif global.ship_pump_selected[e.player_index] and not holding_pump then
+    -- if last was pump, current is not
     RemoveVisuals(e.player_index)
     global.ship_pump_selected[e.player_index] = nil
   end
