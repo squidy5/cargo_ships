@@ -26,7 +26,7 @@ data.raw.fish["fish"].pictures[2].draw_as_shadow = true
 data.raw.fish["fish"].selection_priority = 48
 
 -- Change technology requirement if oil is not available on land
-if settings.startup["deep_oil"].value and (settings.startup["no_oil_on_land"].value or settings.startup["no_oil_for_oil_rig"].value) then
+if settings.startup["deep_oil"].value and not mods["nullius"] and (settings.startup["no_oil_on_land"].value or settings.startup["no_oil_for_oil_rig"].value) then
   data.raw.technology["deep_sea_oil_extraction"].unit = {
     count = 300,
     ingredients = {
@@ -64,20 +64,30 @@ for _, character in pairs(data.raw.character) do
   end
 end
 
+
+local function collisionToPump(pumpName)
+  data.raw.pump[pumpName].collision_mask = table.deepcopy(data.raw.pump["pump"].collision_mask)
+end
+
 -- Compatibility for pump upgrade mods
 local next_pump = data.raw.pump["pump"].next_upgrade
 while next_pump and data.raw.pump[next_pump] do
-  data.raw.pump[next_pump].collision_mask = table.deepcopy(data.raw.pump["pump"].collision_mask)
+  collisionToPump(next_pump)
   next_pump = data.raw.pump[next_pump].next_upgrade
 end
+
+if mods["nullius"] then
+    collisionToPump("nullius-pump-1")
+    collisionToPump("nullius-pump-2")
+end
+
 
 -----------------------------
 ---- DEEP OIL GENERATION ----
 -----------------------------
 
--- Disable sea oil generation and extraction if Omnimatter or Seablock are installed
+-- Disable sea oil generation and extraction if Omnimatter, Seablock or Nullius are installed
 if data.raw.resource.deep_oil then
-
   -- If Water_Ores is not installed, make it so that:
   -- 1. Crude Oil can generate on deepwater tiles, and
   -- 2. Other resources cannot generate on any water tiles
