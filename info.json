@@ -17,7 +17,8 @@
     "? ctg >= 0.4.3",
     "? Krastorio2 >= 1.0.18",
     "! cargo-ships-seraph",
-    "(?) rso-mod"
+    "(?) rso-mod",
+    "(?) nullius"
   ],
   "factorio_version": "1.1"
 }
