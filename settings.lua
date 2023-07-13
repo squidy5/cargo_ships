@@ -30,25 +30,37 @@ data:extend({
     order = "a-c"
   },
   {
-    type = "bool-setting",
-    name = "no_oil_for_oil_rig",
+    type = "string-setting",
+    name = "oil_rig_power_source",
     setting_type = "startup",
-    default_value = false,
+    default_value = "internal",
+    allowed_values = {
+      "internal",
+      "external",
+      "partially-internal",
+    },
     order = "a-d"
   },
   {
     type = "bool-setting",
-    name = "no_oil_on_land",
+    name = "no_oil_for_oil_rig",
     setting_type = "startup",
     default_value = false,
     order = "a-e"
   },
   {
     type = "bool-setting",
+    name = "no_oil_on_land",
+    setting_type = "startup",
+    default_value = false,
+    order = "a-f"
+  },
+  {
+    type = "bool-setting",
     name = "no_shallow_oil",
     setting_type = "startup",
     default_value = true,
-    order = "a-f"
+    order = "a-g"
   },
   {
     type = "double-setting",

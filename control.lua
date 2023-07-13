@@ -78,12 +78,10 @@ local function onEntityBuild(e)
       end
       entity.destroy()
     else
-      local or_power = surface.create_entity{name = "or_power", position = pos, force = force}
-      table.insert(global.or_generators, or_power)
-      or_power.fluidbox[1] = {name="steam", amount = 200, temperature=165}  -- Initial power for rig, more comes from PowerOilRig()
       surface.create_entity{name = "or_power_electric", position = pos, force = force}
       surface.create_entity{name = "or_pole", position = pos, force = force}
       surface.create_entity{name = "or_radar", position = pos, force = force}
+      global.oil_rigs[entity.unit_number] = entity
     end
 
   -- create bridge
@@ -148,10 +146,6 @@ local function OnDeleted(e)
 
     elseif entity.name == "oil_rig" then
       local pos = entity.position
-      local or_inv = entity.surface.find_entities_filtered{area={{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}}, name="or_power"}
-      for i = 1, #or_inv do
-        or_inv[i].destroy()
-      end
       or_inv = entity.surface.find_entities_filtered{area={{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}}, name="or_power_electric"}
       for i = 1, #or_inv do
         or_inv[i].destroy()
@@ -226,23 +220,13 @@ local function OnMined(e)
   end
 end
 
-local function powerOilRig(e)
-  if e.tick % 120 == 0 then
-    if global.or_generators == nil then
-      global.or_generators = {}
-      for _, surface in pairs(game.surfaces) do
-        for _, generator in pairs(surface.find_entities_filtered{name="or_power"}) do
-          table.insert(global.or_generators, generator)
-        end
-      end
-    end
-    for i, generator in pairs(global.or_generators) do
-      if(generator.valid) then
-        generator.fluidbox[1] = {name="steam", amount = 200, temperature=165}
-      else
-        --game.players[1].print("found invalid")
-        table.remove(global.or_generators,i)
-      end
+local function updateSmoke(e)
+  -- Called every 60s
+  for unit_number, oil_rig in pairs(global.oil_rigs) do
+    if oil_rig.valid then
+      oil_rig.surface.create_entity{name="or-smoke-10", position=oil_rig.position}
+    else
+      global.oil_rigs[unit_number] = nil
     end
   end
 end
@@ -354,6 +338,16 @@ function init_events()
 
 end
 
+local function init_oil_rigs()
+  local oil_rigs = {}
+  for _, surface in pairs(game.surfaces) do
+    for _, entity in pairs(surface.find_entities_filtered{name="oil_rig"}) do
+      oil_rigs[entity.unit_number] = entity
+    end
+  end
+  global.oil_rigs = oil_rigs
+end
+
 local function init()
   -- Cache startup settings
   global.deep_oil_enabled = settings.startup["deep_oil"].value
@@ -383,6 +377,10 @@ local function init()
   global.new_cranes = global.new_cranes or {}
   global.gui_oilrigs = (global.deep_oil_enabled and global.gui_oilrigs) or {}
   global.connection_counter = 0
+  global.or_generators = nil  -- Removed
+  if not global.oil_rigs then
+    init_oil_rigs()  -- Creates global.oil_rigs
+  end
 
   init_ship_globals()  -- Init database of ship parameters
 
@@ -409,7 +407,6 @@ local function onTick(e)
   ManageBridges(e)
   UpdateVisuals(e)
   if global.deep_oil_enabled then
-    powerOilRig(e)
     UpdateOilRigGui(e)
   end
   --ManageCranes(e)
@@ -446,6 +443,7 @@ script.on_event({defines.events.on_lua_shortcut, "give-waterway"},
 
 -- update entities
 script.on_event(defines.events.on_tick, onTick)
+script.on_nth_tick(60, updateSmoke)
 
 -- long reach
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
