@@ -65,10 +65,10 @@ for _, character in pairs(data.raw.character) do
 end
 
 -- Compatibility for pump upgrade mods
-local next_pump = data.raw.pump["pump"].next_upgrade
-while next_pump and data.raw.pump[next_pump] do
-  data.raw.pump[next_pump].collision_mask = table.deepcopy(data.raw.pump["pump"].collision_mask)
-  next_pump = data.raw.pump[next_pump].next_upgrade
+for _, other_pump in pairs(data.raw.pump) do
+  if other_pump.fast_replaceable_group == pump.fast_replaceable_group then
+    other_pump.collision_mask = table.deepcopy(pump.collision_mask)
+  end
 end
 
 -----------------------------

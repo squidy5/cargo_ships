@@ -73,9 +73,11 @@ end
 local function is_holding_pump(player)
   if player.is_cursor_blueprint() then
     local blueprint_entities = player.get_blueprint_entities()
-    for _, bp_entity in pairs(blueprint_entities) do
-      if bp_entity.name == "pump" then
-        return true
+    if blueprint_entities then
+      for _, bp_entity in pairs(blueprint_entities) do
+        if bp_entity.name == "pump" then
+          return true
+        end
       end
     end
     return false
