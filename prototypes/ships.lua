@@ -714,13 +714,4 @@ cargo_ship_engine.stop_trigger = nil
 cargo_ship_engine.drive_over_tie_trigger = nil
 cargo_ship_engine.corpse = nil
 
-
--- Makes boats use nullius fuels if that mod is installed
-if mods["nullius"] then
-  indep_boat.burner.fuel_category = "vehicle"
-  boat_engine.burner.fuel_category = "vehicle"
-  cargo_ship_engine.burner.fuel_category = "vehicle"
-end
-
-
 data:extend{cargo_ship_engine, cargo_ship, oil_tanker, indep_boat, boat, boat_engine}
