@@ -715,15 +715,11 @@ cargo_ship_engine.drive_over_tie_trigger = nil
 cargo_ship_engine.corpse = nil
 
 
--- Makes boats use nullius fuels if that mod is installed and make slots for the used fuels that nullius has
+-- Makes boats use nullius fuels if that mod is installed
 if mods["nullius"] then
   indep_boat.burner.fuel_category = "vehicle"
   boat_engine.burner.fuel_category = "vehicle"
   cargo_ship_engine.burner.fuel_category = "vehicle"
-
-  indep_boat.burner.burnt_inventory_size = 1 * fuel_modifier
-  boat_engine.burner.burnt_inventory_size = 1 * fuel_modifier
-  cargo_ship_engine.burner.burnt_inventory_size = 2 * fuel_modifier
 end
 
 
