@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
 -------------------------DEEP SEA OIL --------------------------
 ----------------------------------------------------------------
-if settings.startup["deep_oil"].value then
+if settings.startup["deep_oil"].value and not mods["nullius"] then
 
 local deep_oil = table.deepcopy(data.raw.resource["crude-oil"])
 if mods["angelspetrochem"] then

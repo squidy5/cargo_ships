@@ -1,6 +1,6 @@
 
 -- Disable offshore oil if not compatible
-if mods["omnimatter"] or mods["SeaBlock"] or mods["nullius"] then
+if mods["omnimatter"] or mods["SeaBlock"] then
   log("Disabling offshore oil for compatibility")
   data.raw["bool-setting"]["deep_oil"].forced_value=false
   data.raw["bool-setting"]["deep_oil"].hidden=true

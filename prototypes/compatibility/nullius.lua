@@ -153,6 +153,9 @@ data.raw.recipe["chain_buoy"].ingredients = {
 }
 
 
+data.raw.technology["deep_sea_oil_extraction"].enabled = false
+data.raw.recipe["oil_rig"].enabled = false
+
 data.raw.technology["automated_bridges"].prerequisites = {"nullius-concrete-1", "nullius-parallel-computing-1", "water_transport_signals"}
 data.raw.technology["automated_bridges"].order = "nullius-bb"
 data.raw.technology["automated_bridges"].unit = {
@@ -175,3 +178,18 @@ data.raw.recipe["bridge_base"].ingredients = {
     {"nullius-steel-gear", 25},
     {"rail", 10}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
