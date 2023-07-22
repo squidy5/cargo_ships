@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.3
+Date: 2023-07-22
+  Features:
+    - 
+  Changes:
+    - Remove Nullius compatibility patch so other mods can handle it.
+    - Re-allow AI Boat when using AAI Programmable Vehicles.
+    - Show ship loading pump locations when holding blueprints.
+    - Added Chinese translation thanks to MegaMU.
+---------------------------------------------------------------------------------------------------
 Version: 0.2.2
 Date: 2023-05-26
   Features:
