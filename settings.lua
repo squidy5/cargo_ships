@@ -33,7 +33,7 @@ data:extend({
     type = "string-setting",
     name = "oil_rig_power_source",
     setting_type = "startup",
-    default_value = "internal",
+    default_value = "partially-internal",
     allowed_values = {
       "internal",
       "external",
