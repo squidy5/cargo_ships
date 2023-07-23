@@ -221,10 +221,13 @@ local function OnMined(e)
 end
 
 local function updateSmoke(e)
-  -- Called every 60s
+  -- Called every 0.5s
   for unit_number, oil_rig in pairs(global.oil_rigs) do
     if oil_rig.valid then
-      oil_rig.surface.create_entity{name="or-smoke-10", position=oil_rig.position}
+      local rig_status = oil_rig.status
+      if not (rig_status == defines.entity_status.no_power or rig_status == defines.entity_status.marked_for_deconstruction) then
+        oil_rig.surface.create_entity{name="or-smoke-10", position=oil_rig.position}
+      end
     else
       global.oil_rigs[unit_number] = nil
     end
@@ -443,7 +446,7 @@ script.on_event({defines.events.on_lua_shortcut, "give-waterway"},
 
 -- update entities
 script.on_event(defines.events.on_tick, onTick)
-script.on_nth_tick(60, updateSmoke)
+script.on_nth_tick(30, updateSmoke)
 
 -- long reach
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
