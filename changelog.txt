@@ -1,12 +1,12 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.3
-Date: 2023-07-22
+Date: 2023-07-26
   Features:
-    - 
+    - Added startup setting to configure Oil Rig power source.
+    - Oil rigs can connect directly to power poles when grid connection is enabled.
   Changes:
-    - Remove Nullius compatibility patch so other mods can handle it.
     - Re-allow AI Boat when using AAI Programmable Vehicles.
-    - Show ship loading pump locations when holding blueprints.
+    - Display ship loading pump locations when holding blueprints with pumps in them.
     - Added Chinese translation thanks to MegaMU.
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.2

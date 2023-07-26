@@ -1,4 +1,7 @@
-if not settings.startup["deep_oil"].value then return end
+-- Do not add any of the oil rig entities if offshore oil has been disabled
+if not settings.startup["deep_oil"].value then
+  return
+end
 
 local external_power = settings.startup["oil_rigs_require_external_power"].value
 
@@ -291,14 +294,15 @@ or_pole.name = "or_pole"
 or_pole.icon = oil_rig.icon
 or_pole.icon_size = oil_rig.icon_size
 or_pole.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-grid"}
-or_pole.selectable_in_game = false
+or_pole.selectable_in_game = true
 or_pole.allow_copy_paste = false
 or_pole.collision_box = nil
-or_pole.selection_box = nil
+or_pole.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
+or_pole.selection_priority = 56
 or_pole.collision_mask = {}
 or_pole.fast_replaceable_group = nil
 or_pole.next_upgrade = nil
-if power_source == "internal" then
+if external_power == "disabled" then
   or_pole.maximum_wire_distance = 0
 else
   or_pole.maximum_wire_distance = 20
