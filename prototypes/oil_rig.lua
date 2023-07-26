@@ -1,6 +1,6 @@
 if not settings.startup["deep_oil"].value then return end
 
-local power_source = settings.startup["oil_rig_power_source"].value
+local external_power = settings.startup["oil_rigs_require_external_power"].value
 
 local function oilrig_layer(orientation, animated)
   local returned_value = {
@@ -163,7 +163,7 @@ oil_rig.drawing_box = {{-3.3, -3.3}, {3.3, 3.3}}
 oil_rig.fast_replaceable_group  = nil
 oil_rig.next_upgrade = nil
 oil_rig.module_specification.module_slots = 3
-if power_source == "internal" then
+if external_power == "disabled" then
   oil_rig.energy_source = {
     type = "void",
     emissions_per_minute = 25,
@@ -272,15 +272,15 @@ or_power_electric.name = "or_power_electric"
 or_power_electric.icon = oil_rig.icon
 or_power_electric.icon_size = oil_rig.icon_size
 or_power_electric.localised_name = nil
-if power_source == "internal" then
-  or_power_electric.energy_production = "50kW"  -- Just enough for surrounding pumps
-  or_power_electric.energy_source.output_flow_limit = "50kW"
-elseif power_source == "external" then
+if external_power == "disabled" then
+  or_power_electric.energy_production = "100kW"  -- Just enough for surrounding pumps
+  or_power_electric.energy_source.output_flow_limit = "100kW"
+elseif external_power == "enabled" then
   or_power_electric.energy_production = "0kW"
   or_power_electric.energy_source.output_flow_limit = "0kW"
-elseif power_source == "partially-internal" then
-  or_power_electric.energy_production = "800kW"  -- 750kW for the rig, 50kW for surrounding pumps
-  or_power_electric.energy_source.output_flow_limit = "800kW"
+elseif external_power == "only-when-moduled" then
+  or_power_electric.energy_production = "850kW"  -- 750kW for the rig, 100kW for surrounding pumps
+  or_power_electric.energy_source.output_flow_limit = "850kW"
 end
 or_power_electric.energy_source.render_no_power_icon = false
 or_power_electric.energy_source.usage_priority = "secondary-output"

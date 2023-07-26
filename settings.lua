@@ -31,13 +31,13 @@ data:extend({
   },
   {
     type = "string-setting",
-    name = "oil_rig_power_source",
+    name = "oil_rigs_require_external_power",
     setting_type = "startup",
-    default_value = "partially-internal",
+    default_value = "only-when-moduled",
     allowed_values = {
-      "internal",
-      "external",
-      "partially-internal",
+      "enabled",
+      "only-when-moduled",
+      "disabled",
     },
     order = "a-d"
   },
