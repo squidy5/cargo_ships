@@ -7,3 +7,4 @@ publish_exclude.txt
 blender
 cargo-ships-graphics
 todo
+.zip
