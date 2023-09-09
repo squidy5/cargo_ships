@@ -22,6 +22,7 @@ function vehicle_exit(player, position)
   if character.vehicle.get_driver() == character then
     character.vehicle.set_driver(nil)
   else
+    -- This can't be a train, because the player will always be in the driver slot
     character.vehicle.set_passenger(nil)
   end
   character.teleport(position)
@@ -35,7 +36,8 @@ function vehicle_enter(player, vehicle)
   end
   if not vehicle.get_driver() then
     vehicle.set_driver(character)
-  elseif not vehicle.get_passenger() then
+  elseif vehicle.type == "car" and not vehicle.get_passenger() then
+    -- Don't try passenger if it's a train
     vehicle.set_passenger(character)
   end
 end
