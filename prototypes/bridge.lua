@@ -297,9 +297,9 @@ invisible_chain_signal.icon = GRAPHICSPATH .. "icons/chain_buoy.png"
 invisible_chain_signal.icon_size = 64
 invisible_chain_signal.selection_box = nil
 invisible_chain_signal.resistances = invincible
-invisible_chain_signal.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation"}
+invisible_chain_signal.flags = {"not-blueprintable", "not-deconstructable", "placeable-neutral", "player-creation", "hidden"}
 invisible_chain_signal.selectable_in_game = false
-invisible_chain_signal.collision_mask = {'rail-layer'}
+invisible_chain_signal.collision_mask = {"object-layer", "rail-layer"}  -- waterway_layer added in data-final-fixes
 invisible_chain_signal.allow_copy_paste = false
 invisible_chain_signal.minable = nil
 invisible_chain_signal.animation = {
@@ -329,6 +329,7 @@ bridge_north_clickable.icon_size = 64
 bridge_north_clickable.localised_description = {"entity-description.bridge_north_clickable"}
 bridge_north_clickable.flags = {"not-blueprintable", "placeable-neutral", "player-creation"}
 bridge_north_clickable.minable = {mining_time = 1, result = "bridge_base"}
+bridge_north_clickable.placeable_by = {item = "bridge_base", count = 1}  -- For pipette (Q)
 bridge_north_clickable.selection_box = {{-5,-WID}, {7,WID}}
 bridge_north_clickable.collision_box = {{-5,-WID}, {7,WID}}
 bridge_north_clickable.collision_mask = {"object-layer", "layer-14"}

@@ -303,9 +303,11 @@ local indep_boat_power = 300 + (speed_modifier -1) * 150
 
 local indep_boat = table.deepcopy(data.raw["car"]["car"])
 indep_boat.name = "indep-boat"
+--indep_boat.order = "no-aai" -- This prevents AAI Programmable Vehicles from copying the Boat
 indep_boat.collision_mask = {"ground-tile", "train-layer"}
 indep_boat.collision_box = {{-1.2, -3}, {1.2, 3}}
 indep_boat.selection_box = {{-1.2, -3}, {1.2, 3}}
+indep_boat.selection_priority = 51
 indep_boat.max_health = 600
 indep_boat.icon = GRAPHICSPATH .. "icons/boat.png"
 indep_boat.icon_size = 64
@@ -315,7 +317,8 @@ indep_boat.weight = 10000
 indep_boat.max_health = 1500
 indep_boat.consumption = indep_boat_power.."kW"
 indep_boat.friction = 0.002/speed_modifier
-indep_boat.minable = {mining_time = 1,result = "boat"}
+indep_boat.terrain_friction_modifier = 0
+indep_boat.minable = {mining_time = 1, result = "boat"}
 indep_boat.rotation_speed = 0.008
 indep_boat.inventory_size = 80
 indep_boat.localised_description = {'entity-description.boat'}
@@ -388,10 +391,13 @@ indep_boat.turret_animation = {
 }
 indep_boat.light = ship_light(-13, true)
 indep_boat.light_animation = nil
+indep_boat.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ BOAT  ----------------------------
 ----------------------------------------------------------------
+
+local boat_max_speed = 0.27*speed_modifier
 
 local boat = table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 boat.name = "boat"
@@ -404,13 +410,14 @@ boat.placeable_by = {{item="boat", count=1}, {item="indep-boat", count=1}}
 boat.max_health = 1500
 boat.selection_box = {{-1.2, -1.5}, {1.2, 1.5}}
 boat.collision_box = {{-1.3, -1.5}, {1.3, 1.5}}
+boat.selection_priority = 51
 --boat.vertical_selection_shift = 5
 boat.connection_distance = 1
 boat.joint_distance = 2.5
 boat.water_reflection = water_reflection("boat/railed/boat", 60, 15, true)
 boat.weight = 5000
 boat.inventory_size = 60
-boat.max_speed = 1
+boat.max_speed = boat_max_speed
 boat.pictures = boat_pictures
 boat.back_light = ship_light(-15, true)
 boat.stand_by_light = nil
@@ -419,6 +426,7 @@ boat.vertical_doors = nil
 boat.wheels = nil
 boat.working_sound = nil
 boat.drive_over_tie_trigger = nil
+boat.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ BOAT ENGINE ---------------------------
@@ -434,11 +442,12 @@ boat_engine.minable = nil
 boat_engine.icon = GRAPHICSPATH .. "icons/boat.png"
 boat_engine.icon_size = 64
 boat_engine.weight = 5000
-boat_engine.max_speed = 0.27*speed_modifier
+boat_engine.max_speed = boat_max_speed
 boat_engine.max_power = boat_engine_power .. "kW"
 boat_engine.air_resistance = 0.02
 boat_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}
 boat_engine.selection_box = {{-1.3, -1.2}, {1.3, 1.2}}
+boat_engine.selection_priority = 51
 boat_engine.connection_distance = 1
 boat_engine.joint_distance = 1.7
 boat_engine.burner = {
@@ -489,14 +498,18 @@ boat_engine.water_reflection = nil
 boat_engine.wheels = nil
 boat_engine.working_sound = car_sounds
 boat_engine.front_light = nil
+boat_engine.front_light_pictures = nil
 boat_engine.back_light = nil
 boat_engine.stand_by_light = nil
 boat_engine.stop_trigger = nil
 boat_engine.drive_over_tie_trigger = nil
+boat_engine.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ CARGO SHIP ----------------------------
 ----------------------------------------------------------------
+
+local ship_max_speed = 0.15 * speed_modifier
 
 local cargo_ship = table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
 cargo_ship.name = "cargo_ship"
@@ -508,12 +521,13 @@ cargo_ship.minable = {mining_time = 1, result = "cargo_ship"}
 cargo_ship.max_health = 5000
 cargo_ship.selection_box = {{-1.5, -8.5}, {1.5, 8.5}}
 cargo_ship.collision_box = {{-1.5, -7.5}, {1.5, 7.5}}
+cargo_ship.selection_priority = 51
 cargo_ship.drawing_box = {{-1, -8}, {1, 8}}
 cargo_ship.connection_distance = 3
 cargo_ship.joint_distance = 12
 cargo_ship.weight = 100000
 cargo_ship.inventory_size = 1000
-cargo_ship.max_speed = 0.5
+cargo_ship.max_speed = ship_max_speed
 cargo_ship.air_resistance = 0.40
 cargo_ship.water_reflection = water_reflection("cargo_ship/cargo_ship", 170, 25, true) --nil
 cargo_ship.pictures = cargo_ship_pictures
@@ -560,6 +574,7 @@ cargo_ship.selected_minimap_representation = {
   size = {26, 160},
   scale = 0.5
 }
+cargo_ship.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ OIL TANKER ----------------------------
@@ -576,13 +591,14 @@ oil_tanker.allow_copy_paste = true
 oil_tanker.minable = {mining_time = 1, result = "oil_tanker"}
 oil_tanker.max_health = 5000
 oil_tanker.selection_box = {{-1.5, -8.5}, {1.5, 8.5}}
+oil_tanker.selection_priority = 51
 oil_tanker.collision_box = {{-1.5, -7.5}, {1.5, 7.5}}
 oil_tanker.drawing_box = {{-1, -8}, {1, 8}}
 oil_tanker.connection_distance = 3
 oil_tanker.joint_distance = 12
 oil_tanker.weight = 120000
 oil_tanker.capacity = tanker_capacity * 1000
-oil_tanker.max_speed = 0.5
+oil_tanker.max_speed = ship_max_speed
 oil_tanker.air_resistance = 0.40
 oil_tanker.water_reflection = water_reflection("tanker/tanker", 170, 25, true)
 oil_tanker.pictures = oil_tanker_pictures
@@ -603,6 +619,7 @@ oil_tanker.selected_minimap_representation = {
   size = {26, 160},
   scale = 0.5
 }
+oil_tanker.corpse = nil
 
 ----------------------------------------------------------------
 ------------------------ CARGO SHIP ENGINE ---------------------
@@ -619,11 +636,12 @@ cargo_ship_engine.icon = "__base__/graphics/icons/engine-unit.png"
 cargo_ship_engine.icon_size = 64
 cargo_ship_engine.icon_mipmaps = 4
 cargo_ship_engine.weight = 100000
-cargo_ship_engine.max_speed = 0.15 * speed_modifier
+cargo_ship_engine.max_speed = ship_max_speed
 cargo_ship_engine.max_power = cargo_ship_engine_power.."kW"
 cargo_ship_engine.air_resistance = 0.40
 cargo_ship_engine.collision_box = {{-1.1, -1.2}, {1.1, 1.2}}
 cargo_ship_engine.selection_box = {{-1.3, -1.2}, {1.3, 1.2}}
+cargo_ship_engine.selection_priority = 51
 cargo_ship_engine.connection_distance = 3
 cargo_ship_engine.joint_distance = 1.7
 cargo_ship_engine.burner = {
@@ -694,5 +712,6 @@ cargo_ship_engine.back_light = nil
 cargo_ship_engine.stand_by_light = nil
 cargo_ship_engine.stop_trigger = nil
 cargo_ship_engine.drive_over_tie_trigger = nil
+cargo_ship_engine.corpse = nil
 
 data:extend{cargo_ship_engine, cargo_ship, oil_tanker, indep_boat, boat, boat_engine}

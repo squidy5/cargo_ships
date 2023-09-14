@@ -1,0 +1,10 @@
+.xcf
+.gitignore
+.git
+example.png
+publish_exclude.txt
+.bat
+blender
+cargo-ships-graphics
+todo
+.zip

@@ -1,4 +1,129 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.3
+Date: 2023-07-26
+  Features:
+    - Added startup setting to configure Oil Rig power source.
+    - Oil rigs can connect directly to power poles when grid connection is enabled.
+  Changes:
+    - Re-allow AI Boat when using AAI Programmable Vehicles.
+    - Display ship loading pump locations when holding blueprints with pumps in them.
+    - Added Chinese translation thanks to MegaMU.
+---------------------------------------------------------------------------------------------------
+Version: 0.2.2
+Date: 2023-05-26
+  Features:
+    - Added "tips and tricks" entry to demonstrate Waterway shortcut item use.
+  Changes:
+    - Updated Japanese translation thanks to YAMATO_Hajime.
+    - Updated Russian translation thanks to Astorin.
+  Bugfixes:
+    - Player now collides with pump again (pump can still be placed on water for ship loading).
+---------------------------------------------------------------------------------------------------
+Version: 0.2.1
+Date: 2023-05-14
+  Bugfixes:
+    - Fixed crash when loading with Krastorio2 and other pump-upgrade mods.
+---------------------------------------------------------------------------------------------------
+Version: 0.2.0
+Date: 2023-05-14
+  Changes:
+    - Waterways are now accessed using a shortcut button or ‘Alt + W’ instead of a free recipe
+    - 'Ghost' waterways are now instantly 'revived', and marked-for-deconstruction waterways are instantly destroyed
+    - You can now enter and exit ships at a distance using 'Enter' rather than 'Shift + Enter'
+    - Boat no longer collides with buoys and offshore oil
+    - Removed ship loading pump, regular pump can now be placed on water
+    - Moved floating electric pole to be next to other electric poles in the crafting menu
+  Bugfixes:
+    - Fixed oil rig power supply area not being correctly centered
+    - Fixed oil rigs having insufficient power when energy consumption is increased by modules
+---------------------------------------------------------------------------------------------------
+Version: 0.1.22
+Date: 2023-02-26
+  Bugfixes:
+    - Made deep_oil deposits able to be destroyed by landfill.
+    - Fixed that crafting time was not specified for some recipes.
+    - Fixed that oil rig emissions were specified incorrectly.
+    - Fixed localised name of waterway rail planner tool.
+    - Made bridge-related "invisible chain signal" hidden.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.21
+Date: 2023-01-22
+  Bugfixes:
+    - Fixed that ships had lower selection priority than waterways.
+    - Fixed that ship-exit command would not work on walkable shallow water.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.20
+Date: 2023-01-06
+  Bugfixes:
+    - Workaround for bug in Tips & Tricks scenario migration script relative path resolution.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.19
+Date: 2023-01-01
+  Features:
+    - Added a remote interface so other mods can add compatible boats and ships.
+  Changes:
+    - Refactored the entity handling code to utilize the data table maintained by the remote interface.
+  Bugfixes:
+    - Fixed that boats, ships, and ship engines left corpse remnants in the water instead of sinking properly.
+    - Fixed that Cargo Ships mod prevented building landfill underneath Beautiful Bridge Railways rails on water.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.18
+Date: 2022-04-03
+  Bugfixes:
+    - Fixed crash in new settings code when loading with other mods.
+    - Fixed some missing setting description strings in locale.
+  Changes:
+    - Changed default setting of "no-shallow-oil" back to True to match the previous default behavior.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.17
+Date: 2022-04-03
+  Features:
+    - Added a setting to disable offshore in shallow water.
+  Changes:
+    - Increased the offshore oil richness bonus for "good" and "very-good" settings.
+    - Changed the default behavior to generate offshore oil in shallow water.
+  Bugfixes:
+    - Fixed behavior of "/regenerate-oil" command when RSO is installed.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.16
+Date: 2022-03-21
+  Changes:
+    - Extended "enter ship" command (Shift-Enter) to work for ship and tanker hulls in addition to engines.
+  Bugfixes:
+    - Fixed potential issue synchronizing settings to a multiplayer game if deep sea oil is disabled on server.
+    - Fixed crash in old migration code if deep sea oil is disabled.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.15
+Date: 2022-02-06
+  Bugfixes:
+    - Fixed that deep_oil entity could not be placed on water in editor.
+  Compatibility:
+    - Added changes for Alien Biomes trees so that they can be chopped on top of ore patches again.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.14
+Date: 2022-01-30
+  Compatibility:
+    - Fixed compatibility with Noxy's Swimming (boat will ignore terrain friction).
+  Changes:
+    - Enlarged range for fuel and speed modifier options.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.13
+Date: 2022-01-16
+  Bugfixes:
+    - Fixed that chemical science was never required for oil rig research.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.12
+Date: 2022-01-12
+  Bugfixes:
+    - Fixed bot placement of waterways using old pre-0.1.0 blueprints.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.11
+Date: 2021-12-16
+  Bugfixes:
+    - Fixed generation of offshore oil with RSO installed.
+    - Added migration to regenerate oil automatically if crude-oil is found on water.
+    - ** Please report any issues with existing oil deposits on land disappearing or changing! **
+---------------------------------------------------------------------------------------------------
 Version: 0.1.10
 Date: 2021-12-11
   Bugfixes:

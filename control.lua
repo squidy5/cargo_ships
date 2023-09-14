@@ -1,27 +1,16 @@
 require("util")
-require("logic.ship_placement")
-require("logic.oil_placement")
-require("logic.long_reach")
-require("logic.bridge_logic")
-require("logic.pump_placement")
-require("logic.blueprint_logic")
-require("gui.oil_rig_gui")
---require("logic.crane_logic")
---require("logic.rolling_stock_logic")
-
--- Find the up to six different rails that can be connected to this one
-local function get_connected_rails(rail)
-  local connected_rails = {}
-  for _, d in pairs({defines.rail_direction.front, defines.rail_direction.back}) do
-    for _, c in pairs({defines.rail_connection_direction.straight, defines.rail_connection_direction.left, defines.rail_connection_direction.right}) do
-      local r = rail.get_connected_rail{rail_direction = d, rail_connection_direction = c}
-      if r then
-        table.insert(connected_rails, r)
-      end
-    end
-  end
-  return connected_rails
-end
+require("__cargo-ships__/logic/ship_api")
+require("__cargo-ships__/logic/ship_placement")
+require("__cargo-ships__/logic/oil_placement")
+require("__cargo-ships__/logic/rail_placement")
+require("__cargo-ships__/logic/long_reach")
+require("__cargo-ships__/logic/bridge_logic")
+require("__cargo-ships__/logic/pump_placement")
+require("__cargo-ships__/logic/blueprint_logic")
+require("__cargo-ships__/logic/ship_enter")
+require("__cargo-ships__/gui/oil_rig_gui")
+--require("__cargo-ships__/logic/crane_logic")
+--require("__cargo-ships__/logic/rolling_stock_logic")
 
 -- spawn additional invisible entities
 local function onEntityBuild(e)
@@ -38,46 +27,37 @@ local function onEntityBuild(e)
   -- check ghost entities first
   if entity.name == "entity-ghost" then
     if entity.ghost_name == "bridge_base" then
+      -- Not allowed to make ghost bridges yet
       entity.destroy()
+    elseif entity.ghost_name == "straight-water-way" or entity.ghost_name == "curved-water-way" then
+      entity.silent_revive{raise_revive = true}
     end
 
-  elseif entity.name == "indep-boat" then
+  elseif global.boat_bodies[entity.name] then
     CheckBoatPlacement(entity, player)
 
-  elseif entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or entity.type == "locomotive" or entity.type == "artillery-wagon" then
+  elseif (entity.type == "cargo-wagon" or entity.type == "fluid-wagon" or
+          entity.type == "locomotive" or entity.type == "artillery-wagon") then
     --game.players[1].print(entity.collision_mask)
     local engine = nil
-    if entity.name == "cargo_ship" or entity.name == "oil_tanker" then
-      local pos
-      local dir
-      pos, dir = localize_engine(entity)
-      -- see if there is an engine ghost from a blueprint behind us
-      local engine_ghosts = surface.find_entities_filtered{ghost_name="cargo_ship_engine", position = pos, radius = 1, force = force}
-      if engine_ghosts and next(engine_ghosts) then
-        local q
-        q,engine = engine_ghosts[1].revive()
-        -- If couldn't revive engine, destroy ghost
-        if not engine then
-          engine_ghosts[1].destroy()
+    if global.ship_bodies[entity.name] then
+      local ship_data = global.ship_bodies[entity.name]
+      if ship_data.engine then
+        local pos
+        local dir
+        pos, dir = localize_engine(entity)
+        -- see if there is an engine ghost from a blueprint behind us
+        local engine_ghosts = surface.find_entities_filtered{ghost_name=ship_data.engine, position = pos, radius = 1, force = force}
+        if engine_ghosts and next(engine_ghosts) then
+          local q
+          q,engine = engine_ghosts[1].revive()
+          -- If couldn't revive engine, destroy ghost
+          if not engine then
+            engine_ghosts[1].destroy()
+          end
+        else
+          engine = surface.create_entity{name = ship_data.engine, position = pos, direction = dir, force = force}
         end
-      else
-        engine = surface.create_entity{name = "cargo_ship_engine", position = pos, direction = dir, force = force}
-      end
-    elseif entity.name == "boat"  then
-      local pos
-      local dir
-      pos, dir = localize_engine(entity)
-      -- see if there is an engine ghost from a blueprint behind us
-      local engine_ghosts = surface.find_entities_filtered{ghost_name="boat_engine", position = pos, radius = 1, force = force}
-      if engine_ghosts and next(engine_ghosts) then
-        local q
-        q,engine = engine_ghosts[1].revive()
-        -- If couldn't revive engine, destroy ghost
-        if not engine then
-          engine_ghosts[1].destroy()
-        end
-      else
-        engine = surface.create_entity{name = "boat_engine", position = pos, direction = dir, force = force}
       end
     end
     -- check placement in next tick
@@ -98,10 +78,10 @@ local function onEntityBuild(e)
       end
       entity.destroy()
     else
-      local or_power = surface.create_entity{name = "or_power", position = pos, force = force}
-      table.insert(global.or_generators, or_power)
+      surface.create_entity{name = "or_power_electric", position = pos, force = force}
       surface.create_entity{name = "or_pole", position = pos, force = force}
       surface.create_entity{name = "or_radar", position = pos, force = force}
+      global.oil_rigs[entity.unit_number] = entity
     end
 
   -- create bridge
@@ -109,185 +89,26 @@ local function onEntityBuild(e)
     CreateBridge(entity, e.player_index)
 
   -- make waterway not collide with boats by replacing it with entity that does not have "ground-tile" in its collision mask
-  elseif (entity.name == "straight-water-way" or entity.name == "curved-water-way") then
-    -- Check if this waterway is connected to a non-waterway
-    local bad_connection = false
-    local bad_name = ""
-    if settings.global["prevent_waterway_rail_connections"].value then
-      for _, rail in pairs(get_connected_rails(entity)) do
-        if not (string.find(rail.name, "%-water%-way") or rail.name == "bridge_crossing") then
-          bad_connection = true
-          bad_name = rail.name
-          break
-        end
-      end
-    end
-
-    local pos = entity.position
-    local name = entity.name .. "-placed"
-    local dir = entity.direction
-    local refund = entity.prototype.items_to_place_this[1]
-    entity.destroy() --destroy old
-
-    --check for already placed entities
-    local give_refund = false
-    local prev = surface.find_entities_filtered{position = pos, name = name}
-    if bad_connection then
-      -- Refund ww if connected to rails
-      give_refund = true
-      if player then
-        player.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..name.."__", "__ENTITY__"..bad_name.."__"}
-      else
-        game.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..name.."__", "__ENTITY__"..bad_name.."__"}
-      end
-    else
-      for _, pr in pairs(prev) do
-        if pr.direction == dir then
-          give_refund = true
-          break
-        end
-      end
-    end
-
-    if give_refund then
-      -- placement was invalid, give refund and don't rebuild
-      if player then
-        player.insert(refund)
-      elseif e.robot then
-        e.robot.get_inventory(defines.inventory.robot_cargo).insert(refund)
-      end
-    else
-      -- create waterway
-      local WW = surface.create_entity{name = name, position = pos, direction = dir, force = force}
-      -- make waterway indestructible
-      if WW then
-        WW.destructible = false
-      end
-    end
-
-  elseif (entity.type == "straight-rail" or entity.type == "curved-rail") and settings.global["prevent_waterway_rail_connections"].value then
-    -- Check if this rail is connected to a waterway
-    local bad_connection = false
-    local bad_name = ""
-    for _, rail in pairs(get_connected_rails(entity)) do
-      if string.find(rail.name, "%-water%-way") or rail.name == "bridge_crossing" then
-        bad_connection = true
-        bad_name = rail.name
-        break
-      end
-    end
-    if bad_connection then
-      local refund = entity.prototype.items_to_place_this[1]
-      if player then
-        player.insert(refund)
-        player.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..entity.name.."__", "__ENTITY__"..bad_name.."__"}
-      else
-        if e.robot then
-          e.robot.get_inventory(defines.inventory.robot_cargo).insert(refund)
-        end
-        game.print{"cargo-ship-message.error-connect-rails", "__ENTITY__"..entity.name.."__", "__ENTITY__"..bad_name.."__"}
-      end
-      entity.destroy()
-    end
-
-  elseif entity.name == "buoy" or entity.name == "chain_buoy" then
-    -- Make buoys indestructible
-    if settings.global["indestructible_buoys"].value then
-      entity.destructible = false
-    end
+  elseif entity.type == "straight-rail" or entity.type == "curved-rail" then
+    CheckRailPlacement(entity, player, e.robot)
 
   --elseif entity.name == "crane" then
   --  OnCraneCreated(entity)
   end
 end
 
--- destroy waterways when landfill is build on top
-local function onTileBuild(e)
-  if e.item and e.item.name == "landfill" then
-    ----- New event code prevents mods from omitting mandatory arguments, so this will always work
-    local surface = game.surfaces[e.surface_index]
-
-    local old_tiles = {}
-    for _, tile in pairs(e.tiles) do
-      if not surface.can_place_entity{name = "tile_test_item", position = tile.position}
-        and surface.can_place_entity{name = "tile_player_test_item", position = tile.position} then
-        -- refund
-        if e.player_index then
-          game.players[e.player_index].insert{name = "landfill", count = 1}
-        end
-        table.insert(old_tiles, {name = tile.old_tile.name or "deepwater", position = tile.position})
-
-      end
-    end
-    surface.set_tiles(old_tiles)
+local function onMarkedForDeconstruction(e)
+  local entity = e.entity
+  if entity.name == "straight-water-way" or entity.name == "curved-water-way" then
+    entity.destroy()
   end
 end
 
--- enter or leave ship
-local function OnEnterShip(e)
-  local player_index = e.player_index
-  local player = game.players[player_index]
-  local surface = player.surface
-  local pos = player.position
-  local X = pos.x
-  local Y = pos.y
-
-  if player.vehicle == nil then
-    -- Only enter vehicle if player has a character
-    if player.character then
-      for dis = 1,10 do
-        local targets = surface.find_entities_filtered{
-          area={{X-dis, Y-dis}, {X+dis, Y+dis}},
-          name={"indep-boat","indep-boat-0","boat_engine","cargo_ship_engine"}}
-        local done = false
-        for _, target in pairs(targets) do
-          if target and target.get_driver() == nil then
-            target.set_driver(player)
-            done = true
-          elseif target and target.name == "indep-boat" and target.get_passenger() == nil then
-            target.set_passenger(player)
-          end
-        end
-        if done then break end
-      end
-    end
-  else
-    local new_pos = surface.find_non_colliding_position("tile_player_test_item", pos, 10, 0.5, true)
-    if new_pos then
-      local old_vehicle = player.vehicle
-      if old_vehicle.name == "indep-boat" then
-        local driver = old_vehicle.get_driver()  -- Can return either LuaEntity or LuaPlayer
-        if driver then
-          if not driver.is_player() then
-            if driver.type == "character" then
-              driver = driver.player  -- Get the player associated with this character, if any
-            else
-              driver = nil
-            end
-          end
-          if driver and driver == player then
-            old_vehicle.set_driver(nil)
-          end
-        end
-        local passenger = old_vehicle.get_passenger()  -- Can return either LuaEntity or LuaPlayer
-        if passenger then
-          if not passenger.is_player() then
-            if passenger.type == "character" then
-              passenger = passenger.player  -- Get the player associated with this character, if any
-            else
-              passenger = nil
-            end
-          end
-          if passenger and passenger == player then
-            old_vehicle.set_passenger(nil)
-          end
-        end
-      else
-        old_vehicle.set_driver(nil)
-      end
-      player.driving = false
-      player.teleport(new_pos)
-    end
+local function onGiveWaterway(e)
+  local player = game.get_player(e.player_index)
+  local cleared = player.clear_cursor()
+  if cleared then
+    player.cursor_ghost = "waterway"
   end
 end
 
@@ -295,29 +116,29 @@ end
 local function OnDeleted(e)
   if(e.entity and e.entity.valid) then
     local entity = e.entity
-    if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+    if global.ship_bodies[entity.name] then
       if entity.train then
         if entity.train.back_stock then
-          if entity.train.back_stock.name == "cargo_ship_engine" or entity.train.back_stock.name == "boat_engine" then
+          if global.ship_engines[entity.train.back_stock.name] then
             entity.train.back_stock.destroy()
           end
         end
         if entity.train.front_stock then
-          if entity.train.front_stock.name == "cargo_ship_engine" or entity.train.front_stock.name == "boat_engine" then
+          if global.ship_engines[entity.train.front_stock.name] then
             entity.train.front_stock.destroy()
           end
         end
       end
 
-    elseif entity.name == "cargo_ship_engine" or entity.name == "boat_engine" then
+    elseif global.ship_engines[entity.name] then
       if entity.train then
         if entity.train.front_stock then
-          if entity.train.front_stock.name == "cargo_ship" or entity.train.front_stock.name == "oil_tanker" or entity.train.front_stock.name == "boat" then
+          if global.ship_bodies[entity.train.front_stock.name] then
             entity.train.front_stock.destroy()
           end
         end
         if entity.train.back_stock then
-          if entity.train.back_stock.name == "cargo_ship" or entity.train.back_stock.name == "oil_tanker" or entity.train.back_stock.name == "boat" then
+          if global.ship_bodies[entity.train.back_stock.name]  then
             entity.train.back_stock.destroy()
           end
         end
@@ -325,7 +146,7 @@ local function OnDeleted(e)
 
     elseif entity.name == "oil_rig" then
       local pos = entity.position
-      local or_inv = entity.surface.find_entities_filtered{area={{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}}, name="or_power"}
+      or_inv = entity.surface.find_entities_filtered{area={{pos.x-4, pos.y-4},{pos.x+4, pos.y+4}}, name="or_power_electric"}
       for i = 1, #or_inv do
         or_inv[i].destroy()
       end
@@ -353,20 +174,21 @@ local function OnMined(e)
   if(e.entity and e.entity.valid) then
     local entity = e.entity
     local okay_to_delete = true
-    if entity.name == "cargo_ship" or entity.name == "oil_tanker" or entity.name == "boat" then
+    if global.ship_bodies[entity.name] then
       okay_to_delete = false
       local player = (e.player_index and game.players[e.player_index]) or nil
       local robot = e.robot
       if entity.train then
         local engine
         if entity.train.back_stock and
-          (entity.train.back_stock.name == "cargo_ship_engine" or entity.train.back_stock.name == "boat_engine") then
+          (global.ship_engines[entity.train.back_stock.name]) then
           engine = entity.train.back_stock
         elseif entity.train.front_stock and
-              (entity.train.front_stock.name == "cargo_ship_engine" or entity.train.front_stock.name == "boat_engine") then
+              (global.ship_engines[entity.train.front_stock.name]) then
           engine = entity.train.front_stock
         end
-        if engine and engine.get_fuel_inventory() and not engine.get_fuel_inventory().is_empty() then
+        if ( engine and global.ship_engines[engine.name].recover_fuel and
+             engine.get_fuel_inventory() and not engine.get_fuel_inventory().is_empty() ) then
           local fuel = engine.get_fuel_inventory()
           if player and player.character then
             for f_type,f_amount in pairs(fuel.get_contents()) do
@@ -398,52 +220,29 @@ local function OnMined(e)
   end
 end
 
-local function powerOilRig(e)
-  if e.tick % 120 == 0 then
-    if global.or_generators == nil then
-      global.or_generators = {}
-      for _, surface in pairs(game.surfaces) do
-        for _, generator in pairs(surface.find_entities_filtered{name="or_power"}) do
-          table.insert(global.or_generators, generator)
-        end
+local function updateSmoke(e)
+  -- Called every 0.5s
+  for unit_number, oil_rig in pairs(global.oil_rigs) do
+    if oil_rig.valid then
+      local rig_status = oil_rig.status
+      if not (rig_status == defines.entity_status.no_power or rig_status == defines.entity_status.marked_for_deconstruction) then
+        oil_rig.surface.create_entity{name="or-smoke-10", position=oil_rig.position}
       end
-    end
-    for i, generator in pairs(global.or_generators) do
-      if(generator.valid) then
-        generator.fluidbox[1] = {name="steam", amount = 200, temperature=165}
-      else
-        --game.players[1].print("found invalid")
-        table.remove(global.or_generators,i)
-      end
+    else
+      global.oil_rigs[unit_number] = nil
     end
   end
-end
-
-local function updateAllBuoys()
-  -- search for all buoys and make them either destructible or indestructible
-  local destructible = not settings.global["indestructible_buoys"].value
-  local count = 0
-  for _, surface in pairs(game.surfaces) do
-    local buoys = surface.find_entities_filtered{name={"buoy","chain_buoy"}}
-    for _, buoy in pairs(buoys) do
-      buoy.destructible = destructible
-      count = count + 1
-    end
-  end
-  --game.print("updated "..tostring(count).." buoys with destructible="..tostring(destructible))
 end
 
 local function onModSettingsChanged(e)
   if e.setting == "waterway_reach_increase" then
     global.current_distance_bonus = settings.global["waterway_reach_increase"].value
     applyReachChanges()
-  elseif e.setting == "indestructible_buoys" then
-    updateAllBuoys()
   end
 end
 
 -- Register conditional events based on mod settting
-local function init_events()
+function init_events()
   if settings.startup["deep_oil"].value then
     -- place deep oil
     script.on_event(defines.events.on_chunk_generated, placeDeepOil)
@@ -452,6 +251,104 @@ local function init_events()
     script.on_event(defines.events.on_gui_closed, onOilrigGuiClosed)
     script.on_event(defines.events.on_player_created, onPlayerCreated)
   end
+
+  -- entity created, check placement and create invisible elements
+  local entity_filters = {
+      {filter="ghost", ghost_name="bridge_base"},
+      {filter="ghost", ghost_name="straight-water-way"},
+      {filter="ghost", ghost_name="curved-water-way"},
+      {filter="type", type="cargo-wagon"},
+      {filter="type", type="fluid-wagon"},
+      {filter="type", type="locomotive"},
+      {filter="type", type="artillery-wagon"},
+      {filter="name", name="oil_rig"},
+      {filter="name", name="bridge_base"},
+      {filter="type", type="straight-rail"},
+      {filter="type", type="curved-rail"},
+    }
+  if global.boat_bodies then
+    for name,_ in pairs(global.boat_bodies) do
+      table.insert(entity_filters, {filter="name", name=name})
+    end
+  end
+  script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
+  script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
+  script.on_event(defines.events.on_entity_cloned, onEntityBuild, entity_filters)
+  script.on_event(defines.events.script_raised_built, onEntityBuild, entity_filters)
+  script.on_event(defines.events.script_raised_revive, onEntityBuild, entity_filters)
+
+  -- delete invisible oil rig, bridge, and ship elements
+  local deleted_filters = {
+      {filter="name", name="oil_rig"},
+      {filter="name", name="bridge_base"},
+      {filter="name", name="bridge_north"},
+      {filter="name", name="bridge_north_closed"},
+      {filter="name", name="bridge_north_clickable"},
+      {filter="name", name="bridge_east"},
+      {filter="name", name="bridge_east_closed"},
+      {filter="name", name="bridge_east_clickable"},
+      {filter="name", name="bridge_south"},
+      {filter="name", name="bridge_south_closed"},
+      {filter="name", name="bridge_south_clickable"},
+      {filter="name", name="bridge_west"},
+      {filter="name", name="bridge_west_closed"},
+      {filter="name", name="bridge_west_clickable"}
+    }
+  if global.ship_bodies then
+    for name,_ in pairs(global.ship_bodies) do
+      table.insert(deleted_filters, {filter="name", name=name})
+    end
+  end
+  if global.ship_engines then
+    for name,_ in pairs(global.ship_engines) do
+      table.insert(deleted_filters, {filter="name", name=name})
+    end
+  end
+  script.on_event(defines.events.on_entity_died, OnDeleted, deleted_filters)
+  script.on_event(defines.events.script_raised_destroy, OnDeleted, deleted_filters)
+  script.on_event(defines.events.on_player_mined_entity, OnDeleted, deleted_filters)
+  script.on_event(defines.events.on_robot_mined_entity, OnDeleted, deleted_filters)
+
+  -- recover fuel from mined ships
+  local mined_filters = {}
+  if global.ship_bodies then
+    for name,_ in pairs(global.ship_bodies) do
+      table.insert(mined_filters, {filter="name", name=name})
+    end
+  end
+  script.on_event(defines.events.on_pre_player_mined_item, OnMined, mined_filters)
+  script.on_event(defines.events.on_robot_pre_mined, OnMined, mined_filters)
+
+  local deconstructed_filters = {
+    {filter="name", name="straight-water-way"},
+    {filter="name", name="curved-water-way"},
+  }
+  script.on_event(defines.events.on_marked_for_deconstruction, onMarkedForDeconstruction, deconstructed_filters)
+
+  -- Compatibility with AAI Vehicles (Modify this whenever the list of boats changes)
+  remote.remove_interface("aai-sci-burner")
+  remote.add_interface("aai-sci-burner", {
+    hauler_types = function(data)
+      local types={}
+      if global.boat_bodies then
+        for name,_ in pairs(global.boat_bodies) do
+          table.insert(types, name)
+        end
+      end
+      return types
+    end,
+  })
+
+end
+
+local function init_oil_rigs()
+  local oil_rigs = {}
+  for _, surface in pairs(game.surfaces) do
+    for _, entity in pairs(surface.find_entities_filtered{name="oil_rig"}) do
+      oil_rigs[entity.unit_number] = entity
+    end
+  end
+  global.oil_rigs = oil_rigs
 end
 
 local function init()
@@ -464,13 +361,14 @@ local function init()
   elseif oil_richness == "poor" then
     mult = 0.5
   elseif oil_richness == "good" then
-    mult = 2
-  elseif oil_richness == "very-good" then
     mult = 4
+  elseif oil_richness == "very-good" then
+    mult = 10
   end
   global.oil_bonus = mult
   global.no_oil_on_land = settings.startup["no_oil_on_land"].value
   global.oil_rig_capacity = settings.startup["oil_rig_capacity"].value
+  global.no_shallow_oil = settings.startup["no_shallow_oil"].value
 
   -- Init global variables
   global.check_entity_placement = global.check_entity_placement or {}
@@ -482,6 +380,12 @@ local function init()
   global.new_cranes = global.new_cranes or {}
   global.gui_oilrigs = (global.deep_oil_enabled and global.gui_oilrigs) or {}
   global.connection_counter = 0
+  global.or_generators = nil  -- Removed
+  if not global.oil_rigs then
+    init_oil_rigs()  -- Creates global.oil_rigs
+  end
+
+  init_ship_globals()  -- Init database of ship parameters
 
   -- Initialize or migrate long reach state
   global.last_cursor_stack_name =
@@ -493,9 +397,6 @@ local function init()
   global.current_distance_bonus = settings.global["waterway_reach_increase"].value
 
   -- Reapply long reach settings to existing characters
-
-  -- Reapply buoy setting when mod is updated
-  updateAllBuoys()
 
   -- Update GUI for all players if needed (after globals are re-cached)
   createGuiAllPlayers()
@@ -509,7 +410,6 @@ local function onTick(e)
   ManageBridges(e)
   UpdateVisuals(e)
   if global.deep_oil_enabled then
-    powerOilRig(e)
     UpdateOilRigGui(e)
   end
   --ManageCranes(e)
@@ -522,84 +422,35 @@ end
 
 ---- Register Default Events ----
 -- init
-script.on_load(init_events)
-script.on_init(init)
-script.on_configuration_changed(init)
+script.on_load(function()
+  log("cargo ships on_load")
+  init_events()
+  end)
+script.on_init(function()
+  log("cargo ships on_init")
+  init()
+  end)
+script.on_configuration_changed(function()
+  log("cargo ships on_configuration_changed")
+  init()
+  end)
 script.on_event(defines.events.on_runtime_mod_setting_changed, onModSettingsChanged)
 
--- custom commands
-script.on_event("enter_ship", OnEnterShip)
-
--- delete invisibles
-local deleted_filters = {
-    {filter="name", name="cargo_ship"},
-    {filter="name", name="oil_tanker"},
-    {filter="name", name="boat"},
-    {filter="name", name="cargo_ship_engine"},
-    {filter="name", name="boat_engine"},
-    {filter="name", name="oil_rig"},
-    {filter="name", name="bridge_base"},
-    {filter="name", name="bridge_north"},
-    {filter="name", name="bridge_north_closed"},
-    {filter="name", name="bridge_north_clickable"},
-    {filter="name", name="bridge_east"},
-    {filter="name", name="bridge_east_closed"},
-    {filter="name", name="bridge_east_clickable"},
-    {filter="name", name="bridge_south"},
-    {filter="name", name="bridge_south_closed"},
-    {filter="name", name="bridge_south_clickable"},
-    {filter="name", name="bridge_west"},
-    {filter="name", name="bridge_west_closed"},
-    {filter="name", name="bridge_west_clickable"}
-  }
-script.on_event(defines.events.on_entity_died, OnDeleted, deleted_filters)
-script.on_event(defines.events.script_raised_destroy, OnDeleted, deleted_filters)
-script.on_event(defines.events.on_player_mined_entity, OnDeleted, deleted_filters)
-script.on_event(defines.events.on_robot_mined_entity, OnDeleted, deleted_filters)
-
-local mined_filters = {
-    {filter="name", name="cargo_ship"},
-    {filter="name", name="oil_tanker"},
-    {filter="name", name="boat"},
-  }
-script.on_event(defines.events.on_pre_player_mined_item, OnMined, mined_filters)
-script.on_event(defines.events.on_robot_pre_mined, OnMined, mined_filters)
-
--- tile created
-script.on_event(defines.events.on_player_built_tile, onTileBuild)
-script.on_event(defines.events.on_robot_built_tile, onTileBuild)
-
--- entity created
-local entity_filters = {
-    {filter="ghost", ghost_name="bridge_base"},
-    {filter="type", type="cargo-wagon"},
-    {filter="type", type="fluid-wagon"},
-    {filter="type", type="locomotive"},
-    {filter="type", type="artillery-wagon"},
-    {filter="name", name="indep-boat"},
-    {filter="name", name="oil_rig"},
-    {filter="name", name="bridge_base"},
-    {filter="type", type="straight-rail"},
-    {filter="type", type="curved-rail"},
-    {filter="name", name="buoy"},
-    {filter="name", name="chain_buoy"}
-  }
-script.on_event(defines.events.on_built_entity, onEntityBuild, entity_filters)
-script.on_event(defines.events.on_robot_built_entity, onEntityBuild, entity_filters)
-script.on_event(defines.events.on_entity_cloned, onEntityBuild, entity_filters)
-script.on_event(defines.events.script_raised_built, onEntityBuild, entity_filters)
-script.on_event(defines.events.script_raised_revive, onEntityBuild, entity_filters)
+-- custom-input and shortcut button
+script.on_event({defines.events.on_lua_shortcut, "give-waterway"},
+  function(e)
+    if e.prototype_name and e.prototype_name ~= "give-waterway" then return end
+    onGiveWaterway(e)
+  end
+)
 
 -- update entities
 script.on_event(defines.events.on_tick, onTick)
+script.on_nth_tick(30, updateSmoke)
 
 -- long reach
 script.on_event(defines.events.on_player_cursor_stack_changed, onStackChanged)
 script.on_event(defines.events.on_pre_player_died, deadReach)
-
--- blueprints
-script.on_event(defines.events.on_player_configured_blueprint, FixBlueprints)
-script.on_event(defines.events.on_player_setup_blueprint, FixBlueprints)
 
 -- pipette
 script.on_event(defines.events.on_player_pipette, FixPipette)
@@ -610,14 +461,6 @@ script.on_event(defines.events.on_train_created, On_Train_Created)
 -- Console commands
 commands.add_command("regenerate-oil", {"cargo-ship-message.regenerate-oil-help"}, RegenerateOilCommand)
 
--- Compatibility with AAI Vehicles
-remote.add_interface("aai-sci-burner", {
-  hauler_types = function(data)
-    return {
-      'indep-boat',
-    }
-  end,
-})
 
 ------------------------------------------------------------------------------------
 --                    FIND LOCAL VARIABLES THAT ARE USED GLOBALLY                 --

@@ -9,11 +9,11 @@
 -- Will never result in less reach than the prototype specifies
 
 local is_waterway_str = {
-    ["water-way"]=true,
+    ["waterway"]=true,
     ["buoy"]=true,
     ["chain_buoy"]=true,
     ["port"]=true,
-    ["ship_pump"]=true,
+    ["pump"]=true,
     ["oil_rig"]=true,
     ["floating-electric-pole"]=true,
     ["bridge_base"]=true

@@ -15,10 +15,10 @@ function placeDeepOil(e)
     if num_deposits > 0 then
       -- Check if this chunk is entirely ocean
       local deep_tiles = 0
-      if game.active_mods["ctg"] or game.active_mods["alien-biomes"] then
-        deep_tiles = surface.count_tiles_filtered{area=area, name={"water","water-green","deepwater","deepwater-green"}}
+      if global.no_shallow_oil then
+        deep_tiles = surface.count_tiles_filtered{area=area, name="deepwater","deepwater-green"}
       else
-        deep_tiles = surface.count_tiles_filtered{area=area, name="deepwater"}
+        deep_tiles = surface.count_tiles_filtered{area=area, name={"water","water-green","deepwater","deepwater-green"}}
       end
 
       if deep_tiles == 1024 then
@@ -37,8 +37,9 @@ function placeDeepOil(e)
         x = x / num_deposits
         y = y / num_deposits
         a = a * global.oil_bonus
-        surface.create_entity{name="deep_oil", amount=a, position={x=x, y=y}}
-        --log("Consolidated "..tostring(num_deposits).." into deep_oil amount="..tostring(a).." at ("..tostring(x)..","..tostring(y)..")")
+        local pos = {x=x, y=y}
+        surface.create_entity{name="deep_oil", amount=a, position=pos}
+        log(surface.name..": Consolidated "..tostring(num_deposits).." crude-oil into deep_oil amount="..tostring(a).." in WATER chunk "..util.positiontostr(pos))
 
       else
         -- Did not consolidate anything, but there is both water and oil in this chunk.
@@ -51,7 +52,7 @@ function placeDeepOil(e)
             count = count + 1
           end
         end
-        --log("Deleted "..tostring(count).." of "..tostring(num_deposits).." crude-oil in chunk "..tostring(e.position.x)..","..tostring(e.position.y)..")")
+        log(surface.name..": Deleted "..tostring(count).." of "..tostring(num_deposits).." crude-oil in LAND chunk "..util.positiontostr(e.position))
       end
     end
   end
@@ -60,7 +61,7 @@ end
 
 
 -- Cause this surface to regenerate all oil and redo our postprocessing of it
-local function regenerateSurface(surface)
+function regenerateSurface(surface)
   -- For each chunk (to keep lists small):
   -- 1. If deep_oil enabled, delete existing deep_oil
   local destroyed = 0
@@ -101,13 +102,20 @@ function RegenerateOilCommand(params)
   if player then
     if player.admin then
       if params.parameter and game.surfaces[params.parameter] then
-        -- Regenerate on a specific surface
-        local surface = game.surfaces[params.parameter]
-        game.print{"cargo-ship-message.regenerate-started",player.name,surface.name}
-        regenerateSurface(game.surfaces[params.parameter])
+        -- Regenerate on a specific surface (only works if RSO is not installed)
+        if remote.interfaces["RSO"] then 
+          player.print{"cargo-ship-message.error-rso-regenerate-surface"}
+        else
+          local surface = game.surfaces[params.parameter]
+          game.print{"cargo-ship-message.regenerate-started",player.name,surface.name}
+          regenerateSurface(game.surfaces[params.parameter])
+        end
       else
         -- Regenerate on all surfaces
         game.print{"cargo-ship-message.regenerate-started",player.name,{"cargo-ship-message.all-surfaces"}}
+        if remote.interfaces["RSO"] then
+          remote.call("RSO", "regenerate")
+        end
         local count=0
         local total=#game.surfaces
         for _, surface in pairs(game.surfaces) do

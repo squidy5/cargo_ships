@@ -1,4 +1,2 @@
-require("constants")
-if settings.startup["deep_oil"].value then
-  require("prototypes.resources")
-end
+require("__cargo-ships__/constants")
+require("__cargo-ships__/prototypes/resources")

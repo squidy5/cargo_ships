@@ -71,7 +71,7 @@ function checkBridgePlacement(pos, x1, y1, x2, y2, player_index, surface)
   for _, ent in pairs(entities) do
     if (not (ent.name == "fish" or ent.name == "bridge_base")) then
       counter = counter+1
-      if (ent.name ~= "straight-water-way-placed" or counter > 3) then
+      if (ent.name ~= "straight-water-way" or counter > 3) then
         valid = false
         break
       end
@@ -85,7 +85,6 @@ function checkBridgePlacement(pos, x1, y1, x2, y2, player_index, surface)
   else
     for _, ent in pairs(entities) do
       if (not (ent.name == "fish" or ent.name == "bridge_base")) then
-        game.players[player_index].insert{name="water-way", count=1}
         ent.destroy()
       end
     end
@@ -144,7 +143,7 @@ function calcPos(pos1, pos2)
 end
 
 function addEntity(surface, pos, dir, n, f)
-  local tokill = surface.find_entities_filtered{position = pos, name ={"straight-water-way-placed","curved-water-way-placed", "straight-rail", "curved-rail"}}
+  local tokill = surface.find_entities_filtered{position = pos, name ={"straight-water-way","curved-water-way", "straight-rail", "curved-rail"}}
   for _, k in pairs(tokill) do
     k.destroy()
   end
@@ -211,7 +210,7 @@ function deleteSlaves(surface, pos, x1, y1, x2, y2, dirname)
       local d = ent.direction
       local f = ent.force
       ent.destroy()
-      surface.create_entity{name = "straight-water-way-placed", direction = d, position = p, force = f, create_build_effect_smoke = false}
+      surface.create_entity{name = "straight-water-way", direction = d, position = p, force = f, create_build_effect_smoke = false}
     end
   end
 end
