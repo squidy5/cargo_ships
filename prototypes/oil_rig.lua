@@ -296,6 +296,7 @@ or_pole.icon_size = oil_rig.icon_size
 or_pole.flags = {"not-blueprintable", "not-deconstructable", "placeable-off-grid"}
 or_pole.selectable_in_game = true
 or_pole.allow_copy_paste = false
+or_pole.minable = nil
 or_pole.collision_box = nil
 or_pole.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
 or_pole.selection_priority = 56
