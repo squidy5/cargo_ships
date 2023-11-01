@@ -71,7 +71,11 @@ function onOilrigGuiOpened(e)
   -- Just need to update it
   if e.entity and e.entity.name == "oil_rig" then
     local player = game.players[e.player_index]
-    updateProgress(player.gui.relative[OILRIG_FRAME], e.entity)
+    if game.entity_prototypes["oil_rig"].fluid_capacity > 0 then
+      updateProgress(player.gui.relative[OILRIG_FRAME], e.entity)
+    else
+      player.gui.relative[OILRIG_FRAME].visible = false
+    end
     global.gui_oilrigs[e.player_index] = e.entity
   end
 end
@@ -89,7 +93,7 @@ function UpdateOilRigGui(e)
     for i, oilrig in pairs(global.gui_oilrigs) do
       if not oilrig.valid then
         global.gui_oilrigs[i] = nil
-      else
+      elseif game.entity_prototypes["oil_rig"].fluid_capacity > 0 then
         updateProgress(game.players[i].gui.relative[OILRIG_FRAME], oilrig)
       end
     end

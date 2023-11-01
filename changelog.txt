@@ -3,6 +3,7 @@ Version: 0.2.5
 Date: 2023-TBD
   Bugfixes:
     - Fixed that oil rig power pole could be mined.
+    - Fixed crash when opening Oil Rig GUI if another mod changed offshore oil into a solid resource.
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.4
 Date: 2023-09-08
