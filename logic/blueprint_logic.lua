@@ -1,8 +1,13 @@
+local waterway_rail_types = {
+  ["straight-water-way"] = true,
+  ["curved-water-way"] = true,
+}
+
 function FixPipette(e)
-  -- Pipetting engine or rail boat doesn't work
+  -- Pipetting engine, rail boat, or waterway doesn't work
   local item = e.item
   if item and item.valid then
-    local player = game.players[e.player_index]
+    local player = game.get_player(e.player_index)
     local selected = player.selected
     local cursor = player.cursor_stack
 
@@ -43,6 +48,17 @@ function FixPipette(e)
       else
         -- Can't find valid item, this must be an invisible one
         cursor.clear()
+      end
+
+    elseif waterway_rail_types[selected.name] then
+      -- When the setting "Pick Ghost if no items are available" is not enabled then
+      -- it's never possible to pipette a waterway. There's no way to check if this
+      -- setting already put the correct item in the cursor though
+      -- so instead we will set the cursor everytime.
+      if player.clear_cursor() then
+        -- The cursor is always clear when this event is fired due to the
+        -- nature of the pipette function. But make sure it's clear anyway.
+        player.cursor_ghost = "waterway"
       end
     end
   end
