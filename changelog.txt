@@ -4,6 +4,7 @@ Date: 2023-TBD
   Bugfixes:
     - Fixed that oil rig power pole could be mined.
     - Fixed crash when opening Oil Rig GUI if another mod changed offshore oil into a solid resource.
+    - Fixed pipetting a waterway when setting "Pick Ghost if no items are available" is disabled.
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.4
 Date: 2023-09-08
