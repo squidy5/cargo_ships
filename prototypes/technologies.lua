@@ -167,4 +167,18 @@ if settings.startup["deep_oil"].value then
       order = "c-g-b",
     },
   }
+  
+  -- Change technology requirement if oil is not available on land
+  if settings.startup["no_oil_on_land"].value or settings.startup["no_oil_for_oil_rig"].value then
+    data.raw.technology["deep_sea_oil_extraction"].unit = {
+      count = 300,
+      ingredients = {
+        {"automation-science-pack", 1},
+        {"logistic-science-pack", 1},
+      },
+      time = 30
+    }
+    data.raw.technology["deep_sea_oil_extraction"].prerequisites = {"tank_ship"}
+  end
+
 end

@@ -25,18 +25,6 @@ data.raw.fish["fish"].pictures[1].draw_as_shadow = true
 data.raw.fish["fish"].pictures[2].draw_as_shadow = true
 data.raw.fish["fish"].selection_priority = 48
 
--- Change technology requirement if oil is not available on land
-if settings.startup["deep_oil"].value and (settings.startup["no_oil_on_land"].value or settings.startup["no_oil_for_oil_rig"].value) then
-  data.raw.technology["deep_sea_oil_extraction"].unit = {
-    count = 300,
-    ingredients = {
-      {"automation-science-pack", 1},
-      {"logistic-science-pack", 1},
-    },
-    time = 30
-  }
-end
-
 -- Change inserters to not catch fish when waiting for ships
 if settings.startup["no_catching_fish"].value then
   for _, inserter in pairs(data.raw.inserter) do
